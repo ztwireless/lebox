@@ -18,3 +18,7 @@
 ### 签名替换
 
 * 为了微信登录功能正常, 请设置自己的签名证书并在微信后台设置签名指纹
+
+## 有问题可以扫码进群讨论
+
+![Group BarCode](https://github.com/ztwireless/lebox/blob/master/group_barcode.jpg)
