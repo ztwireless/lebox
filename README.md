@@ -21,4 +21,4 @@
 
 ## 有问题可以扫码进群讨论
 
-![Group BarCode](https://github.com/ztwireless/lebox/blob/master/group_barcode.jpg)
+![Group BarCode](group_barcode.jpg)
