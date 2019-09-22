@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#22154D"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mgc_sdk_action_bar_height">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@mipmap/lebox_back" />
+
+        　
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/lebox_top_bg" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="-48dp"
+                android:layout_marginRight="14dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/rechargeCodeEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/lebox_joinwechat_recharge_edit_bg"
+                    android:hint="@string/lebox_joinwechat_recharge_hint"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp"
+                    android:textColorHint="#999999"
+                    android:textColor="#333333"
+                    android:textSize="17sp"
+                    />
+
+                <TextView
+                    android:id="@+id/rechargeBtn"
+                    android:layout_width="97dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/lebox_joinwechat_recharge_button_bg"
+                    android:gravity="center"
+                    android:text="@string/lebox_wechat_recharge"
+                    android:textColor="@color/mgc_sdk_white"
+                    android:textSize="17sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginRight="14dp"
+
+                android:background="@drawable/lebox_joinwechat_readme_bg"
+                android:orientation="vertical"
+                android:paddingLeft="23dp"
+                android:paddingTop="15dp"
+
+                android:paddingRight="23dp"
+                android:paddingBottom="23dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="-加群方法-"
+                    android:textColor="#333333"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/join_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:gravity="left"
+                    android:textColor="#333333"
+                    android:textSize="15sp"
+                    tools:text="加群方法" />
+
+                <ImageView
+                    android:id="@+id/qrCode"
+                    android:layout_width="147dp"
+                    android:layout_height="147dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="34dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    />
+
+                <TextView
+                    android:id="@+id/use_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="23dp"
+                    android:gravity="center"
+                    android:text="使用方法"
+                    android:textColor="#333333"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/useImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="14dp"
+                    android:adjustViewBounds="true" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

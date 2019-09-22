@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:id="@+id/mgc_sdk_ll_loginLogo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            >
+
+            <ImageView
+                android:id="@+id/mgc_sdk_iv_close"
+                android:padding="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/leto_login_dialog_close"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="22dp"
+                />
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/mgc_sdk_ll_loginInput"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:orientation="vertical"
+            android:background="@drawable/leto_mgc_sdk_login_dialog_bg"
+            >
+
+            <TextView
+                android:id="@+id/mgc_sdk_iv_logo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="第三方登录"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                />
+
+            <RelativeLayout
+                android:id="@+id/mgc_sdk_rl_uid"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="48dp">
+
+                <EditText
+                    android:id="@+id/mgc_sdk_et_uid"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/leto_sdk_login_in"
+                    android:hint="请输入uid"
+                    android:maxLength="16"
+                    android:paddingLeft="20dip"
+                    android:paddingRight="30dip"
+                    android:selectAllOnFocus="true"
+                    android:singleLine="true"
+                    android:textColor="@color/mgc_sdk_text_blacks"
+                    android:textColorHint="#999999"
+                    android:textSize="14sp"
+                    android:textCursorDrawable="@drawable/leto_sdk_login_edit_cursor"
+                    android:inputType="phone"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/mgc_sdk_rl_loginAccount"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="48dp">
+
+                <EditText
+                    android:id="@+id/mgc_sdk_et_loginAccount"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/leto_sdk_login_in"
+                    android:hint="请输入手机号"
+                    android:maxLength="16"
+                    android:paddingLeft="20dip"
+                    android:paddingRight="30dip"
+                    android:selectAllOnFocus="true"
+                    android:singleLine="true"
+                    android:textColor="@color/mgc_sdk_text_blacks"
+                    android:textColorHint="#999999"
+                    android:textSize="14sp"
+                    android:textCursorDrawable="@drawable/leto_sdk_login_edit_cursor"
+                    android:inputType="phone"
+                    />
+
+
+            </RelativeLayout>
+
+
+
+            <Button
+                android:id="@+id/mgc_sdk_btn_loginSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="48dip"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="40dp"
+                android:layout_below="@id/mgc_sdk_ll_loginInput"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/leto_sdk_login_btn_login"
+                android:gravity="center"
+                android:text="登录/一键注册"
+                android:textColor="@android:color/white"
+                android:textSize="16dip" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

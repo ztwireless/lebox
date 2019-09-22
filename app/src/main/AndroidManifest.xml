@@ -1,0 +1,140 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.mgc.letobox.happy">
+
+
+    <!--minSdkVersion为9时的合并-->
+    <uses-sdk tools:overrideLibrary="android.support.v7.appcompat, android.support.v7.recyclerview,com.dingmouren.layoutmanagergroup,
+                                        com.squareup.leakcanary, com.squareup.leakcanary.analyzer, com.squareup.leakcanary.android.noop" />
+
+    <!-- 如果有视频相关的广告且使用textureView播放，请务必添加，否则黑屏 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-permission android:name="com.xiaomi.sdk.permission.PAYMENT" />
+    <uses-permission android:name="com.xiaomi.permission.AUTH_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SEND_DOWNLOAD_COMPLETED_INTENTS"/>
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+
+
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />    <!-- targetSdkVersion >= 26 时需要配置此权限，否则无法进行安装app的动作 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+
+
+    <application
+        android:name=".LetoApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        >
+
+        <activity android:name=".GameCenterTabActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
+        <activity android:name=".me.JoinWeChatActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
+        <activity android:name=".LeBoxLoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
+        <activity android:name=".LeBoxMobileLoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
+        <activity android:name=".LeBoxProfileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
+        <activity android:name=".SplashActivity"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="mgc.game.box"
+                    android:host="mgc.com"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".imagepicker.cropimage.CropImage"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        </activity>
+        <activity
+            android:name=".imagepicker.ImagePickerActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        </activity>
+
+        <!-- 适配android N 的文件系统，authorities 中注意替换您的包名，包名+".fileprovider" -->
+        <provider
+            android:name="com.leto.game.base.provider.LetoFileProvider"
+            android:authorities="${applicationId}.leto.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/leto_file_path" />
+        </provider>
+
+        <!-- 渠道自带的微信分享集成 -->
+        <activity
+            android:name="${applicationId}.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <!-- 以下数据请自行设置 -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5b03dedda40fa32b7f00003c" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="kx100_mgc_demo" />
+        <meta-data
+            android:name="MGC_WECHAT_APPID"
+            android:value="wx2b06b06ae8f615c8"/>
+        <meta-data
+            android:name="MGC_WECHAT_APPSECRET"
+            android:value="7e0fdc7309652508e160ae2a8e3f12b1" />
+        <meta-data
+            android:name="MGC_APPID"
+            android:value="364775" />
+        <meta-data
+            android:name="MGC_TEST_ENV"
+            android:value="true" />
+
+    </application>
+</manifest>

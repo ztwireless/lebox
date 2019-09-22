@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mgc_sdk_white"
+    android:orientation="vertical">
+
+    <include layout="@layout/leto_minigame_include_common_header" />
+
+    <View
+        android:id="@+id/title_sep"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f0f0f0"></View>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/sign_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="#CCCCCC"
+        android:text="退出登录"
+        android:background="@drawable/lebox_sign_out_btn_bg"
+        android:layout_marginBottom="10dp"/>
+
+</LinearLayout>

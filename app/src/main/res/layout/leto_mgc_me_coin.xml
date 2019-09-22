@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/mgc_sdk_white"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/split_space"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#f5f5f5" />
+
+    <LinearLayout
+        android:id="@+id/profile_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="13dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/lebox_no_avatar"
+            android:layout_gravity="center_vertical"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/mgc_sdk_black_3"
+                android:textStyle="bold"
+                tools:text="游客43434"/>
+
+            <TextView
+                android:id="@+id/signature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:textSize="12sp"
+                android:textColor="@color/mgc_sdk_text_lowgray"
+                android:text="登录后同步游戏记录"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginBottom="13dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/leto_mgc_me_yellow_panel_bg"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ll_total_coin"
+                    android:layout_width="104dp"
+                    android:layout_height="72dp"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/total_coin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginTop="12dp"
+                        android:textColor="@color/mgc_sdk_white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="4444" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/leto_mgc_my_coin_balance"
+                        android:textColor="@color/mgc_sdk_white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/leto_mgc_me_panel_coin_half" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="9dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/leto_mgc_me_red_panel_bg"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ll_today_coin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/today_coin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginTop="12dp"
+                        android:textColor="@color/mgc_sdk_white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="4444" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/leto_mgc_my_today_coin"
+                        android:textColor="@color/mgc_sdk_white"
+                        android:textSize="12sp" />
+
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/leto_mgc_me_panel_coin_half" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="9dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/leto_mgc_me_blue_panel_bg"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/withdraw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_withdraw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="11dp"
+                        android:text="@string/leto_mgc_withdraw_now"
+                        android:textColor="@color/mgc_sdk_white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/leto_mgc_me_panel_coin_half" />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

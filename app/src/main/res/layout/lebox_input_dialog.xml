@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="#3D9AF0"
+        android:textSize="14sp"
+        android:textColor="@color/mgc_sdk_white"
+        tools:text="Title"/>
+
+    <EditText
+        android:id="@+id/input"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="30dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:background="@drawable/lebox_input_dialog_edit_bg"
+        android:textSize="14sp"
+        android:textColor="@color/mgc_sdk_black_3"
+        android:paddingLeft="10dp"
+        tools:text="dfdfdfdfd"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="29dp"
+        android:layout_marginBottom="23dp">
+        
+        <TextView
+            android:id="@+id/ok"
+            android:layout_width="117dp"
+            android:layout_height="37dp"
+            android:background="@drawable/lebox_general_dialog_ok_btn_bg"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/mgc_sdk_white"
+            android:text="@string/confirm"/>
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="117dp"
+            android:layout_height="37dp"
+            android:gravity="center"
+            android:background="@drawable/lebox_general_dialog_cancel_btn_bg"
+            android:layout_marginLeft="20dp"
+            android:textSize="16sp"
+            android:textColor="@color/mgc_sdk_black2"
+            android:text="@string/cancel"/>
+        
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="tabButtonStyle">
+        <item name="android:layout_width">0px</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@null</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@drawable/tab_text_select</item>
+    </style>
+    <style name="MyActionSheet">
+        <item name="actionSheetBackground">@android:color/transparent</item>
+        <item name="cancelButtonBackground">@drawable/slt_as_ios7_cancel_bt</item>
+        <item name="otherButtonTopBackground">@drawable/slt_as_ios7_other_bt_top</item>
+        <item name="otherButtonMiddleBackground">@drawable/slt_as_ios7_other_bt_middle</item>
+        <item name="otherButtonBottomBackground">@drawable/slt_as_ios7_other_bt_bottom</item>
+        <item name="otherButtonSingleBackground">@drawable/slt_as_ios7_other_bt_single</item>
+        <item name="cancelButtonTextColor">@color/mgc_sdk_black</item>
+        <item name="otherButtonTextColor">@color/mgc_sdk_black</item>
+        <item name="actionSheetPadding">10dp</item>
+        <item name="otherButtonSpacing">0dp</item>
+        <item name="cancelButtonMarginTop">10dp</item>
+        <item name="actionSheetTextSize">16sp</item>
+    </style>
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="actionSheetStyle">@style/MyActionSheet</item>
+    </style>
+</resources>

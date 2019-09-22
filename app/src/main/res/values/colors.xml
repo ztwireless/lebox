@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <!--<color name="sep_line_color">#d4def0</color>-->
+    <color name="sep_line_color">#e1e9f5</color>
+    <color name="default_blue">#1a70fb</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_unselect">#99FFFFFF</color>
+
+
+
+    <color name="text_common">#464646</color>
+    <color name="text_color">#56A7E0</color>
+    <color name="green1">#199F5B</color>
+    <color name="tranparent">#00000000</color>
+    <color name="translate">#00000000</color>
+    <color name="translate_70">#B3000000</color>
+
+    <color name="text_black">#333333</color>
+    <color name="text_black_CC">#CC333333</color>
+    <color name="text_gray">#666666</color>
+    <color name="text_lowgray">#999999</color>
+    <color name="text_gray2">#888888</color>
+    <color name="text_gray_c">#cccccc</color>
+    <color name="text_green">#0ab706</color>
+    <color name="text_blue">#0d6ef3</color>
+    <color name="text_blue2">#496ef3</color>
+    <color name="text_blue3">#486eff</color>
+    <color name="text_blue4">#466dfe</color>
+    <color name="text_red">#f64e4b</color>
+    <color name="refresh_blue">#476efe</color>
+
+
+    <color name="text_purple">#6070a8</color>
+
+    <color name="bg_silver_gray">#f3f4f9</color>
+    <color name="bg_blue">#264ac3</color>
+
+
+
+    <color name="bg_common">#E7EAEF</color>
+
+    <color name="bg_gray">#eeeeee</color>
+    <color name="bg_gray_ccc">#ccc</color>
+    <color name="bg_gray_bbb">#bbbbbb</color>
+    <color name="bg_gray_a1">#a1a1a1</color>
+    <color name="bg_gray_f3">#f3f3f3</color>
+
+    <color name="bg_green_light">#cff1a6</color>
+    <color name="bg_green">#77CA51</color>
+    <color name="bg_green_drak_2">#55c71f</color>
+    <color name="bg_green_drak">#44a915</color>
+
+    <color name="backgroud_white">#ffffff</color>
+
+    <color name="gray1">#C3C3C3</color>
+    <color name="red1">#CC3636</color>
+    <color name="orange_5">#CC4300</color>
+    <color name="orange_6">#FF5502</color>
+    <color name="cody_blg">#1a9df5</color>
+    <color name="cody_blg1">#49a7e6</color>
+    <color name="download_game">#17a4e5</color>
+    <color name="gray_text">#B1B1B1</color>
+    <color name="greenss">#00c3ba</color>
+    <color name="blue3">#21A6EF</color>
+    <color name="gray_white">#F8F8F8</color>
+
+    <color name="account_detail_line">#e5e5e5</color>
+    <color name="wallet_line">#f7f7f7</color>
+    <color name="redpacket_set_title_right">#2475f8</color>
+
+
+    <color name="mask_color">#88888888</color>
+    <color name="black_style">#ff000000</color>
+    <color name="blue_app">#22abea</color>
+    <color name="drop_down_unselected">#000000</color>
+    <color name="drop_down_selected">#000000</color>
+
+    <color name="base_title_color">#fbfbfc</color>
+    <color name="material_text_color_47">#333333</color>
+    <color name="divider_color_c7">#dcdcdc</color>
+
+    <color name="bg_white">#fbfbfc</color>
+    <color name="drop_menu_border">#e3e9f6</color>
+    <color name="line">#f9f9f9</color>
+
+    <color name="trade_border">#e3e9f6</color>
+
+    <color name="trade_history_line">#f0f2f5</color>
+    <color name="trade_history_tab_text">#666666</color>
+
+
+    <color name="tt_tab_bg">#f8f8f8</color>
+
+    <color name="gs_tag_text">#799694</color>
+
+
+    <color name="transparent_white_hex_8">#88ffffff</color>
+    <color name="black_semi_transparent">#B2000000</color>
+
+</resources>

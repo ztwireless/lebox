@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/mgc_sdk_white"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/split_space"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#F5F5F5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="14dp"
+            android:src="@drawable/leto_mgc_coin" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="left"
+            android:singleLine="true"
+            android:text="@string/leto_mgc_me_signin"
+            android:textColor="@color/mgc_sdk_black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <com.leto.game.base.view.recycleview.ScrollRecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:overScrollMode="never"
+        android:paddingLeft="12dp"
+        android:paddingRight="4dp" />
+
+</LinearLayout>

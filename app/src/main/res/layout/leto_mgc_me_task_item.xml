@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/mgc_sdk_white"
+    android:orientation="horizontal"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp"
+    >
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/task_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@string/leto_mgc_daily_task"
+                android:textColor="@color/mgc_sdk_black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:id="@+id/title_coin_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/leto_task_coin_bg"
+                android:orientation="horizontal"
+                android:paddingRight="8dp">
+
+                <ImageView
+                    android:id="@+id/coin_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/leto_mgc_coin" />
+
+                <TextView
+                    android:id="@+id/coin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:maxLines="1"
+                    android:textColor="#FFFA8C00"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:text="+100" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/task_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:paddingRight="10dp"
+            android:textColor="#FF88898D"
+            android:textSize="11sp"
+            tools:text="登录后试玩任意小游戏5分钟，累计达到3个即可获得500金币奖励"
+            />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/btn_play"
+        android:layout_width="50dp"
+        android:layout_height="22dp"
+        android:gravity="center"
+        android:background="@drawable/leto_minigame_play_btn_bg_gray"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/mgc_sdk_grayc3"
+        android:textSize="11sp"
+        tools:text="已领取" />
+
+</LinearLayout>

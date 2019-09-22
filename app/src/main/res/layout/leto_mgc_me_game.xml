@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/mgc_sdk_white"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/split_space"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#f5f5f5" />
+
+    <LinearLayout
+        android:id="@+id/my_games_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/leto_mgc_played_game"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/leto_mgc_my_games"
+                android:textColor="@color/mgc_sdk_black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/view_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="@string/leto_gamecenter_view_all"
+                android:textColor="@color/mgc_sdk_black2"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginBottom="3dp"
+                android:src="@drawable/mgc_sdk_login_arrows_right"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

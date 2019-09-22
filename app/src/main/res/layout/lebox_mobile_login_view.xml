@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FCFCFC"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="21sp"
+        android:textColor="@color/mgc_sdk_black_3"
+        android:textStyle="bold"
+        android:text="手机号登录"
+        android:layout_marginTop="29dp"
+        android:layout_marginLeft="39dp"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="39dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/mgc_sdk_text_lowgray"
+            android:text="手机号"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"/>
+
+        <EditText
+            android:id="@+id/mgc_sdk_et_loginAccount"
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginLeft="40dp"
+            android:background="@null"
+            android:hint="@string/leto_hint_input_phone"
+            tools:text="1423232323"
+            android:maxLength="16"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:textColor="@color/mgc_sdk_black_3"
+            android:textStyle="bold"
+            android:textColorHint="#CCCCCC"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:layout_marginLeft="39dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginTop="24dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="39dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/mgc_sdk_text_lowgray"
+            android:text="验证码"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"/>
+
+        <EditText
+            android:id="@+id/mgc_sdk_et_sms_code"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="@string/leto_hint_input_sms"
+            android:inputType="textPassword"
+            android:layout_marginLeft="40dp"
+            android:layout_gravity="center_vertical"
+            android:maxLength="16"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:textColor="@color/mgc_sdk_black_3"
+            android:textColorHint="#CCCCCC"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/mgc_sdk_btn_send_sms_code"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="8dp"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:text="@string/leto_btn_send_sms"
+            android:textColor="#3D9AF0"
+            android:textSize="13sp"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:layout_marginLeft="39dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginTop="24dp"/>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:id="@+id/mgc_sdk_btn_loginSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/lebox_mobile_sign_in_btn_bg"
+        android:layout_marginTop="27dp"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:text="登录"
+        android:gravity="center"
+        android:paddingLeft="124dp"
+        android:paddingRight="124dp"/>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_weight="3"/>
+
+</LinearLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:orientation="horizontal"
+    android:background="@drawable/lebox_sign_out_btn_bg">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/mgc_sdk_black_3"
+        android:layout_gravity="center_vertical"
+        tools:text="我的头像"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1"/>
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/lebox_no_avatar"/>
+
+</LinearLayout>

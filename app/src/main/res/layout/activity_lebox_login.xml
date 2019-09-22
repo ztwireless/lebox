@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mgc_sdk_white"
+    android:orientation="vertical">
+
+    <include layout="@layout/leto_minigame_include_common_header" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/lebox_red_packet"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/mgc_sdk_black_3"
+        android:text="登录后"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="27dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="预计本月可获得收益"
+            android:textSize="14sp"
+            android:textColor="@color/mgc_sdk_black2"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#F5A623"
+            android:textStyle="bold"
+            android:text="120.0"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/mgc_sdk_black2"
+            android:text="元"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/sign_in_wechat"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/lebox_wechat_sign_in_btn_bg"
+        android:layout_marginTop="27dp"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:text="登录领最高18元红包"
+        android:drawableLeft="@mipmap/lebox_wechat"
+        android:gravity="center"
+        android:drawablePadding="10dp"
+        android:paddingLeft="47dp"
+        android:paddingRight="47dp"/>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+
+        <View
+            android:layout_width="80dp"
+            android:layout_height="1dp"
+            android:background="#EEEEEE"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#CCCCCC"
+            android:text="其他登录方式"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_gravity="center_vertical"/>
+
+        <View
+            android:layout_width="80dp"
+            android:layout_height="1dp"
+            android:background="#EEEEEE"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/sign_in_mobile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="21dp"
+        android:textSize="12sp"
+        android:textColor="@color/mgc_sdk_text_lowgray"
+        android:text="手机登录"
+        android:drawableTop="@mipmap/lebox_mobile"
+        android:drawablePadding="8dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="27dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/mgc_sdk_text_lowgray"
+            android:text="登录即代表您已阅读并同意"/>
+
+        <TextView
+            android:id="@+id/user_agreement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/mgc_sdk_text_lowgray"
+            android:text="《用户协议》"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/mgc_sdk_text_lowgray"
+            android:text="及"/>
+
+        <TextView
+            android:id="@+id/privacy_agreement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/mgc_sdk_text_lowgray"
+            android:text="《隐私协议》"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">梦工厂小游戏</string>
+    <string name="open_page_for_result">openPageForResult示例</string>
+    <string name="set_result">返回页面结果</string>
+
+    <string name="lebox_wechat_recharge">兑换</string>
+    <string name="lebox_joinwechat_recharge_hint">进群，领码，兑奖励</string>
+
+    <string name="lebox_info_dialog_title">温馨提示</string>
+    <string name="lebox_retry">重试</string>
+    <string name="lebox_input_dialog_title">编辑</string>
+    <string name="lebox_web_dialog_title">协议</string>
+    <string name="from_album">从相册选择</string>
+    <string name="from_camera">拍照</string>
+    <string name="lebox_set_portrait_failed">设置头像失败, 是否重试?</string>
+</resources>
