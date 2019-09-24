@@ -161,8 +161,6 @@ public class NewerTaskView extends LinearLayout {
                                         _taskList.addAll(taskList);
                                     }
 
-                                    NewerTaskManager.addNewTask(_taskList);
-
                                     _taskAdapter.notifyDataSetChanged();
 
                                     getUserTaskStatus(_context);
@@ -223,10 +221,7 @@ public class NewerTaskView extends LinearLayout {
                         new Handler().post(new Runnable() {
                             @Override
                             public void run() {
-
                                 _taskAdapter.notifyDataSetChanged();
-
-                                getUserTaskStatus(_context);
                             }
                         });
 

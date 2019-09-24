@@ -150,7 +150,6 @@ public class LeBoxProfileActivity extends BaseActivity implements ActionSheet.Ac
 				DialogUtil.showConfirmDialog(LeBoxProfileActivity.this, "确定退出登录吗?", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
 						if(which == DialogInterface.BUTTON_POSITIVE) {
 							// first we need clear local cache to switch a temp account
 							_loginInfo = Leto.getInstance().switchToTempAccount(LeBoxProfileActivity.this);
@@ -314,7 +313,6 @@ public class LeBoxProfileActivity extends BaseActivity implements ActionSheet.Ac
 					// modify
 					doModifyInfo(_loginInfo.getNickname(), _loginInfo.getGender());
 				}
-				dialog.dismiss();
 			}
 		});
 	}
@@ -441,7 +439,6 @@ public class LeBoxProfileActivity extends BaseActivity implements ActionSheet.Ac
 					com.leto.game.base.util.DialogUtil.showDialog(LeBoxProfileActivity.this, _loading);
 					doUploadPortrait(buf);
 				}
-				dialog.dismiss();
 			}
 		});
 	}

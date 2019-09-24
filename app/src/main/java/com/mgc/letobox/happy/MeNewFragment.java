@@ -120,8 +120,12 @@ public class MeNewFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        // update
+        // update if login info changed
         if(isLoginInfoUpdated(_loginInfoVersion)) {
+            // clear task list so that it will be reloaded
+            NewerTaskManager.mTaskBeanList = null;
+
+            // now reload list
             _meHomeAdapter.notifyDataSetChanged();
         }
     }

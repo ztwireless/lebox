@@ -132,8 +132,6 @@ public class NewerTaskHolder extends CommonViewHolder<MeModuleBean> {
                                         _taskList.addAll(taskList);
                                     }
 
-                                    NewerTaskManager.addNewTask(_taskList);
-
                                     _taskAdapter.notifyDataSetChanged();
 
                                     getUserTaskStatus(_context);
@@ -197,7 +195,6 @@ public class NewerTaskHolder extends CommonViewHolder<MeModuleBean> {
 
                                 _taskAdapter.notifyDataSetChanged();
 
-                                getUserTaskStatus(_context);
                             }
                         });
 

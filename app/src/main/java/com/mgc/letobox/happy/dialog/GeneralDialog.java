@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.ledong.lib.leto.widget.ClickGuard;
 import com.leto.game.base.util.BaseAppUtil;
 import com.leto.game.base.util.DensityUtil;
 import com.leto.game.base.util.MResource;
@@ -63,26 +64,26 @@ public class GeneralDialog extends Dialog {
 		if(!cancelable) {
 			_cancelButton.setVisibility(View.GONE);
 		}
-		_cancelButton.setOnClickListener(new View.OnClickListener() {
+		_cancelButton.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
 			@Override
-			public void onClick(View view) {
+			public boolean onClicked() {
 				if(_listener != null) {
 					_listener.onClick(GeneralDialog.this, DialogInterface.BUTTON_NEGATIVE);
-				} else {
-					dismiss();
 				}
+				dismiss();
+				return true;
 			}
 		});
 
 		// ok button
-		_okButton.setOnClickListener(new View.OnClickListener() {
+		_okButton.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
 			@Override
-			public void onClick(View view) {
+			public boolean onClicked() {
 				if(_listener != null) {
 					_listener.onClick(GeneralDialog.this, DialogInterface.BUTTON_POSITIVE);
-				} else {
-					dismiss();
 				}
+				dismiss();
+				return true;
 			}
 		});
 

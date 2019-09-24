@@ -73,10 +73,6 @@ public class MeHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 return NewerTaskHolder.create(mContext, parent);
             case LeBoxConstant.LETO_ME_MODULE_DAILY_TASK:
                 return DailyTaskHolder.create(mContext, parent);
-
-            case LeBoxConstant.LETO_ME_MODULE_OTHER:
-                return OtherHolder.create(mContext, parent);
-
             default:
                 return OtherHolder.create(mContext, parent);
         }

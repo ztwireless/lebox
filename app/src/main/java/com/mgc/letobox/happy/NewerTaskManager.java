@@ -132,7 +132,7 @@ public class NewerTaskManager {
 
                         reportTaskProgress(context, newerTaskBean.getChannel_task_id(), time);
 
-                    } else {     //累计单个游戏 时长的任务
+                    } else if (newerTaskBean.getFinish_type() == 4) {     //累计单个游戏 时长的任务
                         if (5 * 60 * 1000 <= time) {
                             long process = newerTaskBean.getProcess() + 1;
                             newerTaskBean.setProcess(process);
@@ -194,16 +194,5 @@ public class NewerTaskManager {
         taskList.clear();
         taskList.add(taskResultBean1);
         taskList.add(taskResultBean2);
-    }
-
-    public static void addNewTask(List<TaskResultBean> taskList) {
-        TaskResultBean taskResultBean = new TaskResultBean();
-        taskResultBean.setTask_title("加入官方微信群");
-        taskResultBean.setTask_desc("加入官微，领取2-30元奖励");
-        taskResultBean.setAward_coins(300000);
-        taskResultBean.setClassify(1);
-        taskResultBean.setFinish_type(LeBoxConstant.LETO_TASK_TYP_JOIN_WECHAT_GROUP);
-
-        taskList.add(taskResultBean);
     }
 }
