@@ -461,8 +461,8 @@ public class CustomVideoCoinDialog extends Dialog implements ApiContainer.IApiRe
                 if (data != null) {
                     _addCoin = data.getAdd_coins();
                     _addCoinRatio = data.getCoins_multiple();
-
-                    if (MGCSharedModel.thirdpartyCoin) {
+                    IMintage mintageInterface = Leto.getInstance().getThirdpartyMintage();
+                    if (MGCSharedModel.thirdpartyCoin && mintageInterface != null) {
                         addThirdpartyCoin(_addCoin);
                     } else {
                         addCoin(data.getCoins_token(), _addCoin);

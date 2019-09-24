@@ -96,8 +96,8 @@ public class TaskCoinDialog extends Dialog {
 		_okView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
 			@Override
 			public boolean onClicked() {
-
-				if(MGCSharedModel.thirdpartyCoin) {
+				IMintage mintageInterface = Leto.getInstance().getThirdpartyMintage();
+				if(MGCSharedModel.thirdpartyCoin && mintageInterface != null) {
 					addThirdpartyCoin(_taskBean.getAward_coins());
 				} else {
 					addCoin("", _taskBean.getAward_coins());
