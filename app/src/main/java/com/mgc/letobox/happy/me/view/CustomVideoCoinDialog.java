@@ -400,7 +400,8 @@ public class CustomVideoCoinDialog extends Dialog implements ApiContainer.IApiRe
         DialogUtil.dismissDialog();
 
         // report
-        if (MGCSharedModel.thirdpartyCoin) {
+        IMintage mintageItf = Leto.getInstance().getThirdpartyMintage();
+        if (MGCSharedModel.thirdpartyCoin && mintageItf != null) {
             int scene = getScene();
             MGCApiUtil.reportThirdpartyMintage(getContext(), _appConfig.getAppId(), (int) (_gameTime / 1000), coin, scene);
         }

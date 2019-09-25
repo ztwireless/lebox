@@ -17,6 +17,7 @@ import com.ledong.lib.leto.mgc.AppChannel;
 import com.ledong.lib.leto.mgc.WithdrawActivity;
 import com.ledong.lib.leto.mgc.bean.GetUserCoinResultBean;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
+import com.ledong.lib.leto.mgc.thirdparty.IMintage;
 import com.ledong.lib.leto.mgc.thirdparty.IWithdraw;
 import com.ledong.lib.leto.mgc.thirdparty.WithdrawRequest;
 import com.ledong.lib.leto.mgc.util.MGCApiUtil;
@@ -107,7 +108,8 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         _withdrawView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
             @Override
             public boolean onClicked() {
-				if(MGCSharedModel.thirdpartyWithdraw) {
+                IMintage mintageItf = Leto.getInstance().getThirdpartyMintage();
+				if(MGCSharedModel.thirdpartyWithdraw && mintageItf != null) {
 					thirdpartyWithdraw();
 				} else {
 					WithdrawActivity.start(_ctx);
