@@ -98,7 +98,6 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
 
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
-        LetoApplication.flag = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
