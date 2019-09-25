@@ -79,6 +79,10 @@ public class MeNewFragment extends Fragment {
             @Override
             public void onRefresh() {
                 if (_meHomeAdapter != null) {
+                    // clear task list so that it will be reloaded
+                    NewerTaskManager.mTaskBeanList.clear();
+
+                    // reload
                     _meHomeAdapter.notifyDataSetChanged();
                 }
 
