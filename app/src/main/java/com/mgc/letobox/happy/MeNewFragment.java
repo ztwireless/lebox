@@ -123,7 +123,7 @@ public class MeNewFragment extends Fragment {
         // update if login info changed
         if(isLoginInfoUpdated(_loginInfoVersion)) {
             // clear task list so that it will be reloaded
-            NewerTaskManager.mTaskBeanList = null;
+            NewerTaskManager.mTaskBeanList.clear();
 
             // now reload list
             _meHomeAdapter.notifyDataSetChanged();

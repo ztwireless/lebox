@@ -13,4 +13,6 @@
     <string name="from_album">从相册选择</string>
     <string name="from_camera">拍照</string>
     <string name="lebox_set_portrait_failed">设置头像失败, 是否重试?</string>
+    <string name="lebox_get_task_list_failed">获取任务列表失败</string>
+    <string name="lebox_get_task_status_failed">获取任务状态失败</string>
 </resources>

@@ -130,7 +130,7 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
             }
         });
 
-        NewerTaskManager.getTaskList(this);
+        NewerTaskManager.getTaskList(this, null);
 
 
         AdManager.getInstance().getTmTaskList(this);

@@ -1,22 +1,16 @@
 package com.mgc.letobox.happy;
 
 import android.content.Context;
-import android.text.TextUtils;
-import android.util.Log;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.ledong.lib.leto.mgc.NewerTaskBean;
 import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.util.ToastUtil;
+import com.leto.game.base.util.MResource;
 import com.mgc.letobox.happy.me.bean.TaskResultBean;
-import com.mgc.letobox.happy.me.bean.UserTaskStatusRequestBean;
 import com.mgc.letobox.happy.me.bean.UserTaskStatusResultBean;
 import com.mgc.letobox.happy.util.LeBoxConstant;
 import com.mgc.letobox.happy.util.LeBoxUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,87 +22,98 @@ public class NewerTaskManager {
 
     public static List<TaskResultBean> mTaskBeanList = new ArrayList<>();
 
-    public static void getTaskList(final Context context) {
-        LeBoxUtil.getNewPlayerTasklist(context, new HttpCallbackDecode<List<TaskResultBean>>(context, null) {
+    public static void getTaskList(final Context context, final HttpCallbackDecode callback) {
+        LeBoxUtil.getNewPlayerTasklist(context, new HttpCallbackDecode<List<TaskResultBean>>(context, null, new TypeToken<List<TaskResultBean>>(){}.getType()) {
             @Override
             public void onDataSuccess(final List<TaskResultBean> data) {
                 if (null != data) {
                     try {
-                        Gson gson = new Gson();
-
-                        final List<TaskResultBean> taskList = new Gson().fromJson(gson.toJson(data), new TypeToken<List<TaskResultBean>>() {
-                        }.getType());
-                        if (taskList != null) {
-
-                            if (mTaskBeanList != null) {
-                                mTaskBeanList.clear();
-                            }
-
-                            mTaskBeanList.addAll(taskList);
+                        for (TaskResultBean taskResultBean: data){
+                            taskResultBean.setClassify(LeBoxConstant.LETO_TASK_NEWER);
                         }
+                        mTaskBeanList.clear();
+                        mTaskBeanList.addAll(data);
 
-//                        addNewTask(mTaskBeanList);
+                        getUserTaskStatus(context, null);
 
-                        getUserTaskStatus(context);
-
+                        // forward
+                        if (callback != null) {
+                            callback.onDataSuccess(data);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
+                        if (callback != null) {
+                            callback.onFailure("500", e.getLocalizedMessage());
+                        }
+                    }
+                } else {
+                    if (callback != null) {
+                        callback.onFailure("500",
+                            context.getString(MResource.getIdByName(context, "R.string.lebox_get_task_list_failed")));
                     }
                 }
             }
 
             @Override
             public void onFailure(String code, String msg) {
+                super.onFailure(code, msg);
+                if (callback != null) {
+                    callback.onFailure(code, msg);
+                }
             }
 
             @Override
             public void onFinish() {
-
+                super.onFinish();
+                if (callback != null) {
+                    callback.onFinish();
+                }
             }
         });
     }
 
-    public static void getUserTaskStatus(Context context) {
-
-
-        LeBoxUtil.getUserNewPlayerTasklist(context, new HttpCallbackDecode<List<UserTaskStatusResultBean>>(context, null) {
+    public static void getUserTaskStatus(final Context context, final HttpCallbackDecode callback) {
+        LeBoxUtil.getUserNewPlayerTasklist(context, new HttpCallbackDecode<List<UserTaskStatusResultBean>>(context, null, new TypeToken<List<UserTaskStatusResultBean>>(){}.getType()) {
             @Override
             public void onDataSuccess(final List<UserTaskStatusResultBean> data) {
                 if (null != data) {
                     try {
-                        Gson gson = new Gson();
-
-                        Log.d(TAG, "getUserTaskStatus" + gson.toJson(data));
-
-                        final List<UserTaskStatusResultBean> taskList = new Gson().fromJson(gson.toJson(data), new TypeToken<List<UserTaskStatusResultBean>>() {
-                        }.getType());
-
-                        for (UserTaskStatusResultBean taskStatusRequestBean : taskList) {
-
+                        for (UserTaskStatusResultBean taskStatusRequestBean : data) {
                             for (TaskResultBean taskResultBean : mTaskBeanList) {
-
                                 if (taskResultBean.getChannel_task_id() == taskStatusRequestBean.getChannel_task_id()) {
                                     taskResultBean.setProcess(taskStatusRequestBean.getTask_progress());
                                     break;
                                 }
-
                             }
                         }
-
                     } catch (Exception e) {
                         e.printStackTrace();
+                        if (callback != null) {
+                            callback.onFailure("500", e.getLocalizedMessage());
+                        }
+                    }
+                } else {
+                    if (callback != null) {
+                        callback.onFailure("500",
+                            context.getString(MResource.getIdByName(context, "R.string.lebox_get_task_status_failed")));
                     }
                 }
             }
 
             @Override
             public void onFailure(String code, String msg) {
-
+                super.onFailure(code, msg);
+                if (callback != null) {
+                    callback.onFailure(code, msg);
+                }
             }
 
             @Override
             public void onFinish() {
-
+                super.onFinish();
+                if (callback != null) {
+                    callback.onFinish();
+                }
             }
         });
     }
