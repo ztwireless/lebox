@@ -249,7 +249,7 @@ public class CustomVideoCoinDialog extends Dialog implements ApiContainer.IApiRe
 //		_coinAdded = false;
 //
 //		// hide button, change button text
-//		_auxButton.setVisibility(View.INVISIBLE);
+//		_auxButton.setVisibility(View.GONE);
 //		_videoLabel.setText(_confirm);
 //		_videoIconView.setVisibility(View.GONE);
 //
@@ -274,7 +274,7 @@ public class CustomVideoCoinDialog extends Dialog implements ApiContainer.IApiRe
         // 如果没有得到leto容器, 隐藏视频按钮
         if (!MGCSharedModel.adEnabled ||
                 (!_highCoin && (MGCSharedModel.coinVideoRatio <= 1 || MGCSharedModel.leftVideoTimes <= 0))) {
-            _auxButton.setVisibility(View.INVISIBLE);
+            _auxButton.setVisibility(View.GONE);
             _videoLabel.setText(_leto_mgc_get_now);
             _videoIconView.setVisibility(View.GONE);
         }
@@ -364,7 +364,7 @@ public class CustomVideoCoinDialog extends Dialog implements ApiContainer.IApiRe
         _coinAdded = true;
 
         // hide button, change button text
-        _auxButton.setVisibility(View.INVISIBLE);
+        _auxButton.setVisibility(View.GONE);
         _videoLabel.setText(_confirm);
         _videoIconView.setVisibility(View.GONE);
 
