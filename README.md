@@ -38,6 +38,20 @@
     android:value="头条视频广告id" />
 ```
 
+### 微信登录
+
+* 如果修改了包名, 请确认也修改了`build.gradle`中的`applicationId`, 如下:
+
+```
+    defaultConfig {
+        applicationId "com.mgc.letobox.happy" // 这个请修改成你的包名
+        
+        ...
+    }
+```
+
+* 另外`WXEntryActivity`需要放置在`包名.wxapi`下, 请移动`WXEntryActivity`以适合你的包名. 比如你的新包名是`a.b`, 则把`WXEntryActivity.java`挪到`a.b.wxapi`包下.
+
 ## 有问题可以扫码进群讨论
 
 ![Group BarCode](group_barcode.jpg)
