@@ -1,109 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="48dp"
         android:orientation="vertical">
 
-        <FrameLayout
-            android:id="@+id/container"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="1" />
+            android:layout_height="0.5dp"
+            android:background="#E7EAEF" />
 
-        <LinearLayout
+        <RadioGroup
+            android:id="@+id/tab_group"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="#E7EAEF" />
+            <RadioButton
+                android:id="@+id/tab_find"
+                style="@style/tabButtonStyle"
+                android:drawableTop="@drawable/tab_find"
+                android:text="发现" />
 
-            <RadioGroup
-                android:id="@+id/tab_group"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="4dp"
-                android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/tab_game"
+                style="@style/tabButtonStyle"
+                android:drawableTop="@drawable/tab_game"
+                android:text="首页" />
 
-                <RadioButton
-                    android:id="@+id/tab_find"
-                    style="@style/tabButtonStyle"
-                    android:drawableTop="@drawable/tab_find"
-                    android:text="发现" />
+            <RadioButton
+                android:id="@+id/tab_rank"
+                style="@style/tabButtonStyle"
+                android:drawableTop="@drawable/tab_rank"
+                android:text="榜单" />
 
-                <RadioButton
-                    android:id="@+id/tab_game"
-                    style="@style/tabButtonStyle"
-                    android:drawableTop="@drawable/tab_game"
-                    android:text="首页" />
+            <RadioButton
+                android:id="@+id/tab_challenge"
+                style="@style/tabButtonStyle"
+                android:drawableTop="@drawable/tab_challenge"
+                android:text="竞技场"
+                />
 
-                <RadioButton
-                    android:id="@+id/tab_rank"
-                    style="@style/tabButtonStyle"
-                    android:drawableTop="@drawable/tab_rank"
-                    android:text="榜单" />
-
-                <RadioButton
-                    android:id="@+id/tab_challenge"
-                    style="@style/tabButtonStyle"
-                    android:drawableTop="@drawable/tab_challenge"
-                    android:text="竞技场"
-                    />
-
-                <RadioButton
-                    android:id="@+id/tab_category"
-                    style="@style/tabButtonStyle"
-                    android:drawableTop="@drawable/tab_category"
-                    android:text="分类" />
-                <RadioButton
-                    android:id="@+id/tab_me"
-                    style="@style/tabButtonStyle"
-                    android:drawableTop="@drawable/tab_me"
-                    android:text="我的" />
+            <RadioButton
+                android:id="@+id/tab_category"
+                style="@style/tabButtonStyle"
+                android:drawableTop="@drawable/tab_category"
+                android:text="分类" />
+            <RadioButton
+                android:id="@+id/tab_me"
+                style="@style/tabButtonStyle"
+                android:drawableTop="@drawable/tab_me"
+                android:text="我的" />
 
 
-            </RadioGroup>
-        </LinearLayout>
+        </RadioGroup>
     </LinearLayout>
-
-    <!--<RelativeLayout-->
-    <!--android:id="@+id/splash"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
-
-    <!--<ImageView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:scaleType="fitXY"-->
-    <!--android:src="@mipmap/splash_bg" />-->
-
-    <!--<ImageView-->
-    <!--android:layout_width="220dp"-->
-    <!--android:layout_height="249dp"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:layout_marginTop="64dp"-->
-    <!--android:src="@mipmap/splash_content" />-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:layout_marginBottom="12dp"-->
-    <!--android:text="\@2018 MGC Wallet, Beijing Jiu Jiu Le Dong Co. Ltd."-->
-    <!--android:textColor="@android:color/white"-->
-    <!--android:textSize="12sp" />-->
-    <!--</RelativeLayout>-->
 </LinearLayout>
