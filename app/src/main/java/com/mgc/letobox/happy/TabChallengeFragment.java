@@ -1,6 +1,7 @@
 package com.mgc.letobox.happy;
 
 import android.os.Bundle;
+import android.support.annotation.Keep;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -22,6 +23,12 @@ public class TabChallengeFragment extends BaseFragment {
 
     private String title;
 
+    @Keep
+    public static TabChallengeFragment newInstance() {
+        return TabChallengeFragment.newInstance(19,"挑战");
+    }
+
+    @Keep
     public static TabChallengeFragment newInstance(int gameCenterPosId, String title) {
         TabChallengeFragment fragment = new TabChallengeFragment();
         Bundle args = new Bundle();

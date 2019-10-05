@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="245dp"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="90dp"
+                android:background="@drawable/upgrade_content_bg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:text="升级上线"
+                    android:textColor="@color/mgc_sdk_black_3"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginRight="24dp"
+                    android:gravity="left"
+                    android:text="升级上线"
+                    android:textColor="#B2B3B3"
+                    android:textSize="13sp"
+                    tools:text="更新内容" />
+
+
+                <FrameLayout
+                    android:id="@+id/layout_dialog"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/upgrade_download_bg"
+                    android:orientation="horizontal">
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:max="100"
+                        android:progressDrawable="@drawable/upgrade_progressbar_style"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/btn_download"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="立即下载"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </FrameLayout>
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:background="@drawable/upgrade_title_bg"
+                    >
+                <ImageView
+                    android:id="@+id/lebox_upgrade_title_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:src="@mipmap/lebox_upgrade_title"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    />
+
+                </FrameLayout>
+
+                <ImageView
+                    android:id="@+id/lebox_upgrade_title_logo"
+                    android:layout_width="83dp"
+                    android:layout_height="83dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/lebox_upgrade_logo" />
+            </FrameLayout>
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/cancel_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/lebox_upgrade_close"
+
+        />
+</LinearLayout>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_no_data"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_no_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/dp_10"
+            android:drawableTop="@mipmap/no_data"
+            android:gravity="center"
+            android:text="暂无数据"
+            android:textColor="#b2b2b2"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</RelativeLayout>

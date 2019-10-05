@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/mgc_sdk_white"
+    android:orientation="horizontal"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp"
+    >
+
+    <ImageView
+        android:id="@+id/app_icon"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        />
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_gravity="center_vertical"
+            >
+
+            <TextView
+                android:id="@+id/task_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@string/leto_mgc_daily_task"
+                android:textColor="@color/mgc_sdk_black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/title_coin_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/leto_download_task_coin_bg"
+                android:orientation="horizontal"
+                android:paddingRight="8dp">
+
+                <ImageView
+                    android:id="@+id/coin_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/lebox_mgc_redpack" />
+
+                <TextView
+                    android:id="@+id/coin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
+                    android:maxLines="1"
+                    android:textColor="#FFFA8C00"
+                    android:textSize="13sp"
+                    tools:text="+100" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/btn_play"
+        android:layout_width="50dp"
+        android:layout_height="22dp"
+        android:gravity="center"
+        android:background="@drawable/leto_minigame_play_btn_bg_gray"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/mgc_sdk_grayc3"
+        android:textSize="11sp"
+        tools:text="已领取" />
+
+</LinearLayout>

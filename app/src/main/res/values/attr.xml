@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DropDownMenu">
+        <attr name="ddtextSelectedColor" format="color" />
+        <attr name="ddtextUnselectedColor" format="color" />
+        <attr name="ddmenuBackgroundColor" format="color" />
+        <attr name="ddmaskColor" format="color" />
+        <attr name="ddneedSetSlectedColor" format="boolean" />
+        <attr name="ddmenuTextSize" format="dimension" />
+        <attr name="ddmenuMaxHeight" format="dimension" />
+        <attr name="ddmenuSelectedIcon" format="reference" />
+        <attr name="ddmenuUnselectedIcon" format="reference" />
+        <attr name="ddunderlineColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="LikeView">
+        <!--当前数值,默认0-->
+        <attr name="number" format="integer"/>
+        <!--数字颜色,默认#888888-->
+        <attr name="textColor" format="color"/>
+        <!--图形外边颜色,默认#888888-->
+        <attr name="graphColor" format="color"/>
+        <!--当前激活时图形颜色,默认#ca5f5f-->
+        <attr name="animateColor" format="color"/>
+        <!--字体大小,决定控件高度以及图形大小,默认14sp-->
+        <attr name="textSize" format="dimension"/>
+        <!--动画时间,默认300-->
+        <attr name="animateDuration" format="integer"/>
+        <!--图形与数字间的距离,默认3dp-->
+        <attr name="distance" format="dimension"/>
+        <!--图形与数字高度的比例,默认1.3-->
+        <attr name="graphTextHeightRatio" format="float"/>
+        <!--图形外边绘制宽度,默认3dp-->
+        <attr name="graphStrokeWidth" format="dimension"/>
+        <!--数字绘制宽度,默认2dp-->
+        <attr name="textStrokeWidth" format="dimension"/>
+        <!--是否激活,默认false-->
+        <attr name="isActivated" format="boolean"/>
+        <!--是否自动测量数字修改后的宽度改变,防止更改状态时控件宽度改变,默认开启-->
+        <attr name="autoMeasureMaxWidth" format="boolean"/>
+        <!--是否不允许取消点赞,默认false-->
+        <attr name="notAllowedCancel" format="boolean"/>
+        <!--对齐方式,前三种默认垂直居中-->
+        <attr name="gravity" format="enum">
+            <!--居中-->
+            <enum name="center" value="1"/>
+            <!--左对齐-->
+            <enum name="left" value="2"/>
+            <!--右对齐-->
+            <enum name="right" value="3"/>
+            <!--开始点-->
+            <enum name="start" value="4"/>
+        </attr>
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,18 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <com.leto.game.base.view.tablayout.SlidingTabLayout
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="@color/white"/>
+    <!-- 第二块Viewpager -->
+    <com.mgc.letobox.happy.view.NoScrollViewPager
+        android:id="@+id/home_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_common" />
+</LinearLayout>

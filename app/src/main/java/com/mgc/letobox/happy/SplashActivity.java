@@ -1,40 +1,39 @@
 package com.mgc.letobox.happy;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.http.RequestQueue;
-import com.ledong.lib.leto.Leto;
 import com.ledong.lib.leto.MgcAccountManager;
 import com.ledong.lib.leto.main.BaseActivity;
+import com.ledong.lib.leto.mgc.bean.CoinConfigResultBean;
+import com.ledong.lib.leto.mgc.model.MGCSharedModel;
+import com.ledong.lib.leto.mgc.util.MGCApiUtil;
+import com.ledong.lib.minigame.util.PrefetchCache;
 import com.leto.game.base.bean.LoginResultBean;
 import com.leto.game.base.db.LoginControl;
-
 import com.leto.game.base.http.HttpCallbackDecode;
 import com.leto.game.base.http.HttpParamsBuild;
-import com.leto.game.base.http.SdkApi;
 import com.leto.game.base.http.SdkConstant;
 import com.leto.game.base.listener.SyncUserInfoListener;
 import com.leto.game.base.login.LoginManager;
 import com.leto.game.base.util.BaseAppUtil;
 import com.leto.game.base.util.DeviceUtil;
+import com.leto.game.base.util.GameUtil;
 import com.mgc.letobox.happy.bean.StartUpBean;
 import com.mgc.letobox.happy.bean.StartupResultBean;
 import com.mgc.letobox.happy.util.LeBoxUtil;
-
-
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
-import android.util.Log;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -54,29 +53,21 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
 
     private static final int REQUEST_CODE_WRITE_PERMISSION = 2003;
 
-    boolean isCheckedVersion =false;
+    private static final String LEBOX_CENSOR_CACHE_FILE = "__lebox_censor_mode";
 
     Context mContext;
 
-//    BroadcastReceiver mReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            switch (intent.getAction()) {
-//                case SdkConstant.ACTION_SESSION_EXPIRED: {
-//                    callStartup();
-//                }
-//                break;
-//            }
-//        }
-//    };
+    // use censor version?
+    private boolean _censorMode = false;
 
     private Handler mHandler= new Handler(){
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case START_MAIN:
                     Intent intent = new Intent(SplashActivity.this, GameCenterTabActivity.class);
+                    intent.putExtra("censorMode", _censorMode);
                     startActivity(intent);
-                    SplashActivity.this.finish();
+                    finish();
                     break;
 
                 case GO_APP:
@@ -115,6 +106,37 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
         initPermission();
 
         Log.i(TAG, "onCreate");
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        // try load cached config, if no cache, set censor mode to true
+        if(GameUtil.hasCacheFile(this, LEBOX_CENSOR_CACHE_FILE)) {
+            _censorMode = GameUtil.loadInt(this, LEBOX_CENSOR_CACHE_FILE) == 1;
+        } else {
+            _censorMode = true;
+        }
+
+        // get config
+        if(!MGCSharedModel.isCoinConfigInited()) {
+            MGCApiUtil.getCoinConfig(this, new HttpCallbackDecode<CoinConfigResultBean>(this, null) {
+                @Override
+                public void onDataSuccess(CoinConfigResultBean data) {
+                    // get censor mode
+                    _censorMode = data.getIs_audit() == 1;
+
+                    // save to local
+                    GameUtil.saveInt(SplashActivity.this, data.getIs_audit(), LEBOX_CENSOR_CACHE_FILE);
+                }
+            });
+        }
+
+        // prefetch game center data
+        PrefetchCache.getInstance().prefetchGameCenter(this, 17, 1, null);
+        PrefetchCache.getInstance().prefetchGameCenter(this, 18, 0, null);
+        PrefetchCache.getInstance().prefetchGameCenter(this, 19, 1, null);
     }
 
     @Override

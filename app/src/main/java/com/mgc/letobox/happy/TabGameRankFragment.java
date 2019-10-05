@@ -1,6 +1,7 @@
 package com.mgc.letobox.happy;
 
 import android.os.Bundle;
+import android.support.annotation.Keep;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -8,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.ledong.lib.minigame.GameCenterHomeFragment;
+import com.ledong.lib.minigame.GameCenterRankFragment;
 import com.leto.game.base.util.IntentConstant;
 
 /**
@@ -21,6 +22,12 @@ public class TabGameRankFragment extends BaseFragment {
 
     private String title;
 
+    @Keep
+    public static TabGameRankFragment newInstance() {
+        return TabGameRankFragment.newInstance(18, "榜单");
+    }
+
+    @Keep
     public static TabGameRankFragment newInstance(int gameCenterPosId, String title) {
         TabGameRankFragment fragment = new TabGameRankFragment();
         Bundle args = new Bundle();
@@ -50,7 +57,7 @@ public class TabGameRankFragment extends BaseFragment {
         }
 
         // install content fragment
-        Fragment fragment = GameCenterHomeFragment.getInstance(_gameCenterPosId);
+        Fragment fragment = GameCenterRankFragment.getInstance(_gameCenterPosId);
         getChildFragmentManager().beginTransaction()
                 .add(R.id.home_content, fragment)
                 .commit();

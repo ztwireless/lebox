@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mgc.letobox.happy.find.view.SquareLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="80dp"
+    android:layout_height="80dp">
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f3f3f3"
+        android:clickable="false"
+        android:contentDescription="@string/app_name"
+        android:focusable="false"
+        android:scaleType="center" />
+    <ImageView
+        android:id="@+id/img_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:contentDescription="@string/app_name"
+        android:src="@mipmap/delete"
+        />
+    <TextView android:id="@+id/tv_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#fff"
+        android:layout_marginLeft="5dp"
+        android:layout_gravity="bottom|left"
+        android:layout_marginBottom="3dp"
+        android:textSize="13sp"
+        android:visibility="gone"/>
+</com.mgc.letobox.happy.find.view.SquareLayout>

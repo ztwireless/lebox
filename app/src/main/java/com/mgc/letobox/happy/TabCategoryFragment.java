@@ -1,6 +1,7 @@
 package com.mgc.letobox.happy;
 
 import android.os.Bundle;
+import android.support.annotation.Keep;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ public class TabCategoryFragment extends BaseFragment {
 
     TextView tv_title;
 
+    @Keep
     public static TabCategoryFragment newInstance() {
         TabCategoryFragment fragment = new TabCategoryFragment();
         Bundle args = new Bundle();

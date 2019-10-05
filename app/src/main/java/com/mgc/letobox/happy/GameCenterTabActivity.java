@@ -1,9 +1,12 @@
 package com.mgc.letobox.happy;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,35 +17,46 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.ledong.lib.leto.Leto;
-import com.ledong.lib.leto.config.AppConfig;
 import com.ledong.lib.leto.listener.ILetoPlayedDurationListener;
 import com.ledong.lib.minigame.bean.TabBean;
 import com.leto.game.base.ad.AdManager;
 import com.leto.game.base.event.DataRefreshEvent;
-import com.leto.game.base.login.LoginManager;
+import com.leto.game.base.http.HttpCallbackDecode;
+import com.leto.game.base.http.HttpParamsBuild;
 import com.leto.game.base.util.BaseAppUtil;
 import com.leto.game.base.util.ColorUtil;
 import com.leto.game.base.util.GlideUtil;
 import com.leto.game.base.util.IntentConstant;
 import com.leto.game.base.util.MResource;
 import com.leto.game.base.util.StatusBarUtil;
+import com.mgc.letobox.happy.bean.VersionRequestBean;
+import com.mgc.letobox.happy.bean.VersionResultBean;
+import com.mgc.letobox.happy.dialog.VersionDialog;
 import com.mgc.letobox.happy.event.TabSwitchEvent;
 import com.mgc.letobox.happy.me.bean.TaskResultBean;
 import com.mgc.letobox.happy.me.view.TaskCoinDialog;
-
+import com.mgc.letobox.happy.util.LeBoxUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * Created by DELL on 2018/8/4.
@@ -51,36 +65,49 @@ import java.util.List;
 public class GameCenterTabActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
     private final String TAG = "GameCenterActivity";
 
+    private static final int REQUEST_CODE_WRITE_PERMISSION = 2003;
 
-    RadioButton tabBtn1;
-    RadioButton tabBtn2;
-    RadioButton tabBtn3;
-    RadioButton tabBtn4;
-    RadioButton tabBtn5;
+    RadioButton tabGameBtn;
+    RadioButton tabRankBtn;
+    RadioButton tabChallengeBtn;
+    RadioButton tabCategoryBtn;
+    RadioButton tabMeBtn;
+    RadioButton tabFindBtn;
     RadioGroup tabGroup;
 
     Fragment curFragment;
 
-    TabMiniGameFragment fragment1;
-    TabGameRankFragment fragment2;
-    TabChallengeFragment fragment3;
-    TabCategoryFragment fragment4;
-    TabMeFragment fragment5;
-
+    // fragments
+    private Map<Integer, Fragment> _fragments;
+    private Map<Integer, Class> _fragmentClasses;
 
     String orientation = "portrait";
     String srcAppId;
     String srcAppPath;
 
     AlertDialog alertDialog;
-
     int mTabIndex;
 
+    // tab id array
+    private List<Integer> _tabIds;
+    private List<RadioButton> _tabBtns;
 
+    // censor mode
+    private boolean _censorMode = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // init
+        _fragments = new HashMap<>();
+        _fragmentClasses = new HashMap<>();
+        _fragmentClasses.put(R.id.tab_find, TabFindFragment.class);
+        _fragmentClasses.put(R.id.tab_game, TabMiniGameFragment.class);
+        _fragmentClasses.put(R.id.tab_rank, TabGameRankFragment.class);
+        _fragmentClasses.put(R.id.tab_challenge, TabChallengeFragment.class);
+        _fragmentClasses.put(R.id.tab_category, TabCategoryFragment.class);
+        _fragmentClasses.put(R.id.tab_me, TabMeFragment.class);
 
         // init leto
         Leto.init(this);
@@ -88,19 +115,53 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             StatusBarUtil.setStatusBarColor(this, ColorUtil.parseColor("#ffffff"));
         }
+
         // set content view
-        setContentView(MResource.getIdByName(this, "R.layout.activity_tab_gamecenter"));
+        setContentView(R.layout.activity_tab_gamecenter);
+
+        // get extra
+        Bundle extra = getIntent().getExtras();
+        _censorMode = extra.getBoolean("censorMode", true);
 
         orientation = getIntent().getStringExtra(IntentConstant.ACTION_APP_ORIENTATION);
         srcAppId = getIntent().getStringExtra(IntentConstant.SRC_APP_ID);
         srcAppPath = getIntent().getStringExtra(IntentConstant.SRC_APP_PATH);
 
-        tabBtn1 = findViewById(MResource.getIdByName(this, "R.id.tab_btn1"));
-        tabBtn2 = findViewById(MResource.getIdByName(this, "R.id.tab_btn2"));
-        tabBtn3 = findViewById(MResource.getIdByName(this, "R.id.tab_btn3"));
-        tabBtn4 = findViewById(MResource.getIdByName(this, "R.id.tab_btn4"));
-        tabBtn5 = findViewById(MResource.getIdByName(this, "R.id.tab_btn5"));
-        tabGroup = findViewById(MResource.getIdByName(this, "R.id.tab_group"));
+        tabGameBtn = findViewById(R.id.tab_game);
+        tabRankBtn = findViewById(R.id.tab_rank);
+        tabChallengeBtn = findViewById(R.id.tab_challenge);
+        tabCategoryBtn = findViewById(R.id.tab_category);
+        tabMeBtn = findViewById(R.id.tab_me);
+        tabFindBtn = findViewById(R.id.tab_find);
+        tabGroup = findViewById(R.id.tab_group);
+        _tabBtns = Arrays.asList(
+            tabGameBtn,
+            tabRankBtn,
+            tabChallengeBtn,
+            tabCategoryBtn,
+            tabMeBtn,
+            tabFindBtn
+        );
+        if(_censorMode) {
+            _tabIds = Arrays.asList(
+//                R.id.tab_find,
+                R.id.tab_challenge,
+                R.id.tab_me
+            );
+        } else {
+            _tabIds = Arrays.asList(
+                R.id.tab_game,
+                R.id.tab_rank,
+                R.id.tab_challenge,
+                R.id.tab_category,
+                R.id.tab_me
+            );
+        }
+        for(RadioButton btn : _tabBtns) {
+            if(_tabIds.indexOf(btn.getId()) == -1) {
+                btn.setVisibility(View.GONE);
+            }
+        }
 
         // detect system version, if too low, give a hint
         checkSystemVersion();
@@ -114,7 +175,7 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
 
 
         tabGroup.setOnCheckedChangeListener(this);
-        tabGroup.check(R.id.tab_btn1);
+        tabGroup.check(_tabIds.get(0));
 
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
@@ -208,67 +269,34 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSwitchTab(TabSwitchEvent event) {
-
         if (event != null) {
             int tabIndex = event.tabindex;
-            switch (tabIndex) {
-                case 0:
-                    tabGroup.check(R.id.tab_btn1);
-                    break;
-                case 2:
-                    tabGroup.check(R.id.tab_btn3);
-                    break;
-                default:
-
-                    break;
+            if(tabIndex >= 0 && tabIndex < _tabIds.size()) {
+                tabGroup.check(_tabIds.get(tabIndex));
             }
         }
-
     }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int i) {
-        Fragment fragment = null;
-        switch (i) {
-            case R.id.tab_btn1:
-
-                if (null == fragment1) {
-                    fragment1 = (TabMiniGameFragment) TabMiniGameFragment.newInstance(17);
-                }
-                fragment = fragment1;
-                mTabIndex = 0;
-                break;
-            case R.id.tab_btn2:
-                if (null == fragment2) {
-                    fragment2 = (TabGameRankFragment) TabGameRankFragment.newInstance(18, "榜单");
-                }
-                fragment = fragment2;
-                mTabIndex = 1;
-                break;
-            case R.id.tab_btn3:
-                if (null == fragment3) {
-                    fragment3 = (TabChallengeFragment) TabChallengeFragment.newInstance(19,"挑战");
-                }
-                fragment = fragment3;
-                mTabIndex = 2;
-                break;
-            case R.id.tab_btn4:
-                if (null == fragment4) {
-                    fragment4 = TabCategoryFragment.newInstance();
-                }
-                fragment = fragment4;
-                mTabIndex = 3;
-                break;
-            case R.id.tab_btn5:
-                if (null == fragment5) {
-                    AppConfig appConfig = new AppConfig(BaseAppUtil.getChannelID(this), LoginManager.getUserId(this));
-                    fragment5 = TabMeFragment.newInstance();
-                }
-                fragment = fragment5;
-                mTabIndex = 4;
-                break;
+        // lazy create fragment
+        Fragment fragment = _fragments.get(i);
+        if(fragment == null) {
+            try {
+                Class klass = _fragmentClasses.get(i);
+                Method m = klass.getDeclaredMethod("newInstance");
+                fragment = (Fragment)m.invoke(klass);
+            } catch(Throwable e) {
+            }
+            if(fragment != null) {
+                _fragments.put(i, fragment);
+            }
         }
 
+        // set tab index
+        mTabIndex = _tabIds.indexOf(i);
+
+        // add fragment
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (!fragment.isAdded()) {
             fragmentTransaction.add(R.id.container, fragment);
@@ -277,6 +305,7 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
             return;
         }
 
+        // switch fragment
         if (null != curFragment) {
             //fragmentTransaction.hide(curFragment).show(fragment).replace(R.id.container, fragment).commit();
             fragmentTransaction.hide(curFragment).show(fragment).commit();
@@ -363,5 +392,93 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
         d.show();
     }
 
+    boolean isCheckedVersion = false;
 
+    private void getVersion() {
+        isCheckedVersion = true;
+        VersionRequestBean versionRequestBean = new VersionRequestBean();
+        versionRequestBean.setType(1);
+        versionRequestBean.setVersion(BaseAppUtil.getAppVersionName(GameCenterTabActivity.this));
+        try {
+            versionRequestBean.setChannel_id(Integer.parseInt(BaseAppUtil.getChannelID(GameCenterTabActivity.this)));
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+
+        HttpParamsBuild httpParamsBuild = new HttpParamsBuild(new Gson().toJson(versionRequestBean));
+        HttpCallbackDecode httpCallbackDecode = new HttpCallbackDecode<VersionResultBean>(this, httpParamsBuild.getAuthkey()) {
+            @Override
+            public void onDataSuccess(VersionResultBean data) {
+                if (data != null) {
+                    try {
+                        int curCode = BaseAppUtil.getAppVersionCode(GameCenterTabActivity.this);
+                        int latestCode = Integer.parseInt(data.getVersion());
+                        if (latestCode > curCode) {
+                            if (EasyPermissions.hasPermissions(GameCenterTabActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                                showVersionDialog(data);
+                            } else {
+                                EasyPermissions.requestPermissions(GameCenterTabActivity.this, "需要存储权限更新版本",
+                                        REQUEST_CODE_WRITE_PERMISSION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(String code, String msg) {
+                Log.d(TAG, "获取版本信息失败: " + msg);
+
+            }
+        };
+        httpCallbackDecode.setShowTs(false);
+        httpCallbackDecode.setLoadingCancel(false);
+        httpCallbackDecode.setShowLoading(false);//当前Splash显示中
+        RxVolley.post(LeBoxUtil.getLatestVersion(), httpParamsBuild.getHttpParams(), httpCallbackDecode);
+
+    }
+
+
+    private void showVersionDialog(final VersionResultBean version) {
+        final boolean isCanCancel = version.getType() != 1 ? true : false;
+        //强制更新
+        new VersionDialog().showDialog(this, version, new VersionDialog.ConfirmDialogListener() {
+            @Override
+            public void ok() {
+
+
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+
+            @Override
+            public void dismiss() {
+
+            }
+        });
+
+    }
+
+    public String getAppVersionName() {
+        String versionName = "";
+        try {
+            // ---get the package info---
+            PackageManager pm = this.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(this.getPackageName(), 0);
+            versionName = pi.versionName;
+//			versioncode = pi.versionCode;
+            if (versionName == null || versionName.length() <= 0) {
+                return "";
+            }
+        } catch (Exception e) {
+            Log.e("VersionInfo", "Exception", e);
+        }
+        return versionName;
+    }
 }

@@ -69,7 +69,36 @@
         <activity android:name=".LeBoxProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
-
+        <activity android:name=".find.ui.SelectImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".find.ui.ArticleDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".find.ui.KOLActivitiy"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".find.ui.ShowPicVPActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".find.ui.GameDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".circle.ui.CircleListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".circle.ui.CircleDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".circle.ui.ArticleDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".circle.ui.CreateTieZiActivtiy"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".circle.ui.CreateCircleActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
         <activity android:name=".SplashActivity"
             android:theme="@style/AppTheme">
             <intent-filter>

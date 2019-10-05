@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableOverScrollDrag="false"
+        app:srlEnablePureScrollMode="false"
+        app:srlEnableFooterFollowWhenLoadFinished="true"
+        app:srlEnableHeaderTranslationContent="true"
+        app:srlEnableRefresh="true">
+
+        <com.scwang.smartrefresh.layout.header.FalsifyHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/includeHeaderView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/fake_status_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/statusbar_view_height" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/left_finsh"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="30dp"
+                android:src="@mipmap/back_normal" />
+
+            <ImageView
+                android:id="@+id/imageView_shar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical|right"
+                android:paddingLeft="30dp"
+                android:paddingRight="10dp"
+                android:src="@mipmap/drawer_open" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/include_title"
+        layout="@layout/circle_include_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/iv_comment"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:src="@mipmap/ic_rating_btn"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/iv_circle_join"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:src="@mipmap/circle_add"/>
+
+
+
+
+    <include android:id="@+id/in_no_network"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/includeHeaderView"
+        layout="@layout/no_network"
+        android:visibility="gone"
+        />
+
+    <include android:id="@+id/in_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/includeHeaderView"
+        layout="@layout/layout_loading"
+        android:visibility="gone"
+        />
+
+
+</RelativeLayout>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView_click"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="30dp"
+            android:paddingTop="10dp"
+            android:visibility="gone"
+            android:layout_alignParentLeft="true"
+            android:src="@mipmap/circle_no_add_i"/>
+
+
+
+         <!--<com.chaychan.uikit.BorderTextView-->
+             <!--android:id="@+id/tv_tag"-->
+             <!--android:layout_width="wrap_content"-->
+             <!--android:layout_height="wrap_content"-->
+             <!--android:text="置顶"-->
+             <!--android:textSize="9sp"-->
+             <!--android:textColor="@color/color_F96B6B"-->
+             <!--/>-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_author"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--style="@style/news_text_style"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="中新网移动版"-->
+            <!--android:textColor="@color/text_lowgray"-->
+            <!--android:textSize="11sp"-->
+            <!--/>-->
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="06月27日"
+            android:textColor="@color/text_lowgray"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_comment_num"
+            style="@style/news_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1020"
+            android:paddingTop="10dp"
+            android:textColor="@color/text_black"
+            android:layout_alignParentRight="true"
+            android:textSize="12sp"
+            android:drawableStart="@mipmap/ic_comment"
+            android:gravity="center_vertical"
+            android:drawablePadding="6dp"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>

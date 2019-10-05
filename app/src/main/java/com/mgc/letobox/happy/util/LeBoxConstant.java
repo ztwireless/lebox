@@ -19,6 +19,7 @@ public class LeBoxConstant {
     public final static int LETO_ME_MODULE_NEWER_TASK = 4;
     public final static int LETO_ME_MODULE_DAILY_TASK = 5;
     public final static int LETO_ME_MODULE_OTHER = 6;
+    public final static int LETO_ME_MODULE_HIGH_COIN_TASK = 7;
 
 
 

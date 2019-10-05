@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_article_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="标题"
+        android:textColor="@color/text_black"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <include
+        android:id="@+id/in_kol"
+        layout="@layout/layout_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_article_title"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10" />
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/in_kol"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginStart="@dimen/dp_10"
+        android:scrollbars="none" />
+
+
+    <View
+        android:id="@+id/view"
+        android:layout_below="@id/webView"
+        android:layout_marginTop="120dp"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/bg_common" />
+
+    <com.mgc.letobox.happy.find.view.FlowLikeView
+        android:id="@+id/flowLikeView"
+        android:layout_width="80dp"
+        android:layout_height="400dp"
+        android:layout_marginBottom="55dp"
+        android:layout_alignBottom="@id/view"
+        android:layout_centerHorizontal="true"
+        >
+
+        <RelativeLayout
+
+            android:id="@+id/rl_like"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:background="@mipmap/article_like_selected">
+
+            <TextView
+                android:id="@+id/tv_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="4dp"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+    </com.mgc.letobox.happy.find.view.FlowLikeView>
+
+
+    <TextView
+        android:id="@+id/tv_comment_lab"
+        android:layout_below="@id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:text="评论"
+        android:textColor="@color/text_black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_no_comment"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@id/tv_comment_lab"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:drawablePadding="@dimen/dp_10"
+        android:gravity="center"
+        android:text="还没有评论哦，快抢沙发吧～"
+        android:textColor="@color/text_lowgray"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

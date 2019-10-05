@@ -37,35 +37,40 @@
                 android:layout_marginTop="4dp"
                 android:orientation="horizontal">
 
+                <RadioButton
+                    android:id="@+id/tab_find"
+                    style="@style/tabButtonStyle"
+                    android:drawableTop="@drawable/tab_find"
+                    android:text="发现" />
 
                 <RadioButton
-                    android:id="@+id/tab_btn1"
+                    android:id="@+id/tab_game"
                     style="@style/tabButtonStyle"
-                    android:drawableTop="@drawable/tab_1"
+                    android:drawableTop="@drawable/tab_game"
                     android:text="首页" />
 
                 <RadioButton
-                    android:id="@+id/tab_btn2"
+                    android:id="@+id/tab_rank"
                     style="@style/tabButtonStyle"
-                    android:drawableTop="@drawable/tab_2"
+                    android:drawableTop="@drawable/tab_rank"
                     android:text="榜单" />
 
                 <RadioButton
-                    android:id="@+id/tab_btn3"
+                    android:id="@+id/tab_challenge"
                     style="@style/tabButtonStyle"
-                    android:drawableTop="@drawable/tab_3"
-                    android:text="挑战"
+                    android:drawableTop="@drawable/tab_challenge"
+                    android:text="竞技场"
                     />
 
                 <RadioButton
-                    android:id="@+id/tab_btn4"
+                    android:id="@+id/tab_category"
                     style="@style/tabButtonStyle"
-                    android:drawableTop="@drawable/tab_4"
+                    android:drawableTop="@drawable/tab_category"
                     android:text="分类" />
                 <RadioButton
-                    android:id="@+id/tab_btn5"
+                    android:id="@+id/tab_me"
                     style="@style/tabButtonStyle"
-                    android:drawableTop="@drawable/tab_5"
+                    android:drawableTop="@drawable/tab_me"
                     android:text="我的" />
 
 

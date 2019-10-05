@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    >
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/tv_no_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="暂无评价"
+        android:textColor="@color/text_lowgray"
+        android:textSize="16sp"
+        android:drawableTop="@mipmap/no_data"
+        android:drawablePadding="@dimen/dp_10"/>
+
+</LinearLayout>

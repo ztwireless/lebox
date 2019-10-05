@@ -1,6 +1,7 @@
 package com.mgc.letobox.happy;
 
 import android.os.Bundle;
+import android.support.annotation.Keep;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ public class TabMeFragment extends BaseFragment {
 
     Fragment fragment;
 
+    @Keep
     public static TabMeFragment newInstance() {
         TabMeFragment fragment = new TabMeFragment();
         Bundle args = new Bundle();

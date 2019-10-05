@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <include layout="@layout/include_common_title2" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/fl_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:background="@android:color/white">
+
+                <EditText
+                    android:id="@+id/et_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:hint="标题"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"/>
+
+            </FrameLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/sep_line_color" />
+            <FrameLayout
+                android:id="@+id/fl_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_10"
+
+                android:background="@android:color/white">
+
+                <EditText
+                    android:id="@+id/et_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:background="@null"
+                    android:hint="文章内容"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"
+                    android:minHeight="30dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_role_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@android:color/white">
+
+                <ImageView
+                    android:id="@+id/iv_add"
+                    android:layout_width="80dip"
+                    android:layout_height="80dip"
+                    android:contentDescription="@null"
+                    android:src="@mipmap/icon_add"
+                    android:background="#f3f3f3"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <include
+        layout="@layout/layout_game_intro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用户评价"
+            android:textColor="@color/text_black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            />
+
+        <TextView
+            android:id="@+id/tv_comment_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:layout_alignParentRight="true"
+            android:text="更多"
+            android:textColor="@color/text_blue"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_no_comment"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="还没有评价哦，快抢沙发吧~"
+        android:textColor="@color/text_lowgray"
+        android:textSize="16sp"
+        android:drawablePadding="@dimen/dp_10"/>
+</LinearLayout>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/mgc_sdk_white"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/split_space"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#F5F5F5" />
+
+    <LinearLayout
+        android:id="@+id/my_games_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/lebox_high_coin_task" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:text="@string/leto_mgc_high_coin_task"
+                android:textColor="@color/mgc_sdk_black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mgc_sdk_white"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
+            >
+
+            <ImageView
+                android:layout_width="69dp"
+                android:layout_height="63dp"
+                android:src="@mipmap/lebox_high_coin_icon"
+                />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/task_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/leto_mgc_high_coin_task_title"
+                    android:textColor="@color/mgc_sdk_black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="高佣任务-可立即提现"/>
+
+                <TextView
+                    android:id="@+id/task_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/leto_mgc_high_coin_task_desc"
+                    android:textColor="#888888"
+                    android:textSize="14sp"
+                    tools:text="任意金额无门槛提现"
+                    />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/btn_play"
+                android:layout_width="50dp"
+                android:layout_height="22dp"
+                android:gravity="center"
+                android:background="@drawable/leto_minigame_play_btn_bg"
+                android:layout_gravity="center_vertical"
+                android:textColor="#3D9AF0"
+                android:textSize="11sp"
+                android:text="@string/leto_btn_play_now"
+                tools:text="已领取" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

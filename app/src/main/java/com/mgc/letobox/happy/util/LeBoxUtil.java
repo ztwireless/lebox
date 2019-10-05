@@ -21,12 +21,20 @@ public class LeBoxUtil {
 
     private static final String TAG ="LeBoxUtil";
 
+    private static void printUrl(String path) {
+        Log.e(TAG, "http_url=" + SdkApi.getRequestUrl() + path);
+    }
 
     //盒子初始化
     public static String getStartup() {
         return  "";
-
 //        return SdkApi.getRequestUrl() + "system/hzstartup";
+    }
+
+    //获取盒子版本的升级信息
+    public static String getLatestVersion() {
+        printUrl("upgrade/box_up");
+        return SdkApi.getRequestUrl() + "upgrade/box_up";
     }
 
     /**

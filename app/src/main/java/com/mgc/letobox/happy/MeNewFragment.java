@@ -180,6 +180,7 @@ public class MeNewFragment extends Fragment {
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_MYGAMES));
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_SIGININ));
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_NEWER_TASK));
+        //moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_HIGH_COIN_TASK));
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_DAILY_TASK));
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_OTHER));
 

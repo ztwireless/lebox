@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/imageBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:paddingRight="10dp"
+                android:src="@mipmap/close_pressed" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/imageBack"
+                android:text="创建圈子"
+                android:textColor="@color/text_black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewCreate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/circle_shape_corners"
+                android:paddingBottom="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="5dp"
+                android:text="创建"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/editText_circle_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@null"
+            android:hint="圈名"
+            android:textColor="@color/text_black"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/bg_gray" />
+
+        <EditText
+            android:id="@+id/editText_miaoshu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="添加圈子描述"
+            android:textColor="@color/text_black"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal">
+
+
+            <RelativeLayout
+                android:id="@+id/layout_left"
+                android:layout_width="120dp"
+                android:layout_height="120dp">
+
+                <TextView
+                    android:id="@+id/textView_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_circle_rect_white_bolder"
+                    android:gravity="center"
+                    android:text="添加圈子头像"
+                    android:textColor="#8C8C8C"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/imageView_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_right"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginLeft="20dp">
+
+                <TextView
+                    android:id="@+id/textView_Background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_circle_rect_white_bolder"
+                    android:gravity="center"
+                    android:text="添加圈子背景图"
+                    android:textColor="#8C8C8C"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/imageView_Background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

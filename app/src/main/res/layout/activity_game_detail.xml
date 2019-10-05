@@ -1,0 +1,264 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/in_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/title_bg_color"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/fake_status_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/statusbar_view_height"
+            android:background="@color/tranparent" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_bar_height">
+
+            <RelativeLayout
+                android:id="@+id/rl_left"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <ImageView
+                    android:id="@+id/iv_return"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/back_normal" />
+
+                <TextView
+                    android:id="@+id/tv_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/iv_return"
+                    android:text="@string/app_name"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="20dp">
+
+                <TextView
+                    android:id="@+id/tv_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/app_name"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/iv_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/app_name"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_operate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_10">
+
+        <LinearLayout
+            android:id="@+id/ll_favorite"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_favorite"
+                android:layout_width="28dip"
+                android:layout_height="28dip"
+                android:padding="4dp"
+                android:src="@mipmap/ic_favorite" />
+
+            <TextView
+                android:id="@+id/tv_favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收藏"
+                android:textColor="@color/text_blue2"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/launch"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="44dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_10"
+            android:background="@drawable/lebox_game_detail_launch_btn_bg"
+            android:text="打开"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+
+        <LinearLayout
+            android:id="@+id/ll_share"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="28dip"
+                android:layout_height="28dip"
+                android:padding="4dp"
+                android:src="@mipmap/ic_share" />
+
+            <TextView
+                android:id="@+id/tv_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share"
+                android:textColor="@color/text_blue2"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/v_splide"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/ll_operate"
+        android:background="@color/bg_gray_f3" />
+
+    <com.mgc.letobox.happy.find.view.ScrollBottomView
+        android:id="@+id/sv_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/v_splide"
+        android:layout_below="@id/in_title"
+        android:background="@color/white"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/in_kol"
+                layout="@layout/layout_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_10" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/bg_gray_f3" />
+
+            <com.mgc.letobox.happy.find.view.GameBaseView
+                android:id="@+id/v_gamebase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/bg_gray_f3" />
+
+            <com.leto.game.base.view.tablayout.CommonTabLayout
+                android:id="@+id/indicator"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@color/white"/>
+
+
+            <!-- 第二块Viewpager -->
+            <com.mgc.letobox.happy.find.view.ChildViewPager
+                android:id="@+id/home_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg_common" />
+        </LinearLayout>
+    </com.mgc.letobox.happy.find.view.ScrollBottomView>
+
+    <com.leto.game.base.view.tablayout.CommonTabLayout
+        android:id="@+id/indicator_magic"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/in_title"
+        android:background="@color/white"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/iv_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/ll_operate"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_marginEnd="20dp"
+        android:src="@mipmap/ic_rating_btn"
+        android:visibility="gone" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_status"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/in_title">
+
+        <include
+            android:id="@+id/view_no_network"
+            layout="@layout/no_network"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/layout_loading"
+            layout="@layout/layout_loading"
+            android:visibility="gone" />
+    </RelativeLayout>
+</RelativeLayout>

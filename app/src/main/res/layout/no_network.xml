@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_no_network"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_no_network"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="16dp"
+            android:drawableTop="@mipmap/no_network"
+            android:gravity="center"
+            android:text="网络不给力"
+            android:textColor="#afafaf"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginTop="26dp"
+            android:background="@drawable/shape_half_circle_rect_white_with_blue_stroke"
+            android:text="重试"
+            android:textSize="16sp"
+            android:textColor="#476EFE"
+            android:paddingStart="@dimen/dp_10"
+            android:paddingEnd="@dimen/dp_10"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

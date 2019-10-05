@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">梦工厂小游戏</string>
+    <string name="app_name">开心100小游戏</string>
     <string name="open_page_for_result">openPageForResult示例</string>
     <string name="set_result">返回页面结果</string>
 
@@ -15,4 +15,11 @@
     <string name="lebox_set_portrait_failed">设置头像失败, 是否重试?</string>
     <string name="lebox_get_task_list_failed">获取任务列表失败</string>
     <string name="lebox_get_task_status_failed">获取任务状态失败</string>
+    <string name="lebox_get_news_category_failed">获取新闻分类失败</string>
+
+    <string-array name="find_tab">
+        <item>推荐</item>
+        <item>关注</item>
+        <item>圈子</item>
+    </string-array>
 </resources>
