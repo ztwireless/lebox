@@ -25,7 +25,7 @@ public class TabChallengeFragment extends BaseFragment {
 
     @Keep
     public static TabChallengeFragment newInstance() {
-        return TabChallengeFragment.newInstance(19,"挑战");
+        return TabChallengeFragment.newInstance(19,"竞技场");
     }
 
     @Keep
