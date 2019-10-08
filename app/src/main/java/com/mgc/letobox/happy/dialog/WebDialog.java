@@ -37,7 +37,11 @@ public class WebDialog extends Dialog {
 		titleLabel.setText(title);
 
 		// web view
-		_webView.loadUrl(url);
+		if(url.startsWith("http")) {
+			_webView.loadUrl(url);
+		} else {
+			_webView.loadData(url, "text/html", "utf-8");
+		}
 
 		// ok button
 		_okButton.setOnClickListener(new View.OnClickListener() {

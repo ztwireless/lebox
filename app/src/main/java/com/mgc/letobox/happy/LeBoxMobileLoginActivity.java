@@ -66,14 +66,14 @@ public class LeBoxMobileLoginActivity extends BaseActivity {
 		_userAgreementLabel.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
 			@Override
 			public boolean onClicked() {
-				DialogUtil.showAgreement(LeBoxMobileLoginActivity.this);
+				DialogUtil.showAgreement(LeBoxMobileLoginActivity.this, "user.html");
 				return true;
 			}
 		});
 		_privacyAgreementLabel.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
 			@Override
 			public boolean onClicked() {
-				DialogUtil.showAgreement(LeBoxMobileLoginActivity.this);
+				DialogUtil.showAgreement(LeBoxMobileLoginActivity.this, "privacy.html");
 				return true;
 			}
 		});

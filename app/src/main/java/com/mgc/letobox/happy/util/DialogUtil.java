@@ -3,6 +3,7 @@ package com.mgc.letobox.happy.util;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import com.leto.game.base.util.FileUtil;
 import com.leto.game.base.util.MResource;
 import com.mgc.letobox.happy.dialog.GeneralDialog;
 import com.mgc.letobox.happy.dialog.InputDialog;
@@ -69,10 +70,11 @@ public class DialogUtil {
         d.show();
     }
 
-    public static void showAgreement(Context ctx) {
+    public static void showAgreement(Context ctx, String path) {
+        String data = path.startsWith("http") ? path : FileUtil.readAssetsFileContent(ctx, path);
         WebDialog d = new WebDialog(ctx,
-            ctx.getString(MResource.getIdByName(ctx, "R.string.lebox_web_dialog_title")),
-            "http://mgc-games.com:8711/index.php?s=index/mgcqb_user_agreement.html");
+                ctx.getString(MResource.getIdByName(ctx, "R.string.lebox_web_dialog_title")),
+                data);
         d.show();
     }
 }

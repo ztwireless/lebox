@@ -81,14 +81,14 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
 		_userAgreementLabel.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
 			@Override
 			public boolean onClicked() {
-				com.mgc.letobox.happy.util.DialogUtil.showAgreement(LeBoxLoginActivity.this);
+				com.mgc.letobox.happy.util.DialogUtil.showAgreement(LeBoxLoginActivity.this, "user.html");
 				return true;
 			}
 		});
 		_privacyAgreementLabel.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
 			@Override
 			public boolean onClicked() {
-				com.mgc.letobox.happy.util.DialogUtil.showAgreement(LeBoxLoginActivity.this);
+				com.mgc.letobox.happy.util.DialogUtil.showAgreement(LeBoxLoginActivity.this, "privacy.html");
 				return true;
 			}
 		});
