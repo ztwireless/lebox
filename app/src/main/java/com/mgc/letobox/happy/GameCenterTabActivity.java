@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Keep;
 import android.support.v4.app.Fragment;
@@ -95,6 +96,9 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
     // censor mode
     private boolean _censorMode = false;
 
+
+    VersionDialog mVersionDialog;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,30 +139,30 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
         tabFindBtn = findViewById(R.id.tab_find);
         tabGroup = findViewById(R.id.tab_group);
         _tabBtns = Arrays.asList(
-            tabGameBtn,
-            tabRankBtn,
-            tabChallengeBtn,
-            tabCategoryBtn,
-            tabMeBtn,
-            tabFindBtn
+                tabGameBtn,
+                tabRankBtn,
+                tabChallengeBtn,
+                tabCategoryBtn,
+                tabMeBtn,
+                tabFindBtn
         );
-        if(_censorMode) {
+        if (_censorMode) {
             _tabIds = Arrays.asList(
 //                R.id.tab_find,
-                R.id.tab_challenge,
-                R.id.tab_me
+                    R.id.tab_challenge,
+                    R.id.tab_me
             );
         } else {
             _tabIds = Arrays.asList(
-                R.id.tab_game,
-                R.id.tab_rank,
-                R.id.tab_challenge,
-                R.id.tab_category,
-                R.id.tab_me
+                    R.id.tab_game,
+                    R.id.tab_rank,
+                    R.id.tab_challenge,
+                    R.id.tab_category,
+                    R.id.tab_me
             );
         }
-        for(RadioButton btn : _tabBtns) {
-            if(_tabIds.indexOf(btn.getId()) == -1) {
+        for (RadioButton btn : _tabBtns) {
+            if (_tabIds.indexOf(btn.getId()) == -1) {
                 btn.setVisibility(View.GONE);
             }
         }
@@ -193,8 +197,10 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
 
         NewerTaskManager.getTaskList(this, null);
 
-
         AdManager.getInstance().getTmTaskList(this);
+
+
+        getVersion();
 
     }
 
@@ -271,7 +277,7 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
     public void onSwitchTab(TabSwitchEvent event) {
         if (event != null) {
             int tabIndex = event.tabindex;
-            if(tabIndex >= 0 && tabIndex < _tabIds.size()) {
+            if (tabIndex >= 0 && tabIndex < _tabIds.size()) {
                 tabGroup.check(_tabIds.get(tabIndex));
             }
         }
@@ -281,14 +287,14 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
     public void onCheckedChanged(RadioGroup group, int i) {
         // lazy create fragment
         Fragment fragment = _fragments.get(i);
-        if(fragment == null) {
+        if (fragment == null) {
             try {
                 Class klass = _fragmentClasses.get(i);
                 Method m = klass.getDeclaredMethod("newInstance");
-                fragment = (Fragment)m.invoke(klass);
-            } catch(Throwable e) {
+                fragment = (Fragment) m.invoke(klass);
+            } catch (Throwable e) {
             }
-            if(fragment != null) {
+            if (fragment != null) {
                 _fragments.put(i, fragment);
             }
         }
@@ -398,7 +404,7 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
         isCheckedVersion = true;
         VersionRequestBean versionRequestBean = new VersionRequestBean();
         versionRequestBean.setType(1);
-        versionRequestBean.setVersion(BaseAppUtil.getAppVersionName(GameCenterTabActivity.this));
+        versionRequestBean.setVersion(String.valueOf(BaseAppUtil.getAppVersionCode(GameCenterTabActivity.this)));
         try {
             versionRequestBean.setChannel_id(Integer.parseInt(BaseAppUtil.getChannelID(GameCenterTabActivity.this)));
         } catch (Throwable e) {
@@ -443,26 +449,40 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
 
 
     private void showVersionDialog(final VersionResultBean version) {
-        final boolean isCanCancel = version.getType() != 1 ? true : false;
-        //强制更新
-        new VersionDialog().showDialog(this, version, new VersionDialog.ConfirmDialogListener() {
+
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
-            public void ok() {
+            public void run() {
+                try {
+                    if (mVersionDialog != null) {
+                        mVersionDialog.dismiss();
+                        mVersionDialog = null;
+                    }
+                    mVersionDialog = new VersionDialog();
+
+                    //强制更新
+                    mVersionDialog.showDialog(GameCenterTabActivity.this, version, new VersionDialog.ConfirmDialogListener() {
+                        @Override
+                        public void ok() {
 
 
-            }
+                        }
 
-            @Override
-            public void cancel() {
+                        @Override
+                        public void cancel() {
 
-            }
+                        }
 
-            @Override
-            public void dismiss() {
+                        @Override
+                        public void dismiss() {
 
+                        }
+                    });
+                }catch (Throwable e){
+
+                }
             }
         });
-
     }
 
     public String getAppVersionName() {

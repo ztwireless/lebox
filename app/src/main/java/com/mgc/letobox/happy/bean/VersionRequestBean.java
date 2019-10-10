@@ -1,11 +1,13 @@
 package com.mgc.letobox.happy.bean;
 
+import android.support.annotation.Keep;
+
 import com.leto.game.base.bean.BaseRequestBean;
 
 /**
  * Created by liu hong liang on 2016/11/12.
  */
-
+@Keep
 public class VersionRequestBean extends BaseRequestBean {
     private String  version;   //钱包版本号
 

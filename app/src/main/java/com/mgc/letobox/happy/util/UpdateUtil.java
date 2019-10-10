@@ -1,38 +1,25 @@
 package com.mgc.letobox.happy.util;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Environment;
-import android.os.Looper;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 
-import com.ledong.lib.leto.api.constant.Constant;
-import com.ledong.lib.leto.interfaces.IApiCallback;
+
 import com.ledong.lib.leto.trace.LetoTrace;
 import com.leto.game.base.config.FileConfig;
 import com.leto.game.base.listener.IProgressListener;
 import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.FileUtil;
 import com.leto.game.base.util.IOUtil;
 import com.leto.game.base.util.MD5;
 import com.leto.game.base.util.OkHttpUtil;
 import com.mgc.letobox.happy.bean.VersionResultBean;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -53,20 +40,28 @@ public class UpdateUtil {
 
     boolean cancel = false;
 
-    public UpdateUtil(Context context){
-        this.mContext  = context;
+    public UpdateUtil(Context context) {
+        this.mContext = context;
     }
 
-    public void  setVersion(VersionResultBean version){
+    public void setVersion(VersionResultBean version) {
         this.version = version;
 
 
         File rootDir = new File(FileConfig.getDefaultSaveRootPath(mContext));
-        if(!rootDir.exists()){
+        if (!rootDir.exists()) {
             rootDir.mkdir();
         }
-        apkFile = FileConfig.getDefaultSaveFilePath(mContext, MD5.md5(version.getPackageurl())+ ".apk") ;
+        apkFile = FileConfig.getDefaultSaveFilePath(mContext, MD5.md5(version.getPackageurl()) + ".apk");
 
+    }
+
+    public boolean isDownload() {
+        File file = new File(apkFile);
+        if (file != null && file.exists()) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -75,7 +70,7 @@ public class UpdateUtil {
     public void installApk() {
 
         File file = new File(apkFile);
-        if(!file.exists()){
+        if (!file.exists()) {
             return;
         }
         BaseAppUtil.installApk(mContext, file);
@@ -94,7 +89,7 @@ public class UpdateUtil {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     e.printStackTrace();
-                    if(listener!=null){
+                    if (listener != null) {
                         listener.abort();
                     }
                 }
@@ -106,12 +101,12 @@ public class UpdateUtil {
                     FileOutputStream os = null;
                     long sum = 0, total = 0;
                     try {
-                        if(TextUtils.isEmpty(apkFile)){
+                        if (TextUtils.isEmpty(apkFile)) {
                             File rootDir = new File(FileConfig.getDefaultSaveRootPath(mContext));
-                            if(!rootDir.exists()){
+                            if (!rootDir.exists()) {
                                 rootDir.mkdir();
                             }
-                            apkFile = FileConfig.getDefaultSaveFilePath(mContext, MD5.md5(version.getPackageurl())+ ".apk") ;
+                            apkFile = FileConfig.getDefaultSaveFilePath(mContext, MD5.md5(version.getPackageurl()) + ".apk");
                         }
 
                         tempFile = new File(apkFile);
@@ -126,8 +121,11 @@ public class UpdateUtil {
                             sum += len;
                             int progress = (int) (sum * 1.0f / total * 100);
 
-                            if(cancel){
-                                LetoTrace.d("version update cancel" );
+                            if (cancel) {
+                                // 删除文件
+                                deleteFile(tempFile);
+
+                                LetoTrace.d("version update cancel");
                                 break;
                             }
                             if (null != listener) {
@@ -136,7 +134,9 @@ public class UpdateUtil {
                         }
                         os.flush();
                     } catch (IOException e) {
-                        tempFile = null;
+                        // 删除文件
+                        deleteFile(tempFile);
+
                         if (null != listener) {
                             listener.abort();
                         }
@@ -147,20 +147,32 @@ public class UpdateUtil {
             });
         } catch (Exception e) {
             e.printStackTrace();
-            if(listener!=null){
+            if (listener != null) {
                 listener.abort();
             }
         }
     }
 
 
-    public void  setCancel(boolean status){
+    public void setCancel(boolean status) {
         this.cancel = status;
     }
 
-    public boolean isCancel(){
-        return  cancel;
+    public boolean isCancel() {
+        return cancel;
     }
 
 
+    public void deleteFile(File file){
+        try {
+            if (file != null && file.exists()) {
+                file.delete();
+                file = null;
+            }
+
+        } catch (Throwable t) {
+
+        }
+
+    }
 }

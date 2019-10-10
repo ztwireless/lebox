@@ -1,9 +1,11 @@
 package com.mgc.letobox.happy.bean;
 
+import android.support.annotation.Keep;
+
 /**
  * Created by liu hong liang on 2016/11/12.
  */
-
+@Keep
 public class VersionResultBean {
     public String getVersion_name() {
         return version_name;

@@ -1,9 +1,11 @@
 package com.mgc.letobox.happy.bean;
 
+import android.support.annotation.Keep;
+
 /**
  * Created by liu hong liang on 2016/11/11.
  */
-
+@Keep
 public class StartupResultBean {
 
     private String check;//	STRING	是否切换用户 0 不更换 1 更换支付 2 重新初始化
