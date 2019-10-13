@@ -165,7 +165,7 @@
         <!-- 以下数据请自行设置 -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5b03dedda40fa32b7f00003c" />
+            android:value="5da289570cafb2d9a3000224" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="kx100_mgc_demo" />
