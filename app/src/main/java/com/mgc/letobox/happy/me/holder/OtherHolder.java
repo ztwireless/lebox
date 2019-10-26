@@ -1,11 +1,14 @@
 package com.mgc.letobox.happy.me.holder;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.ledong.lib.leto.config.AppConfig;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
@@ -17,6 +20,7 @@ import com.leto.game.base.statistic.StatisticEvent;
 import com.leto.game.base.util.BaseAppUtil;
 import com.leto.game.base.util.MResource;
 import com.leto.game.base.util.StorageUtil;
+import com.leto.game.base.util.ToastUtil;
 import com.leto.game.base.view.SwitchButtonO;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
 
@@ -27,6 +31,8 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
     private View _clearCacheView;
     private View _showCoinFloatView;
     private SwitchButtonO _showCoinFloatSwitch;
+    private View _csWechatView;
+    private TextView _wechatLabel;
 
     Context _ctx;
 
@@ -38,7 +44,7 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
         return new OtherHolder(ctx, convertView);
     }
 
-    public OtherHolder(Context context, View itemView) {
+    public OtherHolder(Context context, final View itemView) {
         super(itemView);
 
         // find views
@@ -47,6 +53,8 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
         _clearCacheView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.clear_cache"));
         _showCoinFloatView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.coin_float_switch_bar"));
         _showCoinFloatSwitch = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.coin_float_switch"));
+        _csWechatView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.customer_service"));
+        _wechatLabel = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.wechat"));
 
         // clear cache
         _clearCacheView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
@@ -97,12 +105,30 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
             }
         });
 
+        // wechat click
+        _csWechatView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
+            @Override
+            public boolean onClicked() {
+                Context ctx = itemView.getContext();
+                ClipboardManager clipboardManager = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
+                if(clipboardManager != null) {
+                    ClipData clipData = ClipData.newPlainText("wechat", MGCSharedModel.customerServiceWechat);
+                    clipboardManager.setPrimaryClip(clipData);
+                    ToastUtil.s(ctx, "客服微信号已拷贝到剪贴板");
+                }
+                return true;
+            }
+        });
+
         _appConfig = new AppConfig(BaseAppUtil.getChannelID(_ctx), LoginManager.getUserId(_ctx));
     }
 
     @Override
     public void onBind(final MeModuleBean model, int position) {
         _splitSpace.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
+
+        // wechat label
+        _wechatLabel.setText(MGCSharedModel.customerServiceWechat);
     }
     /**
      * 上报事件
