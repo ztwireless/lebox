@@ -16,12 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ledong.lib.leto.config.AppConfig;
+import com.ledong.lib.leto.mgc.AppChannel;
 import com.leto.game.base.db.LoginControl;
 import com.leto.game.base.event.DataRefreshEvent;
 import com.leto.game.base.event.GetCoinEvent;
+import com.leto.game.base.util.BaseAppUtil;
 import com.leto.game.base.util.GameUtil;
 import com.leto.game.base.util.IntentConstant;
 import com.leto.game.base.util.MResource;
+import com.mgc.letobox.happy.event.NewerTaskRefreshEvent;
 import com.mgc.letobox.happy.me.adapter.MeHomeAdapter;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
 import com.mgc.letobox.happy.util.LeBoxConstant;
@@ -164,6 +167,16 @@ public class MeNewFragment extends Fragment {
             }
         });
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void refreshGame(NewerTaskRefreshEvent event) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                _meHomeAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private boolean isLoginInfoUpdated(int ver) {

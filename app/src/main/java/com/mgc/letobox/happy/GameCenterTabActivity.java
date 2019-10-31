@@ -41,6 +41,7 @@ import com.leto.game.base.util.StatusBarUtil;
 import com.mgc.letobox.happy.bean.VersionRequestBean;
 import com.mgc.letobox.happy.bean.VersionResultBean;
 import com.mgc.letobox.happy.dialog.VersionDialog;
+import com.mgc.letobox.happy.event.NewerTaskRefreshEvent;
 import com.mgc.letobox.happy.event.TabSwitchEvent;
 import com.mgc.letobox.happy.me.bean.TaskResultBean;
 import com.mgc.letobox.happy.me.view.TaskCoinDialog;
@@ -356,7 +357,7 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
             showTaskDialog(taskResultBeans, 0, 0);
         }
 
-        EventBus.getDefault().post(new DataRefreshEvent());
+        EventBus.getDefault().post(new NewerTaskRefreshEvent());
 
     }
 
