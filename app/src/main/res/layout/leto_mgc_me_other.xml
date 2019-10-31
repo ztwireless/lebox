@@ -92,4 +92,46 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/customer_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/leto_mgc_selectable_bg"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingTop="17dp"
+        android:paddingRight="14dp"
+        android:paddingBottom="18dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/leto_mgc_customer_service" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="13dp"
+            android:text="@string/customer_service_wechat"
+            android:textColor="@color/mgc_sdk_black_3"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="15sp"
+            android:textColor="@color/mgc_sdk_black_3"
+            tools:text="121212121"/>
+
+    </LinearLayout>
+
 </LinearLayout>
