@@ -162,6 +162,17 @@
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+        <!-- 这些数据一般不用改 -->
+        <meta-data
+            android:name="MGC_HOME_TAB_ID"
+            android:value="17"/>
+        <meta-data
+            android:name="MGC_RANK_TAB_ID"
+            android:value="18"/>
+        <meta-data
+            android:name="MGC_CHALLENGE_TAB_ID"
+            android:value="19"/>
+
         <!-- 以下数据请自行设置 -->
         <meta-data
             android:name="UMENG_APPKEY"

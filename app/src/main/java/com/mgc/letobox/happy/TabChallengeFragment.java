@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.ledong.lib.minigame.GameCenterHomeFragment;
 import com.leto.game.base.util.IntentConstant;
+import com.mgc.letobox.happy.model.SharedData;
 
 /**
  * Create by zhaozhihui on 2019-09-06
@@ -25,7 +26,7 @@ public class TabChallengeFragment extends BaseFragment {
 
     @Keep
     public static TabChallengeFragment newInstance() {
-        return TabChallengeFragment.newInstance(19,"竞技场");
+        return TabChallengeFragment.newInstance(SharedData.MGC_CHALLENGE_TAB_ID,"竞技场");
     }
 
     @Keep

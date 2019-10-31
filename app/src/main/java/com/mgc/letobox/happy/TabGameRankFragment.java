@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.ledong.lib.minigame.GameCenterRankFragment;
 import com.leto.game.base.util.IntentConstant;
+import com.mgc.letobox.happy.model.SharedData;
 
 /**
  * Create by zhaozhihui on 2019-09-06
@@ -24,7 +25,7 @@ public class TabGameRankFragment extends BaseFragment {
 
     @Keep
     public static TabGameRankFragment newInstance() {
-        return TabGameRankFragment.newInstance(18, "榜单");
+        return TabGameRankFragment.newInstance(SharedData.MGC_RANK_TAB_ID, "榜单");
     }
 
     @Keep

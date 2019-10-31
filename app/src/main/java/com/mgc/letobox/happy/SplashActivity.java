@@ -33,6 +33,7 @@ import com.leto.game.base.util.DeviceUtil;
 import com.leto.game.base.util.GameUtil;
 import com.mgc.letobox.happy.bean.StartUpBean;
 import com.mgc.letobox.happy.bean.StartupResultBean;
+import com.mgc.letobox.happy.model.SharedData;
 import com.mgc.letobox.happy.util.LeBoxUtil;
 
 import java.util.List;
@@ -134,9 +135,12 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
         }
 
         // prefetch game center data
-        PrefetchCache.getInstance().prefetchGameCenter(this, 17, 1, null);
-        PrefetchCache.getInstance().prefetchGameCenter(this, 18, 0, null);
-        PrefetchCache.getInstance().prefetchGameCenter(this, 19, 1, null);
+        SharedData.MGC_HOME_TAB_ID = BaseAppUtil.getMetaIntValue(this, "MGC_HOME_TAB_ID");
+        SharedData.MGC_RANK_TAB_ID = BaseAppUtil.getMetaIntValue(this, "MGC_RANK_TAB_ID");
+        SharedData.MGC_CHALLENGE_TAB_ID = BaseAppUtil.getMetaIntValue(this, "MGC_CHALLENGE_TAB_ID");
+        PrefetchCache.getInstance().prefetchGameCenter(this, SharedData.MGC_HOME_TAB_ID, 1, null);
+        PrefetchCache.getInstance().prefetchGameCenter(this, SharedData.MGC_RANK_TAB_ID, 0, null);
+        PrefetchCache.getInstance().prefetchGameCenter(this, SharedData.MGC_CHALLENGE_TAB_ID, 1, null);
     }
 
     @Override

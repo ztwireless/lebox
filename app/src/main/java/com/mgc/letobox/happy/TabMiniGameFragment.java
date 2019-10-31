@@ -13,6 +13,7 @@ import com.ledong.lib.leto.widget.ClickGuard;
 import com.ledong.lib.minigame.GameCenterHomeFragment;
 import com.ledong.lib.minigame.SearchActivity;
 import com.leto.game.base.util.IntentConstant;
+import com.mgc.letobox.happy.model.SharedData;
 
 /**
  * Create by zhaozhihui on 2019-09-06
@@ -26,7 +27,7 @@ public class TabMiniGameFragment extends BaseFragment {
 
     @Keep
     public static TabMiniGameFragment newInstance() {
-        return TabMiniGameFragment.newInstance(17);
+        return TabMiniGameFragment.newInstance(SharedData.MGC_HOME_TAB_ID);
     }
 
     @Keep
