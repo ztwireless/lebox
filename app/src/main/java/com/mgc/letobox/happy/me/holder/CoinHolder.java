@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ledong.lib.leto.Leto;
@@ -46,6 +47,10 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
     private ImageView _avatarView;
     private View _profileContainer;
     private TextView _sigLabel;
+    LinearLayout _coinView;
+    LinearLayout _myCoinFieldView;
+    LinearLayout _todayCoinFieldView;
+    LinearLayout _withdrawField;
 
     View _splitSpace;
 
@@ -80,6 +85,10 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         _avatarView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.avatar"));
         _profileContainer = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.profile_container"));
         _sigLabel = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.signature"));
+        _coinView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.coin_view"));
+        _withdrawField = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.withdraw_field"));
+        _myCoinFieldView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.mycoin_field"));
+        _todayCoinFieldView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.todaycoin_field"));
 
         // get strings
         _loading = _ctx.getString(MResource.getIdByName(_ctx, "R.string.loading"));
@@ -140,6 +149,17 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
                 return true;
             }
         });
+        if( MGCSharedModel.hideMycoins){
+            _myCoinFieldView.setVisibility(View.GONE);
+            _todayCoinFieldView.setVisibility(View.GONE);
+        }
+        if(MGCSharedModel.hideExchangeBtn) {
+            _withdrawField.setVisibility(View.GONE);
+        }
+        if(MGCSharedModel.hideExchangeBtn && MGCSharedModel.hideMycoins){
+            _coinView.setVisibility(View.GONE);
+        }
+
 
         // profile click
         _profileContainer.setOnClickListener(new ClickGuard.GuardedOnClickListener() {

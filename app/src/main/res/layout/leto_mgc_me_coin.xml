@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="13dp"
+        android:layout_marginBottom="11dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -57,17 +58,19 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/coin_view"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:layout_marginEnd="14dp"
-        android:layout_marginTop="11dp"
         android:layout_marginBottom="13dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
         <LinearLayout
+            android:id="@+id/mycoin_field"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="72dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -120,8 +123,9 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/todaycoin_field"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="72dp"
             android:layout_marginLeft="9dp"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -175,10 +179,11 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="72dp"
             android:layout_marginLeft="9dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/withdraw_field">
 
             <RelativeLayout
                 android:layout_width="match_parent"
