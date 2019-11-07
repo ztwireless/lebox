@@ -248,3 +248,9 @@
 ################################################################################
 # sample.lebox
 ################################################################################
+
+# leto
+-dontwarn com.ledong.lib.**
+-keep class com.ledong.lib.** {*;}
+-dontwarn com.leto.game.**
+-keep class com.leto.game.** {*;}
