@@ -37,6 +37,7 @@ import com.leto.game.base.util.ColorUtil;
 import com.leto.game.base.util.GlideUtil;
 import com.leto.game.base.util.IntentConstant;
 import com.leto.game.base.util.MResource;
+import com.leto.game.base.util.PermissionsUtil;
 import com.leto.game.base.util.StatusBarUtil;
 import com.mgc.letobox.happy.bean.VersionRequestBean;
 import com.mgc.letobox.happy.bean.VersionResultBean;
@@ -202,7 +203,6 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
 
 
         getVersion();
-
     }
 
     @Override
@@ -256,12 +256,18 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
     @Override
     public void onResume() {
         super.onResume();
+
+        // check imei
+        PermissionsUtil.delayCheckPermissionIfNeeded(this);
     }
 
 
     @Override
     public void onPause() {
         super.onPause();
+
+        // 取消权限检查, 有些机型他会导致app回到前台
+        PermissionsUtil.cancelDelayCheckPermission();
     }
 
     @Override
