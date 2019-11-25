@@ -277,6 +277,9 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
         GlideUtil.clearMemory(this);
 
         RxVolley.getRequestQueue().cancelAll(GameCenterTabActivity.this);
+
+        // unregister event bus
+        EventBus.getDefault().unregister(this);
     }
 
 
