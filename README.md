@@ -14,6 +14,7 @@
 * `UMENG_CHANNEL`: 友盟渠道
 * `MGC_WECHAT_APPID`: 微信后台app id
 * `MGC_WECHAT_APPSECRET`: 微信app secret
+* `MGC_ENABLE_WECHAT_LOGIN`: true表示打开微信登录, false表示不是用微信登录, 如果是false, 上面的微信参数也就不用填了
 
 ### 签名替换
 
