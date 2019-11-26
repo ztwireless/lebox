@@ -32,6 +32,7 @@ import com.leto.game.base.util.DialogUtil;
 import com.leto.game.base.util.GlideUtil;
 import com.leto.game.base.util.MResource;
 import com.mgc.letobox.happy.LeBoxLoginActivity;
+import com.mgc.letobox.happy.LeBoxMobileLoginActivity;
 import com.mgc.letobox.happy.LeBoxProfileActivity;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
 
@@ -109,7 +110,7 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         _todayCoinLabel.setText(String.valueOf(MGCSharedModel.todayCoin));
 
         //步数宝
-        if(BaseAppUtil.getChannelID(_ctx).equals(AppChannel.BUSHUAO.getValue())){
+        if(BaseAppUtil.getChannelID(_ctx).equals(AppChannel.BUSHUBAO.getValue())){
             _withdrawTextView.setText("兑换燃力");
         }
 
@@ -160,13 +161,16 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
             _coinView.setVisibility(View.GONE);
         }
 
-
         // profile click
         _profileContainer.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
             @Override
             public boolean onClicked() {
                 if(!LoginManager.isSignedIn(_ctx)) {
-                    LeBoxLoginActivity.start(_ctx);
+                    if(BaseAppUtil.getMetaBooleanValue(_ctx, "MGC_ENABLE_WECHAT_LOGIN")) {
+                        LeBoxLoginActivity.start(_ctx);
+                    } else {
+                        LeBoxMobileLoginActivity.start(_ctx);
+                    }
                 } else {
                     LeBoxProfileActivity.start(_ctx);
                 }

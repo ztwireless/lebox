@@ -46,14 +46,7 @@ public class UpdateUtil {
 
     public void setVersion(VersionResultBean version) {
         this.version = version;
-
-
-        File rootDir = new File(FileConfig.getDefaultSaveRootPath(mContext));
-        if (!rootDir.exists()) {
-            rootDir.mkdir();
-        }
-        apkFile = FileConfig.getDefaultSaveFilePath(mContext, MD5.md5(version.getPackageurl()) + ".apk");
-
+        apkFile = FileConfig.getApkFilePath(mContext, version.getPackageurl());
     }
 
     public boolean isDownload() {
@@ -102,11 +95,7 @@ public class UpdateUtil {
                     long sum = 0, total = 0;
                     try {
                         if (TextUtils.isEmpty(apkFile)) {
-                            File rootDir = new File(FileConfig.getDefaultSaveRootPath(mContext));
-                            if (!rootDir.exists()) {
-                                rootDir.mkdir();
-                            }
-                            apkFile = FileConfig.getDefaultSaveFilePath(mContext, MD5.md5(version.getPackageurl()) + ".apk");
+                            apkFile = FileConfig.getApkFilePath(mContext, version.getPackageurl());
                         }
 
                         tempFile = new File(apkFile);
