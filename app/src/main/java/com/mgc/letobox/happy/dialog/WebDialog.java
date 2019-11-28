@@ -8,11 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.DensityUtil;
 import com.leto.game.base.util.MResource;
 
 @Keep
@@ -36,11 +36,15 @@ public class WebDialog extends Dialog {
 		// title
 		titleLabel.setText(title);
 
+		// setup webview
+		WebSettings settings = _webView.getSettings();
+		settings.setDefaultTextEncodingName("utf-8");
+
 		// web view
 		if(url.startsWith("http")) {
 			_webView.loadUrl(url);
 		} else {
-			_webView.loadData(url, "text/html", "utf-8");
+			_webView.loadDataWithBaseURL(null, url, "text/html", "utf-8", null);
 		}
 
 		// ok button
