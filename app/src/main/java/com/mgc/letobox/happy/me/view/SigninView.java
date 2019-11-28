@@ -2,7 +2,8 @@ package com.mgc.letobox.happy.me.view;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -62,8 +63,7 @@ public class SigninView extends LinearLayout {
         _adapter = new SignInAdapter(context, _signinList);
 
         // setup views
-        _recyclerView.setLayoutManager(new StaggeredGridLayoutManager(7,
-                StaggeredGridLayoutManager.VERTICAL));
+        _recyclerView.setLayoutManager(new GridLayoutManager(context, 7, RecyclerView.VERTICAL, false));
 
 
         _recyclerView.setAdapter(_adapter);

@@ -2,14 +2,14 @@ package com.mgc.letobox.happy.me.holder;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ledong.lib.leto.mgc.util.MGCApiUtil;
 import com.leto.game.base.http.HttpCallbackDecode;
-
 import com.leto.game.base.util.MResource;
 import com.leto.game.base.util.ToastUtil;
 import com.leto.game.base.view.recycleview.ScrollRecyclerView;
@@ -50,8 +50,7 @@ public class MeSigninHolder extends CommonViewHolder<MeModuleBean> {
         _adapter = new SignInAdapter(context, _signinList);
 
         // setup views
-        _recyclerView.setLayoutManager(new StaggeredGridLayoutManager(7,
-                StaggeredGridLayoutManager.VERTICAL));
+        _recyclerView.setLayoutManager(new GridLayoutManager(_context, 7, RecyclerView.VERTICAL, false));
 
         _recyclerView.setAdapter(_adapter);
 

@@ -2,8 +2,8 @@ package com.mgc.letobox.happy.me.holder;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,8 +47,7 @@ public class GamesHolder extends CommonViewHolder<MeModuleBean> {
         _listView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.list"));
         _gameView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.my_games_panel"));
 
-        _listView.setLayoutManager(new StaggeredGridLayoutManager(1,
-                StaggeredGridLayoutManager.HORIZONTAL));
+        _listView.setLayoutManager(new GridLayoutManager(_ctx, 1, RecyclerView.HORIZONTAL, false));
 
         mAdapter = new RecentAdapter();
         _listView.setAdapter(mAdapter);
