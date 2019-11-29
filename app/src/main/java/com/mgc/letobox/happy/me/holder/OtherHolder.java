@@ -1,19 +1,27 @@
 package com.mgc.letobox.happy.me.holder;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.ledong.lib.leto.config.AppConfig;
+import com.ledong.lib.leto.mgc.bean.GetPrivacyContentResultBean;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
+import com.ledong.lib.leto.mgc.util.MGCApiUtil;
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
+import com.ledong.lib.leto.trace.LetoTrace;
 import com.ledong.lib.leto.widget.ClickGuard;
+import com.leto.game.base.db.LoginControl;
+import com.leto.game.base.http.HttpCallbackDecode;
 import com.leto.game.base.login.LoginManager;
 import com.leto.game.base.statistic.GameStatisticManager;
 import com.leto.game.base.statistic.StatisticEvent;
@@ -22,6 +30,8 @@ import com.leto.game.base.util.MResource;
 import com.leto.game.base.util.StorageUtil;
 import com.leto.game.base.util.ToastUtil;
 import com.leto.game.base.view.SwitchButtonO;
+import com.mgc.letobox.happy.GameCenterTabActivity;
+import com.mgc.letobox.happy.dialog.PrivacyWebDialog;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
 
 
@@ -33,6 +43,7 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
     private SwitchButtonO _showCoinFloatSwitch;
     private View _csWechatView;
     private TextView _wechatLabel;
+    private View _agreemeView;
 
     Context _ctx;
 
@@ -55,6 +66,7 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
         _showCoinFloatSwitch = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.coin_float_switch"));
         _csWechatView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.customer_service"));
         _wechatLabel = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.wechat"));
+        _agreemeView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.agreement_view"));
 
         // clear cache
         _clearCacheView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
@@ -116,6 +128,34 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
                     clipboardManager.setPrimaryClip(clipData);
                     ToastUtil.s(ctx, "客服微信号已拷贝到剪贴板");
                 }
+                return true;
+            }
+        });
+
+        // agreeme click
+        _agreemeView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
+            @Override
+            public boolean onClicked() {
+
+                Log.i("Leto","点击点击");
+//                if (MGCSharedModel.isShowPrivacy) {
+//                    if (LoginControl.getPrivateShowStatus()) {
+                        MGCApiUtil.getPrivacyContent(_ctx, new HttpCallbackDecode<GetPrivacyContentResultBean>(_ctx, null) {
+                            @Override
+                            public void onDataSuccess(final GetPrivacyContentResultBean data) {
+                                LetoTrace.d("Leto", "data =" + new Gson().toJson(data));
+                                ((Activity)_ctx).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        PrivacyWebDialog.show((Activity) _ctx, data.getInfo(), false);
+                                    }
+                                });
+                            }
+                        });
+//                    } else {
+//                    }
+//                } else {
+//                }
                 return true;
             }
         });
