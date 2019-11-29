@@ -78,12 +78,14 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginLeft="17dp"
                 android:layout_marginRight="17dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
 
                 <TextView
                     android:id="@+id/cancel"
                     android:layout_width="0dp"
                     android:layout_height="38dp"
+                    android:layout_marginRight="11dp"
                     android:layout_weight="1"
                     android:background="@drawable/lebox_dialog_btn_left"
                     android:gravity="center"
@@ -95,7 +97,6 @@
                     android:id="@+id/ok"
                     android:layout_width="0dp"
                     android:layout_height="38dp"
-                    android:layout_marginLeft="11dp"
                     android:layout_weight="1"
                     android:background="@drawable/lebox_dialog_btn_right"
                     android:gravity="center"

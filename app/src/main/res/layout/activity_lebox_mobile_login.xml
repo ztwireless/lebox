@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/mgc_sdk_text_lowgray"
+            android:textColor="#3D9AF0"
             android:text="《用户协议》"/>
 
         <TextView
@@ -51,8 +51,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/mgc_sdk_text_lowgray"
-            android:text="《隐私协议》"/>
+            android:textColor="#3D9AF0"
+            android:text="《隐私政策》"/>
 
     </LinearLayout>
 

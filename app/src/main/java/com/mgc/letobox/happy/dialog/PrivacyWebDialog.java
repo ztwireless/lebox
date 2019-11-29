@@ -1,6 +1,7 @@
 package com.mgc.letobox.happy.dialog;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -11,12 +12,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
-import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
@@ -27,25 +27,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ledong.lib.leto.config.AppConfig;
-import com.ledong.lib.leto.main.LetoWebContainerActivity;
 import com.ledong.lib.leto.main.WebViewActivity;
-import com.ledong.lib.leto.mgc.dialog.MGCDialog;
 import com.ledong.lib.leto.trace.LetoTrace;
 import com.ledong.lib.leto.widget.ClickGuard;
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.GlideUtil;
+import com.ledong.lib.leto.widget.ModalDialog;
+import com.leto.game.base.db.LoginControl;
 import com.leto.game.base.util.IntentConstant;
 import com.leto.game.base.util.MResource;
-import com.leto.game.base.util.ToastUtil;
-import com.mgc.letobox.happy.R;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 @Keep
-public class ProvicyWebDialog extends Dialog {
+public class PrivacyWebDialog extends Dialog {
 	// views
-	private View _okButton;
+	private TextView _okButton;
 	private View _cancelButton;
 	private View _closeButton;
 	private ImageView _titleView;
@@ -54,13 +47,61 @@ public class ProvicyWebDialog extends Dialog {
 	// listener
 	private OnClickListener _listener;
 
+	/**
+	 * 显示隐私协议对话框
+	 * @param act activity
+	 * @param disagreeable true表示显示不同意按钮, false表示只有确定按钮
+	 */
+	public static void show(final Activity act, String content, boolean disagreeable) {
+		try {
+			final PrivacyWebDialog privacyDialog = new PrivacyWebDialog(act, "温馨提示", content);
+			privacyDialog.setOnClickListener(new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface d, int which) {
+					if (which == DialogInterface.BUTTON_POSITIVE) {
+						LoginControl.setPrivateShowStatus(act, false);
+					} else if (which == DialogInterface.BUTTON_NEGATIVE) {
+						ModalDialog dialog = new ModalDialog(act);
+						dialog.setMessage("您需要同意《 用户条款&隐私协议 》才能继续使用我们的产品及服务");
+						dialog.setLeftButton("退出应用", new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								if (privacyDialog != null) {
+									privacyDialog.dismiss();
+								}
+								act.finish();
+							}
+						});
+						dialog.setRightButton("返回", new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+							}
+						});
+						dialog.setMessageTextColor("#666666");
+						dialog.setMessageTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+						dialog.setLeftButtonTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+						dialog.setRightButtonTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+						dialog.setLeftButtonTextColor("#999999");
+						dialog.setRightButtonTextColor("#FF3D9AF0");
+						dialog.show();
+					}
+				}
+			});
+			if(!disagreeable) {
+				privacyDialog.setNegativeButtonVisible(false);
+				privacyDialog.setPositiveButtonTitle("确定");
+			}
+			privacyDialog.show();
+		} catch (Throwable e) {
+		}
+	}
 
-	public ProvicyWebDialog(@NonNull final Context context, String title, String url) {
+	public PrivacyWebDialog(@NonNull final Context context, String title, String url) {
 		super(context, MResource.getIdByName(context, "R.style.Leto_Dialog_NoFrame"));
 
 		// load content view
 		LayoutInflater inflater = LayoutInflater.from(context);
-		View view = inflater.inflate(MResource.getIdByName(context, "R.layout.leto_mgc_dialog_provicy"), null);
+		View view = inflater.inflate(MResource.getIdByName(context, "R.layout.leto_mgc_dialog_privacy"), null);
 
 		// views
 		TextView titleLabel = view.findViewById(MResource.getIdByName(context, "R.id.title"));
@@ -72,6 +113,7 @@ public class ProvicyWebDialog extends Dialog {
 
 		_webView.getSettings().setTextZoom(80);
 		_webView.getSettings().setTextSize(WebSettings.TextSize.NORMAL);
+		_webView.getSettings().setDefaultTextEncodingName("utf-8");
 
 		// title
 		titleLabel.setText(title);
@@ -80,9 +122,7 @@ public class ProvicyWebDialog extends Dialog {
 		if(url.startsWith("http")) {
 			_webView.loadUrl(url);
 		} else {
-//			_webView.loadDataWithBaseURL(null, url, "text/html", "utf-8", null);
-
-			_webView.loadData(url, "text/html", "utf-8");
+			_webView.loadDataWithBaseURL(null, url, "text/html", "utf-8", null);
 		}
 
 		_webView.setWebViewClient(new WebViewClient(){
@@ -143,7 +183,7 @@ public class ProvicyWebDialog extends Dialog {
 			@Override
 			public boolean onClicked() {
 				if(_listener != null) {
-					_listener.onClick(ProvicyWebDialog.this, DialogInterface.BUTTON_NEGATIVE);
+					_listener.onClick(PrivacyWebDialog.this, DialogInterface.BUTTON_NEGATIVE);
 				}
 				return true;
 			}
@@ -153,7 +193,7 @@ public class ProvicyWebDialog extends Dialog {
 //			@Override
 //			public boolean onClicked() {
 //				if(_listener != null) {
-//					_listener.onClick(ProvicyWebDialog.this, DialogInterface.BUTTON_NEGATIVE);
+//					_listener.onClick(PrivacyWebDialog.this, DialogInterface.BUTTON_NEGATIVE);
 //				}
 //				dismiss();
 //				return true;
@@ -165,7 +205,7 @@ public class ProvicyWebDialog extends Dialog {
 			@Override
 			public boolean onClicked() {
 				if(_listener != null) {
-					_listener.onClick(ProvicyWebDialog.this, DialogInterface.BUTTON_POSITIVE);
+					_listener.onClick(PrivacyWebDialog.this, DialogInterface.BUTTON_POSITIVE);
 				}
 				dismiss();
 				return true;
@@ -186,4 +226,11 @@ public class ProvicyWebDialog extends Dialog {
 		_listener = listener;
 	}
 
+	public void setNegativeButtonVisible(boolean visible) {
+		_cancelButton.setVisibility(visible ? View.VISIBLE : View.GONE);
+	}
+
+	public void setPositiveButtonTitle(String title) {
+		_okButton.setText(title);
+	}
 }

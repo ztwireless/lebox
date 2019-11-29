@@ -18,7 +18,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -32,7 +31,6 @@ import com.ledong.lib.leto.mgc.bean.GetPrivacyContentResultBean;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
 import com.ledong.lib.leto.mgc.util.MGCApiUtil;
 import com.ledong.lib.leto.trace.LetoTrace;
-import com.ledong.lib.leto.widget.ModalDialog;
 import com.ledong.lib.minigame.bean.TabBean;
 import com.leto.game.base.ad.AdManager;
 import com.leto.game.base.db.LoginControl;
@@ -47,7 +45,7 @@ import com.leto.game.base.util.PermissionsUtil;
 import com.leto.game.base.util.StatusBarUtil;
 import com.mgc.letobox.happy.bean.VersionRequestBean;
 import com.mgc.letobox.happy.bean.VersionResultBean;
-import com.mgc.letobox.happy.dialog.ProvicyWebDialog;
+import com.mgc.letobox.happy.dialog.PrivacyWebDialog;
 import com.mgc.letobox.happy.dialog.VersionDialog;
 import com.mgc.letobox.happy.event.NewerTaskRefreshEvent;
 import com.mgc.letobox.happy.event.TabSwitchEvent;
@@ -522,7 +520,6 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
 
 
     public void getPrivacy_content() {
-
         if (MGCSharedModel.isShowPrivacy) {
             if (LoginControl.getPrivateShowStatus()) {
                 MGCApiUtil.getPrivacyContent(GameCenterTabActivity.this, new HttpCallbackDecode<GetPrivacyContentResultBean>(this, null) {
@@ -532,53 +529,14 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                try {
-                                    final ProvicyWebDialog provicyDialog = new ProvicyWebDialog(GameCenterTabActivity.this, "温馨提示", data.getInfo());
-                                    provicyDialog.setOnClickListener(new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface d, int which) {
-                                            if (which == DialogInterface.BUTTON_POSITIVE) {
-                                                LoginControl.setPrivateShowStatus(GameCenterTabActivity.this, false);
-                                            } else if (which == DialogInterface.BUTTON_NEGATIVE) {
-
-                                                ModalDialog dialog = new ModalDialog(GameCenterTabActivity.this);
-                                                dialog.setMessage("您需要同意《 用户条款&隐私协议 》才能继续使用我们的产品及服务");
-
-                                                dialog.setRightButton("返回", new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                    }
-                                                });
-
-                                                dialog.setMessageTextColor("#666666");
-                                                dialog.setMessageTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-                                                dialog.setLeftButtonTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-                                                dialog.setRightButtonTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-                                                dialog.setLeftButtonTextColor("#999999");
-                                                dialog.setRightButtonTextColor("#FF3D9AF0");
-                                                dialog.show();
-
-                                            }
-                                        }
-                                    });
-                                    provicyDialog.show();
-                                } catch (Throwable e) {
-
-                                }
+                                PrivacyWebDialog.show(GameCenterTabActivity.this, data.getInfo(), true);
                             }
                         });
-
                     }
                 });
-
             } else {
-
-
             }
         } else {
-
-
         }
-
     }
 }
