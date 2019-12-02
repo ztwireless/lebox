@@ -165,6 +165,11 @@
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+        <!-- 以下数据不需要修改 -->
+        <meta-data
+            android:name="MGC_BOX"
+            android:value="true" />
+
         <!-- 这些数据一般不用改 -->
         <meta-data
             android:name="MGC_HOME_TAB_ID"
