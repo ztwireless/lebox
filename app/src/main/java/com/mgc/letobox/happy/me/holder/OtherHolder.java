@@ -5,7 +5,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import com.ledong.lib.leto.mgc.util.MGCApiUtil;
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
 import com.ledong.lib.leto.trace.LetoTrace;
 import com.ledong.lib.leto.widget.ClickGuard;
-import com.leto.game.base.db.LoginControl;
 import com.leto.game.base.http.HttpCallbackDecode;
 import com.leto.game.base.login.LoginManager;
 import com.leto.game.base.statistic.GameStatisticManager;
@@ -30,7 +28,6 @@ import com.leto.game.base.util.MResource;
 import com.leto.game.base.util.StorageUtil;
 import com.leto.game.base.util.ToastUtil;
 import com.leto.game.base.view.SwitchButtonO;
-import com.mgc.letobox.happy.GameCenterTabActivity;
 import com.mgc.letobox.happy.dialog.PrivacyWebDialog;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
 
@@ -132,30 +129,25 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
             }
         });
 
-        // agreeme click
+        // privacy show
+		_agreemeView.setVisibility(MGCSharedModel.isShowPrivacy ? View.VISIBLE : View.GONE);
+
+        // privacy click
         _agreemeView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
             @Override
             public boolean onClicked() {
-
-                Log.i("Leto","点击点击");
-//                if (MGCSharedModel.isShowPrivacy) {
-//                    if (LoginControl.getPrivateShowStatus()) {
-                        MGCApiUtil.getPrivacyContent(_ctx, new HttpCallbackDecode<GetPrivacyContentResultBean>(_ctx, null) {
+                MGCApiUtil.getPrivacyContent(_ctx, new HttpCallbackDecode<GetPrivacyContentResultBean>(_ctx, null) {
+                    @Override
+                    public void onDataSuccess(final GetPrivacyContentResultBean data) {
+                        LetoTrace.d("Leto", "data =" + new Gson().toJson(data));
+                        ((Activity)_ctx).runOnUiThread(new Runnable() {
                             @Override
-                            public void onDataSuccess(final GetPrivacyContentResultBean data) {
-                                LetoTrace.d("Leto", "data =" + new Gson().toJson(data));
-                                ((Activity)_ctx).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        PrivacyWebDialog.show((Activity) _ctx, data.getInfo(), false);
-                                    }
-                                });
+                            public void run() {
+                                PrivacyWebDialog.show((Activity) _ctx, data.getInfo() == null?"协议内容需要在后台配置!":data.getInfo(), false);
                             }
                         });
-//                    } else {
-//                    }
-//                } else {
-//                }
+                    }
+                });
                 return true;
             }
         });
