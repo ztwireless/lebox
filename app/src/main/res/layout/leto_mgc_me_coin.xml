@@ -195,9 +195,9 @@
                 <LinearLayout
                     android:id="@+id/withdraw"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tv_withdraw"
@@ -209,6 +209,16 @@
                         android:textColor="@color/mgc_sdk_white"
                         android:textSize="18sp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginTop="2dp"
+                        tools:text="0.33元"
+                        android:textColor="@color/mgc_sdk_white"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 

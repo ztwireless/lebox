@@ -48,6 +48,7 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
     private ImageView _avatarView;
     private View _profileContainer;
     private TextView _sigLabel;
+    private TextView _moneyLabel;
     LinearLayout _coinView;
     LinearLayout _myCoinFieldView;
     LinearLayout _todayCoinFieldView;
@@ -63,7 +64,7 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
     // strings
     private String _loading;
     private String _leto_mgc_failed_get_user_coin;
-
+    private String _leto_mgc_dollar;
 
     public static CoinHolder create(Context ctx, ViewGroup parent) {
         View convertView = LayoutInflater.from(ctx).inflate(MResource.getIdByName(ctx, "R.layout.leto_mgc_me_coin"), parent, false);
@@ -90,10 +91,12 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         _withdrawField = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.withdraw_field"));
         _myCoinFieldView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.mycoin_field"));
         _todayCoinFieldView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.todaycoin_field"));
+        _moneyLabel = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.money"));
 
         // get strings
         _loading = _ctx.getString(MResource.getIdByName(_ctx, "R.string.loading"));
         _leto_mgc_failed_get_user_coin = _ctx.getString(MResource.getIdByName(_ctx, "R.string.leto_mgc_failed_get_user_coin"));
+        _leto_mgc_dollar = _ctx.getString(MResource.getIdByName(_ctx, "R.string.leto_mgc_dollar"));
     }
 
     @Override
@@ -108,6 +111,7 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         // 更新金币数, 因为提现会减少金币, 先更新一次, 然后再通过网络请求更新
         _totalCoinLabel.setText(String.valueOf(MGCSharedModel.myCoin));
         _todayCoinLabel.setText(String.valueOf(MGCSharedModel.todayCoin));
+        _moneyLabel.setText(String.format("%.02f%s", (float)MGCSharedModel.myCoin / MGCSharedModel.coinRmbRatio, _leto_mgc_dollar));
 
         //步数宝
         if(BaseAppUtil.getChannelID(_ctx).equals(AppChannel.BUSHUBAO.getValue())){
@@ -260,10 +264,10 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
+                // update labels
                 _totalCoinLabel.setText(String.valueOf(_model.getCoins()));
-
-                // today coin
                 _todayCoinLabel.setText(String.valueOf(_model.getToday_coins()));
+                _moneyLabel.setText(String.format("%.02f%s", (float)_model.getCoins() / MGCSharedModel.coinRmbRatio, _leto_mgc_dollar));
 
                 // dismiss dialog
                 DialogUtil.dismissDialog();
