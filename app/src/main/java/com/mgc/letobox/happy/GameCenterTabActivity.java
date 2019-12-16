@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.ledong.lib.leto.Leto;
+import com.ledong.lib.leto.api.ApiContainer;
 import com.ledong.lib.leto.listener.ILetoPlayedDurationListener;
 import com.ledong.lib.leto.mgc.bean.GetPrivacyContentResultBean;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
@@ -259,6 +260,15 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
             context.startActivity(intent);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // deliver to api container
+        ApiContainer.handleActivityResult(requestCode, resultCode, data);
+
+        // for this
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
