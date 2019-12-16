@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ledong.lib.leto.mgc.dialog.CustomVideoCoinDialog;
 import com.ledong.lib.leto.mgc.holder.CommonViewHolder;
 import com.ledong.lib.leto.widget.ClickGuard;
 import com.ledong.lib.minigame.bean.SigninStatus;
@@ -15,7 +16,6 @@ import com.leto.game.base.util.ColorUtil;
 import com.leto.game.base.util.GlideUtil;
 import com.leto.game.base.util.MResource;
 import com.mgc.letobox.happy.me.bean.SigninBean;
-import com.mgc.letobox.happy.me.view.CustomVideoCoinDialog;
 
 
 public class SigninHolder extends CommonViewHolder<SigninBean> {
