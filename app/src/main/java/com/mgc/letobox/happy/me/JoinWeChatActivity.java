@@ -17,10 +17,13 @@ import android.widget.TextView;
 import com.ledong.lib.leto.main.BaseActivity;
 import com.ledong.lib.leto.mgc.bean.AddCoinResultBean;
 import com.ledong.lib.leto.mgc.util.MGCApiUtil;
+import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
 import com.ledong.lib.leto.widget.ClickGuard;
+import com.leto.game.base.bean.LetoError;
 import com.leto.game.base.event.DataRefreshEvent;
 import com.leto.game.base.http.HttpCallbackDecode;
 import com.leto.game.base.util.ColorUtil;
+import com.leto.game.base.util.DialogUtil;
 import com.leto.game.base.util.GlideUtil;
 import com.leto.game.base.util.MResource;
 import com.leto.game.base.util.StatusBarUtil;
@@ -194,7 +197,15 @@ public class JoinWeChatActivity extends BaseActivity {
             @Override
             public void onFailure(String code, String msg) {
                 super.onFailure(code, msg);
-
+                if (!TextUtils.isEmpty(code) && code.equalsIgnoreCase(LetoError.MGC_COIN_LIMIT)) {
+                    DialogUtil.dismissDialog();
+                    MGCDialogUtil.showCoinLimit(JoinWeChatActivity.this, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                        }
+                    });
+                    return;
+                }
                 ToastUtil.s(JoinWeChatActivity.this, "兑换金币失败");
             }
         });

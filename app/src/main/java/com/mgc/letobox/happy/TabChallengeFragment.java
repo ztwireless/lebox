@@ -59,7 +59,7 @@ public class TabChallengeFragment extends BaseFragment {
         }
 
         // install content fragment
-        Fragment fragment = GameCenterHomeFragment.getInstance(_gameCenterPosId);
+        Fragment fragment = GameCenterHomeFragment.getInstance(_gameCenterPosId, true);
         getChildFragmentManager().beginTransaction()
                 .add(R.id.home_content, fragment)
                 .commit();

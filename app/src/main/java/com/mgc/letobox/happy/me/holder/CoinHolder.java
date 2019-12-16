@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.ledong.lib.leto.Leto;
 import com.ledong.lib.leto.api.constant.Constant;
-import com.ledong.lib.leto.mgc.AppChannel;
 import com.ledong.lib.leto.mgc.WithdrawActivity;
 import com.ledong.lib.leto.mgc.bean.GetUserCoinResultBean;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
@@ -112,11 +111,6 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         _totalCoinLabel.setText(String.valueOf(MGCSharedModel.myCoin));
         _todayCoinLabel.setText(String.valueOf(MGCSharedModel.todayCoin));
         _moneyLabel.setText(String.format("%.02f%s", (float)MGCSharedModel.myCoin / MGCSharedModel.coinRmbRatio, _leto_mgc_dollar));
-
-        //步数宝
-        if(BaseAppUtil.getChannelID(_ctx).equals(AppChannel.BUSHUBAO.getValue())){
-            _withdrawTextView.setText("兑换燃力");
-        }
 
         // withdraw click
         _withdrawView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {

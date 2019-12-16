@@ -8,18 +8,19 @@
     android:hardwareAccelerated="true"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/mgc_sdk_action_bar_height"
         android:id="@+id/rl_title"
-        android:background="@color/mgc_sdk_white">
+        android:background="@color/mgc_sdk_white"
+        android:orientation="horizontal">
 
 
         <FrameLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="41dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="41dp"
             >
 
@@ -53,8 +54,56 @@
             </RelativeLayout>
         </FrameLayout>
 
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/me_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp">
 
-    </RelativeLayout>
+            <FrameLayout
+                android:id="@+id/bubble"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/leto_mgc_withdraw_bubble_bg" />
+
+                <TextView
+                    android:id="@+id/bubble_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/leto_mgc_withdraw_badge"
+                    android:textColor="@color/mgc_sdk_white"
+                    android:textSize="8sp" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="13dp"
+                android:drawableLeft="@drawable/leto_minigame_setting"
+                android:gravity="center"
+                android:text="任务"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
 
 
 

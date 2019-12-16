@@ -10,6 +10,7 @@ import com.mgc.letobox.happy.me.bean.MeModuleBean;
 import com.mgc.letobox.happy.me.holder.CoinHolder;
 import com.mgc.letobox.happy.me.holder.CommonViewHolder;
 import com.mgc.letobox.happy.me.holder.DailyTaskHolder;
+import com.mgc.letobox.happy.me.holder.FeedAdHolder;
 import com.mgc.letobox.happy.me.holder.GamesHolder;
 import com.mgc.letobox.happy.me.holder.HighCoinHolder;
 import com.mgc.letobox.happy.me.holder.MeSigninHolder;
@@ -69,7 +70,8 @@ public class MeHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 return MeSigninHolder.create(mContext, parent);
             case LeBoxConstant.LETO_ME_MODULE_MYGAMES:
                 return GamesHolder.create(mContext, parent);
-
+            case LeBoxConstant.LETO_ME_FEED_AD:
+                return FeedAdHolder.create(mContext, parent);
             case LeBoxConstant.LETO_ME_MODULE_NEWER_TASK:
                 return NewerTaskHolder.create(mContext, parent);
             case LeBoxConstant.LETO_ME_MODULE_DAILY_TASK:
@@ -88,6 +90,10 @@ public class MeHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         vh.setAdContainer(_adContainer);
 
         vh.onBind(_models.get(pos), pos);
+    }
+
+    public List<MeModuleBean> getModels() {
+        return _models;
     }
 
     public void setModels(List<MeModuleBean> moduleList) {

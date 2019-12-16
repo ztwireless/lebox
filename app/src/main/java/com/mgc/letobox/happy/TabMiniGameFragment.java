@@ -13,7 +13,11 @@ import com.ledong.lib.leto.widget.ClickGuard;
 import com.ledong.lib.minigame.GameCenterHomeFragment;
 import com.ledong.lib.minigame.SearchActivity;
 import com.leto.game.base.util.IntentConstant;
+import com.mgc.letobox.happy.event.ShowBackEvent;
+import com.mgc.letobox.happy.event.TabSwitchEvent;
 import com.mgc.letobox.happy.model.SharedData;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Create by zhaozhihui on 2019-09-06
@@ -22,6 +26,7 @@ public class TabMiniGameFragment extends BaseFragment {
 
     TextView tv_title;
     RelativeLayout rl_search;
+    private View _meContainer;
 
     private int _gameCenterPosId;
 
@@ -47,14 +52,21 @@ public class TabMiniGameFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_minigame, container, false);
 
         rl_search = view.findViewById(R.id.rl_search);
-
+        _meContainer = view.findViewById(R.id.me_container);
 
         rl_search.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
             @Override
             public boolean onClicked() {
-
                 SearchActivity.start(getActivity());
+                return true;
+            }
+        });
 
+        _meContainer.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
+            @Override
+            public boolean onClicked() {
+                EventBus.getDefault().post(new TabSwitchEvent(-1, R.id.tab_me));
+                EventBus.getDefault().postSticky(new ShowBackEvent(R.id.tab_game));
                 return true;
             }
         });

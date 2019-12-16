@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +20,10 @@ import com.ledong.lib.leto.mgc.thirdparty.IMintage;
 import com.ledong.lib.leto.mgc.thirdparty.MintageRequest;
 import com.ledong.lib.leto.mgc.thirdparty.MintageResult;
 import com.ledong.lib.leto.mgc.util.MGCApiUtil;
+import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
 import com.ledong.lib.leto.utils.DeviceInfo;
 import com.ledong.lib.leto.widget.ClickGuard;
+import com.leto.game.base.bean.LetoError;
 import com.leto.game.base.event.DataRefreshEvent;
 import com.leto.game.base.http.HttpCallbackDecode;
 import com.leto.game.base.util.DialogUtil;
@@ -199,6 +202,16 @@ public class TaskCoinDialog extends Dialog {
 			@Override
 			public void onFailure(String code, String msg) {
 				super.onFailure(code, msg);
+				if (!TextUtils.isEmpty(code) && code.equalsIgnoreCase(LetoError.MGC_COIN_LIMIT)) {
+					DialogUtil.dismissDialog();
+					MGCDialogUtil.showCoinLimit(ctx, new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							exit();
+						}
+					});
+					return;
+				}
 				onCoinAddFailed(_leto_mgc_video_add_coin_failed);
 			}
 		});

@@ -17,4 +17,18 @@
         android:scaleType="fitXY"
         android:src="@mipmap/splash" />
 
+    <FrameLayout
+        android:id="@+id/splash_ad_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/splash_app_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="gone">
+
+    </FrameLayout>
 </FrameLayout>

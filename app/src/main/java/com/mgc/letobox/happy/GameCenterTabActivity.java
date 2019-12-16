@@ -52,6 +52,7 @@ import com.mgc.letobox.happy.event.TabSwitchEvent;
 import com.mgc.letobox.happy.me.bean.TaskResultBean;
 import com.mgc.letobox.happy.me.view.TaskCoinDialog;
 import com.mgc.letobox.happy.util.LeBoxUtil;
+import com.mgc.letobox.happy.view.MyRadioGroup;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -70,8 +71,8 @@ import pub.devrel.easypermissions.EasyPermissions;
  * Created by DELL on 2018/8/4.
  */
 
-public class GameCenterTabActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
-    private final String TAG = "GameCenterActivity";
+public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.OnCheckedChangeListener {
+    private static final String TAG = "GameCenterActivity";
 
     private static final int REQUEST_CODE_WRITE_PERMISSION = 2003;
 
@@ -81,7 +82,7 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
     RadioButton tabCategoryBtn;
     RadioButton tabMeBtn;
     RadioButton tabFindBtn;
-    RadioGroup tabGroup;
+    MyRadioGroup tabGroup;
 
     Fragment curFragment;
 
@@ -293,15 +294,22 @@ public class GameCenterTabActivity extends BaseActivity implements RadioGroup.On
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSwitchTab(TabSwitchEvent event) {
         if (event != null) {
-            int tabIndex = event.tabindex;
-            if (tabIndex >= 0 && tabIndex < _tabIds.size()) {
-                tabGroup.check(_tabIds.get(tabIndex));
+            if(event.tabindex >= 0) {
+                int tabIndex = event.tabindex;
+                if (tabIndex >= 0 && tabIndex < _tabIds.size()) {
+                    tabGroup.check(_tabIds.get(tabIndex));
+                }
+            } else {
+                int idx = _tabIds.indexOf(event.tabid);
+                if(idx != -1) {
+                    tabGroup.check(_tabIds.get(idx));
+                }
             }
         }
     }
 
     @Override
-    public void onCheckedChanged(RadioGroup group, int i) {
+    public void onCheckedChanged(MyRadioGroup group, int i) {
         // lazy create fragment
         Fragment fragment = _fragments.get(i);
         if (fragment == null) {

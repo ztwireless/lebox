@@ -25,6 +25,11 @@
         <item name="cancelButtonMarginTop">10dp</item>
         <item name="actionSheetTextSize">16sp</item>
     </style>
+    <style name="Theme.Start" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@mipmap/splash</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="actionSheetStyle">@style/MyActionSheet</item>
     </style>

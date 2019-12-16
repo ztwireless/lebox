@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:clipChildren="false">
 
     <FrameLayout
         android:id="@+id/container"
@@ -18,19 +19,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:clipChildren="false">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="#E7EAEF" />
 
-        <RadioGroup
+        <com.mgc.letobox.happy.view.MyRadioGroup
             android:id="@+id/tab_group"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="4dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:clipChildren="false">
 
             <RadioButton
                 android:id="@+id/tab_find"
@@ -50,12 +53,37 @@
                 android:drawableTop="@drawable/tab_rank"
                 android:text="榜单" />
 
-            <RadioButton
-                android:id="@+id/tab_challenge"
-                style="@style/tabButtonStyle"
-                android:drawableTop="@drawable/tab_challenge"
-                android:text="竞技场"
-                />
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clipChildren="false">
+
+                <RadioButton
+                    android:id="@+id/tab_challenge"
+                    style="@style/tabButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableTop="@drawable/tab_challenge"
+                    android:text="竞技场"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="9sp"
+                    android:layout_gravity="right"
+                    android:textColor="@color/white"
+                    android:text="赚钱"
+                    android:background="@drawable/lebox_tab_challenge_badge"
+                    android:paddingLeft="7dp"
+                    android:paddingRight="7dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="1dp"
+                    android:layout_marginRight="-3dp"
+                    android:layout_marginTop="-10dp"/>
+
+            </FrameLayout>
 
             <RadioButton
                 android:id="@+id/tab_category"
@@ -69,6 +97,6 @@
                 android:text="我的" />
 
 
-        </RadioGroup>
+        </com.mgc.letobox.happy.view.MyRadioGroup>
     </LinearLayout>
 </LinearLayout>

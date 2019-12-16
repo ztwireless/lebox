@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ledong.lib.leto.api.ApiContainer;
+import com.ledong.lib.leto.api.adext.FeedAd;
 import com.ledong.lib.leto.config.AppConfig;
 import com.ledong.lib.leto.mgc.AppChannel;
 import com.leto.game.base.db.LoginControl;
@@ -26,6 +28,7 @@ import com.leto.game.base.util.IntentConstant;
 import com.leto.game.base.util.MResource;
 import com.mgc.letobox.happy.event.NewerTaskRefreshEvent;
 import com.mgc.letobox.happy.me.adapter.MeHomeAdapter;
+import com.mgc.letobox.happy.me.bean.MeFeedAdModuleBean;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
 import com.mgc.letobox.happy.util.LeBoxConstant;
 
@@ -36,7 +39,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MeNewFragment extends Fragment {
+public class MeNewFragment extends Fragment implements ApiContainer.IApiResultListener {
     // views
     private RecyclerView _recyclerView;
     private SwipeRefreshLayout _refreshLayout;
@@ -48,6 +51,11 @@ public class MeNewFragment extends Fragment {
 
     // tracking login info version
     private int _loginInfoVersion;
+
+    // feed广告
+    private ApiContainer _apiContainer;
+    private FeedAd _feedAd;
+    private boolean _feedAdUsed;
 
     @Keep
     public static MeNewFragment create(AppConfig appConfig) {
@@ -117,10 +125,38 @@ public class MeNewFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // create api container
+        Context ctx = getContext();
+        if(_apiContainer == null) {
+            _apiContainer = new ApiContainer(ctx, null, null);
+        }
+
+        // create extended ad
+        if(_feedAdUsed && _feedAd != null) {
+            _apiContainer.destroyExtendedAd(this, _feedAd.getAdId());
+            _feedAd = null;
+            _feedAdUsed = false;
+        }
+        if(_feedAd == null) {
+            _apiContainer.loadFeedAd(this);
+            _feedAdUsed = false;
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
 
         EventBus.getDefault().unregister(this);
+
+        // destroy extended ad
+        if(_feedAd != null) {
+            _apiContainer.destroyFeedAd(this, _feedAd.getAdId());
+            _feedAd = null;
+        }
     }
 
     @Override
@@ -190,14 +226,38 @@ public class MeNewFragment extends Fragment {
     private void initModules() {
         List<MeModuleBean> moduleBeanList = new ArrayList<>();
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_COIN));
-        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_MYGAMES));
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_SIGININ));
+        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_MYGAMES));
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_NEWER_TASK));
         //moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_HIGH_COIN_TASK));
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_DAILY_TASK));
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_OTHER));
 
         _meHomeAdapter.setModels(moduleBeanList);
+
+    }
+
+    @Override
+    public void onApiSuccess(ApiContainer.ApiName n, Object data) {
+        if(n == ApiContainer.ApiName.LOAD_FEED_AD) {
+            // get extended ad
+            int adId = (Integer) data;
+            _feedAd = _apiContainer.getFeedAd(adId);
+
+            // insert feed ad module bean and reload
+            if(_feedAd != null) {
+                _feedAdUsed = true;
+                List<MeModuleBean> models = _meHomeAdapter.getModels();
+                MeFeedAdModuleBean bean = new MeFeedAdModuleBean(LeBoxConstant.LETO_ME_FEED_AD);
+                bean.setFeedAd(_feedAd);
+                models.add(2, bean);
+                _meHomeAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
+    public void onApiFailed(ApiContainer.ApiName n, boolean aborted) {
 
     }
 }

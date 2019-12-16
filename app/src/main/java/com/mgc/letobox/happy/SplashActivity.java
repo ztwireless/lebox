@@ -1,85 +1,119 @@
 package com.mgc.letobox.happy;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.http.RequestQueue;
+import com.ledong.lib.leto.Leto;
 import com.ledong.lib.leto.MgcAccountManager;
-import com.ledong.lib.leto.main.BaseActivity;
+import com.ledong.lib.leto.api.ad.MainHandler;
 import com.ledong.lib.leto.mgc.bean.CoinConfigResultBean;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
 import com.ledong.lib.leto.mgc.util.MGCApiUtil;
+import com.ledong.lib.leto.widget.ModalDialog;
 import com.ledong.lib.minigame.util.PrefetchCache;
+import com.leto.game.base.ad.AdManager;
+import com.leto.game.base.ad.BaseAd;
+import com.leto.game.base.ad.IAdListener;
+import com.leto.game.base.ad.bean.AdConfig;
 import com.leto.game.base.bean.LoginResultBean;
 import com.leto.game.base.db.LoginControl;
 import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.http.HttpParamsBuild;
 import com.leto.game.base.http.SdkConstant;
+import com.leto.game.base.listener.IJumpListener;
+import com.leto.game.base.listener.JumpError;
 import com.leto.game.base.listener.SyncUserInfoListener;
 import com.leto.game.base.login.LoginManager;
 import com.leto.game.base.util.BaseAppUtil;
 import com.leto.game.base.util.DeviceUtil;
 import com.leto.game.base.util.GameUtil;
-import com.mgc.letobox.happy.bean.StartUpBean;
-import com.mgc.letobox.happy.bean.StartupResultBean;
 import com.mgc.letobox.happy.model.SharedData;
-import com.mgc.letobox.happy.util.LeBoxUtil;
+import com.mgc.letobox.happy.util.LeBoxSpUtil;
 
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
+import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks;
 
-public class SplashActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks{
+public class SplashActivity extends AppCompatActivity implements PermissionCallbacks {
+    private final static String TAG = SplashActivity.class.getSimpleName();
 
-    private final static  String TAG = SplashActivity.class.getSimpleName();
-    private ImageView iv_splash;
+    // messages
+    private final int START_MAIN = 0;
 
-    private final int  START_MAIN =0;
-    private final int  START_LOGIN =1;
-    private final int  CHECK_VERSION =2;
-    private final int  GO_APP = 3;
-    private String mark = "";
+    // request code
+    private static final int REQUEST_CHECK_PERMISSION = 100;
 
-    private static final int REQUEST_CODE_WRITE_PERMISSION = 2003;
-
+    // cache file name
     private static final String LEBOX_CENSOR_CACHE_FILE = "__lebox_censor_mode";
-
-    Context mContext;
 
     // use censor version?
     private boolean _censorMode = false;
 
-    private Handler mHandler= new Handler(){
+    // 游戏id, 如果存在, 则要判断服务器返回的openType, 如果是1, 则打开该id指定的游戏
+    private String _gameId;
+    private boolean _needCheckOpenType;
+
+    // 启动主程序的条件标识
+    private boolean _permissionInited;
+    private boolean _configFetched;
+    private boolean _started;
+    private int _configRetryCount = 3;
+
+    private boolean _splashAdDone = false;
+
+    // views
+    private ImageView _splashHolder;
+    private FrameLayout _splashAdContainer;
+    private FrameLayout _splashAppContainer;
+
+    // ad class
+    private BaseAd _splashAd;
+
+    private Handler _handler = new Handler(Looper.getMainLooper()) {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case START_MAIN:
-                    Intent intent = new Intent(SplashActivity.this, GameCenterTabActivity.class);
-                    intent.putExtra("censorMode", _censorMode);
-                    startActivity(intent);
-                    finish();
-                    break;
+                    if (!_needCheckOpenType || MGCSharedModel.openType == MGCSharedModel.OPEN_TYPE_BOX) {
+                        Intent intent = new Intent(SplashActivity.this, GameCenterTabActivity.class);
+                        intent.putExtra("censorMode", _censorMode);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Leto.getInstance().jumpMiniGameWithAppId(SplashActivity.this, _gameId, new IJumpListener() {
+                            @Override
+                            public void onDownloaded(String path) {
+                            }
 
-                case GO_APP:
+                            @Override
+                            public void onLaunched() {
+                                finish();
+                            }
 
-                    if(!TextUtils.isEmpty(LoginControl.getUserToken())){
-                        //启动时初始化agent
-//                        SdkConstant.MGC_AGENT = LoginControl.getAgentgame();
-                        SdkConstant.userToken = LoginControl.getUserToken();
-                        mHandler.sendEmptyMessageDelayed(START_MAIN, 2500);
-                    }else{
-                        mHandler.sendEmptyMessageDelayed(START_LOGIN, 2500);
+                            @Override
+                            public void onError(final JumpError code, String message) {
+                                _handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        showExitDialog(String.format("启动失败, 请稍后重试, 错误码: %d", code.ordinal()));
+                                    }
+                                });
+                            }
+                        });
                     }
                     break;
                 default:
@@ -89,49 +123,53 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
     };
 
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
+
+        // set content view
         setContentView(R.layout.activity_splash);
 
-        mContext = this;
+        // find views
+        _splashHolder = findViewById(R.id.splash_holder);
+        _splashAdContainer = findViewById(R.id.splash_ad_container);
+        _splashAppContainer = findViewById(R.id.splash_app_container);
 
-//        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(SdkConstant.ACTION_SESSION_EXPIRED));
-
+        // get device bean
         if (SdkConstant.deviceBean == null) {
             SdkConstant.deviceBean = DeviceUtil.getDeviceBean(this);
         }
         SdkConstant.userToken = LoginControl.getUserToken();
 
+        // get game id
+        _gameId = BaseAppUtil.getMetaStringValue(this, "MGC_GAMEID");
+        _needCheckOpenType = !TextUtils.isEmpty(_gameId);
+        if (!_needCheckOpenType) {
+            _configFetched = true; // 如果不需要检查openType, 直接设置为true
+        }
+
+        // sync account
         syncAccount();
 
+        // init permission
         initPermission();
-
-        Log.i(TAG, "onCreate");
     }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
+        Log.d(TAG, "onPostCreate");
         // try load cached config, if no cache, set censor mode to true
-        if(GameUtil.hasCacheFile(this, LEBOX_CENSOR_CACHE_FILE)) {
+        if (GameUtil.hasCacheFile(this, LEBOX_CENSOR_CACHE_FILE)) {
             _censorMode = GameUtil.loadInt(this, LEBOX_CENSOR_CACHE_FILE) == 1;
         } else {
             _censorMode = true;
         }
 
         // get config
-        if(!MGCSharedModel.isCoinConfigInited()) {
-            MGCApiUtil.getCoinConfig(this, new HttpCallbackDecode<CoinConfigResultBean>(this, null) {
-                @Override
-                public void onDataSuccess(CoinConfigResultBean data) {
-                    // get censor mode
-                    _censorMode = data.getIs_audit() == 1;
-
-                    // save to local
-                    GameUtil.saveInt(SplashActivity.this, data.getIs_audit(), LEBOX_CENSOR_CACHE_FILE);
-                }
-            });
+        if (!MGCSharedModel.isCoinConfigInited()) {
+            doGetConfig();
+        } else {
+            _configFetched = true;
+            startSplashAd();
         }
 
         // prefetch game center data
@@ -144,14 +182,71 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
     }
 
     @Override
-    public void onDestroy(){
-        super.onDestroy();
-
-        Log.i(TAG, "onDestroy");
-//        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
-
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume");
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    private void doGetConfig() {
+        MGCApiUtil.getCoinConfig(this, new HttpCallbackDecode<CoinConfigResultBean>(this, null) {
+            @Override
+            public void onDataSuccess(CoinConfigResultBean data) {
+                // get censor mode
+                _censorMode = data.getIs_audit() == 1;
+
+                // save to local
+                GameUtil.saveInt(SplashActivity.this, data.getIs_audit(), LEBOX_CENSOR_CACHE_FILE);
+
+                // start main if can
+                _configFetched = true;
+                startSplashAd();
+            }
+
+            @Override
+            public void onFailure(String code, String msg) {
+                super.onFailure(code, msg);
+
+                // 如果需要检查openType, 则必须等待config完成, 如果失败, 则需要重试, 设置最大重试3次
+                if (_needCheckOpenType) {
+                    _configRetryCount--;
+                    if (_configRetryCount > 0) {
+                        _handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                doGetConfig();
+                            }
+                        }, 100);
+                    } else {
+                        // 只能提示退出了
+                        showExitDialog("获取全局配置失败, 暂时无法启动, 请稍后重试");
+                    }
+                }
+            }
+        });
+    }
+
+    private void showExitDialog(String msg) {
+        ModalDialog dialog = new ModalDialog(SplashActivity.this);
+        dialog.setMessage(msg);
+        dialog.setRightButton("退出", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        dialog.setMessageTextColor("#666666");
+        dialog.setMessageTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+        dialog.setLeftButtonTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        dialog.setRightButtonTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        dialog.setLeftButtonTextColor("#999999");
+        dialog.setRightButtonTextColor("#FF3D9AF0");
+        dialog.show();
+    }
 
     private void initPermission() {
         //for test, can remove later
@@ -159,27 +254,45 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
         if (permissions.length == 0) {
             afterPermissionCheck();
         } else {
-            ActivityCompat.requestPermissions(this, permissions, 100);
+            ActivityCompat.requestPermissions(this, permissions, REQUEST_CHECK_PERMISSION);
         }
     }
 
+    private void startMain(boolean loadedAd) {
 
-    @AfterPermissionGranted(100)
+		/*
+		 启动主程序分需要满足三个条件
+		 1.
+		 1. 如果没有配置MGC_GAMEID, 则在权限检查后即可启动盒子
+		 2. 如果配置了MGC_GAMEID, 则必须等待getCoinConfig完成以便检查openType, 因此getCoinConfig一旦失败则需要重试, 重试3次后还失败则退出.
+		 	第二个条件是权限检查完成. 两个条件都达到时, 检查openType, 2则启动盒子, 1则启动游戏
+		 */
+        if (_permissionInited && _configFetched && !_started && _splashAdDone) {
+            if (loadedAd) {
+                _handler.sendEmptyMessageDelayed(START_MAIN, 500);
+            } else {
+                _handler.sendEmptyMessageDelayed(START_MAIN, 2000);
+            }
+            _started = true;
+
+            // 清空第一次启动标志
+            LeBoxSpUtil.setFirstLaunch(false);
+        }
+    }
+
+    @AfterPermissionGranted(REQUEST_CHECK_PERMISSION)
     void afterPermissionCheck() {
-
+        // init rx volley
         try {
-            RxVolley.setRequestQueue(RequestQueue.newRequestQueue(BaseAppUtil.getDefaultSaveRootPath(this,"mgc")));
+            RxVolley.setRequestQueue(RequestQueue.newRequestQueue(BaseAppUtil.getDefaultSaveRootPath(this, "mgc")));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        mHandler.sendEmptyMessageDelayed(START_MAIN, 2500);
+        // check if we can start main
+        _permissionInited = true;
+        startMain(false);
     }
-
-    void afterStartup() {
-        mHandler.sendEmptyMessageDelayed(START_MAIN, 2500);
-    }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -188,22 +301,18 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
 
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
-        Log.i(TAG, "onPermissionsGranted");
-
     }
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
-        Log.i(TAG, "onPermissionsDenied");
-        if(requestCode==100) {
-            afterStartup();
-        }else if(requestCode==2003){
-            finish();
+        if (requestCode == REQUEST_CHECK_PERMISSION) {
+            _permissionInited = true;
+            startMain(false);
         }
     }
 
-    public void syncAccount(){
-        if(!LoginManager.isSignedIn(this)) {
+    public void syncAccount() {
+        if (!LoginManager.isSignedIn(this)) {
             MgcAccountManager.syncAccount(this, "", "", false, new SyncUserInfoListener() {
                 @Override
                 public void onSuccess(LoginResultBean data) {
@@ -218,35 +327,103 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
         }
     }
 
-    void callStartup () {
-        StartUpBean startUpBean = new StartUpBean();
-        startUpBean.setUser_token(SdkConstant.userToken);
-        int open_cnt = 1;
-        startUpBean.setOpen_cnt(open_cnt + "");
-        HttpParamsBuild httpParamsBuild = new HttpParamsBuild(new Gson().toJson(startUpBean));
-        HttpCallbackDecode httpCallbackDecode = new HttpCallbackDecode<StartupResultBean>(this, httpParamsBuild.getAuthkey()) {
-            @Override
-            public void onDataSuccess(StartupResultBean data) {
-                if (data != null) {
-                    LoginControl.saveUserToken(data.getUser_token());
-                    SdkConstant.userToken = data.getUser_token();
-                    SdkConstant.SERVER_TIME_INTERVAL = data.getTimestamp() - System.currentTimeMillis();
-
-//                    if(data.getIs_login()==1) {
-                    mHandler.sendEmptyMessage(GO_APP);
-//                    }else{
-//                        mHandler.sendEmptyMessage(START_LOGIN);
-//                    }
+    public void startSplashAd() {
+        // 如果是第一次启动, 不获取splash ad
+        // 否则延迟1秒尝试获取splash ad
+        if(LeBoxSpUtil.isFirstLaunch()) {
+            _splashAdDone = true;
+            startMain(true);
+        } else {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    initSplashAd();
                 }
-            }
+            }, 1000);
+        }
+    }
+
+    public void initSplashAd() {
+        // 如果没有广告容器, 放弃载入splash
+        if (_splashAdContainer == null) {
+            _splashAdDone = true;
+            startMain(true);
+            return;
+        }
+
+        // 如果没有splash配置, 放弃载入splash ad
+        AdConfig adConfig = AdManager.getInstance().getActiveSplashAdConfig(true);
+        if (adConfig == null) {
+            _splashAdDone = true;
+            startMain(false);
+            return;
+        }
+
+        // 开始载入splash ad
+        _splashAd = AdManager.getInstance().getSplashAD(SplashActivity.this, adConfig, _splashAdContainer, 1, new IAdListener() {
             @Override
-            public void onFailure(String code, String msg) {
-                Toast.makeText(SplashActivity.this, "初始化失败, 请重新打开App", Toast.LENGTH_SHORT).show();
+            public void onPresent(String platform) {
+                MainHandler.getInstance().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        _splashHolder.setVisibility(View.GONE);
+                        if (null != _splashAdContainer) {
+                            _splashAdContainer.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
             }
-        };
-        httpCallbackDecode.setShowTs(false);
-        httpCallbackDecode.setLoadingCancel(false);
-        httpCallbackDecode.setShowLoading(false);
-        RxVolley.post(LeBoxUtil.getStartup(), httpParamsBuild.getHttpParams(), httpCallbackDecode);
+
+            @Override
+            public void onClick(String platform) {
+
+            }
+
+            @Override
+            public void onDismissed(String platform) {
+                _splashAdDone = true;
+                startMain(true);
+            }
+
+            @Override
+            public void onFailed(String platform, String s) {
+                MainHandler.getInstance().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (null != _splashAdContainer) {
+                            _splashAdContainer.setVisibility(View.GONE);
+                        }
+                        _splashAdDone = true;
+                        startMain(true);
+                    }
+                });
+            }
+
+            @Override
+            public void onAdLoaded(String platform, int size) {
+                MainHandler.getInstance().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (null != _splashAdContainer) {
+                            _splashAdContainer.setVisibility(View.VISIBLE);
+                        }
+                        if (null != _splashHolder) {
+                            _splashHolder.setVisibility(View.GONE);
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onStimulateSuccess(String platform) {
+
+            }
+        });
+        if (null != _splashAd) {
+            _splashAd.show();
+        }else{
+            _splashAdDone = true;
+            startMain(true);
+        }
     }
 }

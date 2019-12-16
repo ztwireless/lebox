@@ -13,6 +13,14 @@
         android:id="@+id/rl_title"
         android:background="@color/mgc_sdk_white">
 
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:visibility="gone"
+            android:src="@drawable/leto_web_container_back_pressed"/>
 
         <TextView
             android:id="@+id/tv_title"
