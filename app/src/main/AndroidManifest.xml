@@ -157,13 +157,13 @@
         <!-- 以下数据请自行设置 -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5da289570cafb2d9a3000224" />
+            android:value="5df32f5a4ca35719b20008b1" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="kx100_mgc_demo" />
+            android:value="kx100_nndyg_mgc_box" />
         <meta-data
             android:name="MGC_ENABLE_WECHAT_LOGIN"
-            android:value="true"/>
+            android:value="false"/>
         <meta-data
             android:name="MGC_WECHAT_APPID"
             android:value="wx2b06b06ae8f615c8"/>
@@ -172,10 +172,13 @@
             android:value="7e0fdc7309652508e160ae2a8e3f12b1" />
         <meta-data
             android:name="MGC_APPID"
-            android:value="364775" />
+            android:value="1000320" />
+        <meta-data
+            android:name="MGC_GAMEID"
+            android:value="1000316"/>
         <meta-data
             android:name="MGC_TEST_ENV"
-            android:value="true" />
+            android:value="false" />
 
     </application>
 </manifest>
