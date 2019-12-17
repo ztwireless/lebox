@@ -8,7 +8,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ledong.lib.leto.mgc.bean.CoinDialogScene;
 import com.ledong.lib.leto.mgc.dialog.CustomVideoCoinDialog;
+import com.ledong.lib.leto.mgc.dialog.IMGCCoinDialogListener;
 import com.ledong.lib.leto.mgc.holder.CommonViewHolder;
 import com.ledong.lib.leto.widget.ClickGuard;
 import com.ledong.lib.minigame.bean.SigninStatus;
@@ -177,13 +179,11 @@ public class SigninHolder extends CommonViewHolder<SigninBean> {
     }
 
     private void signin(final Context ctx, SigninBean signin) {
-
-        CustomVideoCoinDialog d = new CustomVideoCoinDialog(ctx, "签到获得", signin.getSign_coins(), signin.getMultiple_reward(), 1, new CustomVideoCoinDialog.GameEndCoinDialogListener() {
+        CustomVideoCoinDialog d = new CustomVideoCoinDialog(ctx, "签到获得", signin.getSign_coins(), signin.getMultiple_reward(), CoinDialogScene.SIGN_IN, new IMGCCoinDialogListener() {
             @Override
             public void onExit(boolean video, int coinGot) {
 
             }
-
         });
         d.setAdContainer(_adContainer);
         d.show();
