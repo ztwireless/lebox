@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+    <!--白色矩形 作为背景色-->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FF22154D" />
+        </shape>
+           
+    </item>
+
+    <!--位置设置成下如果使用png或者jpg-->   
+    <item>   
+        <bitmap
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:scaleType="fitXY"
+            android:src="@mipmap/splash" />
+           
+    </item>
+
+</layer-list>
