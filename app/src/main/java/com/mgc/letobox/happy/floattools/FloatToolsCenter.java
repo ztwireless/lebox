@@ -68,8 +68,8 @@ public class FloatToolsCenter {
                     floatToolsConfig = response.body();
                     if (BuildConfig.DEBUG) {
                         if (floatToolsConfig != null && floatToolsConfig.getData() != null && floatToolsConfig.getData().getBubble() != null) {
-                            floatToolsConfig.getData().getBubble().create_interval = 1000;
-                            floatToolsConfig.getData().getBubble().create_max_times = 15;
+                            floatToolsConfig.getData().getBubble().create_interval = 5;
+                            floatToolsConfig.getData().getBubble().create_max_times = 50;
                         }
                         if (floatToolsConfig != null && floatToolsConfig.getData() != null && floatToolsConfig.getData().getShake() != null) {
                             floatToolsConfig.getData().getShake().default_x = 1;

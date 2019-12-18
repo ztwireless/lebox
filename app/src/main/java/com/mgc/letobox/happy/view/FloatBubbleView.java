@@ -1,10 +1,14 @@
 package com.mgc.letobox.happy.view;
 
-import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.PointF;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.ViewConfiguration;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -13,6 +17,7 @@ import com.mgc.letobox.happy.R;
 
 public class FloatBubbleView extends FrameLayout {
 
+    private static final String TAG = FloatBubbleView.class.getSimpleName();
     private static int ID = 0;
 
     private int mBubbleId;
@@ -38,6 +43,8 @@ public class FloatBubbleView extends FrameLayout {
                 startAnim();
             }
         });
+        ViewConfiguration vc = ViewConfiguration.get(context);
+        touchSlop = vc.getScaledTouchSlop();
     }
 
     private void startAnim() {
@@ -45,49 +52,51 @@ public class FloatBubbleView extends FrameLayout {
     }
 
     private void goDown() {
-        animate().translationYBy(40).setDuration(2000).setInterpolator(new AccelerateDecelerateInterpolator())
-                .setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animator) {
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        goUp();
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animator) {
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animator) {
-                    }
-                })
-                .start();
+        ValueAnimator animator = ValueAnimator.ofFloat(-40, 0).setDuration(2000);
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            float lastValue;
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float value = (float) valueAnimator.getAnimatedValue();
+                if (valueAnimator.getAnimatedFraction() == 0) {
+                    lastValue = -40;
+                }
+                if (!isDragging) {
+                    float dy = value - lastValue;
+                    setTranslationY(getTranslationY() + dy);
+                }
+                lastValue = value;
+                if (valueAnimator.getAnimatedFraction() == 1) {
+                    goUp();
+                }
+            }
+        });
+        animator.start();
     }
 
     private void goUp() {
-        animate().translationYBy(-40).setDuration(2000).setInterpolator(new AccelerateDecelerateInterpolator())
-                .setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animator) {
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        goDown();
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animator) {
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animator) {
-                    }
-                })
-                .start();
+        ValueAnimator animator = ValueAnimator.ofFloat(0, -40).setDuration(2000);
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            float lastValue;
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float value = (float) valueAnimator.getAnimatedValue();
+                if (valueAnimator.getAnimatedFraction() == 0) {
+                    lastValue = 0;
+                }
+                if (!isDragging) {
+                    float dy = value - lastValue;
+                    setTranslationY(getTranslationY() + dy);
+                }
+                lastValue = value;
+                if (valueAnimator.getAnimatedFraction() == 1) {
+                    goDown();
+                }
+            }
+        });
+        animator.start();
     }
 
     public int getCoinCount() {
@@ -106,4 +115,48 @@ public class FloatBubbleView extends FrameLayout {
     private void setBubbleId(int mId) {
         this.mBubbleId = mId;
     }
+
+    private PointF initialPoint = new PointF();
+    private float touchSlop;
+    private boolean isDragging = false;
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return true;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                initialPoint.set(event.getX(), event.getY());
+                isDragging = false;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float dx = event.getX() - initialPoint.x;
+                float dy = event.getY() - initialPoint.y;
+                if (Math.abs(dx) > touchSlop || Math.abs(dy) > touchSlop || Math.sqrt(dx * dx + dy * dy) > touchSlop) {
+                    isDragging = true;
+                    onDragging(event.getX(), event.getY(), dx, dy);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                if (!isDragging) {
+                    performClick();
+                } else {
+                    isDragging = false;
+                    startAnim();
+                }
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                break;
+        }
+        return true;
+    }
+
+    private void onDragging(float x, float y, float dx, float dy) {
+        this.setX(this.getX() + dx);
+        this.setY(this.getY() + dy);
+    }
+
 }
