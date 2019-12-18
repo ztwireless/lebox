@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="false">
+    <item android:drawable="@drawable/anim_shake_00000" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00001" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00002" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00003" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00004" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00005" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00006" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00007" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00008" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00009" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00010" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00011" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00012" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00013" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00014" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00015" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00016" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00017" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00018" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00019" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00020" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00021" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00022" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00023" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00024" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00025" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00026" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00027" android:duration="@integer/anim_shake_frame_duration"/>
+    <item android:drawable="@drawable/anim_shake_00028" android:duration="@integer/anim_shake_frame_duration"/>
+</animation-list>
