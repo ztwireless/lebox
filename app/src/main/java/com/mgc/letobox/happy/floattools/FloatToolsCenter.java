@@ -249,7 +249,7 @@ public class FloatToolsCenter {
                         }
                     });
                 }
-            }, bubble.create_interval, bubble.create_interval);
+            }, bubble.create_interval * 1000, bubble.create_interval * 1000);
         }
     }
 

@@ -254,6 +254,7 @@
 -keep class com.ledong.lib.** {*;}
 -dontwarn com.leto.game.**
 -keep class com.leto.game.** {*;}
+-keep class com.mgc.letobox.happy.model.** {*;}
 
 # retrofit
 # Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
