@@ -49,12 +49,6 @@ public class ShakeShakeView extends FrameLayout {
         mAnimationDrawable = (AnimationDrawable) mShakeView.getDrawable();
 
         mAnimationDrawable.start();
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
         ViewConfiguration vc = ViewConfiguration.get(context);
         touchSlop = vc.getScaledTouchSlop();
         scroller = new OverScroller(context);
@@ -66,13 +60,11 @@ public class ShakeShakeView extends FrameLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        Log.i(TAG, "onInterceptTouchEvent " + ev.getActionMasked());
         return true;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.i(TAG, "onTouchEvent " + event.getActionMasked());
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 initialPoint.set(event.getX(), event.getY());

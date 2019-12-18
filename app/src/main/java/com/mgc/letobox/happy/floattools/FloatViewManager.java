@@ -1,10 +1,12 @@
 package com.mgc.letobox.happy.floattools;
 
 import android.app.Activity;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.leto.game.base.util.BaseAppUtil;
 import com.mgc.letobox.happy.view.FloatBubbleView;
 import com.mgc.letobox.happy.view.ShakeShakeView;
 
@@ -46,7 +48,7 @@ public class FloatViewManager {
         return showShakeShake(activity, 0, 0);
     }
 
-    public ShakeShakeView showShakeShake(Activity activity, int x, int y) {
+    public ShakeShakeView showShakeShake(Activity activity, int xDirection, float yRatio) {
         if (weakShakeView == null || weakShakeView.get() == null) {
             ShakeShakeView shakeView = new ShakeShakeView(activity);
 
@@ -54,6 +56,15 @@ public class FloatViewManager {
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             decorView.addView(shakeView, lp);
 
+            int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            shakeView.measure(w, h);
+
+            int x = 0;
+            if (xDirection == 1) {
+                x = BaseAppUtil.getDeviceWidth(activity) - shakeView.getMeasuredWidth();
+            }
+            int y = (int) (yRatio * BaseAppUtil.getDeviceHeight(activity));
             shakeView.setX(x);
             shakeView.setY(y);
 
@@ -98,7 +109,7 @@ public class FloatViewManager {
                 decorView.removeView(bubbleView);
             }
         }
-        bubbleViews.removeAt(id);
+        bubbleViews.remove(id);
     }
 
     public void showBubbleView(int id) {
