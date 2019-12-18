@@ -27,7 +27,7 @@
     </style>
     <style name="Theme.Start" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@mipmap/splash</item>
+        <item name="android:windowBackground">@drawable/splash_layout</item>
     </style>
 
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
