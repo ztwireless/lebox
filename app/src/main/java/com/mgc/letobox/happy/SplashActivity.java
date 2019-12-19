@@ -22,6 +22,7 @@ import com.ledong.lib.leto.Leto;
 import com.ledong.lib.leto.MgcAccountManager;
 import com.ledong.lib.leto.api.ad.MainHandler;
 import com.ledong.lib.leto.mgc.bean.CoinConfigResultBean;
+import com.ledong.lib.leto.mgc.bean.GetBenefitsSettingResultBean;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
 import com.ledong.lib.leto.mgc.util.MGCApiUtil;
 import com.ledong.lib.leto.widget.ModalDialog;
@@ -72,8 +73,10 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
     // 启动主程序的条件标识
     private boolean _permissionInited;
     private boolean _configFetched;
+    private boolean _benefitSettingsFetched;
     private boolean _started;
     private int _configRetryCount = 3;
+    private int _benefitRetryCount = 3;
 
     private boolean _splashAdDone = false;
 
@@ -176,6 +179,14 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
             startSplashAd();
         }
 
+        // get benefit settings
+        if(!MGCSharedModel.isBenefitSettingsInited()) {
+            doGetBenefitSettings();
+        } else {
+            _benefitSettingsFetched = true;
+            startSplashAd();
+        }
+
         // prefetch game center data
         SharedData.MGC_HOME_TAB_ID = BaseAppUtil.getMetaIntValue(this, "MGC_HOME_TAB_ID");
         SharedData.MGC_RANK_TAB_ID = BaseAppUtil.getMetaIntValue(this, "MGC_RANK_TAB_ID");
@@ -194,6 +205,36 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    private void doGetBenefitSettings() {
+        MGCApiUtil.getBenefitSettings(this, new HttpCallbackDecode<GetBenefitsSettingResultBean>(this, null) {
+            @Override
+            public void onDataSuccess(GetBenefitsSettingResultBean data) {
+                // start main if can
+                _benefitSettingsFetched = true;
+                startSplashAd();
+            }
+
+            @Override
+            public void onFailure(String code, String msg) {
+                super.onFailure(code, msg);
+
+                // 重试3次, 不成功则不允许打开盒子
+                _benefitRetryCount--;
+                if (_benefitRetryCount > 0) {
+                    _handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            doGetBenefitSettings();
+                        }
+                    }, 100);
+                } else {
+                    // 只能提示退出了
+                    showExitDialog("获取福利配置失败, 暂时无法启动, 请稍后重试");
+                }
+            }
+        });
     }
 
     private void doGetConfig() {
@@ -271,7 +312,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
 		 2. 如果配置了MGC_GAMEID, 则必须等待getCoinConfig完成以便检查openType, 因此getCoinConfig一旦失败则需要重试, 重试3次后还失败则退出.
 		 	第二个条件是权限检查完成. 两个条件都达到时, 检查openType, 2则启动盒子, 1则启动游戏
 		 */
-        if (_permissionInited && _configFetched && !_started && _splashAdDone) {
+        if (_permissionInited && _configFetched && _benefitSettingsFetched && !_started && _splashAdDone) {
             if (loadedAd) {
                 _handler.sendEmptyMessageDelayed(START_MAIN, 500);
             } else {

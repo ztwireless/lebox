@@ -56,6 +56,10 @@ android {
     lintOptions {
         abortOnError false
     }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -67,4 +71,11 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.1'
     implementation 'pub.devrel:easypermissions:1.0.1'
     implementation 'com.android.support:multidex:1.0.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+    configurations {
+        all*.exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+        all*.exclude group: 'com.google.code.gson'
+    }
 }
