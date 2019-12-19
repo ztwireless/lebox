@@ -16,6 +16,8 @@
     <string name="lebox_get_task_list_failed">获取任务列表失败</string>
     <string name="lebox_get_task_status_failed">获取任务状态失败</string>
     <string name="lebox_get_news_category_failed">获取新闻分类失败</string>
+    <string name="shake_time_used_out">今日摇一摇机会已用完</string>
+    <string name="obtain_ad_failed">什么都没摇到</string>
 
     <string-array name="find_tab">
         <item>推荐</item>

@@ -17,10 +17,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
@@ -49,9 +49,11 @@ import com.mgc.letobox.happy.bean.VersionResultBean;
 import com.mgc.letobox.happy.dialog.PrivacyWebDialog;
 import com.mgc.letobox.happy.dialog.VersionDialog;
 import com.mgc.letobox.happy.event.NewerTaskRefreshEvent;
+import com.mgc.letobox.happy.event.ShowRookieGuideEvent;
 import com.mgc.letobox.happy.event.TabSwitchEvent;
 import com.mgc.letobox.happy.me.bean.TaskResultBean;
 import com.mgc.letobox.happy.me.view.TaskCoinDialog;
+import com.mgc.letobox.happy.util.LeBoxSpUtil;
 import com.mgc.letobox.happy.util.LeBoxUtil;
 import com.mgc.letobox.happy.view.MyRadioGroup;
 
@@ -215,6 +217,15 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // deliver to api container
+        ApiContainer.handleActivityResult(requestCode, resultCode, data);
+
+        // for this
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public void onBackPressed() {
         finish();
     }
@@ -263,20 +274,14 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // deliver to api container
-        ApiContainer.handleActivityResult(requestCode, resultCode, data);
-
-        // for this
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
 
         // check imei
         PermissionsUtil.delayCheckPermissionIfNeeded(this);
+
+        // check rookie guide
+        showRookieGuideIfNeeded();
     }
 
 
@@ -422,7 +427,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
                 if (taskBeans.size() > pos + 1) {
 
                     Message msg = new Message();
-                    msg.obj = taskBeans.get(pos + 1);
+                    msg.obj = taskBeans;
                     msg.arg1 = pos + 1;
                     msg.arg2 = action;
                     mTaskHandler.sendMessage(msg);
@@ -471,7 +476,6 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
             @Override
             public void onFailure(String code, String msg) {
                 Log.d(TAG, "获取版本信息失败: " + msg);
-
             }
         };
         httpCallbackDecode.setShowTs(false);
@@ -555,6 +559,15 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
             } else {
             }
         } else {
+        }
+    }
+
+    private void showRookieGuideIfNeeded() {
+        if(MGCSharedModel.isRookieGiftAvailable()) {
+            String dstGameId = BaseAppUtil.getMetaStringValue(this, "MGC_GAMEID");
+            if(!TextUtils.isEmpty(dstGameId)) {
+                EventBus.getDefault().postSticky(new ShowRookieGuideEvent());
+            }
         }
     }
 }

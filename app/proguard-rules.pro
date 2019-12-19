@@ -22,7 +22,7 @@
 -dontpreverify
 
 #保留Annotation不混淆
--keepattributes *Annotation*,InnerClasses
+-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
 
 #避免混淆泛型
 -keepattributes Signature
@@ -245,12 +245,86 @@
 -keep class android.net.http.** { *;}
 -keep class com.android.volley.** {*;}
 
-################################################################################
-# sample.lebox
-################################################################################
+# cmgame
+-keep class com.cm.** {*;}
+-keep class com.cmcm.** {*;}
+-keep class com.gm.** {*;}
+-keep class com.bytedance.** {*;}
+-keep class com.ss.android.** {*;}
+-keep class com.ss.sys.ces.* {*;}
+
 
 # leto
 -dontwarn com.ledong.lib.**
 -keep class com.ledong.lib.** {*;}
 -dontwarn com.leto.game.**
 -keep class com.leto.game.** {*;}
+
+
+#聚量 广告 SDk
+-keep class com.uniplay.adsdk.**
+-keep class com.joomob.**
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
+}
+-keepattributes Annotation
+-keepattributes JavascriptInterface
+-keepclassmembers class * {
+@android.webkit.JavascriptInterface <methods>;
+}
+-keepclassmembers public class com.uniplay.adsdk.JavaScriptInterface{ <fields>;
+<methods>;
+public *;
+private *;
+}
+
+-dontwarn com.qq.gdt.action.**
+-keep class com.qq.gdt.action.** {*;}
+
+-keep class com.umeng.** {*;}
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+# appsflyer
+-keep class com.appsflyer.** {*;}
+
+################################################################################
+# sample.lebox
+################################################################################
+
+
+# retrofit
+# Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
+# EnclosingMethod is required to use InnerClasses.
+-keepattributes Signature, InnerClasses, EnclosingMethod
+
+# Retrofit does reflection on method and parameter annotations.
+-keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
+
+# Retain service method parameters when optimizing.
+-keepclassmembers,allowshrinking,allowobfuscation interface * {
+    @retrofit2.http.* <methods>;
+}
+
+# Ignore annotation used for build tooling.
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+
+# Ignore JSR 305 annotations for embedding nullability information.
+-dontwarn javax.annotation.**
+
+# Guarded by a NoClassDefFoundError try/catch and only used when on the classpath.
+-dontwarn kotlin.Unit
+
+# Top-level functions that can only be used by Kotlin.
+-dontwarn retrofit2.KotlinExtensions
+-dontwarn retrofit2.KotlinExtensions$*
+
+# With R8 full mode, it sees no subtypes of Retrofit interfaces since they are created with a Proxy
+# and replaces all potential values with null. Explicitly keeping the interfaces prevents this.
+#-if interface * { @retrofit2.http.* <methods>; }
+-keep,allowobfuscation interface <1>

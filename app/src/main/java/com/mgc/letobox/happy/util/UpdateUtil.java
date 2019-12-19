@@ -89,6 +89,13 @@ public class UpdateUtil {
 
                 @Override
                 public void onResponse(Call call, Response response) {
+                    if (response == null || response.body() == null) {
+                        LetoTrace.e("UpdateUtil", "服务器无响应" );
+                        if (listener != null) {
+                            listener.abort();
+                        }
+                        return;
+                    }
                     File tempFile = null;
                     InputStream is = null;
                     FileOutputStream os = null;

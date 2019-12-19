@@ -26,4 +26,7 @@ public class LeBoxConstant {
 
     public final static String LETO_TASK_ID = "task_id";
 
+    public static final String MGCServerUrl = "http://miniapi.mgc-games.com";
+    public static final String MGCServerUrlDev = "http://miniapi_dev.mgc-games.com";
+
 }

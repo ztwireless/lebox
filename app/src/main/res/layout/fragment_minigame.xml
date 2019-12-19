@@ -108,6 +108,7 @@
 
 
     <LinearLayout
+        android:id="@+id/splitline"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#f0f0f0"></LinearLayout>
