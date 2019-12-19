@@ -16,7 +16,6 @@ import com.ledong.lib.leto.mgc.dialog.IMGCCoinDialogListener;
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
 import com.leto.game.base.login.LoginManager;
 import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.ToastUtil;
 import com.mgc.letobox.happy.BuildConfig;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.model.FloatToolsConfig;
@@ -70,7 +69,7 @@ public class FloatToolsCenter {
                         if (floatToolsConfig != null && floatToolsConfig.getData() != null && floatToolsConfig.getData().getBubble() != null) {
                             floatToolsConfig.getData().getBubble().create_interval = 1;
                             floatToolsConfig.getData().getBubble().create_max_times = 500;
-                            floatToolsConfig.getData().getBubble().max_display_count = 6;
+                            floatToolsConfig.getData().getBubble().screen_max_times = 6;
                         }
                         if (floatToolsConfig != null && floatToolsConfig.getData() != null && floatToolsConfig.getData().getShake() != null) {
                             floatToolsConfig.getData().getShake().default_x = 1;
@@ -243,7 +242,7 @@ public class FloatToolsCenter {
                         @Override
                         public void run() {
 //                                Log.i(TAG, "addBubble " + activity.getRunningGameId() + "|" + LeBoxSpUtil.todayBubbleTimes(activity.getRunningGameId()) + "|" + bubble.create_max_times);
-                            if (FloatViewManager.getInstance().getBubbleCount() < bubble.max_display_count
+                            if (FloatViewManager.getInstance().getBubbleCount() < bubble.screen_max_times
                                     && LeBoxSpUtil.todayBubbleTimes(activity.getRunningGameId()) < bubble.create_max_times) {
                                 FloatViewManager.getInstance().addBubble(activity, count, position.x, position.y, onBubbleClickListener);
                                 LeBoxSpUtil.bubbleOnce(activity.getRunningGameId());
