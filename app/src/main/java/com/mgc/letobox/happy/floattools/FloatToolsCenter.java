@@ -68,8 +68,9 @@ public class FloatToolsCenter {
                     floatToolsConfig = response.body();
                     if (BuildConfig.DEBUG) {
                         if (floatToolsConfig != null && floatToolsConfig.getData() != null && floatToolsConfig.getData().getBubble() != null) {
-                            floatToolsConfig.getData().getBubble().create_interval = 5;
-                            floatToolsConfig.getData().getBubble().create_max_times = 50;
+                            floatToolsConfig.getData().getBubble().create_interval = 1;
+                            floatToolsConfig.getData().getBubble().create_max_times = 500;
+                            floatToolsConfig.getData().getBubble().max_display_count = 6;
                         }
                         if (floatToolsConfig != null && floatToolsConfig.getData() != null && floatToolsConfig.getData().getShake() != null) {
                             floatToolsConfig.getData().getShake().default_x = 1;
@@ -242,7 +243,8 @@ public class FloatToolsCenter {
                         @Override
                         public void run() {
 //                                Log.i(TAG, "addBubble " + activity.getRunningGameId() + "|" + LeBoxSpUtil.todayBubbleTimes(activity.getRunningGameId()) + "|" + bubble.create_max_times);
-                            if (LeBoxSpUtil.todayBubbleTimes(activity.getRunningGameId()) < bubble.create_max_times) {
+                            if (FloatViewManager.getInstance().getBubbleCount() < bubble.max_display_count
+                                    && LeBoxSpUtil.todayBubbleTimes(activity.getRunningGameId()) < bubble.create_max_times) {
                                 FloatViewManager.getInstance().addBubble(activity, count, position.x, position.y, onBubbleClickListener);
                                 LeBoxSpUtil.bubbleOnce(activity.getRunningGameId());
                             }

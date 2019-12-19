@@ -136,4 +136,7 @@ public class FloatViewManager {
             showBubbleView(bubbleViews.keyAt(i));
         }
     }
+    public int getBubbleCount() {
+        return bubbleViews.size();
+    }
 }

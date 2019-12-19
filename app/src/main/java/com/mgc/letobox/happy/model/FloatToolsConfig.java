@@ -56,6 +56,7 @@ public class FloatToolsConfig {
             public int create_interval;
             public int create_max_times;
             public int coins_multiple;
+            public int max_display_count;
             public float left_upper;
             public float right_upper;
             public float left_lower;
