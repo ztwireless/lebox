@@ -2,6 +2,7 @@ package com.mgc.letobox.happy.floattools;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.graphics.Point;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.mgc.letobox.happy.model.ShakeResult;
 import com.mgc.letobox.happy.util.LeBoxConstant;
 import com.mgc.letobox.happy.util.LeBoxSpUtil;
 import com.mgc.letobox.happy.view.FloatBubbleView;
+import com.mgc.letobox.happy.view.FloatRedPacketSea;
 import com.mgc.letobox.happy.view.ShakeShakeView;
 import com.mgc.letobox.happy.view.UpgradeView;
 
@@ -102,6 +104,26 @@ public class FloatToolsCenter {
                 if (isGameShakeEnabled(gameId)) {
                     initShakeView(activity);
                 }
+                FloatRedPacketSea redPacketSea = FloatViewManager.getInstance().showRedPacket(activity);
+                redPacketSea.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ApiContainer apiContainer = new ApiContainer(activity);
+                        apiContainer.showVideo(new ApiContainer.IApiResultListener() {
+                            @Override
+                            public void onApiSuccess(ApiContainer.ApiName apiName, Object o) {
+                                Log.i(TAG, "onApiSuccess");
+                                Intent intent = new Intent(activity, RedPacketSeaActivity.class);
+                                activity.startActivity(intent);
+                            }
+
+                            @Override
+                            public void onApiFailed(ApiContainer.ApiName apiName, boolean b) {
+                                Log.i(TAG, "onApiFailed");
+                            }
+                        });
+                    }
+                });
             }
 
             @Override
@@ -133,6 +155,7 @@ public class FloatToolsCenter {
                     bubbleTimer = null;
                 }
                 FloatViewManager.getInstance().removeUpgradeView(activity);
+                FloatViewManager.getInstance().removeRedPacketView(activity);
             }
         });
 

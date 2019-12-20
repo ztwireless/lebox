@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.leto.game.base.util.BaseAppUtil;
 import com.mgc.letobox.happy.view.FloatBubbleView;
+import com.mgc.letobox.happy.view.FloatRedPacketSea;
 import com.mgc.letobox.happy.view.ShakeShakeView;
 import com.mgc.letobox.happy.view.UpgradeView;
 
@@ -44,6 +45,36 @@ public class FloatViewManager {
         return bubbleView.getBubbleId();
     }
 
+    private WeakReference<FloatRedPacketSea> weakRedPacket;
+    public FloatRedPacketSea showRedPacket(Activity activity) {
+        if (weakRedPacket == null || weakRedPacket.get() == null) {
+            FloatRedPacketSea redPacketSea = new FloatRedPacketSea(activity);
+
+            ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            decorView.addView(redPacketSea, lp);
+
+            int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            redPacketSea.measure(w, h);
+
+            int x = 0;
+            int xDirection = 1;
+            float yRatio = 0.2f;
+            if (xDirection == 1) {
+                x = BaseAppUtil.getDeviceWidth(activity) - redPacketSea.getMeasuredWidth();
+            }
+            int y = (int) (yRatio * BaseAppUtil.getDeviceHeight(activity));
+            redPacketSea.setX(x);
+            redPacketSea.setY(y);
+
+            weakRedPacket = new WeakReference<>(redPacketSea);
+        } else {
+            FloatRedPacketSea shakeView = weakRedPacket.get();
+            shakeView.setVisibility(View.VISIBLE);
+        }
+        return weakRedPacket.get();
+    }
     private WeakReference<ShakeShakeView> weakShakeView;
 
     public ShakeShakeView showShakeShake(Activity activity) {
@@ -81,6 +112,17 @@ public class FloatViewManager {
     public void hideShakeView() {
         if (weakShakeView != null && weakShakeView.get() != null) {
             weakShakeView.get().setVisibility(View.GONE);
+        }
+    }
+
+    public void removeRedPacketView(Activity activity) {
+        if (weakRedPacket != null && weakRedPacket.get() != null) {
+            ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+            FloatRedPacketSea redPacketSea = weakRedPacket.get();
+            if (redPacketSea.getParent() == decorView) {
+                decorView.removeView(redPacketSea);
+            }
+            weakRedPacket = null;
         }
     }
 
