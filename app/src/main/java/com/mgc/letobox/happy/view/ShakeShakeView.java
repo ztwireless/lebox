@@ -46,9 +46,9 @@ public class ShakeShakeView extends FrameLayout {
         super(context, attrs, defStyleAttr);
         inflate(context, R.layout.layout_shake_shake, this);
         mShakeView = findViewById(R.id.itemShake);
-        mAnimationDrawable = (AnimationDrawable) mShakeView.getDrawable();
+//        mAnimationDrawable = (AnimationDrawable) mShakeView.getDrawable();
 
-        mAnimationDrawable.start();
+//        mAnimationDrawable.start();
         ViewConfiguration vc = ViewConfiguration.get(context);
         touchSlop = vc.getScaledTouchSlop();
         scroller = new OverScroller(context);
