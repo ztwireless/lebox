@@ -18,6 +18,12 @@ android {
     }
     signingConfigs {
         // 修改为您自己的签名, 并在微信后台设置签名指纹
+        lebox {
+            storeFile file('./happy')
+            storePassword "Tiantian1234"
+            keyAlias "happy"
+            keyPassword "Tiantian1234"
+        }
 
 //        debug {
 //            storeFile file('./xxx')
@@ -36,16 +42,12 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-            // 修改为您自己的签名, 并在微信后台设置签名指纹
-//            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.lebox
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-            // 修改为您自己的签名, 并在微信后台设置签名指纹
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.lebox
         }
     }
     sourceSets {

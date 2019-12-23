@@ -175,7 +175,7 @@
             android:value="364775" />
         <meta-data
             android:name="MGC_TEST_ENV"
-            android:value="true" />
+            android:value="false" />
 
     </application>
 </manifest>
