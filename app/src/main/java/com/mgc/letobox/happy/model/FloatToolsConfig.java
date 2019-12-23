@@ -1,9 +1,12 @@
 package com.mgc.letobox.happy.model;
 
+import android.support.annotation.Keep;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+@Keep
 public class FloatToolsConfig {
     public float code;
     public String msg;
@@ -24,11 +27,14 @@ public class FloatToolsConfig {
         return DataObject;
     }
 
+    @Keep
     public static class Data {
         @SerializedName("bubble")
         Bubble BubbleObject;
         @SerializedName("shake")
         Shake ShakeObject;
+        @SerializedName("levelhb")
+        Upgrade UpgradeObject;
 
 
         // Getter Methods
@@ -41,6 +47,7 @@ public class FloatToolsConfig {
             return ShakeObject;
         }
 
+        @Keep
         public static class Shake {
             public int is_open;
             public int max_times;
@@ -49,6 +56,7 @@ public class FloatToolsConfig {
             public ArrayList<Integer> game_ids = new ArrayList<Integer>();
         }
 
+        @Keep
         public static class Bubble {
             public int is_open;
             public int min_coins;
@@ -63,5 +71,21 @@ public class FloatToolsConfig {
             public float right_lower;
             public ArrayList<Integer> game_ids = new ArrayList<Integer>();
         }
+
+
+        public Upgrade getUpgrade() {
+            return UpgradeObject;
+        }
+
+        @Keep
+        public static class Upgrade {
+            public int is_open;
+            public int default_x;
+            public float default_y;
+            public int coins_multiple;
+            public ArrayList<Integer> game_ids = new ArrayList<Integer>();
+        }
+
+
     }
 }

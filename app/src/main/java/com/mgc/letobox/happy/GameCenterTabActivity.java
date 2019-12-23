@@ -17,10 +17,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
@@ -28,9 +28,12 @@ import com.kymjs.rxvolley.http.RequestQueue;
 import com.ledong.lib.leto.Leto;
 import com.ledong.lib.leto.api.ApiContainer;
 import com.ledong.lib.leto.listener.ILetoPlayedDurationListener;
+import com.ledong.lib.leto.mgc.bean.CoinDialogScene;
 import com.ledong.lib.leto.mgc.bean.GetPrivacyContentResultBean;
+import com.ledong.lib.leto.mgc.dialog.IMGCCoinDialogListener;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
 import com.ledong.lib.leto.mgc.util.MGCApiUtil;
+import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
 import com.ledong.lib.leto.trace.LetoTrace;
 import com.ledong.lib.minigame.bean.TabBean;
 import com.leto.game.base.ad.AdManager;
@@ -49,9 +52,9 @@ import com.mgc.letobox.happy.bean.VersionResultBean;
 import com.mgc.letobox.happy.dialog.PrivacyWebDialog;
 import com.mgc.letobox.happy.dialog.VersionDialog;
 import com.mgc.letobox.happy.event.NewerTaskRefreshEvent;
+import com.mgc.letobox.happy.event.ShowRookieGuideEvent;
 import com.mgc.letobox.happy.event.TabSwitchEvent;
 import com.mgc.letobox.happy.me.bean.TaskResultBean;
-import com.mgc.letobox.happy.me.view.TaskCoinDialog;
 import com.mgc.letobox.happy.util.LeBoxUtil;
 import com.mgc.letobox.happy.view.MyRadioGroup;
 
@@ -215,6 +218,15 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // deliver to api container
+        ApiContainer.handleActivityResult(requestCode, resultCode, data);
+
+        // for this
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public void onBackPressed() {
         finish();
     }
@@ -263,20 +275,14 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // deliver to api container
-        ApiContainer.handleActivityResult(requestCode, resultCode, data);
-
-        // for this
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
 
         // check imei
         PermissionsUtil.delayCheckPermissionIfNeeded(this);
+
+        // check rookie guide
+        showRookieGuideIfNeeded();
     }
 
 
@@ -413,23 +419,19 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
 
 
     private void showTaskDialog(final List<TaskResultBean> taskBeans, final int pos, final int action) {
-
-        TaskCoinDialog d = new TaskCoinDialog(this,
-                this.getString(MResource.getIdByName(this, "R.string.leto_mgc_dialog_newer_task_title")), taskBeans.get(pos), new TaskCoinDialog.GameEndCoinDialogListener() {
-            @Override
-            public void onExit(boolean video, int coinGot) {
-
-                if (taskBeans.size() > pos + 1) {
-
-                    Message msg = new Message();
-                    msg.obj = taskBeans.get(pos + 1);
-                    msg.arg1 = pos + 1;
-                    msg.arg2 = action;
-                    mTaskHandler.sendMessage(msg);
+        MGCDialogUtil.showMGCCoinDialogWithOrderId(this, null, taskBeans.get(pos).getAward_coins(), 1, CoinDialogScene.ROOKIE_TASK,
+            taskBeans.get(pos).getChannel_task_id(), new IMGCCoinDialogListener() {
+                @Override
+                public void onExit(boolean video, int coinGot) {
+                    if (taskBeans.size() > pos + 1) {
+                        Message msg = new Message();
+                        msg.obj = taskBeans;
+                        msg.arg1 = pos + 1;
+                        msg.arg2 = action;
+                        mTaskHandler.sendMessage(msg);
+                    }
                 }
-            }
-        });
-        d.show();
+            });
     }
 
     boolean isCheckedVersion = false;
@@ -471,7 +473,6 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
             @Override
             public void onFailure(String code, String msg) {
                 Log.d(TAG, "获取版本信息失败: " + msg);
-
             }
         };
         httpCallbackDecode.setShowTs(false);
@@ -555,6 +556,15 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
             } else {
             }
         } else {
+        }
+    }
+
+    private void showRookieGuideIfNeeded() {
+        if(MGCSharedModel.isRookieGiftAvailable()) {
+            String dstGameId = BaseAppUtil.getMetaStringValue(this, "MGC_GAMEID");
+            if(!TextUtils.isEmpty(dstGameId)) {
+                EventBus.getDefault().postSticky(new ShowRookieGuideEvent());
+            }
         }
     }
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="false">
+    <item android:drawable="@drawable/anim_upgrade_get_00" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_01" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_02" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_03" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_04" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_05" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_06" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_07" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_08" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_09" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_10" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_11" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_12" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_13" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_14" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_15" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_16" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_17" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_18" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_19" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_20" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_21" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_22" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_23" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_24" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_get_25" android:duration="@integer/anim_upgrade_frame_duration"/>
+</animation-list>

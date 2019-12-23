@@ -1,14 +1,11 @@
 package com.mgc.letobox.happy;
 
-import android.app.Activity;
 import android.app.Application;
-import android.os.Bundle;
 import android.support.multidex.MultiDex;
 
 import com.ledong.lib.leto.Leto;
 import com.leto.game.base.util.BaseAppUtil;
 import com.mgc.letobox.happy.floattools.FloatToolsCenter;
-import com.mgc.letobox.happy.floattools.FloatViewManager;
 import com.mgc.letobox.happy.util.LeBoxSpUtil;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.UMShareAPI;
@@ -20,6 +17,8 @@ public class LetoApplication extends Application {
         super.onCreate();
 
         MultiDex.install(this);
+
+        Leto.setDebugMode(true);
 
         //SDK 初始化 指定接入渠道
         Leto.init(this);

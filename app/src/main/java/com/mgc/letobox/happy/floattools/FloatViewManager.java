@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import com.leto.game.base.util.BaseAppUtil;
 import com.mgc.letobox.happy.view.FloatBubbleView;
 import com.mgc.letobox.happy.view.ShakeShakeView;
+import com.mgc.letobox.happy.view.UpgradeView;
 
 import java.lang.ref.WeakReference;
+import java.util.Map;
 
 public class FloatViewManager {
     private static FloatViewManager INST = new FloatViewManager();
@@ -136,7 +138,71 @@ public class FloatViewManager {
             showBubbleView(bubbleViews.keyAt(i));
         }
     }
+
     public int getBubbleCount() {
         return bubbleViews.size();
     }
+
+
+    private WeakReference<UpgradeView> wakeUpgradeView;
+
+    public UpgradeView showUpgradeView(Activity activity, String gameId) {
+        return showUpgradeView(activity, gameId, 0, 0);
+    }
+
+    public UpgradeView showUpgradeView(Activity activity, String gameId, int xDirection, float yRatio) {
+        if (wakeUpgradeView == null || wakeUpgradeView.get() == null) {
+            UpgradeView upgradeView = new UpgradeView(activity);
+            upgradeView.setGameId(gameId);
+            ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            decorView.addView(upgradeView, lp);
+
+            int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            upgradeView.measure(w, h);
+
+            int x = 0;
+            if (xDirection == 1) {
+                x = BaseAppUtil.getDeviceWidth(activity) - upgradeView.getMeasuredWidth();
+            }
+            int y = (int) (yRatio * BaseAppUtil.getDeviceHeight(activity));
+            upgradeView.setX(x);
+            upgradeView.setY(y);
+
+            wakeUpgradeView = new WeakReference<>(upgradeView);
+        } else {
+            UpgradeView upgradeView = wakeUpgradeView.get();
+            upgradeView.setVisibility(View.VISIBLE);
+        }
+        return wakeUpgradeView.get();
+    }
+
+
+    public void hideUpgradeView() {
+        if (wakeUpgradeView != null && wakeUpgradeView.get() != null) {
+            wakeUpgradeView.get().setVisibility(View.GONE);
+        }
+    }
+
+    public void removeUpgradeView(Activity activity) {
+        if (wakeUpgradeView != null && wakeUpgradeView.get() != null) {
+            ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+            UpgradeView upgradeView = wakeUpgradeView.get();
+            if (upgradeView.getParent() == decorView) {
+                decorView.removeView(upgradeView);
+            }
+            wakeUpgradeView = null;
+        }
+    }
+
+    public void notifyUpgrade(String gameId, Map<String, Integer> gameInfo) {
+
+        if (wakeUpgradeView != null && wakeUpgradeView.get() != null) {
+
+            UpgradeView upgradeView = wakeUpgradeView.get();
+            upgradeView.notifyUpdate(gameId, gameInfo);
+        }
+    }
+
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="false">
+    <item android:drawable="@drawable/anim_upgrade_unget_01" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_02" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_03" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_04" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_05" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_06" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_07" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_08" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_09" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_10" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_11" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_12" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_13" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_14" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_15" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_16" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_17" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_18" android:duration="@integer/anim_upgrade_frame_duration"/>
+    <item android:drawable="@drawable/anim_upgrade_unget_19" android:duration="@integer/anim_upgrade_frame_duration"/>
+</animation-list>
