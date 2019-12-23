@@ -1,4 +1,4 @@
-package com.mgc.letobox.happy.floattools;
+package com.mgc.letobox.happy.floattools.components;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.mgc.letobox.happy.floattools
+package com.mgc.letobox.happy.floattools.skymodels
 
 import android.graphics.Canvas
 import android.graphics.PointF
@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
+import com.mgc.letobox.happy.floattools.drawables.Model
+import com.mgc.letobox.happy.floattools.drawables.TitanAnimationDrawable
 
 class AnimDrawableModel(val drawable: TitanAnimationDrawable, position: PointF) : Model(position), Drawable.Callback, Animatable {
     override fun isRunning(): Boolean {

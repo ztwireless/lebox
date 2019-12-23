@@ -1,4 +1,4 @@
-package com.mgc.letobox.happy.floattools;
+package com.mgc.letobox.happy.floattools.drawables;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;

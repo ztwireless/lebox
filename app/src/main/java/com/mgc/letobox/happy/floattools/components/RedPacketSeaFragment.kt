@@ -1,4 +1,4 @@
-package com.mgc.letobox.happy.floattools
+package com.mgc.letobox.happy.floattools.components
 
 import android.app.Fragment
 import android.graphics.PointF
@@ -14,6 +14,12 @@ import com.ledong.lib.leto.mgc.bean.CoinDialogScene
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil
 import com.mgc.letobox.happy.R
 import com.mgc.letobox.happy.R.drawable
+import com.mgc.letobox.happy.floattools.drawables.Model
+import com.mgc.letobox.happy.floattools.drawables.Star
+import com.mgc.letobox.happy.floattools.drawables.StarrySky
+import com.mgc.letobox.happy.floattools.drawables.TitanAnimationDrawable
+import com.mgc.letobox.happy.floattools.skymodels.AnimDrawableModel
+import com.mgc.letobox.happy.floattools.skymodels.RedPacketModel
 import com.mgc.letobox.happy.util.LeBoxSpUtil
 import kotlinx.android.synthetic.main.fragment_redpacket_sea.*
 import java.util.*
@@ -35,7 +41,7 @@ class RedPacketSeaFragment : Fragment() {
 
         itemImage.setOnClickListener {
             itemImage.setOnClickListener(null)
-            val animationDrawable = TitanAnimationDrawable(getResources().getDrawable(R.drawable.anim_redpacket_time_counter) as AnimationDrawable)
+            val animationDrawable = TitanAnimationDrawable(getResources().getDrawable(drawable.anim_redpacket_time_counter) as AnimationDrawable)
             animationDrawable.setAnimationListener {
                 goGetRedPacket()
             }

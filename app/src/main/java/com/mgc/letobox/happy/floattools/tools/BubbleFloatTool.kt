@@ -1,4 +1,4 @@
-package com.mgc.letobox.happy.floattools
+package com.mgc.letobox.happy.floattools.tools
 
 import android.app.Activity
 import android.graphics.Point
@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.View.OnClickListener
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil
+import com.mgc.letobox.happy.floattools.BaseFloatTool
+import com.mgc.letobox.happy.floattools.FloatViewManager
 import com.mgc.letobox.happy.model.FloatToolsConfig.Data.Bubble
 import com.mgc.letobox.happy.util.LeBoxSpUtil
 import com.mgc.letobox.happy.view.FloatBubbleView

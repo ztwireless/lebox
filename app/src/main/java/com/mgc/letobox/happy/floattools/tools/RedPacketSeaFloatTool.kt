@@ -1,4 +1,4 @@
-package com.mgc.letobox.happy.floattools
+package com.mgc.letobox.happy.floattools.tools
 
 import android.app.Activity
 import android.util.Log
@@ -7,6 +7,9 @@ import com.ledong.lib.leto.api.ApiContainer
 import com.ledong.lib.leto.api.ApiContainer.ApiName
 import com.ledong.lib.leto.api.ApiContainer.IApiResultListener
 import com.mgc.letobox.happy.R
+import com.mgc.letobox.happy.floattools.BaseFloatTool
+import com.mgc.letobox.happy.floattools.FloatViewManager
+import com.mgc.letobox.happy.floattools.components.RedPacketSeaActivity
 import com.mgc.letobox.happy.model.FloatToolsConfig
 import com.mgc.letobox.happy.util.LeBoxSpUtil
 import com.mgc.letobox.happy.view.FloatRedPacketSea

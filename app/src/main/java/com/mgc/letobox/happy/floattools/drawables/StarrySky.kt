@@ -1,9 +1,8 @@
-package com.mgc.letobox.happy.floattools
+package com.mgc.letobox.happy.floattools.drawables
 
 import android.graphics.*
 import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
-import android.util.Log
 //import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList

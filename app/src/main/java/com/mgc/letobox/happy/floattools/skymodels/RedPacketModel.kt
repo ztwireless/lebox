@@ -1,11 +1,10 @@
-package com.mgc.letobox.happy.floattools
+package com.mgc.letobox.happy.floattools.skymodels
 
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
 import android.graphics.PointF
 import android.graphics.drawable.Drawable
 import android.util.Log
+import com.mgc.letobox.happy.floattools.drawables.Model
 
 class RedPacketModel(val redPacketDrawable: Drawable, val rotation: Float, val verticalSpeed: Float, position: PointF) : Model(position) {
     companion object {

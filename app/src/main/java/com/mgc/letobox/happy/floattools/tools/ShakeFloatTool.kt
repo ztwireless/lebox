@@ -1,4 +1,4 @@
-package com.mgc.letobox.happy.floattools
+package com.mgc.letobox.happy.floattools.tools
 
 import android.app.Activity
 import android.util.Log
@@ -12,6 +12,9 @@ import com.ledong.lib.leto.mgc.util.MGCDialogUtil
 import com.leto.game.base.login.LoginManager
 import com.leto.game.base.util.BaseAppUtil
 import com.mgc.letobox.happy.R
+import com.mgc.letobox.happy.floattools.BaseFloatTool
+import com.mgc.letobox.happy.floattools.FloatViewManager
+import com.mgc.letobox.happy.floattools.MGCService
 import com.mgc.letobox.happy.model.FloatToolsConfig.Data.Shake
 import com.mgc.letobox.happy.model.ShakeResult
 import com.mgc.letobox.happy.model.ShakeResult.Data
