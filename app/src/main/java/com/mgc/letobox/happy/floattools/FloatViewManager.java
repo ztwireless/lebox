@@ -46,7 +46,10 @@ public class FloatViewManager {
     }
 
     private WeakReference<FloatRedPacketSea> weakRedPacket;
-    public FloatRedPacketSea showRedPacket(Activity activity) {
+    public FloatRedPacketSea getRedPacketSeaView() {
+        return weakRedPacket.get();
+    }
+    public FloatRedPacketSea showRedPacket(Activity activity, int xDirection, float yRatio) {
         if (weakRedPacket == null || weakRedPacket.get() == null) {
             FloatRedPacketSea redPacketSea = new FloatRedPacketSea(activity);
 
@@ -59,8 +62,6 @@ public class FloatViewManager {
             redPacketSea.measure(w, h);
 
             int x = 0;
-            int xDirection = 1;
-            float yRatio = 0.2f;
             if (xDirection == 1) {
                 x = BaseAppUtil.getDeviceWidth(activity) - redPacketSea.getMeasuredWidth();
             }
@@ -70,8 +71,8 @@ public class FloatViewManager {
 
             weakRedPacket = new WeakReference<>(redPacketSea);
         } else {
-            FloatRedPacketSea shakeView = weakRedPacket.get();
-            shakeView.setVisibility(View.VISIBLE);
+            FloatRedPacketSea redPacketSea = weakRedPacket.get();
+            redPacketSea.setVisibility(View.VISIBLE);
         }
         return weakRedPacket.get();
     }
@@ -82,7 +83,7 @@ public class FloatViewManager {
     }
 
     public ShakeShakeView showShakeShake(Activity activity, int xDirection, float yRatio) {
-        if (weakShakeView == null || weakShakeView.get() == null) {
+        if (weakShakeView == null || weakShakeView.get() == null && activity != null) {
             ShakeShakeView shakeView = new ShakeShakeView(activity);
 
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
@@ -116,25 +117,25 @@ public class FloatViewManager {
     }
 
     public void removeRedPacketView(Activity activity) {
-        if (weakRedPacket != null && weakRedPacket.get() != null) {
+        if (weakRedPacket != null && weakRedPacket.get() != null && activity != null) {
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
             FloatRedPacketSea redPacketSea = weakRedPacket.get();
             if (redPacketSea.getParent() == decorView) {
                 decorView.removeView(redPacketSea);
             }
-            weakRedPacket = null;
         }
+        weakRedPacket = null;
     }
 
     public void removeShakeView(Activity activity) {
-        if (weakShakeView != null && weakShakeView.get() != null) {
+        if (weakShakeView != null && weakShakeView.get() != null && activity != null) {
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
             ShakeShakeView shakeView = weakShakeView.get();
             if (shakeView.getParent() == decorView) {
                 decorView.removeView(shakeView);
             }
-            weakShakeView = null;
         }
+        weakShakeView = null;
     }
 
     public void hideBubbleView(int id) {
@@ -146,7 +147,7 @@ public class FloatViewManager {
 
     public void removeBubbleView(Activity activity, int id) {
         WeakReference<FloatBubbleView> wr = bubbleViews.get(id);
-        if (wr != null && wr.get() != null) {
+        if (wr != null && wr.get() != null && activity != null) {
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
             FloatBubbleView bubbleView = wr.get();
             if (bubbleView.getParent() == decorView) {
@@ -228,14 +229,14 @@ public class FloatViewManager {
     }
 
     public void removeUpgradeView(Activity activity) {
-        if (wakeUpgradeView != null && wakeUpgradeView.get() != null) {
+        if (wakeUpgradeView != null && wakeUpgradeView.get() != null && activity != null) {
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
             UpgradeView upgradeView = wakeUpgradeView.get();
             if (upgradeView.getParent() == decorView) {
                 decorView.removeView(upgradeView);
             }
-            wakeUpgradeView = null;
         }
+        wakeUpgradeView = null;
     }
 
     public void notifyUpgrade(String gameId, Map<String, Integer> gameInfo) {

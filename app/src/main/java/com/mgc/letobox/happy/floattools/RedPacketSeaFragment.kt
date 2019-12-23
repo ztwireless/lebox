@@ -5,16 +5,16 @@ import android.graphics.PointF
 import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene
-import com.ledong.lib.leto.mgc.dialog.IMGCCoinDialogListener
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil
 import com.mgc.letobox.happy.R
 import com.mgc.letobox.happy.R.drawable
+import com.mgc.letobox.happy.util.LeBoxSpUtil
 import kotlinx.android.synthetic.main.fragment_redpacket_sea.*
 import java.util.*
 
@@ -24,21 +24,27 @@ class RedPacketSeaFragment : Fragment() {
     }
 
     var totalTime: Int = 10000
+    private lateinit var gameId: String
+    private var coinCount: Int = 0
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        arguments?.let {
+            gameId = it.getString(KEY_GAME_ID, "")
+            coinCount = it.getInt(KEY_COIN_COUNT, 0)
+        }
         redPacketDrawable = resources.getDrawable(drawable.redpacket)
 
         itemImage.setOnClickListener {
             itemImage.setOnClickListener(null)
             val animationDrawable = TitanAnimationDrawable(getResources().getDrawable(R.drawable.anim_redpacket_time_counter) as AnimationDrawable)
             animationDrawable.setAnimationListener {
-                goGetedPacket()
+                goGetRedPacket()
             }
             itemImage.setImageDrawable(animationDrawable)
             animationDrawable.start()
         }
     }
 
-    private fun goGetedPacket() {
+    private fun goGetRedPacket() {
         val screenWidth = resources.displayMetrics.widthPixels
         val screenHeight = resources.displayMetrics.heightPixels
         val sky = StarrySky(screenWidth, screenHeight)
@@ -81,7 +87,6 @@ class RedPacketSeaFragment : Fragment() {
                             override fun onTouch(x: Float, y: Float) {
                                 if (!activity.isFinishing) {
                                     // 添加爆炸model
-//                                    val drawable1 = resources.getDrawable(drawable.anim_bumb) as AnimationDrawable
                                     val animDrawable = TitanAnimationDrawable(resources.getDrawable(drawable.anim_bumb) as AnimationDrawable)
                                     val animDrawableModel = AnimDrawableModel(animDrawable, packet.position)
                                     sky.addModel(animDrawableModel)
@@ -91,11 +96,9 @@ class RedPacketSeaFragment : Fragment() {
                                         animDrawableModel.stop()
                                         sky.removeModel(animDrawableModel)
                                     }
-//                                    animDrawable.start()
-//                                    drawable1.start()
                                     animDrawableModel.start()
 
-                                    // 移除红堡
+                                    // 移除红包
                                     sky.removeModel(packet)
                                 }
                             }
@@ -111,7 +114,9 @@ class RedPacketSeaFragment : Fragment() {
 
     private fun timeUp() {
         if (!activity.isFinishing) {
-            MGCDialogUtil.showRedEnvelopesDialog(activity, 5, CoinDialogScene.GIFT_RAIN) { p0, p1 ->
+            MGCDialogUtil.showRedEnvelopesDialog(activity, coinCount, CoinDialogScene.GIFT_RAIN) { p0, p1 ->
+                Log.i(TAG, "gameId coinCount $gameId $coinCount")
+                LeBoxSpUtil.hbrainOnce(gameId)
                 activity.finish()
             }
         }
@@ -130,5 +135,7 @@ class RedPacketSeaFragment : Fragment() {
 
     companion object {
         private val TAG = RedPacketSeaFragment::class.java.simpleName
+        const val KEY_GAME_ID = "game_id"
+        const val KEY_COIN_COUNT = "coin_count"
     }
 }

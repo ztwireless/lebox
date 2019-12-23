@@ -35,6 +35,7 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Shake)
     }
 
     override fun init() {
+        Log.i(TAG, "init")
         if (wrActivity.get() != null) {
             initShakeView(wrActivity.get()!!)
         }
@@ -42,9 +43,7 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Shake)
 
     override fun clean() {
         super.clean()
-        if (wrActivity.get() != null) {
-            FloatViewManager.getInstance().removeShakeView(wrActivity.get())
-        }
+        FloatViewManager.getInstance().removeShakeView(wrActivity.get())
     }
 
     private var lastShakeTime: Long = 0

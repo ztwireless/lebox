@@ -2,6 +2,7 @@ package com.mgc.letobox.happy.floattools
 
 import android.app.Activity
 import android.graphics.Point
+import android.util.Log
 import android.view.View.OnClickListener
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil
@@ -11,6 +12,7 @@ import com.mgc.letobox.happy.view.FloatBubbleView
 import java.util.*
 
 class BubbleFloatTool(activity: Activity, gameId: String, val bubbleConfig: Bubble) : BaseFloatTool(activity, gameId) {
+    private val TAG = BubbleFloatTool::class.java.simpleName
     override fun isGameEnabled(): Boolean {
         if (TEST_ENV) return true
         val gameIdInt = toInt(gameId)
@@ -22,6 +24,7 @@ class BubbleFloatTool(activity: Activity, gameId: String, val bubbleConfig: Bubb
 
     private var bubbleTimer: Timer? = null
     override fun init() {
+        Log.i(TAG, "init")
         if (bubbleConfig.create_interval <= 0 || wrActivity.get() == null) return
         val activity = wrActivity.get()!!
 
@@ -48,9 +51,7 @@ class BubbleFloatTool(activity: Activity, gameId: String, val bubbleConfig: Bubb
 
     override fun clean() {
         super.clean()
-        if (wrActivity.get() != null) {
-            FloatViewManager.getInstance().removeAllBubbleViews(wrActivity.get())
-        }
+        FloatViewManager.getInstance().removeAllBubbleViews(wrActivity.get())
         bubbleTimer?.cancel()
         bubbleTimer = null
     }

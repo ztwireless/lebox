@@ -18,6 +18,9 @@
     <string name="lebox_get_news_category_failed">获取新闻分类失败</string>
     <string name="shake_time_used_out">今日摇一摇机会已用完</string>
     <string name="obtain_ad_failed">什么都没摇到</string>
+    <string name="hbrain_cooling">请等待冷却完成</string>
+    <string name="hbrain_times_used_out">今日红包雨次数已用完</string>
+    <string name="hbrain_rest_times_format">今日免费%d次</string>
 
     <string-array name="find_tab">
         <item>推荐</item>

@@ -110,10 +110,9 @@ public class FloatToolsCenter {
                     if (floatToolsConfig.getData().getShake() != null) {
                         floatTools.add(new ShakeFloatTool(activity, gameId, floatToolsConfig.getData().getShake()));
                     }
-                    if (floatToolsConfig.getData().getShake() != null) {
-                        floatTools.add(new ShakeFloatTool(activity, gameId, floatToolsConfig.getData().getShake()));
+                    if (floatToolsConfig.getData().getHbrain() != null) {
+                        floatTools.add(new RedPacketSeaFloatTool(activity, gameId, floatToolsConfig.getData().getHbrain()));
                     }
-                    floatTools.add(new RedPacketSeaFloatTool(activity, gameId, floatToolsConfig.getData().getShake()));
                 }
                 for (BaseFloatTool floatTool : floatTools) {
                     if (floatTool.isGameEnabled()) {
@@ -171,6 +170,10 @@ public class FloatToolsCenter {
                             floatToolsConfig.getData().getShake().default_x = 1;
                             floatToolsConfig.getData().getShake().default_y = 0.8f;
                             floatToolsConfig.getData().getShake().max_times = 15;
+                        }
+                        if (floatToolsConfig != null && floatToolsConfig.getData() != null && floatToolsConfig.getData().getHbrain() != null) {
+                            floatToolsConfig.getData().getHbrain().cooling_time = 120;
+                            floatToolsConfig.getData().getHbrain().create_max_times = 1;
                         }
                     }
                 } catch (IOException e) {
