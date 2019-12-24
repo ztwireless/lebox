@@ -37,6 +37,7 @@ import com.mgc.letobox.happy.view.ShakeShakeView;
 import com.mgc.letobox.happy.view.UpgradeView;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Map;
@@ -144,10 +145,10 @@ public class FloatToolsCenter {
 
         Leto.getInstance().setGameUpgradeListener(new ILetoGameUpgradeListener() {
             @Override
-            public void show(Activity activity, String gameId, Map<String, Integer> gameInfo) {
+            public void show(Activity activity, String gameId, Map<String, Integer> gameInfo, JSONObject params) {
                 LetoTrace.d(TAG, "upgrade show");
                 if (isGameUpgradeEnabled(gameId)) {
-                    initUpgradeView(activity, gameId);
+                    initUpgradeView(activity, gameId, params);
 
                     if (gameInfo != null && gameInfo.size() > 0) {
                         if (FloatViewManager.getInstance() != null) {
@@ -219,9 +220,12 @@ public class FloatToolsCenter {
     private static long lastShakeTime = 0;
 
     private static void initShakeView(final LetoActivity activity) {
-        if (floatToolsConfig != null && floatToolsConfig.getData() != null && floatToolsConfig.getData().getShake() != null) {
+        if (floatToolsConfig != null && floatToolsConfig.getData() != null && floatToolsConfig.getData().getShake() != null && activity != null) {
             final FloatToolsConfig.Data.Shake shake = floatToolsConfig.getData().getShake();
             ShakeShakeView shakeView = FloatViewManager.getInstance().showShakeShake(activity, shake.default_x, shake.default_y);
+            if (shakeView == null) {
+                return;
+            }
             lastShakeTime = System.currentTimeMillis();
             shakeView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -234,7 +238,7 @@ public class FloatToolsCenter {
                     }
 
                     //点击上报
-                    GameStatisticManager.statisticBenefitLog(activity, activity.getRunningGameId(), StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal(),0, 0, 0, 0, Constant.BENEFITS_TYPE_SHAKE, 0);
+                    GameStatisticManager.statisticBenefitLog(activity, activity.getRunningGameId(), StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal(), 0, 0, 0, 0, Constant.BENEFITS_TYPE_SHAKE, 0);
 
                     if (todayTimes >= shake.max_times) {
                         lastShakeTime = System.currentTimeMillis();
@@ -255,14 +259,16 @@ public class FloatToolsCenter {
     }
 
     private static void triggerJSShakeAwardEvent(LetoActivity activity, String awardId) {
-        if(activity != null) {
+        if (activity != null) {
             activity.notifyServiceSubscribeHandler("onAppShakeAward", String.format("{\"award_id\": \"%s\"}", awardId), 0);
         }
     }
 
     private static void shakeIt(final LetoActivity activity) {
+        if (activity == null) {
+            return;
+        }
         String gameId = activity.getRunningGameId();
-//        Log.i(TAG, "gameId " + gameId);
         MGCService service = buildRetrofit().create(MGCService.class);
         Call<ShakeResult> shakeResultCall = service.obtainShakeResult(
                 toInt(BaseAppUtil.getChannelID(activity)), toInt(gameId), LoginManager.getUserId(activity), LetoConst.SDK_OPEN_TOKEN);
@@ -278,7 +284,7 @@ public class FloatToolsCenter {
                             // 由于服务器尚未有游戏奖励配置, 因此这里暂时写死, 25%插屏, 25%宝箱, 50%游戏金币
                             // 如果没有缓存好的插屏, 则跳过插屏
                             double f = Math.random();
-                            if(f < 0.25 && AdPreloader.isInterstitialPreloaded()) {
+                            if (f < 0.25 && AdPreloader.isInterstitialPreloaded()) {
                                 final ApiContainer apiContainer = new ApiContainer(activity);
                                 apiContainer.presentInterstitialAd(new ApiContainer.IApiResultListener() {
                                     @Override
@@ -294,7 +300,7 @@ public class FloatToolsCenter {
                                         Toast.makeText(activity, R.string.obtain_ad_failed, Toast.LENGTH_SHORT).show();
                                     }
                                 });
-                            } else if(f < 0.75) {
+                            } else if (f < 0.75) {
                                 triggerJSShakeAwardEvent(activity, "award1");
                             } else {
                                 triggerJSShakeAwardEvent(activity, "award2");
@@ -317,7 +323,7 @@ public class FloatToolsCenter {
     private static Timer bubbleTimer = null;
 
     private static void initBubbleTask(final LetoActivity activity) {
-        if (floatToolsConfig != null && floatToolsConfig.getData() != null && floatToolsConfig.getData().getBubble() != null) {
+        if (floatToolsConfig != null && floatToolsConfig.getData() != null && floatToolsConfig.getData().getBubble() != null && activity != null) {
             final FloatToolsConfig.Data.Bubble bubble = floatToolsConfig.getData().getBubble();
             if (bubble.create_interval <= 0) return;
 
@@ -336,14 +342,14 @@ public class FloatToolsCenter {
                         public void run() {
                             // 由于服务器尚未有游戏奖励配置, 因此这里暂时写死, 25%提现金币, 25%宝箱, 50%游戏金币
                             double f = Math.random();
-                            if(f < 0.25) {
+                            if (f < 0.25) {
 //                                Log.i(TAG, "addBubble " + activity.getRunningGameId() + "|" + LeBoxSpUtil.todayBubbleTimes(activity.getRunningGameId()) + "|" + bubble.create_max_times);
                                 if (FloatViewManager.getInstance().getBubbleCount() < bubble.screen_max_times
-                                    && LeBoxSpUtil.todayBubbleTimes(activity.getRunningGameId()) < bubble.create_max_times) {
+                                        && LeBoxSpUtil.todayBubbleTimes(activity.getRunningGameId()) < bubble.create_max_times) {
                                     FloatViewManager.getInstance().addBubble(activity, count, position.x, position.y, onBubbleClickListener);
                                     LeBoxSpUtil.bubbleOnce(activity.getRunningGameId());
                                 }
-                            } else if(f < 0.75) {
+                            } else if (f < 0.75) {
                                 triggerJSShakeAwardEvent(activity, "award1");
                             } else {
                                 triggerJSShakeAwardEvent(activity, "award2");
@@ -376,7 +382,7 @@ public class FloatToolsCenter {
                 if (view instanceof FloatBubbleView) {
 
                     //点击上报
-                    GameStatisticManager.statisticBenefitLog(activity, activity.getRunningGameId(), StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal(),0, 0, 0, 0, Constant.BENEFITS_TYPE_BUBBLE, 0);
+                    GameStatisticManager.statisticBenefitLog(activity, activity.getRunningGameId(), StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal(), 0, 0, 0, 0, Constant.BENEFITS_TYPE_BUBBLE, 0);
 
                     FloatBubbleView bubbleView = (FloatBubbleView) view;
                     FloatViewManager.getInstance().removeBubbleView(activity, bubbleView.getBubbleId());
@@ -387,10 +393,24 @@ public class FloatToolsCenter {
     }
 
 
-    private static void initUpgradeView(Activity activity, String gameId) {
-        if (floatToolsConfig != null && floatToolsConfig.getData() != null && floatToolsConfig.getData().getUpgrade() != null) {
+    private static void initUpgradeView(Activity activity, String gameId, JSONObject params) {
+        if (floatToolsConfig != null && floatToolsConfig.getData() != null && floatToolsConfig.getData().getUpgrade() != null && activity != null) {
             final FloatToolsConfig.Data.Upgrade update = floatToolsConfig.getData().getUpgrade();
-            UpgradeView upgradeView = FloatViewManager.getInstance().showUpgradeView(activity, gameId, update.default_x, update.default_y);
+
+            // 如果show里面指定了位置, 使用show的位置
+            int xDirection = update.default_x;
+            float yRatio = update.default_y;
+            if(params != null) {
+                String gravity = params.optString("gravity", "unspecified");
+                if(!gravity.equals("unspecified")) {
+                    xDirection = gravity.equals("left") ? 0 : 1;
+                }
+                if(params.has("percent_v")) {
+                    yRatio = (float)params.optDouble("percent_v", update.default_y);
+                }
+            }
+
+            UpgradeView upgradeView = FloatViewManager.getInstance().showUpgradeView(activity, gameId, xDirection, yRatio);
             upgradeView.setGameId(gameId);
             upgradeView.getGameUpgradeSetting(activity, gameId);
             upgradeView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
@@ -399,7 +419,7 @@ public class FloatToolsCenter {
                     LetoTrace.d("UpgradeView", "click me......");
 
                     //点击上报
-                    GameStatisticManager.statisticBenefitLog(activity, gameId, StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal(),0, 0, 0, 0, Constant.BENEFITS_TYPE_UPGRADE_GIFT, 0);
+                    GameStatisticManager.statisticBenefitLog(activity, gameId, StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal(), 0, 0, 0, 0, Constant.BENEFITS_TYPE_UPGRADE_GIFT, 0);
 
                     GameLevelResultBean.GameLevel levelReward = upgradeView.getRewardLevel();
                     if (levelReward != null) {

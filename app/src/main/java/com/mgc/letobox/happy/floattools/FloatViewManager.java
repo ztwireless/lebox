@@ -118,7 +118,7 @@ public class FloatViewManager {
     }
 
     public void removeShakeView(Activity activity) {
-        if (weakShakeView != null && weakShakeView.get() != null) {
+        if (weakShakeView != null && weakShakeView.get() != null && activity!= null) {
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
             ShakeShakeView shakeView = weakShakeView.get();
             if (shakeView.getParent() == decorView) {
@@ -137,7 +137,7 @@ public class FloatViewManager {
 
     public void removeBubbleView(Activity activity, int id) {
         WeakReference<FloatBubbleView> wr = bubbleViews.get(id);
-        if (wr != null && wr.get() != null) {
+        if (wr != null && wr.get() != null && activity != null) {
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
             FloatBubbleView bubbleView = wr.get();
             if (bubbleView.getParent() == decorView) {
@@ -207,6 +207,15 @@ public class FloatViewManager {
         } else {
             UpgradeView upgradeView = wakeUpgradeView.get();
             upgradeView.setVisibility(View.VISIBLE);
+
+            // 已经存在view了, 重新设置一下位置
+            int x = 0;
+            if (xDirection == 1) {
+                x = BaseAppUtil.getDeviceWidth(activity) - upgradeView.getMeasuredWidth();
+            }
+            int y = (int) (yRatio * BaseAppUtil.getDeviceHeight(activity));
+            upgradeView.setX(x);
+            upgradeView.setY(y);
         }
         return wakeUpgradeView.get();
     }
@@ -219,7 +228,7 @@ public class FloatViewManager {
     }
 
     public void removeUpgradeView(Activity activity) {
-        if (wakeUpgradeView != null && wakeUpgradeView.get() != null) {
+        if (wakeUpgradeView != null && wakeUpgradeView.get() != null && activity != null) {
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
             UpgradeView upgradeView = wakeUpgradeView.get();
             //清理handler

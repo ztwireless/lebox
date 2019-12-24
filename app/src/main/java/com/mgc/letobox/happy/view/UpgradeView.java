@@ -74,7 +74,6 @@ public class UpgradeView extends FrameLayout {
 
     private Map<String, Integer> _gamelevel = new HashMap();
 
-
     // handler
     private Handler _handler;
     private Runnable _switchMarqueeRunnable = new Runnable() {
@@ -138,6 +137,12 @@ public class UpgradeView extends FrameLayout {
     private PointF initialPoint = new PointF();
     private float touchSlop;
     private boolean isDragging = false;
+
+    public void relocate(int x, int y) {
+        setX(x);
+        setY(y);
+        settleToEdge();
+    }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
