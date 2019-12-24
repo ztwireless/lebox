@@ -9,6 +9,7 @@ import com.ledong.lib.leto.api.ApiContainer.ApiName
 import com.ledong.lib.leto.api.ApiContainer.IApiResultListener
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil
+import com.leto.game.base.ad.AdPreloader
 import com.leto.game.base.login.LoginManager
 import com.leto.game.base.util.BaseAppUtil
 import com.mgc.letobox.happy.R
@@ -54,14 +55,18 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Shake)
     private fun initShakeView(activity: Activity) {
         val shake = shakeConfig
         val shakeView: ShakeShakeView = FloatViewManager.getInstance().showShakeShake(activity, shake.default_x, shake.default_y)
-        lastShakeTime = System.currentTimeMillis()
         shakeView.setOnClickListener {
             val todayTimes = LeBoxSpUtil.todayShakeTimes(gameId)
-            if (System.currentTimeMillis() - lastShakeTime < 600) {
+            val currentTime = System.currentTimeMillis()
+//            Log.i(TAG, "lastShakeTime $lastShakeTime currentTime $currentTime" +
+//                    " todayTimes $todayTimes max_times ${shake.max_times} isPreloaded ${AdPreloader.isInterstitialPreloaded()}")
+            if (currentTime - lastShakeTime < 600) {
                 // do nothing
             } else if (todayTimes >= shake.max_times) {
                 lastShakeTime = System.currentTimeMillis()
                 Toast.makeText(activity, R.string.shake_time_used_out, Toast.LENGTH_SHORT).show()
+            } else if (currentTime - lastShakeTime < 3000) {
+                Toast.makeText(activity, R.string.shake_nothing, Toast.LENGTH_SHORT).show()
             } else {
                 lastShakeTime = System.currentTimeMillis()
                 LeBoxSpUtil.shakeOnce(gameId)
@@ -80,21 +85,29 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Shake)
                 activity.runOnUiThread {
                     val shakeData: Data? = shakeResult.data
                     if (shakeData == null || shakeData.add_coins == 0) {
-                        val apiContainer = ApiContainer(activity)
-                        apiContainer.presentInterstitialAd(object : IApiResultListener {
-                            override fun onApiSuccess(apiName: ApiName?, o: Any?) {
-                                Log.i(TAG, "onApiSuccess")
-                                apiContainer.destroy()
-                            }
+                        if (!AdPreloader.isInterstitialPreloaded()) {
+                            Toast.makeText(activity, R.string.shake_nothing, Toast.LENGTH_SHORT).show()
+                        } else {
+                            val apiContainer = ApiContainer(activity)
+                            apiContainer.presentInterstitialAd(object : IApiResultListener {
+                                override fun onApiSuccess(apiName: ApiName?, o: Any?) {
+                                    Log.i(TAG, "onApiSuccess")
+                                    apiContainer.destroy()
+                                }
 
-                            override fun onApiFailed(apiName: ApiName?, b: Boolean) {
-                                Log.i(TAG, "onApiFailed")
-                                apiContainer.destroy()
-                                Toast.makeText(activity, R.string.obtain_ad_failed, Toast.LENGTH_SHORT).show()
-                            }
-                        })
+                                override fun onApiFailed(apiName: ApiName?, b: Boolean) {
+                                    Log.i(TAG, "onApiFailed")
+                                    apiContainer.destroy()
+                                    Toast.makeText(activity, R.string.obtain_ad_failed, Toast.LENGTH_SHORT).show()
+                                }
+                            })
+                        }
                     } else {
-                        MGCDialogUtil.showMGCCoinDialog(activity, "", shakeData.add_coins, shakeData.add_coins_multiple, CoinDialogScene.SHAKE) { b, i -> }
+                        if (shakeData.add_coins_type == 1) {
+                            MGCDialogUtil.showMGCCoinDialog(activity, "", shakeData.add_coins, shakeData.add_coins_multiple, CoinDialogScene.SHAKE) { b, i -> }
+                        } else if (shakeData.add_coins_type == 2) {
+                            MGCDialogUtil.showCpCoinDialog(activity, "", shakeData.add_coins, shakeData.add_coins_multiple, CoinDialogScene.SHAKE) { b, i -> }
+                        }
                     }
                 }
             }

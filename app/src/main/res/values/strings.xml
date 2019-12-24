@@ -21,6 +21,7 @@
     <string name="hbrain_cooling">请等待冷却完成</string>
     <string name="hbrain_times_used_out">今日红包雨次数已用完</string>
     <string name="hbrain_rest_times_format">今日免费%d次</string>
+    <string name="shake_nothing">什么都没摇到，请稍后再试</string>
 
     <string-array name="find_tab">
         <item>推荐</item>
