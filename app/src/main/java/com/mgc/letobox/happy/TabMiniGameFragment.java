@@ -27,6 +27,8 @@ import com.ledong.lib.minigame.GameCenterHomeFragment;
 import com.ledong.lib.minigame.SearchActivity;
 import com.ledong.lib.minigame.view.RookieGuideView;
 import com.leto.game.base.event.GetCoinEvent;
+import com.leto.game.base.statistic.GameStatisticManager;
+import com.leto.game.base.statistic.StatisticEvent;
 import com.leto.game.base.util.IntentConstant;
 import com.ledong.lib.minigame.event.HideTitleEvent;
 import com.mgc.letobox.happy.event.ShowBackEvent;
@@ -298,6 +300,10 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
     public void onLetoAppShown(final LetoActivity activity, String appId) {
         // 如果是引导等待的游戏, 显示新手红包
         if (MGCSharedModel.isRookieGiftAvailable()) {
+
+            //点击上报
+            GameStatisticManager.statisticBenefitLog(activity, appId, StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal(),0, 0, 0, 0, Constant.BENEFITS_TYPE_NEWMEM_HB, 0);
+
             MGCDialogUtil.showRookieGiftDialog(activity, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

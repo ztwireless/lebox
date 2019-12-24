@@ -4,17 +4,23 @@ import android.content.Context;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.OverScroller;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.google.gson.reflect.TypeToken;
 import com.ledong.lib.leto.mgc.GameLevelTaskManager;
@@ -22,9 +28,12 @@ import com.ledong.lib.leto.mgc.bean.GameLevelResultBean;
 import com.ledong.lib.leto.mgc.util.MGCApiUtil;
 import com.ledong.lib.leto.trace.LetoTrace;
 import com.leto.game.base.http.HttpCallbackDecode;
+import com.leto.game.base.util.ColorUtil;
 import com.leto.game.base.util.ToastUtil;
+import com.leto.game.base.view.MarqueeTextView;
 import com.mgc.letobox.happy.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,8 +44,8 @@ public class UpgradeView extends FrameLayout {
     private AnimationDrawable mAnimationDrawable;
     private ImageView mShakeView;
 
-    private TextView mLevelView;
-    private TextView mStatusView;
+    private TextSwitcher mLevelView;
+    private ImageView mStatusView;
 
     boolean hasReward = false;
 
@@ -60,8 +69,49 @@ public class UpgradeView extends FrameLayout {
         edgeRatio.set(left, top, right, bottom);
     }
 
+    private List<String> _news;
+    private int _nextNews;
+
     private Map<String, Integer> _gamelevel = new HashMap();
 
+
+    // handler
+    private Handler _handler;
+    private Runnable _switchMarqueeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            int oldIdx = _nextNews;
+            _nextNews++;
+            _nextNews %= _news.size();
+            if (_nextNews != oldIdx) {
+                mLevelView.setVisibility(VISIBLE);
+                mLevelView.setText(_news.get(_nextNews));
+                _handler.postDelayed(_switchMarqueeRunnable, 2000);
+            }
+        }
+    };
+
+
+    private ViewSwitcher.ViewFactory _textFactory = new ViewSwitcher.ViewFactory() {
+        @Override
+        public View makeView() {
+
+            final MarqueeTextView tv = new MarqueeTextView(getContext());
+            //设置文字大小
+            tv.setTextSize(9);
+            TextPaint paint = tv.getPaint();
+            paint.setFakeBoldText(true);
+            //设置文字 颜色
+            tv.setTextColor(ColorUtil.parseColor("#FFF32700"));
+            tv.setSingleLine();
+            tv.setEllipsize(TextUtils.TruncateAt.END);
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.gravity = Gravity.CENTER;
+            tv.setLayoutParams(lp);
+
+            return tv;
+        }
+    };
 
     public UpgradeView(@NonNull final Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -70,19 +120,19 @@ public class UpgradeView extends FrameLayout {
         mLevelView = findViewById(R.id.item_level);
         mStatusView = findViewById(R.id.item_status);
         mStatusView.setVisibility(VISIBLE);
-        mStatusView.setText("可领取");
         mAnimationDrawable = (AnimationDrawable) mShakeView.getDrawable();
 
         mLevelView.setVisibility(VISIBLE);
-
+        _handler = new Handler();
+        _news = new ArrayList<>();
         //跑马灯效果必须加
         mLevelView.setSelected(true);
+        mLevelView.setFactory(_textFactory);
+        restartMarquee();
 
         ViewConfiguration vc = ViewConfiguration.get(context);
         touchSlop = vc.getScaledTouchSlop();
         scroller = new OverScroller(context);
-
-
     }
 
     private PointF initialPoint = new PointF();
@@ -151,9 +201,19 @@ public class UpgradeView extends FrameLayout {
         }
     }
 
+    public void onDestroy() {
+        try {
+            if (_handler != null) {
+                _handler.removeCallbacks(_switchMarqueeRunnable);
+            }
+        }catch (Throwable e){
+
+        }
+    }
+
     public void notifyUpdate(String gameId, Map<String, Integer> gameInfo) {
 
-        if (TextUtils.isEmpty(gameId) || !gameId.equalsIgnoreCase(_gameId)) {
+        if (TextUtils.isEmpty(gameId) || !gameId.equalsIgnoreCase(_gameId) || gameInfo == null) {
             return;
         }
 
@@ -184,7 +244,11 @@ public class UpgradeView extends FrameLayout {
         if (isReward) {
             mShakeView.setImageResource(R.drawable.anim_upgrade_get);
             mStatusView.setVisibility(View.GONE);
-            mLevelView.setText("可领取");
+            _news.clear();
+            _news.add("可领取");
+            _nextNews = 0;
+            _handler.removeCallbacks(_switchMarqueeRunnable);
+            mLevelView.setCurrentText("可领取");
         } else {
             mShakeView.setImageResource(R.drawable.anim_upgrade_unget);
             mStatusView.setVisibility(View.VISIBLE);
@@ -250,11 +314,25 @@ public class UpgradeView extends FrameLayout {
         return hasReward;
     }
 
+    private void restartMarquee() {
+        _nextNews = 0;
+        if (_news != null && _nextNews < _news.size()) {
+            mLevelView.setCurrentText(_news.get(_nextNews));
+            _handler.postDelayed(_switchMarqueeRunnable, 3000);
+        }
+    }
+
 
     public void updateLevelText() {
-        String gameInfo = GameLevelTaskManager.getNextRewardLevelInfoStr(_gameId, _gamelevel);
-        mLevelView.setText(gameInfo);
-        mLevelView.setSelected(true);
+
+        List<String> gameInfo = GameLevelTaskManager.getNextRewardLevelInfo(_gameId, _gamelevel);
+
+        _news.clear();
+        _news.addAll(gameInfo);
+        _handler.removeCallbacks(_switchMarqueeRunnable);
+        restartMarquee();
+        return;
+
     }
 
     public void getGameUpgradeSetting(Context ctx, String gameId) {
@@ -264,14 +342,16 @@ public class UpgradeView extends FrameLayout {
             @Override
             public void onDataSuccess(List<GameLevelResultBean> data) {
                 try {
-                    GameLevelTaskManager.addGameTask(gameId, data);
-
-                    if (_gamelevel != null && _gamelevel.size() > 0) {
-
-                        notifyUpdate(gameId, _gamelevel);
+                    if (data != null) {
+                        GameLevelTaskManager.addGameTask(gameId, data);
+                        if (_gamelevel != null && _gamelevel.size() > 0) {
+                            notifyUpdate(gameId, _gamelevel);
+                        }
+                    } else {
+                        LetoTrace.w(TAG, "游戏升级配置获取失败");
                     }
-                } catch(Throwable e) {
-
+                } catch (Throwable e) {
+                    e.printStackTrace();
                 }
             }
 

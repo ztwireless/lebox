@@ -1,21 +1,30 @@
 package com.mgc.letobox.happy.floattools;
 
 import android.app.Activity;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.leto.game.base.event.FloatIconRelocateEvent;
+import com.leto.game.base.event.FloatIconVisibilityEvent;
 import com.leto.game.base.util.BaseAppUtil;
 import com.mgc.letobox.happy.view.FloatBubbleView;
 import com.mgc.letobox.happy.view.ShakeShakeView;
 import com.mgc.letobox.happy.view.UpgradeView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.ref.WeakReference;
 import java.util.Map;
 
 public class FloatViewManager {
     private static FloatViewManager INST = new FloatViewManager();
+
+    private FloatViewManager() {
+        EventBus.getDefault().register(this);
+    }
 
     public static FloatViewManager getInstance() {
         return INST;
@@ -48,6 +57,30 @@ public class FloatViewManager {
 
     public ShakeShakeView showShakeShake(Activity activity) {
         return showShakeShake(activity, 0, 0);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFloatIconRelocateEvent(FloatIconRelocateEvent e) {
+        if(e.viewId == FloatIconRelocateEvent.SHAKE_VIEW) {
+            if (weakShakeView != null) {
+                ShakeShakeView v = weakShakeView.get();
+                if(v != null) {
+                    v.relocate(e.x, e.y, e.pinned);
+                }
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFloatIconVisibilityEvent(FloatIconVisibilityEvent e) {
+        if(e.viewId == FloatIconRelocateEvent.SHAKE_VIEW) {
+            if (weakShakeView != null) {
+                ShakeShakeView v = weakShakeView.get();
+                if(v != null) {
+                    v.setVisibility(e.visible ? View.VISIBLE : View.INVISIBLE);
+                }
+            }
+        }
     }
 
     public ShakeShakeView showShakeShake(Activity activity, int xDirection, float yRatio) {
@@ -189,6 +222,9 @@ public class FloatViewManager {
         if (wakeUpgradeView != null && wakeUpgradeView.get() != null) {
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
             UpgradeView upgradeView = wakeUpgradeView.get();
+            //清理handler
+            upgradeView.onDestroy();
+
             if (upgradeView.getParent() == decorView) {
                 decorView.removeView(upgradeView);
             }
