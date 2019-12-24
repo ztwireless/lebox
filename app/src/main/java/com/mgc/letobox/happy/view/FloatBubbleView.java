@@ -6,14 +6,12 @@ import android.graphics.PointF;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.leto.game.base.util.MResource;
 import com.mgc.letobox.happy.R;
 
 public class FloatBubbleView extends FrameLayout {

@@ -1,19 +1,30 @@
 package com.mgc.letobox.happy.floattools;
 
 import android.app.Activity;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.leto.game.base.event.FloatIconRelocateEvent;
+import com.leto.game.base.event.FloatIconVisibilityEvent;
 import com.leto.game.base.util.BaseAppUtil;
 import com.mgc.letobox.happy.view.FloatBubbleView;
 import com.mgc.letobox.happy.view.ShakeShakeView;
+import com.mgc.letobox.happy.view.UpgradeView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.ref.WeakReference;
+import java.util.Map;
 
 public class FloatViewManager {
     private static FloatViewManager INST = new FloatViewManager();
+
+    private FloatViewManager() {
+        EventBus.getDefault().register(this);
+    }
 
     public static FloatViewManager getInstance() {
         return INST;
@@ -46,6 +57,30 @@ public class FloatViewManager {
 
     public ShakeShakeView showShakeShake(Activity activity) {
         return showShakeShake(activity, 0, 0);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFloatIconRelocateEvent(FloatIconRelocateEvent e) {
+        if(e.viewId == FloatIconRelocateEvent.SHAKE_VIEW) {
+            if (weakShakeView != null) {
+                ShakeShakeView v = weakShakeView.get();
+                if(v != null) {
+                    v.relocate(e.x, e.y, e.pinned);
+                }
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFloatIconVisibilityEvent(FloatIconVisibilityEvent e) {
+        if(e.viewId == FloatIconRelocateEvent.SHAKE_VIEW) {
+            if (weakShakeView != null) {
+                ShakeShakeView v = weakShakeView.get();
+                if(v != null) {
+                    v.setVisibility(e.visible ? View.VISIBLE : View.INVISIBLE);
+                }
+            }
+        }
     }
 
     public ShakeShakeView showShakeShake(Activity activity, int xDirection, float yRatio) {
@@ -83,7 +118,7 @@ public class FloatViewManager {
     }
 
     public void removeShakeView(Activity activity) {
-        if (weakShakeView != null && weakShakeView.get() != null) {
+        if (weakShakeView != null && weakShakeView.get() != null && activity!= null) {
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
             ShakeShakeView shakeView = weakShakeView.get();
             if (shakeView.getParent() == decorView) {
@@ -102,7 +137,7 @@ public class FloatViewManager {
 
     public void removeBubbleView(Activity activity, int id) {
         WeakReference<FloatBubbleView> wr = bubbleViews.get(id);
-        if (wr != null && wr.get() != null) {
+        if (wr != null && wr.get() != null && activity != null) {
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
             FloatBubbleView bubbleView = wr.get();
             if (bubbleView.getParent() == decorView) {
@@ -136,7 +171,83 @@ public class FloatViewManager {
             showBubbleView(bubbleViews.keyAt(i));
         }
     }
+
     public int getBubbleCount() {
         return bubbleViews.size();
     }
+
+
+    private WeakReference<UpgradeView> wakeUpgradeView;
+
+    public UpgradeView showUpgradeView(Activity activity, String gameId) {
+        return showUpgradeView(activity, gameId, 0, 0);
+    }
+
+    public UpgradeView showUpgradeView(Activity activity, String gameId, int xDirection, float yRatio) {
+        if (wakeUpgradeView == null || wakeUpgradeView.get() == null) {
+            UpgradeView upgradeView = new UpgradeView(activity);
+            upgradeView.setGameId(gameId);
+            ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            decorView.addView(upgradeView, lp);
+
+            int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            upgradeView.measure(w, h);
+
+            int x = 0;
+            if (xDirection == 1) {
+                x = BaseAppUtil.getDeviceWidth(activity) - upgradeView.getMeasuredWidth();
+            }
+            int y = (int) (yRatio * BaseAppUtil.getDeviceHeight(activity));
+            upgradeView.setX(x);
+            upgradeView.setY(y);
+
+            wakeUpgradeView = new WeakReference<>(upgradeView);
+        } else {
+            UpgradeView upgradeView = wakeUpgradeView.get();
+            upgradeView.setVisibility(View.VISIBLE);
+
+            // 已经存在view了, 重新设置一下位置
+            int x = 0;
+            if (xDirection == 1) {
+                x = BaseAppUtil.getDeviceWidth(activity) - upgradeView.getMeasuredWidth();
+            }
+            int y = (int) (yRatio * BaseAppUtil.getDeviceHeight(activity));
+            upgradeView.setX(x);
+            upgradeView.setY(y);
+        }
+        return wakeUpgradeView.get();
+    }
+
+
+    public void hideUpgradeView() {
+        if (wakeUpgradeView != null && wakeUpgradeView.get() != null) {
+            wakeUpgradeView.get().setVisibility(View.GONE);
+        }
+    }
+
+    public void removeUpgradeView(Activity activity) {
+        if (wakeUpgradeView != null && wakeUpgradeView.get() != null && activity != null) {
+            ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+            UpgradeView upgradeView = wakeUpgradeView.get();
+            //清理handler
+            upgradeView.onDestroy();
+
+            if (upgradeView.getParent() == decorView) {
+                decorView.removeView(upgradeView);
+            }
+            wakeUpgradeView = null;
+        }
+    }
+
+    public void notifyUpgrade(String gameId, Map<String, Integer> gameInfo) {
+
+        if (wakeUpgradeView != null && wakeUpgradeView.get() != null) {
+
+            UpgradeView upgradeView = wakeUpgradeView.get();
+            upgradeView.notifyUpdate(gameId, gameInfo);
+        }
+    }
+
 }

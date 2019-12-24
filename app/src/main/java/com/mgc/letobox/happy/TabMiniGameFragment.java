@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Keep;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import com.ledong.lib.leto.listener.ILetoLifecycleListener;
 import com.ledong.lib.leto.main.LetoActivity;
 import com.ledong.lib.leto.mgc.bean.BenefitSettings_rookie;
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene;
-import com.ledong.lib.leto.mgc.dialog.CustomVideoCoinDialog;
 import com.ledong.lib.leto.mgc.dialog.IMGCCoinDialogListener;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
@@ -29,8 +27,10 @@ import com.ledong.lib.minigame.GameCenterHomeFragment;
 import com.ledong.lib.minigame.SearchActivity;
 import com.ledong.lib.minigame.view.RookieGuideView;
 import com.leto.game.base.event.GetCoinEvent;
-import com.leto.game.base.util.BaseAppUtil;
+import com.leto.game.base.statistic.GameStatisticManager;
+import com.leto.game.base.statistic.StatisticEvent;
 import com.leto.game.base.util.IntentConstant;
+import com.ledong.lib.minigame.event.HideTitleEvent;
 import com.mgc.letobox.happy.event.ShowBackEvent;
 import com.mgc.letobox.happy.event.ShowRookieGuideEvent;
 import com.mgc.letobox.happy.event.TabSwitchEvent;
@@ -62,33 +62,33 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
     private int _checkRookieRetry = 10;
 
     // main game pos
-	private int _rookieGuideGamePos = -1;
+    private int _rookieGuideGamePos = -1;
 
     private Runnable _checkRookieGuideRunnable = new Runnable() {
         @Override
         public void run() {
             // 如果超过最大重试次数, 返回
-            if(_checkRookieRetry <= 0) {
+            if (_checkRookieRetry <= 0) {
                 return;
             }
             _checkRookieRetry--;
 
             // check fragment
-            if(_fragment == null || getActivity() == null) {
+            if (_fragment == null || getActivity() == null) {
                 MainHandler.getInstance().postDelayed(_checkRookieGuideRunnable, 500);
                 return;
             }
 
             // check data
-			_rookieGuideGamePos = _fragment.findPositionByStyle(Constant.GAME_LIST_SINGLE_ROTATION_CHART);
-            if(_rookieGuideGamePos == -1) {
+            _rookieGuideGamePos = _fragment.findPositionByStyle(Constant.GAME_LIST_SINGLE_ROTATION_CHART);
+            if (_rookieGuideGamePos == -1) {
                 MainHandler.getInstance().postDelayed(_checkRookieGuideRunnable, 500);
                 return;
             }
 
             // find view
             View view = _fragment.getViewAtPosition(_rookieGuideGamePos);
-            if(view == null) {
+            if (view == null) {
                 MainHandler.getInstance().postDelayed(_checkRookieGuideRunnable, 500);
                 return;
             }
@@ -131,7 +131,7 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
         splitView = view.findViewById(R.id.splitline);
 
         //如果盒子 红包开关打开了，则隐藏上部搜索栏
-        if(MGCSharedModel.benefitSettings !=null && MGCSharedModel.benefitSettings.getOpenhb()!=null && MGCSharedModel.benefitSettings.getOpenhb().getIs_open()==1) {
+        if(!MGCSharedModel.isShowGameCenterTitle) {
             rl_title.setVisibility(View.GONE);
             splitView.setVisibility(View.GONE);
         }
@@ -178,6 +178,38 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
         return view;
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onHideTitle(final HideTitleEvent event) {
+        if (event == null) {
+            return;
+        }
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        hideTitle(event._isHide);
+                    }catch (Throwable t){
+
+                    }
+                }
+            });
+        }
+    }
+
+
+    public void hideTitle(boolean isHide) {
+        if (rl_title != null) {
+            if (isHide && rl_title.getVisibility() == View.VISIBLE) {
+                rl_title.setVisibility(View.GONE);
+                splitView.setVisibility(View.GONE);
+            } else if (!isHide && rl_title.getVisibility() == View.GONE) {
+                rl_title.setVisibility(View.VISIBLE);
+                splitView.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -204,7 +236,7 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
 
     @Override
     public void onRookieGuideClicked() {
-        if(_fragment != null && !_guideClicked && _rookieGuideGamePos != -1) {
+        if (_fragment != null && !_guideClicked && _rookieGuideGamePos != -1) {
             _guideClicked = true;
             _fragment.performClickAtGame(_rookieGuideGamePos, 0);
         }
@@ -212,11 +244,11 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
 
     private void showCoinDialog(Activity act) {
         final BenefitSettings_rookie rookie = MGCSharedModel.benefitSettings.getNewmemhb();
-        CustomVideoCoinDialog d = new CustomVideoCoinDialog(act, "新手红包获得", rookie.getAdd_coins(), 1, CoinDialogScene.ROOKIE_GIFT, new IMGCCoinDialogListener() {
+        MGCDialogUtil.showMGCCoinDialog(act, null, rookie.getAdd_coins(), 1, CoinDialogScene.ROOKIE_GIFT, new IMGCCoinDialogListener() {
             @Override
             public void onExit(boolean video, int coinGot) {
                 // 在这里把rookie设置里面的isopen设置为false表示已经领过
-                if(coinGot > 0) {
+                if (coinGot > 0) {
                     rookie.setIs_open(0);
 
                     // trigger a event to update coins in other ui
@@ -224,21 +256,20 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
                 }
             }
         });
-        d.show();
     }
 
     private void fixRookieGuideViewIfNeeded() {
-        if(RookieGuideView.hasActive()) {
+        if (RookieGuideView.hasActive()) {
             // 计算新的中心
-            if(_fragment == null || getActivity() == null) {
+            if (_fragment == null || getActivity() == null) {
                 return;
             }
-			_rookieGuideGamePos = _fragment.findPositionByStyle(Constant.GAME_LIST_SINGLE_ROTATION_CHART);
-            if(_rookieGuideGamePos == -1) {
+            _rookieGuideGamePos = _fragment.findPositionByStyle(Constant.GAME_LIST_SINGLE_ROTATION_CHART);
+            if (_rookieGuideGamePos == -1) {
                 return;
             }
             View view = _fragment.getViewAtPosition(_rookieGuideGamePos);
-            if(view == null) {
+            if (view == null) {
                 return;
             }
             int[] loc = new int[2];
@@ -250,7 +281,7 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
             Point oldCenter = v.getCircleCenter();
 
             // 如果新的中心不一样, 重新显示rookie guide
-            if(!center.equals(oldCenter)) {
+            if (!center.equals(oldCenter)) {
                 RookieGuideView.removeActive();
                 RookieGuideView.show(getActivity(), center, view.getWidth() / 4, this);
             }
@@ -268,18 +299,19 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
     @Override
     public void onLetoAppShown(final LetoActivity activity, String appId) {
         // 如果是引导等待的游戏, 显示新手红包
-        if(MGCSharedModel.isRookieGiftAvailable()) {
-            String dstGameId = BaseAppUtil.getMetaStringValue(getContext(), "MGC_GAMEID");
-            if(!TextUtils.isEmpty(dstGameId) && dstGameId.equals(appId)) {
-                MGCDialogUtil.showRookieGiftDialog(activity, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(which == DialogInterface.BUTTON_POSITIVE) {
-                            showCoinDialog(activity);
-                        }
+        if (MGCSharedModel.isRookieGiftAvailable()) {
+
+            //点击上报
+            GameStatisticManager.statisticBenefitLog(activity, appId, StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal(),0, 0, 0, 0, Constant.BENEFITS_TYPE_NEWMEM_HB, 0);
+
+            MGCDialogUtil.showRookieGiftDialog(activity, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (which == DialogInterface.BUTTON_POSITIVE) {
+                        showCoinDialog(activity);
                     }
-                });
-            }
+                }
+            });
         }
 
         // remove rookie guide view

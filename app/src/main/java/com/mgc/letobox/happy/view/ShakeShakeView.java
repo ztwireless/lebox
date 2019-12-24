@@ -16,14 +16,13 @@ import android.view.ViewConfiguration;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.OverScroller;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.leto.game.base.util.MResource;
 import com.mgc.letobox.happy.R;
 
 public class ShakeShakeView extends FrameLayout {
     private static final String TAG = ShakeShakeView.class.getSimpleName();
+
+    private boolean _draggable;
 
     private AnimationDrawable mAnimationDrawable;
     private ImageView mShakeView;
@@ -34,7 +33,9 @@ public class ShakeShakeView extends FrameLayout {
     public ShakeShakeView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
         touchSlop = 0;
+        _draggable = true;
     }
+
     private RectF edgeRatio = new RectF();
     public void setEdgeRatio(RectF edgeRatio) {
         edgeRatio.set(edgeRatio);
@@ -43,13 +44,22 @@ public class ShakeShakeView extends FrameLayout {
         edgeRatio.set(left, top, right, bottom);
     }
 
+    public void relocate(int x, int y, boolean pinned) {
+        setX(x);
+        setY(y);
+        _draggable = !pinned;
+        if(_draggable) {
+            settleToEdge();
+        }
+    }
+
     public ShakeShakeView(@NonNull final Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         inflate(context, R.layout.layout_shake_shake, this);
         mShakeView = findViewById(R.id.itemShake);
-        mAnimationDrawable = (AnimationDrawable) mShakeView.getDrawable();
-
-        mAnimationDrawable.start();
+//        mAnimationDrawable = (AnimationDrawable) mShakeView.getDrawable();
+//
+//        mAnimationDrawable.start();
         ViewConfiguration vc = ViewConfiguration.get(context);
         touchSlop = vc.getScaledTouchSlop();
         scroller = new OverScroller(context);
@@ -72,11 +82,13 @@ public class ShakeShakeView extends FrameLayout {
                 isDragging = false;
                 break;
             case MotionEvent.ACTION_MOVE:
-                float dx = event.getX() - initialPoint.x;
-                float dy = event.getY() - initialPoint.y;
-                if (Math.abs(dx) > touchSlop || Math.abs(dy) > touchSlop || Math.sqrt(dx * dx + dy + dy) > touchSlop) {
-                    isDragging = true;
-                    onDragging(event.getX(), event.getY(), dx, dy);
+                if(_draggable) {
+                    float dx = event.getX() - initialPoint.x;
+                    float dy = event.getY() - initialPoint.y;
+                    if (Math.abs(dx) > touchSlop || Math.abs(dy) > touchSlop || Math.sqrt(dx * dx + dy + dy) > touchSlop) {
+                        isDragging = true;
+                        onDragging(event.getX(), event.getY(), dx, dy);
+                    }
                 }
                 break;
             case MotionEvent.ACTION_UP:
