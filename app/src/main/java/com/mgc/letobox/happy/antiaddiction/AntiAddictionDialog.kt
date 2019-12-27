@@ -12,6 +12,9 @@ import com.mgc.letobox.happy.R
 import kotlinx.android.synthetic.main.fragment_anti_addiction.*
 
 const val ARG_MODE = "mode"
+const val ARG_TITLE = "title"
+const val ARG_BUTTON_TEXT = "button_text"
+const val ARG_CONTENT = "content"
 
 class AntiAddictionDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -55,27 +58,53 @@ class AntiAddictionDialog : DialogFragment() {
                 itemTitleCenter.visibility = View.VISIBLE
             }
         }
+        itemButton.setOnClickListener {
+            onContentButtonClickListener?.onClick(it)
+        }
+        itemObtainPhoneCode.setOnClickListener {
+            onObtainPhoneCodeClickListener?.onClick(it)
+        }
+        itemTryPlay.setOnClickListener {
+            onTryPlayClickListener?.onClick(it)
+        }
+        itemLogin.setOnClickListener {
+            onLoginClickListener?.onClick(it)
+        }
+        itemSubmit.setOnClickListener {
+            onSubmitCertificationClickListener?.onClick(it)
+        }
     }
 
+    var onContentButtonClickListener: View.OnClickListener? = null
+    var onObtainPhoneCodeClickListener: View.OnClickListener? = null
+    var onTryPlayClickListener: View.OnClickListener? = null
+    var onLoginClickListener: View.OnClickListener? = null
+    var onSubmitCertificationClickListener: View.OnClickListener? = null
+
     companion object {
-        fun show(fragmentManager: FragmentManager, mode: Int) {
+        fun show(fragmentManager: FragmentManager, mode: Int, args: Bundle = Bundle()): AntiAddictionDialog {
             val dialog = AntiAddictionDialog()
-            dialog.arguments = Bundle().apply {
+            dialog.arguments = args.apply {
                 putInt(ARG_MODE, mode)
             }
             dialog.show(fragmentManager, "")
+            return dialog
         }
 
-        fun showPhone(fragmentManager: FragmentManager) {
-            show(fragmentManager, AntiAddictionDialogMode.MODE_PHONE)
+        fun showPhone(fragmentManager: FragmentManager): AntiAddictionDialog {
+            return show(fragmentManager, AntiAddictionDialogMode.MODE_PHONE)
         }
 
-        fun showCertification(fragmentManager: FragmentManager) {
-            show(fragmentManager, AntiAddictionDialogMode.MODE_CERTIFICATION)
+        fun showCertification(fragmentManager: FragmentManager): AntiAddictionDialog {
+            return show(fragmentManager, AntiAddictionDialogMode.MODE_CERTIFICATION)
         }
 
-        fun showContent(fragmentManager: FragmentManager) {
-            show(fragmentManager, AntiAddictionDialogMode.MODE_CONTENT)
+        fun showContent(fragmentManager: FragmentManager, title: String, content: String, buttonText: String): AntiAddictionDialog {
+            return show(fragmentManager, AntiAddictionDialogMode.MODE_CONTENT, Bundle().apply {
+                putString(ARG_TITLE, title)
+                putString(ARG_CONTENT, content)
+                putString(ARG_BUTTON_TEXT, buttonText)
+            })
         }
     }
 }
