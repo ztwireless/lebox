@@ -38,7 +38,7 @@ public interface MGCService {
 
     @FormUrlEncoded
     @POST("api/v7/fcm/certification")
-    Call<Certification> requestCertification(
+    Call<BaseResponse<Certification>> requestCertification(
             @Field("mobile") String mobile,
             @Field("open_token") String open_token
     );

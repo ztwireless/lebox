@@ -21,6 +21,7 @@ import com.leto.game.base.util.ToastUtil;
 import com.mgc.letobox.happy.floattools.tools.BubbleFloatTool;
 import com.mgc.letobox.happy.floattools.tools.RedPacketSeaFloatTool;
 import com.mgc.letobox.happy.floattools.tools.ShakeFloatTool;
+import com.mgc.letobox.happy.model.DataCenter;
 import com.mgc.letobox.happy.model.FloatToolsConfig;
 import com.mgc.letobox.happy.util.LeBoxConstant;
 import com.mgc.letobox.happy.view.UpgradeView;
@@ -65,6 +66,16 @@ public class FloatToolsCenter {
         loadConfig(app);
         addLetoLifecycleListener(app);
         setGameUpgradeListener(app);
+/*
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DataCenter.Companion.obtainFcmConfig(toInt(BaseAppUtil.getChannelID(app)), LetoConst.SDK_OPEN_TOKEN);
+                DataCenter.Companion.requestCertification("13009944290", LetoConst.SDK_OPEN_TOKEN);
+                DataCenter.Companion.requestIdCard("防静电", "110101199003077352");
+            }
+        }).start();
+*/
     }
 
     private static void setGameUpgradeListener(Application app) {

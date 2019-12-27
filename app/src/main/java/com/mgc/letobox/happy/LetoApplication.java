@@ -6,6 +6,7 @@ import android.support.multidex.MultiDex;
 import com.ledong.lib.leto.Leto;
 import com.leto.game.base.util.BaseAppUtil;
 import com.mgc.letobox.happy.floattools.FloatToolsCenter;
+import com.mgc.letobox.happy.model.DataCenter;
 import com.mgc.letobox.happy.util.LeBoxSpUtil;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.UMShareAPI;
@@ -30,6 +31,7 @@ public class LetoApplication extends Application {
         UMConfigure.setLogEnabled(true);
         UMShareAPI.get(this);
 
+        DataCenter.Companion.init(this);
         // 悬浮工具
         FloatToolsCenter.init(this);
     }
