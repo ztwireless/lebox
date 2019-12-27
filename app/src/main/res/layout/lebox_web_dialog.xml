@@ -22,8 +22,7 @@
     <WebView
         android:id="@+id/web"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="440dp"/>
 
     <TextView
         android:id="@+id/ok"
