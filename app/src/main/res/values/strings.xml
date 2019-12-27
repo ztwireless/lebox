@@ -22,6 +22,13 @@
     <string name="hbrain_times_used_out">今日红包雨次数已用完</string>
     <string name="hbrain_rest_times_format">今日免费%d次</string>
     <string name="shake_nothing">什么都没摇到，请稍后再试</string>
+    <string name="dear_user">尊敬的用户：</string>
+    <string name="anti_addiction_tip">根据国家新闻出版署的《通知》，要求游戏用户使用手机号进行实名注册。为保证流畅游戏体验，享受健康游戏生活，请广大玩家完成实名注册。</string>
+    <string name="try_for_one_hour">试玩一小时</string>
+    <string name="login_register">登录/一键注册</string>
+    <string name="submit">提交</string>
+    <string name="leto_hint_input_id_name">请输入姓名</string>
+    <string name="leto_hint_input_id_number">请输入身份证号码</string>
 
     <string-array name="find_tab">
         <item>推荐</item>
