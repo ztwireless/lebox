@@ -141,6 +141,19 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             />
+        <activity android:name=".floattools.components.PlayGameTaskActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            />
+        <provider
+            android:name=".floattools.components.playgametask.utils.ApkFileProvider"
+            android:authorities="${applicationId}.rxdownload.demo.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/apk_file_provider" />
+        </provider>
 
         <!-- 以下数据不需要修改 -->
         <meta-data

@@ -4,6 +4,7 @@ import com.mgc.letobox.happy.model.BaseResponse;
 import com.mgc.letobox.happy.model.Certification;
 import com.mgc.letobox.happy.model.FcmConfig;
 import com.mgc.letobox.happy.model.FloatToolsConfig;
+import com.mgc.letobox.happy.model.PlayGameResult;
 import com.mgc.letobox.happy.model.IdCard;
 import com.mgc.letobox.happy.model.ShakeResult;
 
@@ -25,9 +26,13 @@ public interface MGCService {
     @FormUrlEncoded
     @POST("api/v7/shake/getaward")
     Call<ShakeResult> obtainShakeResult(@Field("channel_id") int channel_id,
-                                        @Field("game_id") int game_id,
-                                        @Field("mobile") String mobile,
-                                        @Field("open_token") String open_token);
+                                              @Field("game_id") int game_id,
+                                              @Field("mobile") String mobile,
+                                              @Field("open_token") String open_token);
+    @GET("api/v7/benefits/playgametasklist")
+    Call<PlayGameResult> obtainPlayGameResult(@Query("channel_id") int channel_id,
+                                              @Query("mobile") String mobile,
+                                              @Query("open_token") String open_token);
 
     @FormUrlEncoded
     @POST("api/v7/fcm/rule")

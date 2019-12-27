@@ -19,6 +19,7 @@ import com.leto.game.base.login.LoginManager;
 import com.leto.game.base.util.BaseAppUtil;
 import com.leto.game.base.util.ToastUtil;
 import com.mgc.letobox.happy.floattools.tools.BubbleFloatTool;
+import com.mgc.letobox.happy.floattools.tools.PlayGameFloatTool;
 import com.mgc.letobox.happy.floattools.tools.RedPacketSeaFloatTool;
 import com.mgc.letobox.happy.floattools.tools.ShakeFloatTool;
 import com.mgc.letobox.happy.model.DataCenter;
@@ -52,7 +53,6 @@ public class FloatToolsCenter {
             return 0;
         }
     }
-
     private static Retrofit buildRetrofit() {
         Log.i(TAG, "buildRetrofit " + TEST_ENV);
         return new Retrofit.Builder()
@@ -126,6 +126,9 @@ public class FloatToolsCenter {
                     }
                     if (floatToolsConfig.getData().getHbrain() != null) {
                         floatTools.add(new RedPacketSeaFloatTool(activity, gameId, floatToolsConfig.getData().getHbrain()));
+                    }
+                    if(floatToolsConfig.getData().getPlaygametask() != null){
+                        floatTools.add(new PlayGameFloatTool(activity,gameId,floatToolsConfig.getData().getPlaygametask()));
                     }
                 }
                 for (BaseFloatTool floatTool : floatTools) {

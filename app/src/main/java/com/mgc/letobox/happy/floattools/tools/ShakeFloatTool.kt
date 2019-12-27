@@ -81,7 +81,7 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Shake)
         try {
             val shakeResultResponse: Response<ShakeResult>? = shakeResultCall.execute()
             if (shakeResultResponse != null) {
-                val shakeResult: ShakeResult = shakeResultResponse.body()
+                val shakeResult: ShakeResult = shakeResultResponse.body()!!
                 activity.runOnUiThread {
                     val shakeData: Data? = shakeResult.data
                     if (shakeData == null || shakeData.add_coins == 0) {

@@ -37,6 +37,8 @@ public class FloatToolsConfig {
         Upgrade UpgradeObject;
         @SerializedName("hbrain")
         Hbrain HbrainObject;
+        @SerializedName("playgametask")
+        Playgametask playgametask;
 
 
         // Getter Methods
@@ -51,6 +53,14 @@ public class FloatToolsConfig {
 
         public Hbrain getHbrain() {
             return HbrainObject;
+        }
+
+        public Playgametask getPlaygametask() {
+            return playgametask;
+        }
+
+        public void setPlaygameTask(Playgametask playgameTask){
+            this.playgametask = playgameTask;
         }
 
         @Keep
@@ -102,6 +112,13 @@ public class FloatToolsConfig {
             public int coins_multiple;
             public int cooling_time;
             public int create_max_times;
+            public ArrayList<Integer> game_ids = new ArrayList<Integer>();
+        }
+        @Keep
+        public static class Playgametask {
+            public int is_open;
+            public int default_x;
+            public float default_y;
             public ArrayList<Integer> game_ids = new ArrayList<Integer>();
         }
     }

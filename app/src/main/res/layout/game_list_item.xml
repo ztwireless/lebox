@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/game_icon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars[0]" />
+
+    <TextView
+        android:id="@+id/game_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="130dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:maxLines="1"
+        android:textColor="@android:color/black"
+        android:textSize="22sp"
+        app:layout_constraintStart_toEndOf="@id/game_icon"
+        app:layout_constraintTop_toTopOf="@id/game_icon"
+        tools:text="TextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextView" />
+
+    <TextView
+        android:id="@+id/game_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:maxWidth="130dp"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="@id/game_icon"
+        app:layout_constraintStart_toEndOf="@id/game_icon"
+        tools:text="TextView" />
+
+    <com.mgc.letobox.happy.floattools.components.playgametask.utils.ProgressButton
+        android:id="@+id/btn_pause"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@id/game_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/game_icon"
+        tools:text="Button" />
+<!--
+    <com.mgc.letobox.happy.floattools.components.playgametask.utils.DownloadProgressButton
+        android:id="@+id/download_btn"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/game_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/game_icon"
+        app:progress_btn_background_color="@color/white"
+        app:progress_btn_radius="5dp"
+        tools:text="Button"
+        app:progress_btn_background_second_color="#fff5a623"
+        app:progress_btn_text_color="@android:color/black"
+        app:progress_btn_text_cover_color="@color/colorPrimary"
+        app:progress_btn_ball_style="STYLE_BALL_PULSE"
+        app:progress_btn_border_width="2dp" />
+-->
+</android.support.constraint.ConstraintLayout>

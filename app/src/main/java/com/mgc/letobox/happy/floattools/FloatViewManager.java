@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.leto.game.base.util.BaseAppUtil;
 import com.mgc.letobox.happy.view.FloatBubbleView;
 import com.mgc.letobox.happy.view.FloatRedPacketSea;
+import com.mgc.letobox.happy.view.PlayGameView;
 import com.mgc.letobox.happy.view.ShakeShakeView;
 import com.mgc.letobox.happy.view.UpgradeView;
 
@@ -136,6 +137,47 @@ public class FloatViewManager {
             }
         }
         weakShakeView = null;
+    }
+    private WeakReference<PlayGameView> weakPlayGameView;
+
+
+    public PlayGameView showPlayGameView(Activity activity, int xDirection, float yRatio) {
+        if (weakPlayGameView == null || weakPlayGameView.get() == null && activity != null) {
+            PlayGameView playGameView = new PlayGameView(activity);
+
+            ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            decorView.addView(playGameView, lp);
+
+            int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            playGameView.measure(w, h);
+
+            int x = 0;
+            if (xDirection == 1) {
+                x = BaseAppUtil.getDeviceWidth(activity) - playGameView.getMeasuredWidth();
+            }
+            int y = (int) (yRatio * BaseAppUtil.getDeviceHeight(activity));
+            playGameView.setX(x);
+            playGameView.setY(y);
+
+            weakPlayGameView = new WeakReference<>(playGameView);
+        } else {
+            PlayGameView playGameView = weakPlayGameView.get();
+            playGameView.setVisibility(View.VISIBLE);
+        }
+        return weakPlayGameView.get();
+    }
+
+    public void removePlayGameView(Activity activity) {
+        if (weakPlayGameView != null && weakPlayGameView.get() != null && activity != null) {
+            ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+            PlayGameView playGameView = weakPlayGameView.get();
+            if (playGameView.getParent() == decorView) {
+                decorView.removeView(playGameView);
+            }
+        }
+        weakPlayGameView = null;
     }
 
     public void hideBubbleView(int id) {

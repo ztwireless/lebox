@@ -39,7 +39,7 @@ class DataCenter {
             val service = buildRetrofit().create(MGCService::class.java)
             try {
                 val response = service.obtainFcmConfig(channel_id, open_token).execute().body()
-                if (response.isSuccess()) {
+                if (response?.isSuccess()!!) {
                     return response.data
                 }
             } catch (e: Exception) {
@@ -51,7 +51,7 @@ class DataCenter {
             val service = buildRetrofit().create(MGCService::class.java)
             try {
                 val response = service.requestCertification(mobile, open_token).execute().body()
-                if (response.isSuccess()) {
+                if (response != null && response.isSuccess()) {
                     return response.data
                 }
             } catch (e: Exception) {
@@ -62,8 +62,10 @@ class DataCenter {
         fun requestIdCard(name: String, cardno: String): IdCard? {
             val service = buildRetrofit().create(MGCService::class.java)
             val response = service.requestIdCard(name, cardno).execute().body()
-            if (response.isSuccess()) {
-                return response.data
+            if (response != null) {
+                if (response.isSuccess()) {
+                    return response.data
+                }
             }
             return null
         }
