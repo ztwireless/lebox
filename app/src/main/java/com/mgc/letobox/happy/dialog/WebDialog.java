@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -61,7 +60,6 @@ public class WebDialog extends Dialog {
 
 		Window window = getWindow();
 		WindowManager.LayoutParams windowparams = window.getAttributes();
-		windowparams.gravity = Gravity.CENTER;
 		windowparams.width = BaseAppUtil.getDeviceWidth(context);
 	}
 }

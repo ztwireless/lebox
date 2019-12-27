@@ -212,7 +212,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         AdManager.getInstance().getTmTaskList(this);
 
 
-        getVersion();
+//        getVersion();
 
         getPrivacy_content();
     }
@@ -282,7 +282,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         PermissionsUtil.delayCheckPermissionIfNeeded(this);
 
         // check rookie guide
-        showRookieGuideIfNeeded();
+//        showRookieGuideIfNeeded();
     }
 
 

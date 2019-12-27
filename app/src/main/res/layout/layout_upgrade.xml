@@ -7,29 +7,18 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical">
-
+        android:orientation="vertical"
+        >
         <FrameLayout
             android:layout_width="52dp"
-            android:layout_height="54dp"
-            android:layout_gravity="center_horizontal">
+            android:layout_height="54dp">
 
-            <ImageView
-                android:id="@+id/redpack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/anim_upgrade_get" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="29dp"
-                android:text="最高3元"
-                android:textColor="#ffd557"
-                android:textSize="7sp" />
+        <ImageView
+            android:id="@+id/redpack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/anim_upgrade_get" />
 
         </FrameLayout>
 
@@ -37,19 +26,23 @@
             android:id="@+id/item_level"
             android:layout_width="match_parent"
             android:layout_height="12dp"
+            android:layout_marginTop="-14dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="-15dp"
             android:inAnimation="@anim/leto_cgc_marquee_slide_in_bottom"
             android:outAnimation="@anim/leto_cgc_marquee_slide_out_top"
-            android:text="17级" />
+            android:text="17级"
+            />
 
-        <ImageView
+        <TextView
             android:id="@+id/item_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="2dp"
-            android:src="@mipmap/leto_upgrade_hot" />
+            android:layout_gravity="center_horizontal"
+            android:textColor="#FFF02C1A"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            tools:text="可领取" />
 
     </LinearLayout>
 

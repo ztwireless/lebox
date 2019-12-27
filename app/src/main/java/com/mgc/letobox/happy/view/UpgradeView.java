@@ -7,7 +7,6 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -45,7 +44,7 @@ public class UpgradeView extends FrameLayout {
     private ImageView mShakeView;
 
     private TextSwitcher mLevelView;
-    private ImageView mStatusView;
+    private TextView mStatusView;
 
     boolean hasReward = false;
 
@@ -74,6 +73,7 @@ public class UpgradeView extends FrameLayout {
 
     private Map<String, Integer> _gamelevel = new HashMap();
 
+
     // handler
     private Handler _handler;
     private Runnable _switchMarqueeRunnable = new Runnable() {
@@ -98,8 +98,6 @@ public class UpgradeView extends FrameLayout {
             final MarqueeTextView tv = new MarqueeTextView(getContext());
             //设置文字大小
             tv.setTextSize(9);
-            TextPaint paint = tv.getPaint();
-            paint.setFakeBoldText(true);
             //设置文字 颜色
             tv.setTextColor(ColorUtil.parseColor("#FFF32700"));
             tv.setSingleLine();
@@ -119,6 +117,7 @@ public class UpgradeView extends FrameLayout {
         mLevelView = findViewById(R.id.item_level);
         mStatusView = findViewById(R.id.item_status);
         mStatusView.setVisibility(VISIBLE);
+        mStatusView.setText("可领取");
         mAnimationDrawable = (AnimationDrawable) mShakeView.getDrawable();
 
         mLevelView.setVisibility(VISIBLE);
@@ -137,12 +136,6 @@ public class UpgradeView extends FrameLayout {
     private PointF initialPoint = new PointF();
     private float touchSlop;
     private boolean isDragging = false;
-
-    public void relocate(int x, int y) {
-        setX(x);
-        setY(y);
-        settleToEdge();
-    }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
@@ -206,16 +199,6 @@ public class UpgradeView extends FrameLayout {
         }
     }
 
-    public void onDestroy() {
-        try {
-            if (_handler != null) {
-                _handler.removeCallbacks(_switchMarqueeRunnable);
-            }
-        }catch (Throwable e){
-
-        }
-    }
-
     public void notifyUpdate(String gameId, Map<String, Integer> gameInfo) {
 
         if (TextUtils.isEmpty(gameId) || !gameId.equalsIgnoreCase(_gameId) || gameInfo == null) {
@@ -249,10 +232,6 @@ public class UpgradeView extends FrameLayout {
         if (isReward) {
             mShakeView.setImageResource(R.drawable.anim_upgrade_get);
             mStatusView.setVisibility(View.GONE);
-            _news.clear();
-            _news.add("可领取");
-            _nextNews = 0;
-            _handler.removeCallbacks(_switchMarqueeRunnable);
             mLevelView.setCurrentText("可领取");
         } else {
             mShakeView.setImageResource(R.drawable.anim_upgrade_unget);
@@ -321,7 +300,7 @@ public class UpgradeView extends FrameLayout {
 
     private void restartMarquee() {
         _nextNews = 0;
-        if (_news != null && _nextNews < _news.size()) {
+        if (_news!=null && _nextNews < _news.size()) {
             mLevelView.setCurrentText(_news.get(_nextNews));
             _handler.postDelayed(_switchMarqueeRunnable, 3000);
         }
@@ -334,7 +313,7 @@ public class UpgradeView extends FrameLayout {
 
         _news.clear();
         _news.addAll(gameInfo);
-        _handler.removeCallbacks(_switchMarqueeRunnable);
+
         restartMarquee();
         return;
 
@@ -347,15 +326,13 @@ public class UpgradeView extends FrameLayout {
             @Override
             public void onDataSuccess(List<GameLevelResultBean> data) {
                 try {
-                    if (data != null) {
-                        GameLevelTaskManager.addGameTask(gameId, data);
-                        if (_gamelevel != null && _gamelevel.size() > 0) {
-                            notifyUpdate(gameId, _gamelevel);
-                        }
-                    } else {
-                        LetoTrace.w(TAG, "游戏升级配置获取失败");
+                    GameLevelTaskManager.addGameTask(gameId, data);
+
+                    if (_gamelevel != null && _gamelevel.size() > 0) {
+
+                        notifyUpdate(gameId, _gamelevel);
                     }
-                } catch (Throwable e) {
+                } catch(Throwable e) {
                     e.printStackTrace();
                 }
             }

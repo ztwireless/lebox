@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
-import com.ledong.lib.leto.LetoConst;
 import com.leto.game.base.bean.LetoError;
 import com.leto.game.base.http.HttpCallbackDecode;
 import com.leto.game.base.http.SdkApi;
@@ -158,24 +157,6 @@ public class LeBoxUtil {
                     .setTag(ctx)
                     .shouldCache(false)
                     .url(SdkApi.getJoinWeChatQrcode() + "?data=" + args)
-                    .callback(callback)
-                    .doTask();
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (callback != null) {
-                callback.onFailure(LetoError.UNKNOW_EXCEPTION, e.getLocalizedMessage());
-            }
-        }
-    }
-
-    public static void getShakeResult(Context ctx, String gameId, final HttpCallbackDecode callback){
-        try {
-
-            String url = SdkApi.getShakeReward() + "?channel_id=" + BaseAppUtil.getChannelID(ctx) + "&open_token=" + LetoConst.SDK_OPEN_TOKEN + "&game_id=" + gameId + "&mobile=" + LoginManager.getUserId(ctx);
-            (new RxVolley.Builder())
-                    .setTag(ctx)
-                    .shouldCache(false)
-                    .url(url)
                     .callback(callback)
                     .doTask();
         } catch (Exception e) {
