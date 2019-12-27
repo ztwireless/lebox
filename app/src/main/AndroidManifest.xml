@@ -157,7 +157,7 @@
         <!-- 以下数据请自行设置 -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5df32f5a4ca35719b20008b1" />
+            android:value="5e0571144ca357f791000d6a" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="kx100_nndyg_mgc_box" />
@@ -172,10 +172,10 @@
             android:value="7e0fdc7309652508e160ae2a8e3f12b1" />
         <meta-data
             android:name="MGC_APPID"
-            android:value="1000320" />
+            android:value="1000384" />
         <meta-data
             android:name="MGC_GAMEID"
-            android:value="1000316"/>
+            android:value="1000383"/>
         <meta-data
             android:name="MGC_TEST_ENV"
             android:value="false" />
