@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.View
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil
+import com.leto.game.base.util.ToastUtil
 import com.mgc.letobox.happy.R
 import com.mgc.letobox.happy.floattools.components.playgametask.GameListItem
 import com.mgc.letobox.happy.floattools.components.playgametask.PlayGameDataSource
@@ -43,6 +44,8 @@ class PlayGameTaskActivity : Activity() {
                 LeBoxSpUtil.saveInt("count",count - 2)
                 updateBG(count - 2)
                 MGCDialogUtil.showMGCCoinDialog(this@PlayGameTaskActivity, "", playGameResult.data.coins, playGameResult.data.coins_multiple, CoinDialogScene.PLAY_APK_GAME) { b, i -> }
+            }else{
+                ToastUtil.s(this@PlayGameTaskActivity, "试玩两款游戏，立即获得一个红包")
             }
         }
         loge("path "+ Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path)
