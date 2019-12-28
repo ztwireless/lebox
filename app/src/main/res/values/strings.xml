@@ -36,11 +36,12 @@
         <item>圈子</item>
     </string-array>
 
-    <string name="continue_text">继续</string>
-    <string name="start_text">下载</string>
+    <string name="continue_text">继续下载</string>
+    <string name="start_text">下载游戏</string>
     <string name="pending_text">等待</string>
-    <string name="install_text">安装</string>
+    <string name="install_text">安装游戏</string>
     <string name="pause_text">暂停</string>
-    <string name="retry_text">重试</string>
+    <string name="retry_text">重试下载</string>
+    <string name="open_text">开始游戏</string>
 
 </resources>

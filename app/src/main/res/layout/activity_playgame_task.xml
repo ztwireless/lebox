@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/mgc_sdk_white"
     android:orientation="vertical">
 
@@ -16,17 +17,26 @@
             android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-        <TextView
-            android:id="@+id/tv_status"
+        <RelativeLayout
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="14dp"
             android:layout_marginStart="55dp"
-            android:background="@drawable/playgame_banner_bt"
-            android:layout_width="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/white"
-            tools:text="可领取"
-            android:layout_height="wrap_content"/>
+            android:layout_width="100dp"
+            android:layout_height="34dp">
+            <ImageView
+                android:id="@+id/iv_bg"
+                android:background="@drawable/playgame_banner_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:id="@+id/iv_status"
+                android:layout_centerInParent="true"
+                android:background="@drawable/playgame_banner_get"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
 

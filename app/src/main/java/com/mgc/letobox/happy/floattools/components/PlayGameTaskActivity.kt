@@ -36,12 +36,12 @@ class PlayGameTaskActivity : Activity() {
         tv_title.text = "玩游戏赚红包"
         banner.load(playGameResult.data.banners)
         var count = LeBoxSpUtil.getInt("count")
-        updateText(count)
-        tv_status.setOnClickListener {v: View? ->
+        updateBG(count)
+        iv_status.setOnClickListener {v: View? ->
             if(playGameResult.data != null && count > 1){
                 var count = LeBoxSpUtil.getInt("count")
                 LeBoxSpUtil.saveInt("count",count - 2)
-                updateText(count - 2)
+                updateBG(count - 2)
                 MGCDialogUtil.showMGCCoinDialog(this@PlayGameTaskActivity, "", playGameResult.data.coins, playGameResult.data.coins_multiple, CoinDialogScene.PLAY_APK_GAME) { b, i -> }
             }
         }
@@ -50,12 +50,14 @@ class PlayGameTaskActivity : Activity() {
         registerInstallAppBroadcastReceiver()
         renderList()
     }
-    fun updateText(count : Int){
+    fun updateBG(count : Int){
 //        var count = LeBoxSpUtil.getInt("count")
-        if(count > 1){
-            tv_status.text = "可领取"
-        }else{
-            tv_status.text = String.format("下载(%d/2)",count)
+        if(count == 0){
+            iv_status.setBackgroundResource(R.drawable.playgame_banner_0_2)
+        }else if(count == 1){
+            iv_status.setBackgroundResource(R.drawable.playgame_banner_1_2)
+        }else if(count > 1){
+            iv_status.setBackgroundResource(R.drawable.playgame_banner_get)
         }
     }
     private val dataSource by lazy { PlayGameDataSource(playGameResult) }
@@ -123,7 +125,7 @@ class PlayGameTaskActivity : Activity() {
                     if(!TextUtils.isEmpty(LeBoxSpUtil.getString(packageName))){
                         LeBoxSpUtil.saveInt("count",LeBoxSpUtil.getInt("count")+1)
                         var count = LeBoxSpUtil.getInt("count")
-                        updateText(count)
+                        updateBG(count)
                     }
                 }
             }

@@ -43,14 +43,14 @@ class GameListItem(
                 STATE_FINISH ->{
                     LeBoxSpUtil.saveString(packName,packName)
 
-                    context.installApk(File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path, name))
+                    context.installApk(File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path, packName))
                 }
                 STATE_FAILED->{
                     btn_action.setCurrentText(context.getString(R.string.retry_text))
                     download(context,btn_action)
                 }
                 else ->{
-                    btn_action.setCurrentText("打开")
+                    btn_action.setCurrentText(context.getString(R.string.open_text))
 
                     val packageManager: PackageManager = context.getPackageManager()
                     var intent  = packageManager.getLaunchIntentForPackage(packName)
@@ -105,7 +105,7 @@ class GameListItem(
         context.runOnUiThread {
             if(packageNames.contains(packName) && !TextUtils.isEmpty(LeBoxSpUtil.getString(packName))){
                 btn_action.state = STATE_OPEN
-                btn_action.setCurrentText("打开")
+                btn_action.setCurrentText(context.getString(R.string.open_text))
                 return@runOnUiThread
             }else if(isExist(packName)){
                 btn_action.state = STATE_FINISH
@@ -128,7 +128,7 @@ class GameListItem(
                     btn_action.setCurrentText(context.getString(R.string.retry_text))
                 }
                 else ->{
-                    btn_action.setCurrentText("打开")
+                    btn_action.setCurrentText(context.getString(R.string.open_text))
                 }
             }
         }
