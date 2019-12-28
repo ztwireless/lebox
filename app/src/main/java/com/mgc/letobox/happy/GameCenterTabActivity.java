@@ -28,9 +28,12 @@ import com.kymjs.rxvolley.http.RequestQueue;
 import com.ledong.lib.leto.Leto;
 import com.ledong.lib.leto.api.ApiContainer;
 import com.ledong.lib.leto.listener.ILetoPlayedDurationListener;
+import com.ledong.lib.leto.mgc.bean.CoinDialogScene;
 import com.ledong.lib.leto.mgc.bean.GetPrivacyContentResultBean;
+import com.ledong.lib.leto.mgc.dialog.IMGCCoinDialogListener;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
 import com.ledong.lib.leto.mgc.util.MGCApiUtil;
+import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
 import com.ledong.lib.leto.trace.LetoTrace;
 import com.ledong.lib.minigame.bean.TabBean;
 import com.leto.game.base.ad.AdManager;
@@ -52,8 +55,6 @@ import com.mgc.letobox.happy.event.NewerTaskRefreshEvent;
 import com.mgc.letobox.happy.event.ShowRookieGuideEvent;
 import com.mgc.letobox.happy.event.TabSwitchEvent;
 import com.mgc.letobox.happy.me.bean.TaskResultBean;
-import com.mgc.letobox.happy.me.view.TaskCoinDialog;
-import com.mgc.letobox.happy.util.LeBoxSpUtil;
 import com.mgc.letobox.happy.util.LeBoxUtil;
 import com.mgc.letobox.happy.view.MyRadioGroup;
 
@@ -418,23 +419,19 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
 
 
     private void showTaskDialog(final List<TaskResultBean> taskBeans, final int pos, final int action) {
-
-        TaskCoinDialog d = new TaskCoinDialog(this,
-                this.getString(MResource.getIdByName(this, "R.string.leto_mgc_dialog_newer_task_title")), taskBeans.get(pos), new TaskCoinDialog.GameEndCoinDialogListener() {
-            @Override
-            public void onExit(boolean video, int coinGot) {
-
-                if (taskBeans.size() > pos + 1) {
-
-                    Message msg = new Message();
-                    msg.obj = taskBeans;
-                    msg.arg1 = pos + 1;
-                    msg.arg2 = action;
-                    mTaskHandler.sendMessage(msg);
+        MGCDialogUtil.showMGCCoinDialogWithOrderId(this, null, taskBeans.get(pos).getAward_coins(), 1, CoinDialogScene.ROOKIE_TASK,
+            taskBeans.get(pos).getChannel_task_id(), new IMGCCoinDialogListener() {
+                @Override
+                public void onExit(boolean video, int coinGot) {
+                    if (taskBeans.size() > pos + 1) {
+                        Message msg = new Message();
+                        msg.obj = taskBeans;
+                        msg.arg1 = pos + 1;
+                        msg.arg2 = action;
+                        mTaskHandler.sendMessage(msg);
+                    }
                 }
-            }
-        });
-        d.show();
+            });
     }
 
     boolean isCheckedVersion = false;

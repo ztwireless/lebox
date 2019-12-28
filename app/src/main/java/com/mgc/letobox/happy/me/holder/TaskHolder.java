@@ -58,6 +58,9 @@ public class TaskHolder extends CommonViewHolder<TaskResultBean> {
             _titlelabel.setText(String.format("%s(已完成%d/%d)", model.getTask_title(), model.getProcess(), model.getFinish_level()));
         } else if (model.getFinish_type() == 2) {
             String progress = convertTimeFormat(model.getProcess());
+            if (model.getProcess() > model.getFinish_level()) {
+                progress = convertTimeFormat(model.getFinish_level());
+            }
             _titlelabel.setText(String.format("%s(已玩%s分钟)", model.getTask_title(), progress));
         } else {
             _titlelabel.setText(model.getTask_title());
@@ -96,7 +99,7 @@ public class TaskHolder extends CommonViewHolder<TaskResultBean> {
             });
         } else {
 
-            if(model.getFinish_type()==LeBoxConstant.LETO_TASK_TYP_JOIN_WECHAT_GROUP){
+            if (model.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_JOIN_WECHAT_GROUP) {
                 _playlabel.setText("立即查看");
                 _playlabel.setTextColor(ColorUtil.parseColor("#3D9AF0"));
                 _playlabel.setBackgroundResource(R.drawable.leto_minigame_play_btn_bg);
@@ -109,9 +112,9 @@ public class TaskHolder extends CommonViewHolder<TaskResultBean> {
                     }
                 });
 
-            }else{
-                int status = model.getProcess()>= model.getFinish_level()?1:0;
-                if(status==0){
+            } else {
+                int status = model.getProcess() >= model.getFinish_level() ? 1 : 0;
+                if (status == 0) {
                     _playlabel.setText("马上玩");
                     _playlabel.setTextColor(ColorUtil.parseColor("#3D9AF0"));
                     _playlabel.setBackgroundResource(R.drawable.leto_minigame_play_btn_bg);
@@ -134,38 +137,38 @@ public class TaskHolder extends CommonViewHolder<TaskResultBean> {
                             return true;
                         }
                     });
-                }else{
-                    if(model.getFinish_type() == 2) {
-                        _playlabel.setText("马上玩");
-                        _playlabel.setTextColor(ColorUtil.parseColor("#3D9AF0"));
-                        _playlabel.setBackgroundResource(R.drawable.leto_minigame_play_btn_bg);
-                        _playlabel.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
-                            @Override
-                            public boolean onClicked() {
-
-                                if (model.getClassify() == LeBoxConstant.LETO_TASK_DAILY) {
-
-                                    if (model.getChannel_task_id() == 1) {
-                                        EventBus.getDefault().post(new TabSwitchEvent(0));
-                                    } else {
-                                        EventBus.getDefault().post(new TabSwitchEvent(2));
-                                    }
-                                } else if (model.getClassify() == LeBoxConstant.LETO_TASK_NEWER) {
-
-                                    Log.i("task", "asdfghjk");
-                                    EventBus.getDefault().post(new TabSwitchEvent(0));
-                                }
-                                return true;
-                            }
-                        });
-
-
-                    }else{
-                        _playlabel.setText("已领取");
-                        _playlabel.setTextColor(ColorUtil.parseColor("#CCCCCC"));
-                        _playlabel.setBackgroundResource(R.drawable.leto_minigame_play_btn_bg_gray);
-                        _playlabel.setOnClickListener(null);
-                    }
+                } else {
+//                    if(model.getFinish_type() == 2) {
+//                        _playlabel.setText("马上玩");
+//                        _playlabel.setTextColor(ColorUtil.parseColor("#3D9AF0"));
+//                        _playlabel.setBackgroundResource(R.drawable.leto_minigame_play_btn_bg);
+//                        _playlabel.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
+//                            @Override
+//                            public boolean onClicked() {
+//
+//                                if (model.getClassify() == LeBoxConstant.LETO_TASK_DAILY) {
+//
+//                                    if (model.getChannel_task_id() == 1) {
+//                                        EventBus.getDefault().post(new TabSwitchEvent(0));
+//                                    } else {
+//                                        EventBus.getDefault().post(new TabSwitchEvent(2));
+//                                    }
+//                                } else if (model.getClassify() == LeBoxConstant.LETO_TASK_NEWER) {
+//
+//                                    Log.i("task", "asdfghjk");
+//                                    EventBus.getDefault().post(new TabSwitchEvent(0));
+//                                }
+//                                return true;
+//                            }
+//                        });
+//
+//
+//                    }else{
+                    _playlabel.setText("已领取");
+                    _playlabel.setTextColor(ColorUtil.parseColor("#CCCCCC"));
+                    _playlabel.setBackgroundResource(R.drawable.leto_minigame_play_btn_bg_gray);
+                    _playlabel.setOnClickListener(null);
+//                    }
 
                 }
 

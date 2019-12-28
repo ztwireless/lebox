@@ -22,7 +22,7 @@
 -dontpreverify
 
 #保留Annotation不混淆
--keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
+-keepattributes *Annotation*,InnerClasses
 
 #避免混淆泛型
 -keepattributes Signature
@@ -245,58 +245,16 @@
 -keep class android.net.http.** { *;}
 -keep class com.android.volley.** {*;}
 
-# cmgame
--keep class com.cm.** {*;}
--keep class com.cmcm.** {*;}
--keep class com.gm.** {*;}
--keep class com.bytedance.** {*;}
--keep class com.ss.android.** {*;}
--keep class com.ss.sys.ces.* {*;}
-
+################################################################################
+# sample.lebox
+################################################################################
 
 # leto
 -dontwarn com.ledong.lib.**
 -keep class com.ledong.lib.** {*;}
 -dontwarn com.leto.game.**
 -keep class com.leto.game.** {*;}
-
-
-#聚量 广告 SDk
--keep class com.uniplay.adsdk.**
--keep class com.joomob.**
--keep class * implements android.os.Parcelable {
-  public static final android.os.Parcelable$Creator *;
-}
--keepattributes Annotation
--keepattributes JavascriptInterface
--keepclassmembers class * {
-@android.webkit.JavascriptInterface <methods>;
-}
--keepclassmembers public class com.uniplay.adsdk.JavaScriptInterface{ <fields>;
-<methods>;
-public *;
-private *;
-}
-
--dontwarn com.qq.gdt.action.**
--keep class com.qq.gdt.action.** {*;}
-
--keep class com.umeng.** {*;}
--keepclassmembers class * {
-   public <init> (org.json.JSONObject);
-}
--keepclassmembers enum * {
-    public static **[] values();
-    public static ** valueOf(java.lang.String);
-}
-
-# appsflyer
--keep class com.appsflyer.** {*;}
-
-################################################################################
-# sample.lebox
-################################################################################
-
+-keep class com.mgc.letobox.happy.model.** {*;}
 
 # retrofit
 # Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and

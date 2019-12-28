@@ -16,10 +16,7 @@ import android.view.ViewConfiguration;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.OverScroller;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.leto.game.base.util.MResource;
 import com.mgc.letobox.happy.R;
 
 public class ShakeShakeView extends FrameLayout {
@@ -47,9 +44,9 @@ public class ShakeShakeView extends FrameLayout {
         super(context, attrs, defStyleAttr);
         inflate(context, R.layout.layout_shake_shake, this);
         mShakeView = findViewById(R.id.itemShake);
-        mAnimationDrawable = (AnimationDrawable) mShakeView.getDrawable();
-
-        mAnimationDrawable.start();
+//        mAnimationDrawable = (AnimationDrawable) mShakeView.getDrawable();
+//
+//        mAnimationDrawable.start();
         ViewConfiguration vc = ViewConfiguration.get(context);
         touchSlop = vc.getScaledTouchSlop();
         scroller = new OverScroller(context);

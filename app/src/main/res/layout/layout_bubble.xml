@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textColor="@color/red1"
+        android:textColor="@color/mgc_sdk_white"
         android:textStyle="bold"
         android:textSize="18sp"
         />

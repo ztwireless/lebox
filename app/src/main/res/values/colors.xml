@@ -99,5 +99,7 @@
 
     <color name="transparent_white_hex_8">#88ffffff</color>
     <color name="black_semi_transparent">#B2000000</color>
+    <color name="colorTextSecondary">#ff666666</color>
+    <color name="colorTextPrimary">#ff333333</color>
 
 </resources>
