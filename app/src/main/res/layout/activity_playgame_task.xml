@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="150dp">
         <ImageView
+            android:id="@+id/banner"
             android:background="@drawable/playgame_banner"
+            android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
         <TextView
@@ -22,6 +24,7 @@
             android:background="@drawable/playgame_banner_bt"
             android:layout_width="wrap_content"
             android:gravity="center"
+            android:textColor="@color/white"
             tools:text="可领取"
             android:layout_height="wrap_content"/>
 

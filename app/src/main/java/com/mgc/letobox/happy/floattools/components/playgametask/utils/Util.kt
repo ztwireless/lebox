@@ -13,10 +13,6 @@ import android.support.v4.view.ViewCompat
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.mgc.letobox.happy.floattools.components.playgametask.rxdownload4.manager.TaskManager
-import com.mgc.letobox.happy.floattools.components.playgametask.rxdownload4.manager.manager
-import com.mgc.letobox.happy.floattools.components.playgametask.rxdownload4.recorder.RoomRecorder
-import com.mgc.letobox.happy.floattools.components.playgametask.rxdownload4.task.Task
 import java.io.File
 
 fun Context.installApk(file: File) {
@@ -57,13 +53,4 @@ fun View.background(drawable: Drawable) {
 
 fun Activity.start(clazz: Class<*>) {
     startActivity(Intent(this, clazz))
-}
-
-fun String.createTaskManager(): TaskManager {
-    return manager(recorder = RoomRecorder())
-}
-
-fun Task.createTaskManager(): TaskManager {
-    return manager(recorder = RoomRecorder()
-    )
 }

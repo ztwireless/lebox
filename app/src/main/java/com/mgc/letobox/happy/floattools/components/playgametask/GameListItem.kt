@@ -1,15 +1,19 @@
 package com.mgc.letobox.happy.floattools.components.playgametask
 
-import android.content.Context
+import android.app.Activity
+import android.content.pm.PackageManager
+import android.os.Environment
+import android.text.TextUtils
 import android.util.Log
-import com.bytedance.bdtracker.it
 import com.mgc.letobox.happy.R
-import com.mgc.letobox.happy.floattools.components.playgametask.rxdownload4.manager.*
 import com.mgc.letobox.happy.floattools.components.playgametask.utils.DownloadProgressButton
-import com.mgc.letobox.happy.floattools.components.playgametask.utils.ProgressButton
-import com.mgc.letobox.happy.floattools.components.playgametask.utils.createTaskManager
+import com.mgc.letobox.happy.floattools.components.playgametask.utils.DownloadProgressButton.*
+import com.mgc.letobox.happy.floattools.components.playgametask.utils.DownloadUtil
 import com.mgc.letobox.happy.floattools.components.playgametask.utils.installApk
+import com.mgc.letobox.happy.util.LeBoxSpUtil
 import zlc.season.yasha.YashaItem
+import java.io.File
+
 
 class GameListItem(
         val name: String,
@@ -20,55 +24,123 @@ class GameListItem(
 ) : YashaItem {
 
     private var tag: Any? = null
-
-    fun action(context: Context) {
-        val taskManager = url.createTaskManager()
-        when (taskManager.currentStatus()) {
-            is Normal -> taskManager.start()
-            is Pending -> taskManager.stop()
-            is Started -> taskManager.stop()
-            is Downloading -> taskManager.stop()
-            is Failed -> taskManager.start()
-            is Paused -> taskManager.start()
-            is Completed -> context.installApk(taskManager.file())
-            is Deleted -> taskManager.start()
-        }
+    fun loge(msg:String){
+        Log.e("dongxt","gameitem  "+msg);
     }
 
-    fun subscribe(btn_action: ProgressButton, context: Context) {
-        val taskManager = url.createTaskManager()
+    fun action(context: Activity,btn_action: DownloadProgressButton) {
+        context.runOnUiThread {
 
-        val currentStatus = taskManager.currentStatus()
-        btn_action.setStatus(currentStatus)
-        btn_action.text = stateStr(context, currentStatus)
 
-        tag = taskManager.subscribe {
-            Log.d("dongxt","status ="+ it)
-//            if(it is Completed){
-//                context.installApk(taskManager.file())
-//            }
-            btn_action.setStatus(currentStatus)
-            btn_action.text = stateStr(context, currentStatus)
+            when(btn_action.state){
+                STATE_NORMAL ->{
+                    btn_action.setCurrentText(context.getString(R.string.start_text))
+                    download(context,btn_action)
+                }
+                STATE_DOWNLOADING ->{
+                    btn_action.setProgressText("",btn_action.progress)
+                }
+                STATE_FINISH ->{
+                    LeBoxSpUtil.saveString(packName,packName)
+
+                    context.installApk(File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path, name))
+                }
+                STATE_FAILED->{
+                    btn_action.setCurrentText(context.getString(R.string.retry_text))
+                    download(context,btn_action)
+                }
+                else ->{
+                    btn_action.setCurrentText("打开")
+
+                    val packageManager: PackageManager = context.getPackageManager()
+                    var intent  = packageManager.getLaunchIntentForPackage(packName)
+                    if (intent == null) {
+                        download(context,btn_action)
+                    } else {
+                        context.startActivity(intent)
+                    }
+                }
+            }
+        }
+
+
+    }
+    fun download(context: Activity,btn_action: DownloadProgressButton){
+        DownloadUtil().download(url,packName,object :DownloadUtil.OnDownloadListener{
+            override fun onDownloading(progress: Int) {
+                context.runOnUiThread {
+                    btn_action.state = STATE_DOWNLOADING
+                    btn_action.setProgressText("",progress.toFloat())
+                }
+            }
+
+            override fun onDownloadFailed() {
+                loge("onDownloadFailed")
+                context.runOnUiThread {
+                    btn_action.state = STATE_FAILED
+                    btn_action.setCurrentText(context.getString(R.string.retry_text))
+                }
+            }
+
+            override fun onDownloadSuccess(file: File) {
+                loge("onDownloadSuccess")
+                context.runOnUiThread {
+                    btn_action.state = STATE_FINISH
+                    btn_action.setCurrentText(context.getString(R.string.install_text))
+                    context.installApk(file)
+                }
+            }
+
+        })
+    }
+    fun isExist(name: String):Boolean{
+        val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path, name)
+        if(file.exists()){
+            return true
+        }
+        return false
+    }
+    fun subscribe(btn_action: DownloadProgressButton, context: Activity) {
+//        loge("subscribe "+name +" status "+btn_action.state+"/ "+packName)
+        context.runOnUiThread {
+            if(packageNames.contains(packName) && !TextUtils.isEmpty(LeBoxSpUtil.getString(packName))){
+                btn_action.state = STATE_OPEN
+                btn_action.setCurrentText("打开")
+                return@runOnUiThread
+            }else if(isExist(packName)){
+                btn_action.state = STATE_FINISH
+                btn_action.setCurrentText(context.getString(R.string.install_text))
+            }
+            when(btn_action.state){
+                STATE_NORMAL ->{
+                    btn_action.setCurrentText(context.getString(R.string.start_text))
+                }
+                STATE_DOWNLOADING ->{
+                    btn_action.setProgressText("",btn_action.progress)
+                }
+                STATE_PAUSE ->{
+                    btn_action.setCurrentText(context.getString(R.string.pause_text))
+                }
+                STATE_FINISH ->{
+                    btn_action.setCurrentText(context.getString(R.string.install_text))
+                }
+                STATE_FAILED->{
+                    btn_action.setCurrentText(context.getString(R.string.retry_text))
+                }
+                else ->{
+                    btn_action.setCurrentText("打开")
+                }
+            }
         }
     }
-
-    private fun stateStr(context: Context, status: Status): String {
-        return when (status) {
-            is Normal -> context.getString(R.string.start_text)
-            is Pending -> context.getString(R.string.pending_text)
-            is Started -> context.getString(R.string.pause_text)
-            is Downloading -> context.getString(R.string.pause_text)
-            is Paused -> context.getString(R.string.continue_text)
-            is Completed -> context.getString(R.string.install_text)
-            is Failed -> context.getString(R.string.retry_text)
-            is Deleted -> context.getString(R.string.start_text)
-            else -> ""
-        }
+    lateinit var  packageNames: MutableList<String>
+    fun setPacknames(packageNames: MutableList<String>){
+        this.packageNames = packageNames
     }
+
 
     fun dispose() {
         tag?.let {
-            url.createTaskManager().dispose(it)
         }
     }
 
