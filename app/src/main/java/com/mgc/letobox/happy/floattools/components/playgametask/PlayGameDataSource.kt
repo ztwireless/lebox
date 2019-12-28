@@ -1,18 +1,16 @@
 package com.mgc.letobox.happy.floattools.components.playgametask
 
-import com.mgc.letobox.happy.model.PlayGameResult
+import android.arch.lifecycle.MutableLiveData
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.mgc.letobox.happy.floattools.components.playgametask.utils.mock_json
 import zlc.season.yasha.YashaDataSource
 import zlc.season.yasha.YashaItem
 
-class PlayGameDataSource(playGameResult: PlayGameResult) : YashaDataSource() {
-    var playGameResult = playGameResult
+class PlayGameDataSource : YashaDataSource() {
     override fun loadInitial(loadCallback: LoadCallback<YashaItem>) {
-        var mockData = ArrayList<GameListItem>()
-        val games = playGameResult.data.games
-        for(game in games){
-            mockData.add(GameListItem(game.game_name,game.game_icon,game.game_desc,game.packagename,game.download_url))
-        }
-
+        val type = object : TypeToken<List<GameListItem>>() {}.type
+        val mockData = Gson().fromJson<List<GameListItem>>(mock_json, type)
         loadCallback.setResult(mockData)
     }
 }

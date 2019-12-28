@@ -4,12 +4,10 @@ import android.support.annotation.Keep;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 @Keep
-public class PlayGameResult implements Serializable {
+public class PlayGameResult {
 
     public float code;
     public String msg;
@@ -33,15 +31,13 @@ public class PlayGameResult implements Serializable {
     }
 
     @Keep
-    public static class Data implements Serializable{
+    public static class Data {
         public String banners;
-        public List<Game> games = new ArrayList<Game>();
-        public int coins;
-        public int coins_multiple;
+        public ArrayList<Game> games = new ArrayList<Game>();
 
     }
     @Keep
-    public static class Game implements Serializable{
+    public static class Game{
         public int game_id;
         public String game_name;
         public String game_icon;

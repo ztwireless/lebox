@@ -44,23 +44,21 @@
         app:layout_constraintStart_toEndOf="@id/game_icon"
         tools:text="TextView" />
 
-    <com.mgc.letobox.happy.floattools.components.playgametask.utils.DownloadProgressButton
+    <com.mgc.letobox.happy.floattools.components.playgametask.utils.ProgressButton
         android:id="@+id/btn_pause"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:gravity="center"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="@id/game_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/game_icon"
-        app:progress_btn_background_color="#fff5a623"
-        app:progress_btn_radius="15dp"
-        tools:text="Button"
-        app:progress_btn_ball_style="STYLE_BALL_PULSE"
-        app:progress_btn_border_width="2dp" />
+        tools:text="Button" />
 <!--
     <com.mgc.letobox.happy.floattools.components.playgametask.utils.DownloadProgressButton
-        android:id="@+id/btn_pause"
+        android:id="@+id/download_btn"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
@@ -68,7 +66,7 @@
         app:layout_constraintBottom_toBottomOf="@id/game_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/game_icon"
-        app:progress_btn_background_color="@color/colorAccent"
+        app:progress_btn_background_color="@color/white"
         app:progress_btn_radius="5dp"
         tools:text="Button"
         app:progress_btn_background_second_color="#fff5a623"
@@ -77,6 +75,4 @@
         app:progress_btn_ball_style="STYLE_BALL_PULSE"
         app:progress_btn_border_width="2dp" />
 -->
-
-
 </android.support.constraint.ConstraintLayout>
