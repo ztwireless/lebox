@@ -38,8 +38,8 @@ class PlayGameTaskActivity : Activity() {
         var count = LeBoxSpUtil.getInt("count")
         updateBG(count)
         iv_status.setOnClickListener {v: View? ->
+            var count = LeBoxSpUtil.getInt("count")
             if(playGameResult.data != null && count > 1){
-                var count = LeBoxSpUtil.getInt("count")
                 LeBoxSpUtil.saveInt("count",count - 2)
                 updateBG(count - 2)
                 MGCDialogUtil.showMGCCoinDialog(this@PlayGameTaskActivity, "", playGameResult.data.coins, playGameResult.data.coins_multiple, CoinDialogScene.PLAY_APK_GAME) { b, i -> }

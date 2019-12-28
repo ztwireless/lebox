@@ -83,10 +83,11 @@ class GameListItem(
             }
 
             override fun onDownloadSuccess(file: File) {
-                loge("onDownloadSuccess")
+                loge("onDownloadSuccess " +packName)
                 context.runOnUiThread {
                     btn_action.state = STATE_FINISH
                     btn_action.setCurrentText(context.getString(R.string.install_text))
+                    LeBoxSpUtil.saveString(packName,packName)
                     context.installApk(file)
                 }
             }
