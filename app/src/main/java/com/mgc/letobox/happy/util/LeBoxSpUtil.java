@@ -91,4 +91,16 @@ public class LeBoxSpUtil {
         String key = PRFS_HBRAIN_LAST_TIME + "_" + gameId + "_"  + getDay();
         return _SP.getLong(key, 0);
     }
+    public static void saveString(String key,String value){
+        _SP.edit().putString(key,value).apply();
+    }
+    public static String getString(String key){
+        return _SP.getString(key,"");
+    }
+    public static void saveInt(String key,int value){
+        _SP.edit().putInt(key,value).apply();
+    }
+    public static int getInt(String key){
+        return _SP.getInt(key,0);
+    }
 }

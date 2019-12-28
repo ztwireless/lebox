@@ -42,4 +42,5 @@
     <string name="install_text">安装</string>
     <string name="pause_text">暂停</string>
     <string name="retry_text">重试</string>
+
 </resources>

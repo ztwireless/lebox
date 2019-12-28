@@ -76,6 +76,8 @@ public class DownloadProgressButton extends TextView {
     public static final int STATE_DOWNLOADING = 1;//下载之中
     public static final int STATE_PAUSE = 2;//暂停下载
     public static final int STATE_FINISH = 3;//下载完成
+    public static final int STATE_FAILED = 4;//下载失败
+    public static final int STATE_OPEN = 5;//打开
 
     public static final int STYLE_BALL_PULSE = 1;
     public static final int STYLE_BALL_JUMP = 2;
@@ -198,6 +200,7 @@ public class DownloadProgressButton extends TextView {
         //color
         switch (mState) {
             case STATE_NORMAL:
+            case STATE_FAILED:
                 mBackgroundPaint.setColor(mBackgroundColor);
                 canvas.drawRoundRect(mBackgroundBounds, mButtonRadius, mButtonRadius, mBackgroundPaint);
                 break;
@@ -221,6 +224,7 @@ public class DownloadProgressButton extends TextView {
                 mBackgroundPaint.setXfermode(null);
                 break;
             case STATE_FINISH:
+            case STATE_OPEN:
                 mBackgroundPaint.setColor(mBackgroundColor);
                 canvas.drawRoundRect(mBackgroundBounds, mButtonRadius, mButtonRadius, mBackgroundPaint);
                 break;
@@ -273,6 +277,7 @@ public class DownloadProgressButton extends TextView {
                 canvas.drawText(mCurrentText.toString(), (getMeasuredWidth() - textWidth) / 2, y, mTextPaint);
                 break;
             case STATE_FINISH:
+            case STATE_OPEN:
                 mTextPaint.setColor(mTextCoverColor);
                 canvas.drawText(mCurrentText.toString(), (getMeasuredWidth() - textWidth) / 2, y, mTextPaint);
                 drawLoadingBall(canvas);
@@ -283,13 +288,13 @@ public class DownloadProgressButton extends TextView {
     }
 
     public void drawLoadingBall(Canvas canvas) {
-        for (int i = 0; i < 3; i++) {
-            canvas.save();
-            float translateX = mTextRightBorder + 10 + (mBallRadius * 2) * i + mBallSpacing * i;
-            canvas.translate(translateX, mTextBottomBorder);
-            canvas.drawCircle(0, translateYFloats[i], mBallRadius * scaleFloats[i], mTextPaint);
-            canvas.restore();
-        }
+//        for (int i = 0; i < 3; i++) {
+//            canvas.save();
+//            float translateX = mTextRightBorder + 10 + (mBallRadius * 2) * i + mBallSpacing * i;
+//            canvas.translate(translateX, mTextBottomBorder);
+//            canvas.drawCircle(0, translateYFloats[i], mBallRadius * scaleFloats[i], mTextPaint);
+//            canvas.restore();
+//        }
     }
 
     private void startAnimators() {
