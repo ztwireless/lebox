@@ -28,6 +28,7 @@
         android:maxLines="1"
         android:textColor="@android:color/black"
         android:textSize="22sp"
+        android:ellipsize="end"
         app:layout_constraintStart_toEndOf="@id/game_icon"
         app:layout_constraintTop_toTopOf="@id/game_icon"
         tools:text="TextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextView" />
@@ -38,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:ellipsize="end"
         android:maxWidth="130dp"
         android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="@id/game_icon"
