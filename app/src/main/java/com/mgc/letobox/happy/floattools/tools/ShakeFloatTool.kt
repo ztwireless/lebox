@@ -1,39 +1,35 @@
 package com.mgc.letobox.happy.floattools.tools
 
 import android.app.Activity
+import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
-import com.ledong.lib.leto.LetoConst
 import com.ledong.lib.leto.api.ApiContainer
 import com.ledong.lib.leto.api.ApiContainer.ApiName
 import com.ledong.lib.leto.api.ApiContainer.IApiResultListener
+import com.ledong.lib.leto.interfaces.ILetoContainer
+import com.ledong.lib.leto.mgc.bean.BenefitSettings_shake
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil
 import com.leto.game.base.ad.AdPreloader
-import com.leto.game.base.login.LoginManager
-import com.leto.game.base.util.BaseAppUtil
+import com.leto.game.base.http.HttpCallbackDecode
 import com.mgc.letobox.happy.R
+import com.mgc.letobox.happy.bean.ShakeResultBean
 import com.mgc.letobox.happy.floattools.BaseFloatTool
 import com.mgc.letobox.happy.floattools.FloatViewManager
-import com.mgc.letobox.happy.floattools.MGCService
-import com.mgc.letobox.happy.model.FloatToolsConfig.Data.Shake
-import com.mgc.letobox.happy.model.ShakeResult
-import com.mgc.letobox.happy.model.ShakeResult.Data
 import com.mgc.letobox.happy.util.LeBoxSpUtil
+import com.mgc.letobox.happy.util.LeBoxUtil
 import com.mgc.letobox.happy.view.ShakeShakeView
-import retrofit2.Call
-import retrofit2.Response
 import java.io.IOException
 import java.util.concurrent.Executors
 
-class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Shake) : BaseFloatTool(activity, gameId) {
+class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: BenefitSettings_shake) : BaseFloatTool(activity, gameId) {
     private val TAG = ShakeFloatTool::class.java.simpleName
 
     override fun isGameEnabled(): Boolean {
         if (TEST_ENV) return true
-        val gameIdInt = toInt(gameId)
         if (shakeConfig.is_open == 1 && shakeConfig.game_ids != null) {
-            return shakeConfig.game_ids.contains(gameIdInt)
+            return shakeConfig.game_ids.contains(gameId)
         }
         return false
     }
@@ -75,44 +71,62 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Shake)
         }
     }
 
-    private fun shakeIt(activity: Activity) {
-        val service: MGCService = buildRetrofit().create(MGCService::class.java)
-        val shakeResultCall: Call<ShakeResult> = service.obtainShakeResult(toInt(BaseAppUtil.getChannelID(activity)), toInt(gameId), LoginManager.getUserId(activity), LetoConst.SDK_OPEN_TOKEN)
-        try {
-            val shakeResultResponse: Response<ShakeResult>? = shakeResultCall.execute()
-            if (shakeResultResponse != null) {
-                val shakeResult: ShakeResult = shakeResultResponse.body()!!
-                activity.runOnUiThread {
-                    val shakeData: Data? = shakeResult.data
-                    if (shakeData == null || shakeData.add_coins == 0) {
-                        if (!AdPreloader.isInterstitialPreloaded()) {
-                            Toast.makeText(activity, R.string.shake_nothing, Toast.LENGTH_SHORT).show()
-                        } else {
-                            val apiContainer = ApiContainer(activity)
-                            apiContainer.presentInterstitialAd(object : IApiResultListener {
-                                override fun onApiSuccess(apiName: ApiName?, o: Any?) {
-                                    Log.i(TAG, "onApiSuccess")
-                                    apiContainer.destroy()
-                                }
+    private fun triggerJSShakeAwardEvent(activity: Activity, awardId: String) {
+        if(activity is ILetoContainer) {
+            activity.notifyServiceSubscribeHandler("onAppShakeAward", String.format("{\"award_id\": \"%s\"}", awardId), 0)
+        }
+    }
 
-                                override fun onApiFailed(apiName: ApiName?, b: Boolean) {
-                                    Log.i(TAG, "onApiFailed")
-                                    apiContainer.destroy()
-                                    Toast.makeText(activity, R.string.obtain_ad_failed, Toast.LENGTH_SHORT).show()
-                                }
-                            })
+    private fun presentInterstitialAd(activity: Activity) {
+        val apiContainer = ApiContainer(activity)
+        apiContainer.presentInterstitialAd(object : IApiResultListener {
+            override fun onApiSuccess(apiName: ApiName?, o: Any?) {
+                Log.i(TAG, "onApiSuccess")
+                apiContainer.destroy()
+            }
+
+            override fun onApiFailed(apiName: ApiName?, b: Boolean) {
+                Log.i(TAG, "onApiFailed")
+                apiContainer.destroy()
+                Toast.makeText(activity, R.string.obtain_ad_failed, Toast.LENGTH_SHORT).show()
+            }
+        }, true)
+    }
+
+    private fun shakeIt(activity: Activity) {
+
+        LeBoxUtil.getShakeResult(activity, gameId, object : HttpCallbackDecode<ShakeResultBean>(activity, null) {
+            override fun onDataSuccess(shakeData: ShakeResultBean?) {
+                activity.runOnUiThread {
+                    try {
+                        if (shakeData == null) {
+                            if (!AdPreloader.isInterstitialPreloaded()) {
+                                AdPreloader.preloadInterstitialIfNeeded()
+                                Toast.makeText(activity, R.string.shake_nothing, Toast.LENGTH_SHORT).show()
+                            } else {
+                                presentInterstitialAd(activity)
+                            }
+                        } else {
+                            when {
+                                shakeData.add_coins_type == 1 && shakeData.add_coins > 0 ->
+                                    MGCDialogUtil.showMGCCoinDialog(activity, "", shakeData.add_coins, shakeData.add_coins_multiple, CoinDialogScene.SHAKE) { b, i -> }
+                                shakeData.add_coins_type == 2 && !TextUtils.isEmpty(shakeData.propid) ->
+                                    triggerJSShakeAwardEvent(activity, shakeData.propid)
+                                else ->
+                                    if (!AdPreloader.isInterstitialPreloaded()) {
+                                        AdPreloader.preloadInterstitialIfNeeded()
+                                        Toast.makeText(activity, R.string.shake_nothing, Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        presentInterstitialAd(activity)
+                                    }
+                            }
                         }
-                    } else {
-                        if (shakeData.add_coins_type == 1) {
-                            MGCDialogUtil.showMGCCoinDialog(activity, "", shakeData.add_coins, shakeData.add_coins_multiple, CoinDialogScene.SHAKE) { b, i -> }
-                        } else if (shakeData.add_coins_type == 2) {
-                            MGCDialogUtil.showCpCoinDialog(activity, "", shakeData.add_coins, shakeData.add_coins_multiple, CoinDialogScene.SHAKE) { b, i -> }
-                        }
+                    } catch (e: IOException) {
+                        e.printStackTrace()
                     }
                 }
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+        })
+
     }
 }
