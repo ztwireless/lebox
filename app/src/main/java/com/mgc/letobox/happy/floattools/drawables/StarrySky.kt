@@ -3,6 +3,8 @@ package com.mgc.letobox.happy.floattools.drawables
 import android.graphics.*
 import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
+import android.os.Handler
+import android.os.Looper
 //import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
@@ -132,6 +134,7 @@ class StarrySky(val width: Int, val height: Int) : Drawable(), Animatable {
     }
 
     private var lastTime = 0L
+    val handler = Handler(Looper.getMainLooper())
     override fun start() {
         isRunning = true
         lastTime = System.currentTimeMillis()
@@ -141,9 +144,11 @@ class StarrySky(val width: Int, val height: Int) : Drawable(), Animatable {
         timer = Timer()
         timer.schedule(object : TimerTask() {
             override fun run() {
-                val currentTime = System.currentTimeMillis()
-                update((currentTime - lastTime).toInt())
-                lastTime = currentTime
+                handler.post {
+                    val currentTime = System.currentTimeMillis()
+                    update((currentTime - lastTime).toInt())
+                    lastTime = currentTime
+                }
             }
         }, 16, 16)
     }
