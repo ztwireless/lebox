@@ -39,10 +39,10 @@ public class PlayGameView extends FrameLayout {
     public PlayGameView(@NonNull final Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         inflate(context, R.layout.layout_play_game, this);
-//        mPlayGameView = findViewById(R.id.itemGame);
-//        mAnimationDrawable = (AnimationDrawable) mShakeView.getDrawable();
-//
-//        mAnimationDrawable.start();
+        mPlayGameView = findViewById(R.id.itemGame);
+        mAnimationDrawable = (AnimationDrawable) mPlayGameView.getDrawable();
+
+        mAnimationDrawable.start();
         ViewConfiguration vc = ViewConfiguration.get(context);
         touchSlop = vc.getScaledTouchSlop();
         scroller = new OverScroller(context);
