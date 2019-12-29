@@ -28,6 +28,7 @@ import com.mgc.letobox.happy.util.LeBoxConstant;
 import com.mgc.letobox.happy.view.UpgradeView;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -81,7 +82,7 @@ public class FloatToolsCenter {
     private static void setGameUpgradeListener(Application app) {
         Leto.getInstance().setGameUpgradeListener(new ILetoGameUpgradeListener() {
             @Override
-            public void show(Activity activity, String gameId, String gameInfo) {
+            public void show(Activity activity, String gameId, Map<String, Integer> map, JSONObject jsonObject) {
                 LetoTrace.d(TAG, "upgrade show");
                 if (isGameUpgradeEnabled(gameId)) {
                     initUpgradeView(activity, gameId);
