@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.ledong.lib.leto.Leto;
 import com.ledong.lib.leto.api.constant.Constant;
+import com.ledong.lib.leto.mgc.AppChannel;
+import com.ledong.lib.leto.mgc.ExchangeActivity;
 import com.ledong.lib.leto.mgc.WithdrawActivity;
 import com.ledong.lib.leto.mgc.bean.GetUserCoinResultBean;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
@@ -112,16 +114,32 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         _todayCoinLabel.setText(String.valueOf(MGCSharedModel.todayCoin));
         _moneyLabel.setText(String.format("%.02f%s", (float)MGCSharedModel.myCoin / MGCSharedModel.coinRmbRatio, _leto_mgc_dollar));
 
+        if (MGCSharedModel.coinExchageType == Constant.COIN_CONSUME_TYPE_EXCHANGE) {
+            _withdrawTextView.setText("立即兑换");
+        } else {
+            _withdrawTextView.setText("立即提现");
+
+            //步数宝
+            if (BaseAppUtil.getChannelID(_ctx).equals(AppChannel.BUSHUBAO.getValue())) {
+                _withdrawTextView.setText("兑换燃力");
+            }
+        }
+
         // withdraw click
         _withdrawView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
             @Override
             public boolean onClicked() {
-                IMintage mintageItf = Leto.getInstance().getThirdpartyMintage();
-				if(MGCSharedModel.thirdpartyWithdraw && mintageItf != null) {
-					thirdpartyWithdraw();
-				} else {
-					WithdrawActivity.start(_ctx);
-				}
+
+                if (MGCSharedModel.coinExchageType == Constant.COIN_CONSUME_TYPE_EXCHANGE) {
+                    ExchangeActivity.start(_ctx);
+                } else {
+                    IWithdraw withdrawInterface = Leto.getInstance().getThirdpartyWithdraw();
+                    if (MGCSharedModel.thirdpartyWithdraw && withdrawInterface != null) {
+                        thirdpartyWithdraw();
+                    } else {
+                        WithdrawActivity.start(_ctx);
+                    }
+                }
 
                 return true;
             }

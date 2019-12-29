@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/black">
+    <!--<LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="72dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:visibility="gone"
+        >
+        <TextView
+            android:layout_width="271dp"
+            android:layout_height="58dp"
+            android:text="红包雨来了！"
+            android:textColor="#ffffffff"
+            android:textSize="41sp"
+            />
+        <TextView
+            android:layout_width="230dp"
+            android:layout_height="42dp"
+            android:layout_marginTop="75dp"
+            android:text="猛戳红包有奖励"
+            android:textColor="#ffffffff"
+            android:textSize="30sp"
+            android:shadowColor="#ffff0000"
+            android:shadowDx="-3dp"
+            android:shadowDy="-3dp"
+            android:shadowRadius="3.0"
+            />
+    </LinearLayout>-->
+<!--
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/itemHand"
+        android:translationY="28dp"
+        android:src="@drawable/redpacket"
+        android:visibility="gone"
+        />
+-->
+<!--
+    <ImageView
+        android:id="@+id/itemHand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:translationX="18dp"
+        android:src="@drawable/redpacket_hand"
+        android:visibility="gone"
+        />
+-->
+    <ImageView
+        android:id="@+id/itemImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside"
+        android:src="@drawable/redpacket_come"/>
+</android.support.constraint.ConstraintLayout>

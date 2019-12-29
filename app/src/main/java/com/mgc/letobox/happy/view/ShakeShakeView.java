@@ -2,16 +2,12 @@ package com.mgc.letobox.happy.view;
 
 import android.content.Context;
 import android.graphics.PointF;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -35,7 +31,6 @@ public class ShakeShakeView extends FrameLayout {
         touchSlop = 0;
         _draggable = true;
     }
-
     private RectF edgeRatio = new RectF();
     public void setEdgeRatio(RectF edgeRatio) {
         edgeRatio.set(edgeRatio);
@@ -43,6 +38,22 @@ public class ShakeShakeView extends FrameLayout {
     public void setEdgeRatio(float left, float top, float right, float bottom) {
         edgeRatio.set(left, top, right, bottom);
     }
+
+    public ShakeShakeView(@NonNull final Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        inflate(context, R.layout.layout_shake_shake, this);
+        mShakeView = findViewById(R.id.itemShake);
+        mAnimationDrawable = (AnimationDrawable) mShakeView.getDrawable();
+
+        mAnimationDrawable.start();
+        ViewConfiguration vc = ViewConfiguration.get(context);
+        touchSlop = vc.getScaledTouchSlop();
+        scroller = new OverScroller(context);
+    }
+
+    private PointF initialPoint = new PointF();
+    private float touchSlop;
+    private boolean isDragging = false;
 
     public void relocate(int x, int y, boolean pinned) {
         setX(x);
@@ -52,22 +63,6 @@ public class ShakeShakeView extends FrameLayout {
             settleToEdge();
         }
     }
-
-    public ShakeShakeView(@NonNull final Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        inflate(context, R.layout.layout_shake_shake, this);
-        mShakeView = findViewById(R.id.itemShake);
-//        mAnimationDrawable = (AnimationDrawable) mShakeView.getDrawable();
-//
-//        mAnimationDrawable.start();
-        ViewConfiguration vc = ViewConfiguration.get(context);
-        touchSlop = vc.getScaledTouchSlop();
-        scroller = new OverScroller(context);
-    }
-
-    private PointF initialPoint = new PointF();
-    private float touchSlop;
-    private boolean isDragging = false;
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {

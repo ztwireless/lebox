@@ -1,6 +1,7 @@
 package com.mgc.letobox.happy.floattools;
 
 import android.app.Activity;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import com.leto.game.base.event.FloatIconRelocateEvent;
 import com.leto.game.base.event.FloatIconVisibilityEvent;
 import com.leto.game.base.util.BaseAppUtil;
 import com.mgc.letobox.happy.view.FloatBubbleView;
+import com.mgc.letobox.happy.view.FloatRedPacketSea;
+import com.mgc.letobox.happy.view.PlayGameView;
 import com.mgc.letobox.happy.view.ShakeShakeView;
 import com.mgc.letobox.happy.view.UpgradeView;
 
@@ -22,13 +25,55 @@ import java.util.Map;
 public class FloatViewManager {
     private static FloatViewManager INST = new FloatViewManager();
 
+    public static FloatViewManager getInstance() {
+        return INST;
+    }
+
+    private WeakReference<PlayGameView> weakPlayGameView;
+
     private FloatViewManager() {
         EventBus.getDefault().register(this);
     }
 
-    public static FloatViewManager getInstance() {
-        return INST;
+    public PlayGameView showPlayGameView(Activity activity, int xDirection, float yRatio) {
+        if (weakPlayGameView == null || weakPlayGameView.get() == null && activity != null) {
+            PlayGameView playGameView = new PlayGameView(activity);
+
+            ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            decorView.addView(playGameView, lp);
+
+            int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            playGameView.measure(w, h);
+
+            int x = 0;
+            if (xDirection == 1) {
+                x = BaseAppUtil.getDeviceWidth(activity) - playGameView.getMeasuredWidth();
+            }
+            int y = (int) (yRatio * BaseAppUtil.getDeviceHeight(activity));
+            playGameView.setX(x);
+            playGameView.setY(y);
+
+            weakPlayGameView = new WeakReference<>(playGameView);
+        } else {
+            PlayGameView playGameView = weakPlayGameView.get();
+            playGameView.setVisibility(View.VISIBLE);
+        }
+        return weakPlayGameView.get();
     }
+
+    public void removePlayGameView(Activity activity) {
+        if (weakPlayGameView != null && weakPlayGameView.get() != null && activity != null) {
+            ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+            PlayGameView playGameView = weakPlayGameView.get();
+            if (playGameView.getParent() == decorView) {
+                decorView.removeView(playGameView);
+            }
+        }
+        weakPlayGameView = null;
+    }
+
 
     private SparseArray<WeakReference<FloatBubbleView>> bubbleViews = new SparseArray<>();
 
@@ -53,6 +98,37 @@ public class FloatViewManager {
         return bubbleView.getBubbleId();
     }
 
+    private WeakReference<FloatRedPacketSea> weakRedPacket;
+    public FloatRedPacketSea getRedPacketSeaView() {
+        return weakRedPacket.get();
+    }
+    public FloatRedPacketSea showRedPacket(Activity activity, int xDirection, float yRatio) {
+        if (weakRedPacket == null || weakRedPacket.get() == null) {
+            FloatRedPacketSea redPacketSea = new FloatRedPacketSea(activity);
+
+            ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            decorView.addView(redPacketSea, lp);
+
+            int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            redPacketSea.measure(w, h);
+
+            int x = 0;
+            if (xDirection == 1) {
+                x = BaseAppUtil.getDeviceWidth(activity) - redPacketSea.getMeasuredWidth();
+            }
+            int y = (int) (yRatio * BaseAppUtil.getDeviceHeight(activity));
+            redPacketSea.setX(x);
+            redPacketSea.setY(y);
+
+            weakRedPacket = new WeakReference<>(redPacketSea);
+        } else {
+            FloatRedPacketSea redPacketSea = weakRedPacket.get();
+            redPacketSea.setVisibility(View.VISIBLE);
+        }
+        return weakRedPacket.get();
+    }
     private WeakReference<ShakeShakeView> weakShakeView;
 
     public ShakeShakeView showShakeShake(Activity activity) {
@@ -84,7 +160,7 @@ public class FloatViewManager {
     }
 
     public ShakeShakeView showShakeShake(Activity activity, int xDirection, float yRatio) {
-        if (weakShakeView == null || weakShakeView.get() == null) {
+        if (weakShakeView == null || weakShakeView.get() == null && activity != null) {
             ShakeShakeView shakeView = new ShakeShakeView(activity);
 
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
@@ -117,15 +193,26 @@ public class FloatViewManager {
         }
     }
 
+    public void removeRedPacketView(Activity activity) {
+        if (weakRedPacket != null && weakRedPacket.get() != null && activity != null) {
+            ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+            FloatRedPacketSea redPacketSea = weakRedPacket.get();
+            if (redPacketSea.getParent() == decorView) {
+                decorView.removeView(redPacketSea);
+            }
+        }
+        weakRedPacket = null;
+    }
+
     public void removeShakeView(Activity activity) {
-        if (weakShakeView != null && weakShakeView.get() != null && activity!= null) {
+        if (weakShakeView != null && weakShakeView.get() != null && activity != null) {
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
             ShakeShakeView shakeView = weakShakeView.get();
             if (shakeView.getParent() == decorView) {
                 decorView.removeView(shakeView);
             }
-            weakShakeView = null;
         }
+        weakShakeView = null;
     }
 
     public void hideBubbleView(int id) {
@@ -207,15 +294,6 @@ public class FloatViewManager {
         } else {
             UpgradeView upgradeView = wakeUpgradeView.get();
             upgradeView.setVisibility(View.VISIBLE);
-
-            // 已经存在view了, 重新设置一下位置
-            int x = 0;
-            if (xDirection == 1) {
-                x = BaseAppUtil.getDeviceWidth(activity) - upgradeView.getMeasuredWidth();
-            }
-            int y = (int) (yRatio * BaseAppUtil.getDeviceHeight(activity));
-            upgradeView.setX(x);
-            upgradeView.setY(y);
         }
         return wakeUpgradeView.get();
     }
@@ -231,14 +309,11 @@ public class FloatViewManager {
         if (wakeUpgradeView != null && wakeUpgradeView.get() != null && activity != null) {
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
             UpgradeView upgradeView = wakeUpgradeView.get();
-            //清理handler
-            upgradeView.onDestroy();
-
             if (upgradeView.getParent() == decorView) {
                 decorView.removeView(upgradeView);
             }
-            wakeUpgradeView = null;
         }
+        wakeUpgradeView = null;
     }
 
     public void notifyUpgrade(String gameId, Map<String, Integer> gameInfo) {
