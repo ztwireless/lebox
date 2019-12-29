@@ -142,7 +142,8 @@ public class DownloadProgressButton extends TextView {
         //设置文字画笔
         mTextPaint = new Paint();
         mTextPaint.setAntiAlias(true);
-        mTextPaint.setTextSize(50f);
+//        mTextPaint.setTextSize(50f);
+        mTextPaint.setTextSize(getResources().getDimension(R.dimen.sp_12));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             //解决文字有时候画不出问题
             setLayerType(LAYER_TYPE_SOFTWARE, mTextPaint);
