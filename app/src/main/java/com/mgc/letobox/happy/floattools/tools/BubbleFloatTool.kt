@@ -4,8 +4,12 @@ import android.app.Activity
 import android.graphics.Point
 import android.util.Log
 import android.view.View.OnClickListener
+import com.ledong.lib.leto.api.constant.Constant
+import com.ledong.lib.leto.mgc.bean.BenefitSettings_bubble
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil
+import com.leto.game.base.statistic.GameStatisticManager
+import com.leto.game.base.statistic.StatisticEvent
 import com.mgc.letobox.happy.floattools.BaseFloatTool
 import com.mgc.letobox.happy.floattools.FloatViewManager
 import com.mgc.letobox.happy.model.FloatToolsConfig.Data.Bubble
@@ -13,13 +17,12 @@ import com.mgc.letobox.happy.util.LeBoxSpUtil
 import com.mgc.letobox.happy.view.FloatBubbleView
 import java.util.*
 
-class BubbleFloatTool(activity: Activity, gameId: String, val bubbleConfig: Bubble) : BaseFloatTool(activity, gameId) {
+class BubbleFloatTool(activity: Activity, gameId: String, val bubbleConfig: BenefitSettings_bubble) : BaseFloatTool(activity, gameId) {
     private val TAG = BubbleFloatTool::class.java.simpleName
     override fun isGameEnabled(): Boolean {
         if (TEST_ENV) return true
-        val gameIdInt = toInt(gameId)
         if (bubbleConfig.is_open == 1 && bubbleConfig.game_ids != null) {
-            return bubbleConfig.game_ids.contains(gameIdInt)
+            return bubbleConfig.game_ids.contains(gameId)
         }
         return false
     }
@@ -58,9 +61,13 @@ class BubbleFloatTool(activity: Activity, gameId: String, val bubbleConfig: Bubb
         bubbleTimer = null
     }
 
-    private fun obtainBubbleClickListener(activity: Activity, bubble: Bubble): OnClickListener {
+    private fun obtainBubbleClickListener(activity: Activity, bubble: BenefitSettings_bubble): OnClickListener {
         return OnClickListener { view ->
             if (view is FloatBubbleView) {
+
+                //点击上报
+                GameStatisticManager.statisticBenefitLog(activity, gameId, StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal, 0, 0, 0, 0, Constant.BENEFITS_TYPE_BUBBLE, 0)
+
                 FloatViewManager.getInstance().removeBubbleView(activity, view.bubbleId)
                 MGCDialogUtil.showMGCCoinDialog(activity, "", view.coinCount, bubble.coins_multiple, CoinDialogScene.BUBBLE, null)
             }

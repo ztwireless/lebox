@@ -7,12 +7,16 @@ import android.widget.Toast
 import com.ledong.lib.leto.api.ApiContainer
 import com.ledong.lib.leto.api.ApiContainer.ApiName
 import com.ledong.lib.leto.api.ApiContainer.IApiResultListener
+import com.ledong.lib.leto.api.constant.Constant
 import com.ledong.lib.leto.interfaces.ILetoContainer
 import com.ledong.lib.leto.mgc.bean.BenefitSettings_shake
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil
 import com.leto.game.base.ad.AdPreloader
 import com.leto.game.base.http.HttpCallbackDecode
+import com.leto.game.base.statistic.GameStatisticManager
+import com.leto.game.base.statistic.StatisticEvent
+import com.leto.game.base.util.ToastUtil
 import com.mgc.letobox.happy.R
 import com.mgc.letobox.happy.bean.ShakeResultBean
 import com.mgc.letobox.happy.floattools.BaseFloatTool
@@ -60,13 +64,21 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Benefi
                 // do nothing
             } else if (todayTimes >= shake.max_times) {
                 lastShakeTime = System.currentTimeMillis()
-                Toast.makeText(activity, R.string.shake_time_used_out, Toast.LENGTH_SHORT).show()
+                ToastUtil.s(activity, R.string.shake_time_used_out)
+                //点击上报
+                GameStatisticManager.statisticBenefitLog(activity, gameId, StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal, 0, 0, 0, 0, Constant.BENEFITS_TYPE_SHAKE, 0)
+
             } else if (currentTime - lastShakeTime < 3000) {
-                Toast.makeText(activity, R.string.shake_nothing, Toast.LENGTH_SHORT).show()
+                ToastUtil.s(activity, R.string.shake_nothing)
+                //点击上报
+                GameStatisticManager.statisticBenefitLog(activity, gameId, StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal, 0, 0, 0, 0, Constant.BENEFITS_TYPE_SHAKE, 0)
+
             } else {
                 lastShakeTime = System.currentTimeMillis()
                 LeBoxSpUtil.shakeOnce(gameId)
                 Executors.newSingleThreadExecutor().submit { shakeIt(activity) }
+                //点击上报
+                GameStatisticManager.statisticBenefitLog(activity, gameId, StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal, 0, 0, 0, 0, Constant.BENEFITS_TYPE_SHAKE, 0)
             }
         }
     }
@@ -88,7 +100,7 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Benefi
             override fun onApiFailed(apiName: ApiName?, b: Boolean) {
                 Log.i(TAG, "onApiFailed")
                 apiContainer.destroy()
-                Toast.makeText(activity, R.string.obtain_ad_failed, Toast.LENGTH_SHORT).show()
+                ToastUtil.s(activity, R.string.obtain_ad_failed)
             }
         }, true)
     }
@@ -102,7 +114,7 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Benefi
                         if (shakeData == null) {
                             if (!AdPreloader.isInterstitialPreloaded()) {
                                 AdPreloader.preloadInterstitialIfNeeded()
-                                Toast.makeText(activity, R.string.shake_nothing, Toast.LENGTH_SHORT).show()
+                                ToastUtil.s(activity, R.string.shake_nothing)
                             } else {
                                 presentInterstitialAd(activity)
                             }
@@ -115,7 +127,7 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Benefi
                                 else ->
                                     if (!AdPreloader.isInterstitialPreloaded()) {
                                         AdPreloader.preloadInterstitialIfNeeded()
-                                        Toast.makeText(activity, R.string.shake_nothing, Toast.LENGTH_SHORT).show()
+                                        ToastUtil.s(activity, R.string.shake_nothing)
                                     } else {
                                         presentInterstitialAd(activity)
                                     }

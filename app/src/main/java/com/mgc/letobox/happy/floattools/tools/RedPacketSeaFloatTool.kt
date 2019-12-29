@@ -6,6 +6,10 @@ import android.widget.Toast
 import com.ledong.lib.leto.api.ApiContainer
 import com.ledong.lib.leto.api.ApiContainer.ApiName
 import com.ledong.lib.leto.api.ApiContainer.IApiResultListener
+import com.ledong.lib.leto.api.constant.Constant
+import com.ledong.lib.leto.mgc.bean.BenefitSettings_hbrain
+import com.leto.game.base.statistic.GameStatisticManager
+import com.leto.game.base.statistic.StatisticEvent
 import com.mgc.letobox.happy.R
 import com.mgc.letobox.happy.floattools.BaseFloatTool
 import com.mgc.letobox.happy.floattools.FloatViewManager
@@ -15,14 +19,13 @@ import com.mgc.letobox.happy.util.LeBoxSpUtil
 import com.mgc.letobox.happy.view.FloatRedPacketSea
 import java.util.*
 
-class RedPacketSeaFloatTool(activity: Activity, gameId: String, val hbrainConfig: FloatToolsConfig.Data.Hbrain) : BaseFloatTool(activity, gameId) {
+class RedPacketSeaFloatTool(activity: Activity, gameId: String, val hbrainConfig: BenefitSettings_hbrain) : BaseFloatTool(activity, gameId) {
     private val TAG = RedPacketSeaFloatTool::class.java.simpleName
 
     override fun isGameEnabled(): Boolean {
         if (TEST_ENV) return true
-        val gameIdInt = toInt(gameId)
         if (hbrainConfig.is_open == 1 && hbrainConfig.game_ids != null) {
-            return hbrainConfig.game_ids.contains(gameIdInt)
+            return hbrainConfig.game_ids.contains(gameId)
         }
         return false
     }
@@ -74,6 +77,9 @@ class RedPacketSeaFloatTool(activity: Activity, gameId: String, val hbrainConfig
         redPacketSea.setOnClickListener {
             if (wrActivity.get() == null) return@setOnClickListener
             val activity = wrActivity.get()
+
+            //点击上报
+            GameStatisticManager.statisticBenefitLog(activity, gameId, StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal, 0, 0, 0, 0, Constant.BENEFITS_TYPE_GIFT_RAIN, 0)
 
             // 剩余次数
             val times = LeBoxSpUtil.todayHbrainTimes(gameId)

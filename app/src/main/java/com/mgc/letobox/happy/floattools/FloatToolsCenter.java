@@ -6,18 +6,28 @@ import android.util.Log;
 
 import com.ledong.lib.leto.Leto;
 import com.ledong.lib.leto.LetoConst;
+import com.ledong.lib.leto.api.ApiContainer;
+import com.ledong.lib.leto.api.constant.Constant;
 import com.ledong.lib.leto.listener.ILetoGameUpgradeListener;
+import com.ledong.lib.leto.listener.ILetoGiftRainListener;
 import com.ledong.lib.leto.listener.ILetoLifecycleListener;
 import com.ledong.lib.leto.main.LetoActivity;
+import com.ledong.lib.leto.mgc.bean.BenefitSettings_hbrain;
+import com.ledong.lib.leto.mgc.bean.BenefitSettings_upgrade;
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene;
 import com.ledong.lib.leto.mgc.bean.GameLevelResultBean;
 import com.ledong.lib.leto.mgc.dialog.IMGCCoinDialogListener;
+import com.ledong.lib.leto.mgc.model.MGCSharedModel;
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
 import com.ledong.lib.leto.trace.LetoTrace;
 import com.ledong.lib.leto.widget.ClickGuard;
 import com.leto.game.base.login.LoginManager;
+import com.leto.game.base.statistic.GameStatisticManager;
+import com.leto.game.base.statistic.StatisticEvent;
 import com.leto.game.base.util.BaseAppUtil;
 import com.leto.game.base.util.ToastUtil;
+import com.mgc.letobox.happy.R;
+import com.mgc.letobox.happy.floattools.components.RedPacketSeaActivity;
 import com.mgc.letobox.happy.floattools.tools.BubbleFloatTool;
 import com.mgc.letobox.happy.floattools.tools.PlayGameFloatTool;
 import com.mgc.letobox.happy.floattools.tools.RedPacketSeaFloatTool;
@@ -25,6 +35,7 @@ import com.mgc.letobox.happy.floattools.tools.ShakeFloatTool;
 import com.mgc.letobox.happy.model.DataCenter;
 import com.mgc.letobox.happy.model.FloatToolsConfig;
 import com.mgc.letobox.happy.util.LeBoxConstant;
+import com.mgc.letobox.happy.util.LeBoxSpUtil;
 import com.mgc.letobox.happy.view.UpgradeView;
 
 import org.json.JSONArray;
@@ -67,6 +78,7 @@ public class FloatToolsCenter {
         loadConfig(app);
         addLetoLifecycleListener(app);
         setGameUpgradeListener(app);
+        setGiftRainListener();
 /*
         new Thread(new Runnable() {
             @Override
@@ -81,11 +93,18 @@ public class FloatToolsCenter {
 
     private static void setGameUpgradeListener(Application app) {
         Leto.getInstance().setGameUpgradeListener(new ILetoGameUpgradeListener() {
+
             @Override
-            public void show(Activity activity, String gameId, Map<String, Integer> map, JSONObject jsonObject) {
+            public void show(Activity context, String gameId, Map<String, Integer> gameInfo, JSONObject params) {
                 LetoTrace.d(TAG, "upgrade show");
                 if (isGameUpgradeEnabled(gameId)) {
-                    initUpgradeView(activity, gameId);
+                    initUpgradeView(context, gameId, params);
+
+                    if (gameInfo != null && gameInfo.size() > 0) {
+                        if (FloatViewManager.getInstance() != null) {
+                            FloatViewManager.getInstance().notifyUpgrade(gameId, gameInfo);
+                        }
+                    }
                 }
             }
 
@@ -112,24 +131,72 @@ public class FloatToolsCenter {
         });
     }
 
+    private static void setGiftRainListener() {
+        Leto.getInstance().setGiftRainListener(new ILetoGiftRainListener() {
+            @Override
+            public void show(final Activity context, String gameId) {
+                if (MGCSharedModel.benefitSettings.getHbrain() != null) {
+                    BenefitSettings_hbrain hbrainConfig =  MGCSharedModel.benefitSettings.getHbrain();
+
+                    // 剩余次数
+                    int times = LeBoxSpUtil.todayHbrainTimes(gameId);
+                    if (times >= hbrainConfig.create_max_times) {
+                        ToastUtil.s(context, R.string.hbrain_times_used_out);
+                        return;
+                    }
+
+                    // 冷却时间
+                    long lastTime = LeBoxSpUtil.hbrainLastTime(gameId);
+                    if (System.currentTimeMillis() - lastTime < hbrainConfig.cooling_time * 1000) {
+                        ToastUtil.s(context, R.string.hbrain_cooling);
+                        return;
+                    }
+                    // 展示视频广告
+                    ApiContainer apiContainer = new ApiContainer(context);
+                    apiContainer.showVideo(new ApiContainer.IApiResultListener() {
+                        @Override
+                        public void onApiSuccess(ApiContainer.ApiName n, Object data) {
+
+                            int coinCount =  (int)(Math.random() * (hbrainConfig.max_coins - hbrainConfig.min_coins) + hbrainConfig.min_coins);
+                            RedPacketSeaActivity.start(context, gameId, coinCount);
+                            apiContainer.destroy();
+                        }
+
+                        @Override
+                        public void onApiFailed(ApiContainer.ApiName n, boolean aborted) {
+                            Log.i(TAG, "onApiFailed");
+                            apiContainer.destroy();
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void hide(Activity context, String s) {
+
+            }
+        });
+    }
+
     private static void addLetoLifecycleListener(Application app) {
         Leto.getInstance().addLetoLifecycleListener(new ILetoLifecycleListener() {
             private List<BaseFloatTool> floatTools = new ArrayList<>();
 
             @Override
             public void onLetoAppLaunched(final LetoActivity activity, String gameId) {
-                if (floatToolsConfig != null && floatToolsConfig.getData() != null) {
-                    if (floatToolsConfig.getData().getBubble() != null) {
-                        floatTools.add(new BubbleFloatTool(activity, gameId, floatToolsConfig.getData().getBubble()));
+                if (MGCSharedModel.benefitSettings != null) {
+                    if (MGCSharedModel.benefitSettings.getBubble() != null) {
+                        floatTools.add(new BubbleFloatTool(activity, gameId, MGCSharedModel.benefitSettings.getBubble()));
                     }
-                    if (floatToolsConfig.getData().getShake() != null) {
-                        floatTools.add(new ShakeFloatTool(activity, gameId, floatToolsConfig.getData().getShake()));
+                    if (MGCSharedModel.benefitSettings.getShake() != null) {
+                        floatTools.add(new ShakeFloatTool(activity, gameId, MGCSharedModel.benefitSettings.getShake()));
                     }
-                    if (floatToolsConfig.getData().getHbrain() != null) {
-                        floatTools.add(new RedPacketSeaFloatTool(activity, gameId, floatToolsConfig.getData().getHbrain()));
+                    if (MGCSharedModel.benefitSettings.getHbrain() != null) {
+                        floatTools.add(new RedPacketSeaFloatTool(activity, gameId, MGCSharedModel.benefitSettings.getHbrain()));
                     }
-                    if(floatToolsConfig.getData().getPlaygametask() != null){
-                        floatTools.add(new PlayGameFloatTool(activity,gameId,floatToolsConfig.getData().getPlaygametask()));
+                    if (MGCSharedModel.benefitSettings.getPlaygametask() != null){
+                        floatTools.add(new PlayGameFloatTool(activity,gameId,MGCSharedModel.benefitSettings.getPlaygametask()));
                     }
                 }
                 for (BaseFloatTool floatTool : floatTools) {
@@ -213,20 +280,37 @@ public class FloatToolsCenter {
         return false;
     }
 
-    private static void initUpgradeView(Activity activity, String gameId) {
-        if (floatToolsConfig != null && floatToolsConfig.getData() != null && floatToolsConfig.getData().getUpgrade() != null) {
-            final FloatToolsConfig.Data.Upgrade update = floatToolsConfig.getData().getUpgrade();
-            UpgradeView upgradeView = FloatViewManager.getInstance().showUpgradeView(activity, gameId, update.default_x, update.default_y);
-//            UpgradeView upgradeView = FloatViewManager.getInstance().showUpgradeView(activity, gameId, 1, 0.5f);
+    private static void initUpgradeView(Activity activity, String gameId, JSONObject params) {
+        if (MGCSharedModel.benefitSettings != null && MGCSharedModel.benefitSettings.getUpgrade() != null && activity != null) {
+            final BenefitSettings_upgrade update = MGCSharedModel.benefitSettings.getUpgrade();
+
+            // 如果show里面指定了位置, 使用show的位置
+            int xDirection = update.getDefault_x();
+            float yRatio = update.getDefault_y();
+            if(params != null) {
+                String gravity = params.optString("gravity", "unspecified");
+                if(!gravity.equals("unspecified")) {
+                    xDirection = gravity.equals("left") ? 0 : 1;
+                }
+                if(params.has("percent_v")) {
+                    yRatio = (float)params.optDouble("percent_v", update.getDefault_y());
+                }
+            }
+
+            UpgradeView upgradeView = FloatViewManager.getInstance().showUpgradeView(activity, gameId, xDirection, yRatio);
             upgradeView.setGameId(gameId);
             upgradeView.getGameUpgradeSetting(activity, gameId);
             upgradeView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
                 @Override
                 public boolean onClicked() {
                     LetoTrace.d("UpgradeView", "click me......");
+
+                    //点击上报
+                    GameStatisticManager.statisticBenefitLog(activity, gameId, StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal(), 0, 0, 0, 0, Constant.BENEFITS_TYPE_UPGRADE_GIFT, 0);
+
                     GameLevelResultBean.GameLevel levelReward = upgradeView.getRewardLevel();
                     if (levelReward != null) {
-                        MGCDialogUtil.showRedEnvelopesDialog(activity, levelReward.getCoins(), update.coins_multiple, levelReward.level_list_id, CoinDialogScene.GAME_UPGRADE, new IMGCCoinDialogListener() {
+                        MGCDialogUtil.showRedEnvelopesDialog(activity, levelReward.getCoins(), update.getCoins_multiple(), levelReward.level_list_id, CoinDialogScene.GAME_UPGRADE, new IMGCCoinDialogListener() {
                             @Override
                             public void onExit(boolean video, int coinGot) {
 

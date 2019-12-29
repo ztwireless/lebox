@@ -6,8 +6,13 @@ import android.util.Log
 import android.widget.Toast
 import com.google.gson.Gson
 import com.ledong.lib.leto.LetoConst
+import com.ledong.lib.leto.api.constant.Constant
+import com.ledong.lib.leto.mgc.bean.BenefitSettings_playgametask
 import com.leto.game.base.login.LoginManager
+import com.leto.game.base.statistic.GameStatisticManager
+import com.leto.game.base.statistic.StatisticEvent
 import com.leto.game.base.util.BaseAppUtil
+import com.leto.game.base.util.ToastUtil
 import com.mgc.letobox.happy.floattools.BaseFloatTool
 import com.mgc.letobox.happy.floattools.FloatViewManager
 import com.mgc.letobox.happy.floattools.MGCService
@@ -21,14 +26,13 @@ import retrofit2.Response
 import java.io.IOException
 import java.util.concurrent.Executors
 
-class PlayGameFloatTool(activity: Activity, gameId: String, val palygameConfig: Playgametask) : BaseFloatTool(activity, gameId) {
+class PlayGameFloatTool(activity: Activity, gameId: String, val palygameConfig: BenefitSettings_playgametask) : BaseFloatTool(activity, gameId) {
     private val TAG = PlayGameFloatTool::class.java.simpleName
 
     override fun isGameEnabled(): Boolean {
         if (TEST_ENV) return true
-        val gameIdInt = toInt(gameId)
         if (palygameConfig.is_open == 1 && palygameConfig.game_ids != null) {
-            return palygameConfig.game_ids.contains(gameIdInt)
+            return palygameConfig.game_ids.contains(gameId)
         }
         return false
     }
@@ -52,7 +56,16 @@ class PlayGameFloatTool(activity: Activity, gameId: String, val palygameConfig: 
         val palygameview: PlayGameView = FloatViewManager.getInstance().showPlayGameView(activity, palygameConfig.default_x, palygameConfig.default_y)
         lastShakeTime = System.currentTimeMillis()
         palygameview.setOnClickListener {
+            val currentTime = System.currentTimeMillis()
+            if (currentTime - lastShakeTime < 600) {
+                // do nothing
+            }else {
+                //点击上报
+                GameStatisticManager.statisticBenefitLog(activity, gameId, StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal, 0, 0, 0, 0, Constant.BENEFITS_TYPE_PLAY_GAME_TASK, 0)
+
+                lastShakeTime = System.currentTimeMillis()
                 Executors.newSingleThreadExecutor().submit { playGameIt(activity) }
+            }
         }
     }
 
@@ -82,7 +95,7 @@ class PlayGameFloatTool(activity: Activity, gameId: String, val palygameConfig: 
                 if(!isEnter){
                     activity.runOnUiThread {
                         if(playgameResult == null){
-                            Toast.makeText(activity, "获取数据失败", Toast.LENGTH_SHORT).show()
+                            ToastUtil.s(activity, "获取数据失败")
                             return@runOnUiThread
                         }
                         PlayGameTaskActivity.start(activity,playgameResult)
