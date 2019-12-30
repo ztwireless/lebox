@@ -80,6 +80,10 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
 
     private boolean _splashAdDone = false;
 
+    // config error dialog
+    private boolean _needRerunConfig = true;
+    private ModalDialog _configErrorDialog;
+
     // views
     private ImageView _splashHolder;
     private FrameLayout _splashAdContainer;
@@ -170,24 +174,9 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
         } else {
             _censorMode = true;
         }
+    }
 
-        // get config
-        if (!MGCSharedModel.isCoinConfigInited()) {
-            doGetConfig();
-        } else {
-            _configFetched = true;
-            startSplashAd();
-        }
-
-        // get benefit settings
-        if(!MGCSharedModel.isBenefitSettingsInited()) {
-            doGetBenefitSettings();
-        } else {
-            _benefitSettingsFetched = true;
-            startSplashAd();
-        }
-
-        // prefetch game center data
+    private void prefetchGameCenter() {
         SharedData.MGC_HOME_TAB_ID = BaseAppUtil.getMetaIntValue(this, "MGC_HOME_TAB_ID");
         SharedData.MGC_RANK_TAB_ID = BaseAppUtil.getMetaIntValue(this, "MGC_RANK_TAB_ID");
         SharedData.MGC_CHALLENGE_TAB_ID = BaseAppUtil.getMetaIntValue(this, "MGC_CHALLENGE_TAB_ID");
@@ -200,6 +189,37 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
+
+        // 如果需要重新检查配置, 开始检查
+        if (_needRerunConfig) {
+            // set flag
+            _needRerunConfig = false;
+
+            // dismiss dialog
+            if (_configErrorDialog != null) {
+                _configErrorDialog.dismiss();
+                _configErrorDialog = null;
+            }
+
+            // get config
+            if (!MGCSharedModel.isCoinConfigInited()) {
+                doGetConfig();
+            } else {
+                _configFetched = true;
+                startSplashAd();
+            }
+
+            // get benefit settings
+            if (!MGCSharedModel.isBenefitSettingsInited()) {
+                doGetBenefitSettings();
+            } else {
+                _benefitSettingsFetched = true;
+                startSplashAd();
+            }
+
+            // prefetch game center data
+            prefetchGameCenter();
+        }
     }
 
     @Override
@@ -231,7 +251,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
                     }, 100);
                 } else {
                     // 只能提示退出了
-                    showExitDialog("获取福利配置失败, 暂时无法启动, 请稍后重试");
+                    onConfigError("获取福利配置失败, 暂时无法启动, 请稍后重试");
                 }
             }
         });
@@ -268,14 +288,30 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
                         }, 100);
                     } else {
                         // 只能提示退出了
-                        showExitDialog("获取全局配置失败, 暂时无法启动, 请稍后重试");
+                        onConfigError("获取全局配置失败, 暂时无法启动, 请稍后重试");
                     }
                 }
             }
         });
     }
 
-    private void showExitDialog(String msg) {
+    private void onConfigError(String msg) {
+        // 设置标志, 以便onResume时重新尝试获取配置
+        _needRerunConfig = true;
+        _configRetryCount = 3;
+        _benefitRetryCount = 3;
+
+        // ensure no other dialog
+        if (_configErrorDialog != null) {
+            _configErrorDialog.dismiss();
+            _configErrorDialog = null;
+        }
+
+        // 显示一个错误对话框
+        _configErrorDialog = showExitDialog(msg);
+    }
+
+    private ModalDialog showExitDialog(String msg) {
         ModalDialog dialog = new ModalDialog(SplashActivity.this);
         dialog.setMessage(msg);
         dialog.setRightButton("退出", new View.OnClickListener() {
@@ -291,6 +327,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
         dialog.setLeftButtonTextColor("#999999");
         dialog.setRightButtonTextColor("#FF3D9AF0");
         dialog.show();
+        return dialog;
     }
 
     private void initPermission() {
@@ -375,7 +412,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
     public void startSplashAd() {
         // 如果是第一次启动, 不获取splash ad
         // 否则延迟1秒尝试获取splash ad
-        if(LeBoxSpUtil.isFirstLaunch()) {
+        if (LeBoxSpUtil.isFirstLaunch()) {
             _splashAdDone = true;
             startMain(true);
         } else {
@@ -466,7 +503,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
         });
         if (null != _splashAd) {
             _splashAd.show();
-        }else{
+        } else {
             _splashAdDone = true;
             startMain(true);
         }
