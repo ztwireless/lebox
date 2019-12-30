@@ -13,14 +13,18 @@
         android:layout_height="150dp">
         <ImageView
             android:id="@+id/banner"
-            android:background="@drawable/playgame_banner"
             android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:background="#EFEFEF"
+            android:src="@drawable/leto_mgc_game_default_pic"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
         <RelativeLayout
+            android:id="@+id/rl_status"
+            android:visibility="gone"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="14dp"
-            android:layout_marginStart="55dp"
+            android:layout_marginBottom="4dp"
+            android:layout_centerHorizontal="true"
             android:layout_width="100dp"
             android:layout_height="34dp">
             <ImageView

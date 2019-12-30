@@ -5,19 +5,20 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Environment
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import com.bumptech.glide.request.RequestListener
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil
 import com.leto.game.base.util.ToastUtil
 import com.mgc.letobox.happy.R
 import com.mgc.letobox.happy.floattools.components.playgametask.GameListItem
 import com.mgc.letobox.happy.floattools.components.playgametask.PlayGameDataSource
-import com.mgc.letobox.happy.floattools.components.playgametask.utils.click
-import com.mgc.letobox.happy.floattools.components.playgametask.utils.load
+import com.mgc.letobox.happy.floattools.components.playgametask.utils.*
 import com.mgc.letobox.happy.model.PlayGameResult
 import com.mgc.letobox.happy.util.LeBoxSpUtil
 import kotlinx.android.synthetic.main.activity_playgame_task.*
@@ -34,8 +35,16 @@ class PlayGameTaskActivity : Activity() {
         setContentView(R.layout.activity_playgame_task)
         playGameResult = intent.getSerializableExtra("gameResult") as PlayGameResult
         iv_back.setOnClickListener { v: View? -> finish() }
-        tv_title.text = "玩游戏赚红包"
-        banner.load(playGameResult.data.banners)
+        tv_title.text = "互推模块"
+        banner.load(playGameResult.data.banners,object : LoadStatus {
+            override fun onStatus(success: Boolean) {
+                if(success){
+                    rl_status.visible()
+                }else{
+                    rl_status.gone()
+                }
+            }
+        })
         var count = LeBoxSpUtil.getInt("count")
         updateBG(count)
         iv_status.setOnClickListener {v: View? ->
@@ -65,7 +74,7 @@ class PlayGameTaskActivity : Activity() {
     }
     private val dataSource by lazy { PlayGameDataSource(playGameResult) }
     fun loge(msg:String){
-        Log.e("dongxt","gametask  "+msg);
+        Log.e("leo","gametask  "+msg);
     }
 
     override fun onResume() {
@@ -84,7 +93,7 @@ class PlayGameTaskActivity : Activity() {
                     game_name.text = data.name
                     game_desc.text = data.desc
 
-                    game_icon.load(data.icon)
+                    game_icon.loadRoundedCorner(data.icon)
                     btn_pause.click {
                         data.action(this@PlayGameTaskActivity,btn_pause)
                     }

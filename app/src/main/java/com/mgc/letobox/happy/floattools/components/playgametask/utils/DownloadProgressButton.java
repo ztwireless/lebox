@@ -143,7 +143,7 @@ public class DownloadProgressButton extends TextView {
         mTextPaint = new Paint();
         mTextPaint.setAntiAlias(true);
 //        mTextPaint.setTextSize(50f);
-        mTextPaint.setTextSize(getResources().getDimension(R.dimen.sp_12));
+        mTextPaint.setTextSize(getResources().getDimension(R.dimen.sp_13));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             //解决文字有时候画不出问题
             setLayerType(LAYER_TYPE_SOFTWARE, mTextPaint);
@@ -225,8 +225,11 @@ public class DownloadProgressButton extends TextView {
                 mBackgroundPaint.setXfermode(null);
                 break;
             case STATE_FINISH:
-            case STATE_OPEN:
                 mBackgroundPaint.setColor(mBackgroundColor);
+                canvas.drawRoundRect(mBackgroundBounds, mButtonRadius, mButtonRadius, mBackgroundPaint);
+                break;
+            case STATE_OPEN:
+                mBackgroundPaint.setColor(Color.WHITE);
                 canvas.drawRoundRect(mBackgroundBounds, mButtonRadius, mButtonRadius, mBackgroundPaint);
                 break;
         }
@@ -278,8 +281,12 @@ public class DownloadProgressButton extends TextView {
                 canvas.drawText(mCurrentText.toString(), (getMeasuredWidth() - textWidth) / 2, y, mTextPaint);
                 break;
             case STATE_FINISH:
-            case STATE_OPEN:
                 mTextPaint.setColor(mTextCoverColor);
+                canvas.drawText(mCurrentText.toString(), (getMeasuredWidth() - textWidth) / 2, y, mTextPaint);
+                drawLoadingBall(canvas);
+                break;
+            case STATE_OPEN:
+                mTextPaint.setColor(mBackgroundColor);
                 canvas.drawText(mCurrentText.toString(), (getMeasuredWidth() - textWidth) / 2, y, mTextPaint);
                 drawLoadingBall(canvas);
                 break;

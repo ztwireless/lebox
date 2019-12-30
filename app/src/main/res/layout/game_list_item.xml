@@ -9,6 +9,7 @@
         android:id="@+id/game_icon"
         android:layout_width="57dp"
         android:layout_height="57dp"
+        android:background="@drawable/leto_round_rect_game_grid_item"
         android:layout_centerVertical="true"
         android:layout_marginStart="14dp"
         tools:srcCompat="@tools:sample/avatars[0]" />
@@ -55,7 +56,8 @@
         android:layout_marginEnd="14dp"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
-        app:progress_btn_background_color="#fff5a623"
+        app:progress_btn_background_color="#3D9AF0"
+        app:progress_btn_background_second_color="#ECF4FD"
         app:progress_btn_radius="14dp"
         tools:text="Button"
         app:progress_btn_ball_style="STYLE_BALL_PULSE"
