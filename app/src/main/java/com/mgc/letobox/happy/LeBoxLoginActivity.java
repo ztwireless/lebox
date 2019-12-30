@@ -12,15 +12,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ledong.lib.leto.MgcAccountManager;
+import com.ledong.lib.leto.mgc.util.MGCApiUtil;
 import com.ledong.lib.leto.widget.ClickGuard;
 import com.leto.game.base.bean.LoginResultBean;
 import com.leto.game.base.event.DataRefreshEvent;
+import com.leto.game.base.http.HttpCallbackDecode;
 import com.leto.game.base.listener.SyncUserInfoListener;
 import com.leto.game.base.login.LoginManager;
 import com.leto.game.base.util.ColorUtil;
 import com.leto.game.base.util.DialogUtil;
 import com.leto.game.base.util.MResource;
 import com.leto.game.base.util.StatusBarUtil;
+import com.leto.game.base.util.ToastUtil;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
@@ -147,19 +150,32 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
 		DialogUtil.showDialog(this, getString(MResource.getIdByName(this, "R.string.loading")));
 
 		// sync account
-		int gender = 0;
+		int gender =0;
 		try {
 			gender = Integer.parseInt(map.get("gender"));
 		} catch(NumberFormatException e) {
 		}
-		MgcAccountManager.syncAccount(this,
-			map.get("unionid"),
-			"",
-			map.get("name"),
-			map.get("iconurl"),
-			gender,
-			true,
-			this);
+
+		final int userGender = gender;
+		MGCApiUtil.bindWeiXin(LeBoxLoginActivity.this, map, new HttpCallbackDecode(LeBoxLoginActivity.this,null) {
+			@Override
+			public void onDataSuccess(Object data) {
+				MgcAccountManager.syncAccount(LeBoxLoginActivity.this,
+						map.get("unionid"),
+						"",
+						map.get("name"),
+						map.get("iconurl"),
+						userGender,
+						true,
+						LeBoxLoginActivity.this
+				);
+			}
+			@Override
+			public void onFailure(String code, String message) {
+				DialogUtil.dismissDialog();
+				ToastUtil.s(LeBoxLoginActivity.this, message);
+			}
+		});
 	}
 
 	@Override

@@ -1,12 +1,16 @@
 package com.mgc.letobox.happy;
 
+import android.app.Activity;
 import android.app.Application;
 import android.support.multidex.MultiDex;
 
 import com.ledong.lib.leto.Leto;
+import com.ledong.lib.leto.mgc.thirdparty.IAuthRequestListener;
+import com.ledong.lib.leto.mgc.thirdparty.ILetoAuthListener;
 import com.leto.game.base.util.BaseAppUtil;
 import com.mgc.letobox.happy.floattools.FloatToolsCenter;
 import com.mgc.letobox.happy.util.LeBoxSpUtil;
+import com.mgc.letobox.happy.util.WechatAuthUtil;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.UMShareAPI;
 
@@ -32,5 +36,14 @@ public class LetoApplication extends Application {
 
         // 悬浮工具
         FloatToolsCenter.init(this);
+
+
+        Leto.getInstance().setAuthRequestListener(new IAuthRequestListener() {
+            @Override
+            public void requstAuth(Activity activity, ILetoAuthListener listener) {
+                WechatAuthUtil.getWechatAuthInfo(activity, listener);
+            }
+
+        });
     }
 }

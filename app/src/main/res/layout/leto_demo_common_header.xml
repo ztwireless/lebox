@@ -20,7 +20,7 @@
         android:gravity="center"
         android:singleLine="true"
         android:ellipsize="end"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         android:layout_centerInParent="true" />
 
