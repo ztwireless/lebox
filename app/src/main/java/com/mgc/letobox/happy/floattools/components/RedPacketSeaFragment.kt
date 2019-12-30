@@ -32,10 +32,12 @@ class RedPacketSeaFragment : Fragment() {
     var totalTime: Int = 10000
     private lateinit var gameId: String
     private var coinCount: Int = 0
+    private var coinMultiple: Int = 1
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.let {
             gameId = it.getString(KEY_GAME_ID, "")
             coinCount = it.getInt(KEY_COIN_COUNT, 0)
+            coinMultiple = it.getInt(KEY_COIN_MULTIPLE, 1)
         }
         redPacketDrawable = resources.getDrawable(drawable.redpacket)
 
@@ -120,7 +122,7 @@ class RedPacketSeaFragment : Fragment() {
 
     private fun timeUp() {
         if (!activity.isFinishing) {
-            MGCDialogUtil.showRedEnvelopesDialog(activity, coinCount, CoinDialogScene.GIFT_RAIN) { p0, p1 ->
+            MGCDialogUtil.showRedEnvelopesDialog(activity, coinCount, coinMultiple, CoinDialogScene.GIFT_RAIN) { p0, p1 ->
                 Log.i(TAG, "gameId coinCount $gameId $coinCount")
                 LeBoxSpUtil.hbrainOnce(gameId)
                 activity.finish()
@@ -143,5 +145,6 @@ class RedPacketSeaFragment : Fragment() {
         private val TAG = RedPacketSeaFragment::class.java.simpleName
         const val KEY_GAME_ID = "game_id"
         const val KEY_COIN_COUNT = "coin_count"
+        const val KEY_COIN_MULTIPLE = "coin_multiple"
     }
 }

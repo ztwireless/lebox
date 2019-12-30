@@ -102,7 +102,7 @@ class RedPacketSeaFloatTool(activity: Activity, gameId: String, val hbrainConfig
 
                     Log.i(TAG, "onApiSuccess")
                     val coinCount = randomIn(hbrainConfig.min_coins, hbrainConfig.max_coins)
-                    RedPacketSeaActivity.start(wrActivity.get(), gameId, coinCount)
+                    RedPacketSeaActivity.start(wrActivity.get(), gameId, coinCount, hbrainConfig.coins_multiple)
                     apiContainer.destroy()
                 }
 

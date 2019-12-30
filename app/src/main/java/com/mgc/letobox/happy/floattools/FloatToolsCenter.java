@@ -2,15 +2,18 @@ package com.mgc.letobox.happy.floattools;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import com.ledong.lib.leto.Leto;
 import com.ledong.lib.leto.LetoConst;
 import com.ledong.lib.leto.api.ApiContainer;
 import com.ledong.lib.leto.api.constant.Constant;
+import com.ledong.lib.leto.listener.ILetoAntiAddicationListener;
 import com.ledong.lib.leto.listener.ILetoGameUpgradeListener;
 import com.ledong.lib.leto.listener.ILetoGiftRainListener;
 import com.ledong.lib.leto.listener.ILetoLifecycleListener;
+import com.ledong.lib.leto.listener.ILetoResetIDCardListener;
 import com.ledong.lib.leto.main.LetoActivity;
 import com.ledong.lib.leto.mgc.bean.BenefitSettings_hbrain;
 import com.ledong.lib.leto.mgc.bean.BenefitSettings_upgrade;
@@ -79,6 +82,8 @@ public class FloatToolsCenter {
         addLetoLifecycleListener(app);
         setGameUpgradeListener(app);
         setGiftRainListener();
+
+        setAntiAddicationListener();
 /*
         new Thread(new Runnable() {
             @Override
@@ -91,6 +96,27 @@ public class FloatToolsCenter {
 */
     }
 
+
+    private static  void setAntiAddicationListener(){
+        //实名认证弹框
+        Leto.getInstance().setResetIDCardListener(new ILetoResetIDCardListener() {
+            @Override
+            public void notify(Context context) {
+                ToastUtil.s(context, "实名认证弹框");
+            }
+        });
+
+        //防沉迷
+        Leto.getInstance().setAntiAddicationListener(new ILetoAntiAddicationListener() {
+            @Override
+            public void notify(Context context, String type) {
+                ToastUtil.s(context, "防沉迷提醒：" + type);
+                //
+            }
+        });
+
+
+    }
     private static void setGameUpgradeListener(Application app) {
         Leto.getInstance().setGameUpgradeListener(new ILetoGameUpgradeListener() {
 
@@ -158,7 +184,7 @@ public class FloatToolsCenter {
                         public void onApiSuccess(ApiContainer.ApiName n, Object data) {
 
                             int coinCount =  (int)(Math.random() * (hbrainConfig.max_coins - hbrainConfig.min_coins) + hbrainConfig.min_coins);
-                            RedPacketSeaActivity.start(context, gameId, coinCount);
+                            RedPacketSeaActivity.start(context, gameId, coinCount, hbrainConfig.coins_multiple);
                             apiContainer.destroy();
                         }
 
