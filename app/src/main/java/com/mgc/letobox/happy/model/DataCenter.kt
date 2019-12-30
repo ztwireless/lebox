@@ -59,9 +59,9 @@ class DataCenter {
             return null
         }
 
-        fun requestIdCard(name: String, cardno: String): IdCard? {
+        fun requestIdCard(name: String, cardno: String, userToken: String, channelId: Int, mobile: String): IdCard? {
             val service = buildRetrofit().create(MGCService::class.java)
-            val response = service.requestIdCard(name, cardno).execute().body()
+            val response = service.requestIdCard(name, cardno, userToken, channelId, mobile).execute().body()
             if (response != null) {
                 if (response.isSuccess()) {
                     return response.data

@@ -26,9 +26,10 @@ public interface MGCService {
     @FormUrlEncoded
     @POST("api/v7/shake/getaward")
     Call<ShakeResult> obtainShakeResult(@Field("channel_id") int channel_id,
-                                              @Field("game_id") int game_id,
-                                              @Field("mobile") String mobile,
-                                              @Field("open_token") String open_token);
+                                        @Field("game_id") int game_id,
+                                        @Field("mobile") String mobile,
+                                        @Field("open_token") String open_token);
+
     @GET("api/v7/benefits/playgametasklist")
     Call<PlayGameResult> obtainPlayGameResult(@Query("channel_id") int channel_id,
                                               @Query("mobile") String mobile,
@@ -52,6 +53,8 @@ public interface MGCService {
     @POST("api/v7/fcm/idcard")
     Call<BaseResponse<IdCard>> requestIdCard(
             @Field("name") String name,
-            @Field("cardno") String cardno
-    );
+            @Field("cardno") String cardno,
+            @Field("user_token") String userToken,
+            @Field("channel_id") int channelId,
+            @Field("mobile") String mobile);
 }

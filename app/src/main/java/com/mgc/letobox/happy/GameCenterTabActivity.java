@@ -40,6 +40,7 @@ import com.leto.game.base.ad.AdManager;
 import com.leto.game.base.db.LoginControl;
 import com.leto.game.base.http.HttpCallbackDecode;
 import com.leto.game.base.http.HttpParamsBuild;
+import com.leto.game.base.login.LoginManager;
 import com.leto.game.base.util.BaseAppUtil;
 import com.leto.game.base.util.ColorUtil;
 import com.leto.game.base.util.GlideUtil;
@@ -54,6 +55,7 @@ import com.mgc.letobox.happy.dialog.VersionDialog;
 import com.mgc.letobox.happy.event.NewerTaskRefreshEvent;
 import com.mgc.letobox.happy.event.ShowRookieGuideEvent;
 import com.mgc.letobox.happy.event.TabSwitchEvent;
+import com.mgc.letobox.happy.fcm.AntiAddictionDialog;
 import com.mgc.letobox.happy.me.bean.TaskResultBean;
 import com.mgc.letobox.happy.util.LeBoxUtil;
 import com.mgc.letobox.happy.view.MyRadioGroup;
@@ -215,6 +217,14 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         getVersion();
 
         getPrivacy_content();
+
+        showLoginDialog();
+    }
+
+    private void showLoginDialog() {
+        if (!LoginManager.isSignedIn(this)) {
+            AntiAddictionDialog.Companion.showPhone(getFragmentManager());
+        }
     }
 
     @Override

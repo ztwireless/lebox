@@ -43,6 +43,7 @@
             android:visibility="gone" />
 
         <TextView
+            android:id="@+id/itemContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -71,6 +72,7 @@
                 android:hint="@string/leto_hint_input_phone"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
+                android:textColor="#666666"
                 android:textColorHint="#A9A9A9"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,6 +86,7 @@
                 android:hint="@string/leto_hint_input_sms"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
+                android:textColor="#666666"
                 android:textColorHint="#A9A9A9"
                 app:layout_constraintEnd_toStartOf="@id/itemObtainPhoneCode"
                 app:layout_constraintStart_toStartOf="parent"
@@ -94,8 +97,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/validation_code_bg"
-                android:text="58s重新获得"
-                android:textColor="#ff999999"
+                android:text="@string/obtain_sms_code"
+                android:textColor="@drawable/selector_text_color"
                 app:layout_constraintBottom_toBottomOf="@id/itemPhoneCode"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/itemPhoneCode" />
@@ -147,6 +150,7 @@
                 android:hint="@string/leto_hint_input_id_name"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
+                android:textColor="#666666"
                 android:textColorHint="#A9A9A9"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -159,6 +163,7 @@
                 android:hint="@string/leto_hint_input_id_number"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
+                android:textColor="#666666"
                 android:textColorHint="#A9A9A9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -175,6 +180,8 @@
                 android:gravity="center"
                 android:text="@string/submit"
                 android:textColor="@color/white"
+                android:clickable="true"
+                android:focusable="true"
                 app:layout_constraintTop_toBottomOf="@+id/itemIdNumber" />
         </android.support.constraint.ConstraintLayout>
 
@@ -187,7 +194,7 @@
             android:layout_marginEnd="48dp"
             android:background="@drawable/round_rectangle_blue_content"
             android:gravity="center"
-            android:text="@string/submit"
+            android:text="@string/ok_to_exit"
             android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/itemIdNumber" />
 

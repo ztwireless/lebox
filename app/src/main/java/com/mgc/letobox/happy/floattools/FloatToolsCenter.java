@@ -2,7 +2,7 @@ package com.mgc.letobox.happy.floattools;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.ledong.lib.leto.Leto;
@@ -32,12 +32,16 @@ import com.leto.game.base.statistic.StatisticEvent;
 import com.leto.game.base.util.BaseAppUtil;
 import com.leto.game.base.util.ToastUtil;
 import com.mgc.letobox.happy.R;
+import com.mgc.letobox.happy.fcm.AntiAddictionDialog;
 import com.mgc.letobox.happy.floattools.components.RedPacketSeaActivity;
+import com.mgc.letobox.happy.fcm.FcmHelper;
 import com.mgc.letobox.happy.floattools.tools.BubbleFloatTool;
 import com.mgc.letobox.happy.floattools.tools.PlayGameFloatTool;
 import com.mgc.letobox.happy.floattools.tools.RedPacketSeaFloatTool;
 import com.mgc.letobox.happy.floattools.tools.ShakeFloatTool;
+import com.mgc.letobox.happy.model.Certification;
 import com.mgc.letobox.happy.model.DataCenter;
+import com.mgc.letobox.happy.model.FcmConfig;
 import com.mgc.letobox.happy.model.FloatToolsConfig;
 import com.mgc.letobox.happy.util.LeBoxConstant;
 import com.mgc.letobox.happy.util.LeBoxSpUtil;
@@ -61,6 +65,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class FloatToolsCenter {
     private static final String TAG = FloatToolsCenter.class.getSimpleName();
     private static FloatToolsConfig floatToolsConfig;
+    private static FcmConfig fcmConfig;
+    private static String idCard;
     private static boolean TEST_ENV = false;
 
     private static int toInt(String text) {
@@ -70,6 +76,7 @@ public class FloatToolsCenter {
             return 0;
         }
     }
+
     private static Retrofit buildRetrofit() {
         Log.i(TAG, "buildRetrofit " + TEST_ENV);
         return new Retrofit.Builder()
@@ -81,53 +88,81 @@ public class FloatToolsCenter {
     public static void init(final Application app) {
         TEST_ENV = BaseAppUtil.getMetaBooleanValue(app, "MGC_TEST_ENV");
         loadConfig(app);
+        loadFcmConfig(app);
+        loadIdCard(app);
         addLetoLifecycleListener(app);
         setGameUpgradeListener(app);
         setGiftRainListener();
 
         setAntiAddicationListener();
-/*
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                DataCenter.Companion.obtainFcmConfig(toInt(BaseAppUtil.getChannelID(app)), LetoConst.SDK_OPEN_TOKEN);
-                DataCenter.Companion.requestCertification("13009944290", LetoConst.SDK_OPEN_TOKEN);
-                DataCenter.Companion.requestIdCard("防静电", "110101199003077352");
+    }
+
+    private static void loadFcmConfig(Application app) {
+        fcmConfig = LeBoxSpUtil.getFcmConfig();
+        Executors.newSingleThreadExecutor().submit(() -> {
+            fcmConfig = DataCenter.Companion.obtainFcmConfig(toInt(BaseAppUtil.getChannelID(app)), LetoConst.SDK_OPEN_TOKEN);
+            if (fcmConfig != null) {
+                LeBoxSpUtil.saveFcmConfig(fcmConfig);
             }
-        }).start();
-*/
+        });
+    }
+
+    private static void loadIdCard(Application app) {
+        if (LoginManager.isSignedIn(app)) {
+            String mobile = LoginManager.getMobile(app);
+            idCard = LeBoxSpUtil.getIdCard(mobile);
+            if (TextUtils.isEmpty(idCard)) {
+                Executors.newSingleThreadExecutor().submit(() -> {
+                    Certification certification = DataCenter.Companion.requestCertification(mobile, LetoConst.SDK_OPEN_TOKEN);
+                    if (certification != null) {
+                        idCard = certification.getIdcard();
+                        LeBoxSpUtil.saveIdCard(mobile, idCard);
+                    }
+                });
+            }
+        }
     }
 
 
-    private static  void setAntiAddicationListener(){
+    private static void setAntiAddicationListener() {
         //实名认证弹框
         Leto.getInstance().setResetIDCardListener(new ILetoResetIDCardListener() {
             @Override
-            public void notify(Activity context, ResetIDCardRequest resetIDCardRequest) {
-                ToastUtil.s(context, "实名认证弹框");
-                //...
-
-                //....
-
-                //认证结束后，回调通知SDK
-                ThirdpartyResult result =  new ThirdpartyResult();
-                result.setErrCode(0);   //0:OK,  非0为失败
-                resetIDCardRequest.notifyResetIDCardResult(result);
-
+            public void notify(Activity activity, ResetIDCardRequest resetIDCardRequest) {
+//                ToastUtil.s(activity, "实名认证弹框");
+                Log.i(TAG, "notify: setResetIDCardListener");
+                AntiAddictionDialog fragment = AntiAddictionDialog.Companion.showPhone(activity.getFragmentManager());
+                if (fragment == null) return;
+                fragment.setCancelable(true);
+                fragment.setOnIdCardVerified(() -> {
+                    //认证结束后，回调通知SDK
+                    Log.i(TAG, "notify: verified successful");
+                    ThirdpartyResult result = new ThirdpartyResult();
+                    result.setErrCode(0);   //0:OK,  非0为失败
+                    resetIDCardRequest.notifyResetIDCardResult(result);
+                    return null;
+                });
             }
         });
 
         //防沉迷
         Leto.getInstance().setAntiAddicationListener(new ILetoAntiAddicationListener() {
             @Override
-            public void notify(Activity context, String type) {
-                ToastUtil.s(context, "防沉迷提醒：" + type);
+            public void notify(Activity activity, String type) {
+                ToastUtil.s(activity, "防沉迷提醒：" + type);
                 //
+                if (fcmConfig != null && fcmConfig.component1() == 1) {
+                    Log.i(TAG, "notify: setResetIDCardListener");
+                    String msg = fcmConfig.obtainMessageByType(type);
+                    AntiAddictionDialog.Companion.showContent(activity.getFragmentManager(), activity.getResources().getString(R.string.warm_tip),
+                            msg, activity.getResources().getString(R.string.ok));
+                }
             }
         });
 
 
     }
+
     private static void setGameUpgradeListener(Application app) {
         Leto.getInstance().setGameUpgradeListener(new ILetoGameUpgradeListener() {
 
@@ -173,7 +208,7 @@ public class FloatToolsCenter {
             @Override
             public void show(final Activity context, String gameId) {
                 if (MGCSharedModel.benefitSettings.getHbrain() != null) {
-                    BenefitSettings_hbrain hbrainConfig =  MGCSharedModel.benefitSettings.getHbrain();
+                    BenefitSettings_hbrain hbrainConfig = MGCSharedModel.benefitSettings.getHbrain();
 
                     // 剩余次数
                     int times = LeBoxSpUtil.todayHbrainTimes(gameId);
@@ -194,7 +229,7 @@ public class FloatToolsCenter {
                         @Override
                         public void onApiSuccess(ApiContainer.ApiName n, Object data) {
 
-                            int coinCount =  (int)(Math.random() * (hbrainConfig.max_coins - hbrainConfig.min_coins) + hbrainConfig.min_coins);
+                            int coinCount = (int) (Math.random() * (hbrainConfig.max_coins - hbrainConfig.min_coins) + hbrainConfig.min_coins);
                             RedPacketSeaActivity.start(context, gameId, coinCount, hbrainConfig.coins_multiple);
                             apiContainer.destroy();
                         }
@@ -219,9 +254,11 @@ public class FloatToolsCenter {
     private static void addLetoLifecycleListener(Application app) {
         Leto.getInstance().addLetoLifecycleListener(new ILetoLifecycleListener() {
             private List<BaseFloatTool> floatTools = new ArrayList<>();
+            private FcmHelper fcmHelper = new FcmHelper();
 
             @Override
             public void onLetoAppLaunched(final LetoActivity activity, String gameId) {
+                Log.i(TAG, "onLetoAppLaunched: ");
                 if (MGCSharedModel.benefitSettings != null) {
                     if (MGCSharedModel.benefitSettings.getBubble() != null) {
                         floatTools.add(new BubbleFloatTool(activity, gameId, MGCSharedModel.benefitSettings.getBubble()));
@@ -232,8 +269,8 @@ public class FloatToolsCenter {
                     if (MGCSharedModel.benefitSettings.getHbrain() != null) {
                         floatTools.add(new RedPacketSeaFloatTool(activity, gameId, MGCSharedModel.benefitSettings.getHbrain()));
                     }
-                    if (MGCSharedModel.benefitSettings.getPlaygametask() != null){
-                        floatTools.add(new PlayGameFloatTool(activity,gameId,MGCSharedModel.benefitSettings.getPlaygametask()));
+                    if (MGCSharedModel.benefitSettings.getPlaygametask() != null) {
+                        floatTools.add(new PlayGameFloatTool(activity, gameId, MGCSharedModel.benefitSettings.getPlaygametask()));
                     }
                 }
                 for (BaseFloatTool floatTool : floatTools) {
@@ -245,22 +282,33 @@ public class FloatToolsCenter {
 
             @Override
             public void onLetoAppLoaded(LetoActivity letoActivity, String s) {
+                Log.i(TAG, "onLetoAppLoaded: ");
             }
 
             @Override
             public void onLetoAppShown(LetoActivity activity, String appId) {
+                Log.i(TAG, "onLetoAppShown: ");
             }
 
             @Override
             public void onLetoAppPaused(LetoActivity letoActivity, String s) {
+                Log.i(TAG, "onLetoAppPaused: ");
+                // 结束countdowntimer
+                fcmHelper.cancelPlayCountDownTimer();
             }
 
             @Override
             public void onLetoAppResumed(LetoActivity letoActivity, String s) {
+                Log.i(TAG, "onLetoAppResumed: ");
+
+                if (fcmConfig != null && fcmConfig.is_fcm() == 2) {
+                    fcmHelper.startFcmFunction(fcmConfig, idCard, letoActivity);
+                }
             }
 
             @Override
             public void onLetoAppExit(LetoActivity activity, String s) {
+                Log.i(TAG, "onLetoAppExit: ");
                 FloatViewManager.getInstance().removeUpgradeView(activity);
 
                 Iterator<BaseFloatTool> it = floatTools.iterator();
@@ -324,13 +372,13 @@ public class FloatToolsCenter {
             // 如果show里面指定了位置, 使用show的位置
             int xDirection = update.getDefault_x();
             float yRatio = update.getDefault_y();
-            if(params != null) {
+            if (params != null) {
                 String gravity = params.optString("gravity", "unspecified");
-                if(!gravity.equals("unspecified")) {
+                if (!gravity.equals("unspecified")) {
                     xDirection = gravity.equals("left") ? 0 : 1;
                 }
-                if(params.has("percent_v")) {
-                    yRatio = (float)params.optDouble("percent_v", update.getDefault_y());
+                if (params.has("percent_v")) {
+                    yRatio = (float) params.optDouble("percent_v", update.getDefault_y());
                 }
             }
 

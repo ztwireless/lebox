@@ -104,5 +104,7 @@
     <color name="black_semi_transparent">#B2000000</color>
     <color name="colorTextSecondary">#ff666666</color>
     <color name="colorTextPrimary">#ff333333</color>
+    <color name="colorDisabled">#ff999999</color>
+    <color name="colorEnabled">#ff3d9af0</color>
 
 </resources>

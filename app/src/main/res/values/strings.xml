@@ -29,6 +29,13 @@
     <string name="submit">提交</string>
     <string name="leto_hint_input_id_name">请输入姓名</string>
     <string name="leto_hint_input_id_number">请输入身份证号码</string>
+    <string name="format_sms_code_count_down">%ds重新获得</string>
+    <string name="idcard_ok">实名认证成功</string>
+    <string name="warm_tip">温馨提示</string>
+    <string name="idno_not_valid">请输入正确的身份证号</string>
+    <string name="idname_not_valid">请输入正确的名字</string>
+    <string name="obtain_sms_code">获取验证码</string>
+    <string name="ok">确认</string>
 
     <string-array name="find_tab">
         <item>推荐</item>
@@ -43,5 +50,10 @@
     <string name="pause_text">暂停</string>
     <string name="retry_text">重试下载</string>
     <string name="open_text">开始游戏</string>
+    <string name="ok_to_exit">确认并退出应用</string>
+    <string name="fcm_content_workday">根据国家新闻出版署的《通知》，未满18周岁，非节假日游戏时间不得超过1.5小时。您今日的游戏时间已累计达到1.5小时，请您合理安排时间。</string>
+    <string name="fcm_content_holiday">根据国家新闻出版署的《通知》，未满18周岁，节假日游戏时间不得超过3小时。您今日的游戏时间已累计达到3小时，请您合理安排时间。</string>
+    <string name="fcm_content_time">根据国家新闻出版署的《通知》，您未满18周岁，每日22时至次日8时，暂不提供游戏服务，请您合理安排时间。</string>
+    <string name="try_time_used_up">试玩时间已结束</string>
 
 </resources>
