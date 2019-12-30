@@ -19,6 +19,7 @@ abstract class BaseFloatTool(activity: Activity, val gameId: String) {
 
     abstract fun isGameEnabled(): Boolean
     abstract fun init()
+    abstract fun show(activity: Activity)
     open fun clean() {
         wrActivity.clear()
     }

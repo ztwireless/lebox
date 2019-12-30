@@ -35,7 +35,7 @@ public class FloatViewManager {
         EventBus.getDefault().register(this);
     }
 
-    public PlayGameView showPlayGameView(Activity activity, int xDirection, float yRatio) {
+    public PlayGameView getPlayGameView(Activity activity, int xDirection, float yRatio) {
         if (weakPlayGameView == null || weakPlayGameView.get() == null && activity != null) {
             PlayGameView playGameView = new PlayGameView(activity);
 
@@ -55,12 +55,23 @@ public class FloatViewManager {
             playGameView.setX(x);
             playGameView.setY(y);
 
+            playGameView.setVisibility(View.GONE);
+
             weakPlayGameView = new WeakReference<>(playGameView);
-        } else {
-            PlayGameView playGameView = weakPlayGameView.get();
+        }
+
+        return weakPlayGameView.get();
+
+    }
+
+    public PlayGameView showPlayGameView(Activity activity, int xDirection, float yRatio) {
+
+        PlayGameView playGameView = getPlayGameView(activity, xDirection, yRatio);
+        if (playGameView != null) {
             playGameView.setVisibility(View.VISIBLE);
         }
-        return weakPlayGameView.get();
+
+        return playGameView;
     }
 
     public void removePlayGameView(Activity activity) {
@@ -99,10 +110,12 @@ public class FloatViewManager {
     }
 
     private WeakReference<FloatRedPacketSea> weakRedPacket;
+
     public FloatRedPacketSea getRedPacketSeaView() {
         return weakRedPacket.get();
     }
-    public FloatRedPacketSea showRedPacket(Activity activity, int xDirection, float yRatio) {
+
+    public FloatRedPacketSea getRedPacket(Activity activity, int xDirection, float yRatio) {
         if (weakRedPacket == null || weakRedPacket.get() == null) {
             FloatRedPacketSea redPacketSea = new FloatRedPacketSea(activity);
 
@@ -122,13 +135,24 @@ public class FloatViewManager {
             redPacketSea.setX(x);
             redPacketSea.setY(y);
 
+            redPacketSea.setVisibility(View.GONE);
+
             weakRedPacket = new WeakReference<>(redPacketSea);
-        } else {
-            FloatRedPacketSea redPacketSea = weakRedPacket.get();
+        }
+
+        return weakRedPacket.get();
+
+    }
+
+    public FloatRedPacketSea showRedPacket(Activity activity, int xDirection, float yRatio) {
+
+        FloatRedPacketSea redPacketSea = getRedPacket(activity, xDirection, yRatio);
+        if (redPacketSea != null) {
             redPacketSea.setVisibility(View.VISIBLE);
         }
-        return weakRedPacket.get();
+        return redPacketSea;
     }
+
     private WeakReference<ShakeShakeView> weakShakeView;
 
     public ShakeShakeView showShakeShake(Activity activity) {
@@ -137,10 +161,10 @@ public class FloatViewManager {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onFloatIconRelocateEvent(FloatIconRelocateEvent e) {
-        if(e.viewId == FloatIconRelocateEvent.SHAKE_VIEW) {
+        if (e.viewId == FloatIconRelocateEvent.SHAKE_VIEW) {
             if (weakShakeView != null) {
                 ShakeShakeView v = weakShakeView.get();
-                if(v != null) {
+                if (v != null) {
                     v.relocate(e.x, e.y, e.pinned);
                 }
             }
@@ -149,18 +173,18 @@ public class FloatViewManager {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onFloatIconVisibilityEvent(FloatIconVisibilityEvent e) {
-        if(e.viewId == FloatIconRelocateEvent.SHAKE_VIEW) {
+        if (e.viewId == FloatIconRelocateEvent.SHAKE_VIEW) {
             if (weakShakeView != null) {
                 ShakeShakeView v = weakShakeView.get();
-                if(v != null) {
+                if (v != null) {
                     v.setVisibility(e.visible ? View.VISIBLE : View.INVISIBLE);
                 }
             }
         }
     }
 
-    public ShakeShakeView showShakeShake(Activity activity, int xDirection, float yRatio) {
-        if (weakShakeView == null || weakShakeView.get() == null && activity != null) {
+    public ShakeShakeView initShakeShake(Activity activity, int xDirection, float yRatio) {
+        if (weakShakeView == null || weakShakeView.get() == null) {
             ShakeShakeView shakeView = new ShakeShakeView(activity);
 
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
@@ -179,12 +203,20 @@ public class FloatViewManager {
             shakeView.setX(x);
             shakeView.setY(y);
 
+            shakeView.setVisibility(View.GONE);
+
             weakShakeView = new WeakReference<>(shakeView);
-        } else {
-            ShakeShakeView shakeView = weakShakeView.get();
+        }
+
+        return weakShakeView.get();
+    }
+
+    public ShakeShakeView showShakeShake(Activity activity, int xDirection, float yRatio) {
+        ShakeShakeView shakeView = initShakeShake(activity, xDirection, yRatio);
+        if (shakeView != null) {
             shakeView.setVisibility(View.VISIBLE);
         }
-        return weakShakeView.get();
+        return shakeView;
     }
 
     public void hideShakeView() {

@@ -191,12 +191,12 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
         Log.d(TAG, "onResume");
 
         // 如果需要重新检查配置, 开始检查
-        if(_needRerunConfig) {
+        if (_needRerunConfig) {
             // set flag
             _needRerunConfig = false;
 
             // dismiss dialog
-            if(_configErrorDialog != null) {
+            if (_configErrorDialog != null) {
                 _configErrorDialog.dismiss();
                 _configErrorDialog = null;
             }
@@ -210,7 +210,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
             }
 
             // get benefit settings
-            if(!MGCSharedModel.isBenefitSettingsInited()) {
+            if (!MGCSharedModel.isBenefitSettingsInited()) {
                 doGetBenefitSettings();
             } else {
                 _benefitSettingsFetched = true;
@@ -302,7 +302,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
         _benefitRetryCount = 3;
 
         // ensure no other dialog
-        if(_configErrorDialog != null) {
+        if (_configErrorDialog != null) {
             _configErrorDialog.dismiss();
             _configErrorDialog = null;
         }
@@ -412,7 +412,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
     public void startSplashAd() {
         // 如果是第一次启动, 不获取splash ad
         // 否则延迟1秒尝试获取splash ad
-        if(LeBoxSpUtil.isFirstLaunch()) {
+        if (LeBoxSpUtil.isFirstLaunch()) {
             _splashAdDone = true;
             startMain(true);
         } else {
@@ -503,7 +503,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
         });
         if (null != _splashAd) {
             _splashAd.show();
-        }else{
+        } else {
             _splashAdDone = true;
             startMain(true);
         }

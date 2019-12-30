@@ -120,7 +120,7 @@ public class FloatToolsCenter {
             @Override
             public void show(final Activity context, String gameId) {
                 if (MGCSharedModel.benefitSettings.getHbrain() != null) {
-                    BenefitSettings_hbrain hbrainConfig =  MGCSharedModel.benefitSettings.getHbrain();
+                    BenefitSettings_hbrain hbrainConfig = MGCSharedModel.benefitSettings.getHbrain();
 
                     // 剩余次数
                     int times = LeBoxSpUtil.todayHbrainTimes(gameId);
@@ -141,8 +141,8 @@ public class FloatToolsCenter {
                         @Override
                         public void onApiSuccess(ApiContainer.ApiName n, Object data) {
 
-                            int coinCount =  (int)(Math.random() * (hbrainConfig.max_coins - hbrainConfig.min_coins) + hbrainConfig.min_coins);
-                            RedPacketSeaActivity.start(context, gameId, coinCount);
+                            int coinCount = (int) (Math.random() * (hbrainConfig.max_coins - hbrainConfig.min_coins) + hbrainConfig.min_coins);
+                            RedPacketSeaActivity.start(context, gameId, coinCount, hbrainConfig.coins_multiple);
                             apiContainer.destroy();
                         }
 
@@ -171,21 +171,48 @@ public class FloatToolsCenter {
             public void onLetoAppLaunched(final LetoActivity activity, String gameId) {
                 if (MGCSharedModel.benefitSettings != null) {
                     if (MGCSharedModel.benefitSettings.getBubble() != null) {
-                        floatTools.add(new BubbleFloatTool(activity, gameId, MGCSharedModel.benefitSettings.getBubble()));
+                        BubbleFloatTool bubbleFloatTool = new BubbleFloatTool(activity, gameId, MGCSharedModel.benefitSettings.getBubble());
+                        floatTools.add(bubbleFloatTool);
+                        if (bubbleFloatTool.isGameEnabled()) {
+                            bubbleFloatTool.init();
+//                            if(MGCSharedModel.benefitSettings.getBubble().is_game_show ==1){
+//                                bubbleFloatTool.show(activity);
+//                            }
+                        }
                     }
                     if (MGCSharedModel.benefitSettings.getShake() != null) {
-                        floatTools.add(new ShakeFloatTool(activity, gameId, MGCSharedModel.benefitSettings.getShake()));
+                        ShakeFloatTool shakeFloatTool = new ShakeFloatTool(activity, gameId, MGCSharedModel.benefitSettings.getShake());
+                        floatTools.add(shakeFloatTool);
+                        if (shakeFloatTool.isGameEnabled()) {
+                            shakeFloatTool.init();
+                            if (MGCSharedModel.benefitSettings.getShake().is_game_show == 1
+                                    && MGCSharedModel.benefitSettings.getShake().is_game_control != 1) {
+                                shakeFloatTool.show(activity);
+                            }
+                        }
                     }
                     if (MGCSharedModel.benefitSettings.getHbrain() != null) {
-                        floatTools.add(new RedPacketSeaFloatTool(activity, gameId, MGCSharedModel.benefitSettings.getHbrain()));
+                        RedPacketSeaFloatTool redPacketSeaFloatTool = new RedPacketSeaFloatTool(activity, gameId, MGCSharedModel.benefitSettings.getHbrain());
+                        floatTools.add(redPacketSeaFloatTool);
+                        if (redPacketSeaFloatTool.isGameEnabled()) {
+                            redPacketSeaFloatTool.init();
+                            if (MGCSharedModel.benefitSettings.getHbrain().is_game_show == 1
+                                    && MGCSharedModel.benefitSettings.getHbrain().is_game_control != 1) {
+                                redPacketSeaFloatTool.show(activity);
+                            }
+                        }
                     }
-                    if (MGCSharedModel.benefitSettings.getPlaygametask() != null){
-                        floatTools.add(new PlayGameFloatTool(activity,gameId,MGCSharedModel.benefitSettings.getPlaygametask()));
-                    }
-                }
-                for (BaseFloatTool floatTool : floatTools) {
-                    if (floatTool.isGameEnabled()) {
-                        floatTool.init();
+                    if (MGCSharedModel.benefitSettings.getPlaygametask() != null) {
+                        PlayGameFloatTool playGameFloatTool = new PlayGameFloatTool(activity, gameId, MGCSharedModel.benefitSettings.getPlaygametask());
+                        floatTools.add(new PlayGameFloatTool(activity, gameId, MGCSharedModel.benefitSettings.getPlaygametask()));
+                        if (playGameFloatTool.isGameEnabled()) {
+                            playGameFloatTool.init();
+                            if (MGCSharedModel.benefitSettings.getPlaygametask().is_game_show == 1
+                                    && MGCSharedModel.benefitSettings.getPlaygametask().is_game_control != 1
+                            ) {
+                                playGameFloatTool.show(activity);
+                            }
+                        }
                     }
                 }
             }
@@ -222,7 +249,7 @@ public class FloatToolsCenter {
 
     private static boolean isGameUpgradeEnabled(String gameId) {
         if (TEST_ENV) return true;
-        if (!TextUtils.isEmpty(gameId)  && MGCSharedModel.benefitSettings != null && MGCSharedModel.benefitSettings.getUpgrade() != null) {
+        if (!TextUtils.isEmpty(gameId) && MGCSharedModel.benefitSettings != null && MGCSharedModel.benefitSettings.getUpgrade() != null) {
             BenefitSettings_upgrade update = MGCSharedModel.benefitSettings.getUpgrade();
             if (update.getIs_open() == 1 && update.getGame_ids() != null) {
                 return update.getGame_ids().contains(gameId);
@@ -238,13 +265,13 @@ public class FloatToolsCenter {
             // 如果show里面指定了位置, 使用show的位置
             int xDirection = update.getDefault_x();
             float yRatio = update.getDefault_y();
-            if(params != null) {
+            if (params != null) {
                 String gravity = params.optString("gravity", "unspecified");
-                if(!gravity.equals("unspecified")) {
+                if (!gravity.equals("unspecified")) {
                     xDirection = gravity.equals("left") ? 0 : 1;
                 }
-                if(params.has("percent_v")) {
-                    yRatio = (float)params.optDouble("percent_v", update.getDefault_y());
+                if (params.has("percent_v")) {
+                    yRatio = (float) params.optDouble("percent_v", update.getDefault_y());
                 }
             }
 
