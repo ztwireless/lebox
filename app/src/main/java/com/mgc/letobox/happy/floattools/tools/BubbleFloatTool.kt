@@ -55,6 +55,10 @@ class BubbleFloatTool(activity: Activity, gameId: String, val bubbleConfig: Bene
         }, bubbleConfig.create_interval * 1000.toLong(), bubbleConfig.create_interval * 1000.toLong())
     }
 
+    override fun show(activity: Activity) {
+
+    }
+
     override fun clean() {
         super.clean()
         FloatViewManager.getInstance().removeAllBubbleViews(wrActivity.get())

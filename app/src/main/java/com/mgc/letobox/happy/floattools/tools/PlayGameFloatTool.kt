@@ -43,6 +43,10 @@ class PlayGameFloatTool(activity: Activity, gameId: String, val palygameConfig: 
         }
     }
 
+    override fun show(activity: Activity){
+        FloatViewManager.getInstance().showPlayGameView(activity, palygameConfig.default_x, palygameConfig.default_y)
+    }
+
     override fun clean() {
         super.clean()
         FloatViewManager.getInstance().removePlayGameView(wrActivity.get())
@@ -52,7 +56,7 @@ class PlayGameFloatTool(activity: Activity, gameId: String, val palygameConfig: 
 
     private fun initPlayGameView(activity: Activity) {
         val playGameCofig = palygameConfig
-        val palygameview: PlayGameView = FloatViewManager.getInstance().showPlayGameView(activity, palygameConfig.default_x, palygameConfig.default_y)
+        val palygameview: PlayGameView = FloatViewManager.getInstance().getPlayGameView(activity, palygameConfig.default_x, palygameConfig.default_y)
         lastShakeTime = System.currentTimeMillis()
         palygameview.setOnClickListener {
             val currentTime = System.currentTimeMillis()

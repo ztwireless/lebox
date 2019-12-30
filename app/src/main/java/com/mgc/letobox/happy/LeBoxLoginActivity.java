@@ -16,6 +16,7 @@ import com.ledong.lib.leto.mgc.util.MGCApiUtil;
 import com.ledong.lib.leto.widget.ClickGuard;
 import com.leto.game.base.bean.LoginResultBean;
 import com.leto.game.base.event.DataRefreshEvent;
+import com.leto.game.base.event.GetCoinEvent;
 import com.leto.game.base.http.HttpCallbackDecode;
 import com.leto.game.base.listener.SyncUserInfoListener;
 import com.leto.game.base.login.LoginManager;
@@ -190,6 +191,7 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
 
 	@Override
 	public void onSuccess(LoginResultBean data) {
+	    EventBus.getDefault().post( new GetCoinEvent());
 		DialogUtil.dismissDialog();
 		finish();
 	}

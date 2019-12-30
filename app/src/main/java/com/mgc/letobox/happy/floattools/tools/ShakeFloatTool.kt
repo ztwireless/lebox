@@ -45,6 +45,11 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Benefi
         }
     }
 
+    override fun show(activity: Activity) {
+        val shake = shakeConfig
+        FloatViewManager.getInstance().showShakeShake(activity, shake.default_x, shake.default_y)
+    }
+
     override fun clean() {
         super.clean()
         FloatViewManager.getInstance().removeShakeView(wrActivity.get())
@@ -54,7 +59,7 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Benefi
 
     private fun initShakeView(activity: Activity) {
         val shake = shakeConfig
-        val shakeView: ShakeShakeView = FloatViewManager.getInstance().showShakeShake(activity, shake.default_x, shake.default_y)
+        val shakeView: ShakeShakeView = FloatViewManager.getInstance().initShakeShake(activity, shake.default_x, shake.default_y)
         shakeView.setOnClickListener {
             val todayTimes = LeBoxSpUtil.todayShakeTimes(gameId)
             val currentTime = System.currentTimeMillis()

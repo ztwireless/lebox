@@ -30,6 +30,14 @@ class RedPacketSeaFloatTool(activity: Activity, gameId: String, val hbrainConfig
         return false
     }
 
+    override fun show(activity: Activity) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        FloatViewManager.getInstance().showRedPacket(wrActivity.get(), hbrainConfig.default_x, hbrainConfig.default_y)
+        // 更新view
+
+    }
+
     private var timer : Timer? = null
     private val timerTask: TimerTask = object : TimerTask() {
         override fun run() {
@@ -68,7 +76,7 @@ class RedPacketSeaFloatTool(activity: Activity, gameId: String, val hbrainConfig
         Log.i(TAG, "init")
         if (wrActivity.get() == null) return
 
-        val redPacketSea: FloatRedPacketSea = FloatViewManager.getInstance().showRedPacket(wrActivity.get(), hbrainConfig.default_x, hbrainConfig.default_y)
+        val redPacketSea: FloatRedPacketSea = FloatViewManager.getInstance().getRedPacket(wrActivity.get(), hbrainConfig.default_x, hbrainConfig.default_y)
         // 更新view
         timer?.cancel()
         timer = Timer()
@@ -102,7 +110,7 @@ class RedPacketSeaFloatTool(activity: Activity, gameId: String, val hbrainConfig
 
                     Log.i(TAG, "onApiSuccess")
                     val coinCount = randomIn(hbrainConfig.min_coins, hbrainConfig.max_coins)
-                    RedPacketSeaActivity.start(wrActivity.get(), gameId, coinCount)
+                    RedPacketSeaActivity.start(wrActivity.get(), gameId, coinCount, hbrainConfig.coins_multiple)
                     apiContainer.destroy()
                 }
 
