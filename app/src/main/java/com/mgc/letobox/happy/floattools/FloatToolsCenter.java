@@ -103,7 +103,7 @@ public class FloatToolsCenter {
         //实名认证弹框
         Leto.getInstance().setResetIDCardListener(new ILetoResetIDCardListener() {
             @Override
-            public void notify(Context context, ResetIDCardRequest resetIDCardRequest) {
+            public void notify(Activity context, ResetIDCardRequest resetIDCardRequest) {
                 ToastUtil.s(context, "实名认证弹框");
                 //...
 
@@ -120,7 +120,7 @@ public class FloatToolsCenter {
         //防沉迷
         Leto.getInstance().setAntiAddicationListener(new ILetoAntiAddicationListener() {
             @Override
-            public void notify(Context context, String type) {
+            public void notify(Activity context, String type) {
                 ToastUtil.s(context, "防沉迷提醒：" + type);
                 //
             }
