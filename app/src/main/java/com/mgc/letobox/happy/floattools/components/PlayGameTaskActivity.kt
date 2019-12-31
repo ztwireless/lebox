@@ -5,15 +5,16 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import com.bumptech.glide.request.RequestListener
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil
+import com.leto.game.base.util.ColorUtil
+import com.leto.game.base.util.StatusBarUtil
 import com.leto.game.base.util.ToastUtil
 import com.mgc.letobox.happy.R
 import com.mgc.letobox.happy.floattools.components.playgametask.GameListItem
@@ -32,6 +33,9 @@ class PlayGameTaskActivity : Activity() {
     lateinit var playGameResult: PlayGameResult
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            StatusBarUtil.setStatusBarColor(this, ColorUtil.parseColor("#ffffff"))
+        }
         setContentView(R.layout.activity_playgame_task)
         playGameResult = intent.getSerializableExtra("gameResult") as PlayGameResult
         iv_back.setOnClickListener { v: View? -> finish() }

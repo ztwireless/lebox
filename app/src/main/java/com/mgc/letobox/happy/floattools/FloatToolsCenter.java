@@ -21,6 +21,8 @@ import com.ledong.lib.leto.mgc.bean.CoinDialogScene;
 import com.ledong.lib.leto.mgc.bean.GameLevelResultBean;
 import com.ledong.lib.leto.mgc.dialog.IMGCCoinDialogListener;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
+import com.ledong.lib.leto.mgc.thirdparty.ResetIDCardRequest;
+import com.ledong.lib.leto.mgc.thirdparty.ThirdpartyResult;
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
 import com.ledong.lib.leto.trace.LetoTrace;
 import com.ledong.lib.leto.widget.ClickGuard;
@@ -101,8 +103,17 @@ public class FloatToolsCenter {
         //实名认证弹框
         Leto.getInstance().setResetIDCardListener(new ILetoResetIDCardListener() {
             @Override
-            public void notify(Context context) {
+            public void notify(Context context, ResetIDCardRequest resetIDCardRequest) {
                 ToastUtil.s(context, "实名认证弹框");
+                //...
+
+                //....
+
+                //认证结束后，回调通知SDK
+                ThirdpartyResult result =  new ThirdpartyResult();
+                result.setErrCode(0);   //0:OK,  非0为失败
+                resetIDCardRequest.notifyResetIDCardResult(result);
+
             }
         });
 
