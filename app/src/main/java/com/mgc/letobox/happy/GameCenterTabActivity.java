@@ -223,7 +223,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
 
     private void showLoginDialog() {
         if (!LoginManager.isSignedIn(this)) {
-            AntiAddictionDialog.Companion.showPhone(getFragmentManager());
+            AntiAddictionDialog.Companion.showPhone(getFragmentManager(), true);
         }
     }
 

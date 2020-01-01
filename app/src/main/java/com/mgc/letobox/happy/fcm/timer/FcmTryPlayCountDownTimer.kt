@@ -16,7 +16,7 @@ class FcmTryPlayCountDownTimer(activity: Activity, val millisInFuture: Long, val
     override fun onFinish() {
         LeBoxSpUtil.tryPlayFor(countDownInternal)
         if (wrActivity.get() != null) {
-            AntiAddictionDialog.showPhone(wrActivity.get()!!.fragmentManager)
+            AntiAddictionDialog.showPhone(wrActivity.get()!!.fragmentManager, false)
         }
     }
 

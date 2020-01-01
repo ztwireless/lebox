@@ -131,7 +131,7 @@ public class FloatToolsCenter {
             public void notify(Activity activity, ResetIDCardRequest resetIDCardRequest) {
 //                ToastUtil.s(activity, "实名认证弹框");
                 Log.i(TAG, "notify: setResetIDCardListener");
-                AntiAddictionDialog fragment = AntiAddictionDialog.Companion.showPhone(activity.getFragmentManager());
+                AntiAddictionDialog fragment = AntiAddictionDialog.Companion.showPhone(activity.getFragmentManager(), true);
                 if (fragment == null) return;
                 fragment.setCancelable(true);
                 fragment.setOnIdCardVerified(() -> {

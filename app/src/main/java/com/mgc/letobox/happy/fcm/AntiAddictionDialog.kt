@@ -25,18 +25,19 @@ const val ARG_MODE = "mode"
 const val ARG_TITLE = "title"
 const val ARG_BUTTON_TEXT = "button_text"
 const val ARG_CONTENT = "content"
+const val ARG_CANCELABLE = "cancelable"
 
 class AntiAddictionDialog : DialogFragment(), LoginView, IDCardView {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState)
     }
 
+    private var phoneDialogCancelable = true
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setOnKeyListener { dialog, keyCode, event ->
             !isCancelable
         }
-        isCancelable = false
         return inflater.inflate(R.layout.fragment_anti_addiction, container, false)
     }
 
@@ -44,6 +45,7 @@ class AntiAddictionDialog : DialogFragment(), LoginView, IDCardView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.let {
             currentMode = it.getInt(ARG_MODE)
+            phoneDialogCancelable = it.getBoolean(ARG_CANCELABLE, true)
             val content = it.getString(ARG_CONTENT)
             val buttonText = it.getString(ARG_BUTTON_TEXT)
             val title = it.getString(ARG_TITLE)
@@ -107,6 +109,7 @@ class AntiAddictionDialog : DialogFragment(), LoginView, IDCardView {
                 itemButton.visibility = View.GONE
                 itemTitleLeft.visibility = View.VISIBLE
                 itemTitleCenter.visibility = View.GONE
+                isCancelable = phoneDialogCancelable
             }
             AntiAddictionDialogMode.MODE_CERTIFICATION -> {
                 itemCertification.visibility = View.VISIBLE
@@ -122,6 +125,7 @@ class AntiAddictionDialog : DialogFragment(), LoginView, IDCardView {
                 itemButton.visibility = View.VISIBLE
                 itemTitleLeft.visibility = View.GONE
                 itemTitleCenter.visibility = View.VISIBLE
+                isCancelable = false
             }
         }
     }
@@ -141,8 +145,10 @@ class AntiAddictionDialog : DialogFragment(), LoginView, IDCardView {
             return dialog
         }
 
-        fun showPhone(fragmentManager: FragmentManager): AntiAddictionDialog? {
-            return show(fragmentManager, AntiAddictionDialogMode.MODE_PHONE)
+        fun showPhone(fragmentManager: FragmentManager, cancelable: Boolean = true): AntiAddictionDialog? {
+            return show(fragmentManager, AntiAddictionDialogMode.MODE_PHONE, Bundle().apply {
+                putBoolean(ARG_CANCELABLE, cancelable)
+            })
         }
 
         fun showCertification(fragmentManager: FragmentManager): AntiAddictionDialog? {
