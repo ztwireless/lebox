@@ -37,7 +37,6 @@ public class LetoApplication extends Application {
         // 悬浮工具
         FloatToolsCenter.init(this);
 
-
         Leto.getInstance().setAuthRequestListener(new IAuthRequestListener() {
             @Override
             public void requstAuth(Activity activity, ILetoAuthListener listener) {

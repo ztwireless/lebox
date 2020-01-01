@@ -31,8 +31,6 @@ class RedPacketSeaFloatTool(activity: Activity, gameId: String, val hbrainConfig
     }
 
     override fun show(activity: Activity) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-
         FloatViewManager.getInstance().showRedPacket(wrActivity.get(), hbrainConfig.default_x, hbrainConfig.default_y)
         // 更新view
 
