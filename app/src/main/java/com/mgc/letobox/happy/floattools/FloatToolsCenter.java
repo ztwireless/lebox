@@ -291,24 +291,23 @@ public class FloatToolsCenter {
                         if(workflow < 1 || workflow > 2) {
                             workflow = 1;
                         }
+                        IMGCCoinDialogListener listener = new IMGCCoinDialogListener() {
+                            @Override
+                            public void onExit(boolean video, int coinGot) {
+                                if (coinGot > 0 && upgradeView != null) {
+                                    upgradeView.resetRewardStatus(levelReward.level_list_id);
+                                    upgradeView.getGameUpgradeSetting(activity, gameId);
+                                }
+                            }
+                        };
                         switch (workflow) {
                             case 1:
                                 MGCDialogUtil.showRedPackDialogForWorkflow1(activity, -1, levelReward.getCoins(),
-                                    update.getCoins_multiple(), levelReward.level_list_id, CoinDialogScene.GAME_UPGRADE);
+                                    update.getCoins_multiple(), levelReward.level_list_id, CoinDialogScene.GAME_UPGRADE, listener);
                                 break;
                             default:
                                 MGCDialogUtil.showRedPackDialogForWorkflow2(activity, -1, levelReward.getCoins(),
-                                    update.getCoins_multiple(), levelReward.level_list_id, CoinDialogScene.GAME_UPGRADE, new IMGCCoinDialogListener() {
-                                        @Override
-                                        public void onExit(boolean video, int coinGot) {
-                                            if (upgradeView != null) {
-
-                                                upgradeView.resetRewardStatus(levelReward.level_list_id);
-
-                                                upgradeView.getGameUpgradeSetting(activity, gameId);
-                                            }
-                                        }
-                                    });
+                                    update.getCoins_multiple(), levelReward.level_list_id, CoinDialogScene.GAME_UPGRADE, listener);
                                 break;
                         }
                     } else {

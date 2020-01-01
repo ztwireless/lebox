@@ -136,7 +136,7 @@ public class MeNewFragment extends Fragment implements ApiContainer.IApiResultLi
 
         // create extended ad
         if(_feedAdUsed && _feedAd != null) {
-            _apiContainer.destroyExtendedAd(this, _feedAd.getAdId());
+            _apiContainer.destroyFeedAd(this, _feedAd.getAdId());
             _feedAd = null;
             _feedAdUsed = false;
         }
