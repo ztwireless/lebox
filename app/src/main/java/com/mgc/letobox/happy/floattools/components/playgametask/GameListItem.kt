@@ -25,7 +25,7 @@ class GameListItem(
 
     private var tag: Any? = null
     fun loge(msg:String){
-        Log.e("dongxt","gameitem  "+msg);
+        Log.e("leo","gameitem  "+msg);
     }
 
     fun action(context: Activity,btn_action: DownloadProgressButton) {

@@ -2,7 +2,6 @@ package com.mgc.letobox.happy.floattools;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -288,18 +287,29 @@ public class FloatToolsCenter {
 
                     GameLevelResultBean.GameLevel levelReward = upgradeView.getRewardLevel();
                     if (levelReward != null) {
-                        MGCDialogUtil.showRedEnvelopesDialog(activity, levelReward.getCoins(), update.getCoins_multiple(), levelReward.level_list_id, CoinDialogScene.GAME_UPGRADE, new IMGCCoinDialogListener() {
+                        int workflow = MGCSharedModel.upgradeRedPackStyle;
+                        if(workflow < 1 || workflow > 2) {
+                            workflow = 1;
+                        }
+                        IMGCCoinDialogListener listener = new IMGCCoinDialogListener() {
                             @Override
                             public void onExit(boolean video, int coinGot) {
-
-                                if (upgradeView != null) {
-
+                                if (coinGot > 0 && upgradeView != null) {
                                     upgradeView.resetRewardStatus(levelReward.level_list_id);
-
                                     upgradeView.getGameUpgradeSetting(activity, gameId);
                                 }
                             }
-                        });
+                        };
+                        switch (workflow) {
+                            case 1:
+                                MGCDialogUtil.showRedPackDialogForWorkflow1(activity, -1, levelReward.getCoins(),
+                                    update.getCoins_multiple(), levelReward.level_list_id, CoinDialogScene.GAME_UPGRADE, listener);
+                                break;
+                            default:
+                                MGCDialogUtil.showRedPackDialogForWorkflow2(activity, -1, levelReward.getCoins(),
+                                    update.getCoins_multiple(), levelReward.level_list_id, CoinDialogScene.GAME_UPGRADE, listener);
+                                break;
+                        }
                     } else {
                         ToastUtil.s(activity, "请升级后再试");
                     }
