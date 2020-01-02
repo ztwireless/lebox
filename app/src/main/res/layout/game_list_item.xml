@@ -9,6 +9,7 @@
         android:id="@+id/game_icon"
         android:layout_width="57dp"
         android:layout_height="57dp"
+        android:background="@drawable/leto_round_rect_game_grid_item"
         android:layout_centerVertical="true"
         android:layout_marginStart="14dp"
         tools:srcCompat="@tools:sample/avatars[0]" />
@@ -55,30 +56,31 @@
         android:layout_marginEnd="14dp"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
-        app:progress_btn_background_color="#fff5a623"
+        app:progress_btn_background_color="#3D9AF0"
+        app:progress_btn_background_second_color="#ECF4FD"
         app:progress_btn_radius="14dp"
         tools:text="Button"
         app:progress_btn_ball_style="STYLE_BALL_PULSE"
         app:progress_btn_border_width="2dp" />
-    <!--
-        <com.mgc.letobox.happy.floattools.components.playgametask.utils.DownloadProgressButton
-            android:id="@+id/btn_pause"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintBottom_toBottomOf="@id/game_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/game_icon"
-            app:progress_btn_background_color="@color/colorAccent"
-            app:progress_btn_radius="5dp"
-            tools:text="Button"
-            app:progress_btn_background_second_color="#fff5a623"
-            app:progress_btn_text_color="@android:color/black"
-            app:progress_btn_text_cover_color="@color/colorPrimary"
-            app:progress_btn_ball_style="STYLE_BALL_PULSE"
-            app:progress_btn_border_width="2dp" />
-    -->
+<!--
+    <com.mgc.letobox.happy.floattools.components.playgametask.utils.DownloadProgressButton
+        android:id="@+id/btn_pause"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/game_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/game_icon"
+        app:progress_btn_background_color="@color/colorAccent"
+        app:progress_btn_radius="5dp"
+        tools:text="Button"
+        app:progress_btn_background_second_color="#fff5a623"
+        app:progress_btn_text_color="@android:color/black"
+        app:progress_btn_text_cover_color="@color/colorPrimary"
+        app:progress_btn_ball_style="STYLE_BALL_PULSE"
+        app:progress_btn_border_width="2dp" />
+-->
     <View
         android:layout_marginStart="14dp"
         android:layout_marginEnd="14dp"

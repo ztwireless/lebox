@@ -2,13 +2,13 @@ package com.mgc.letobox.happy.floattools;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.ledong.lib.leto.Leto;
 import com.ledong.lib.leto.api.ApiContainer;
 import com.ledong.lib.leto.api.constant.Constant;
+import com.ledong.lib.leto.api.mgc.RedPackRequest;
 import com.ledong.lib.leto.listener.ILetoGameUpgradeListener;
 import com.ledong.lib.leto.listener.ILetoGiftRainListener;
 import com.ledong.lib.leto.listener.ILetoLifecycleListener;
@@ -16,7 +16,6 @@ import com.ledong.lib.leto.main.LetoActivity;
 import com.ledong.lib.leto.mgc.bean.BenefitSettings_hbrain;
 import com.ledong.lib.leto.mgc.bean.BenefitSettings_upgrade;
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene;
-import com.ledong.lib.leto.mgc.bean.GameLevelResultBean;
 import com.ledong.lib.leto.mgc.dialog.IMGCCoinDialogListener;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
@@ -286,20 +285,37 @@ public class FloatToolsCenter {
                     //点击上报
                     GameStatisticManager.statisticBenefitLog(activity, gameId, StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal(), 0, 0, 0, 0, Constant.BENEFITS_TYPE_UPGRADE_GIFT, 0);
 
-                    GameLevelResultBean.GameLevel levelReward = upgradeView.getRewardLevel();
-                    if (levelReward != null) {
-                        MGCDialogUtil.showRedEnvelopesDialog(activity, levelReward.getCoins(), update.getCoins_multiple(), levelReward.level_list_id, CoinDialogScene.GAME_UPGRADE, new IMGCCoinDialogListener() {
+                    // create request
+                    RedPackRequest req = new RedPackRequest();
+                    req.mode = RedPackRequest.Mode.UPGRADE_REMOTE;
+                    req.levelReward = upgradeView.getRewardLevel();
+                    req.upgrade = update;
+                    req.redPackId = -1;
+                    req.scene = CoinDialogScene.GAME_UPGRADE;
+                    if (req.levelReward != null) {
+                        req.coin = req.levelReward.getCoins();
+                        req.videoRatio = req.upgrade.getCoins_multiple();
+                        req.workflow = MGCSharedModel.upgradeRedPackStyle;
+                        if(req.workflow < 1 || req.workflow > 2) {
+                            req.workflow = 1;
+                        }
+                        req.listener = new IMGCCoinDialogListener() {
                             @Override
                             public void onExit(boolean video, int coinGot) {
-
-                                if (upgradeView != null) {
-
-                                    upgradeView.resetRewardStatus(levelReward.level_list_id);
-
+                                if (coinGot > 0 && upgradeView != null) {
+                                    upgradeView.resetRewardStatus(req.levelReward.level_list_id);
                                     upgradeView.getGameUpgradeSetting(activity, gameId);
                                 }
                             }
-                        });
+                        };
+                        switch (req.workflow) {
+                            case 1:
+                                MGCDialogUtil.showRedPackDialogForWorkflow1(activity, req);
+                                break;
+                            default:
+                                MGCDialogUtil.showRedPackDialogForWorkflow2(activity, req);
+                                break;
+                        }
                     } else {
                         ToastUtil.s(activity, "请升级后再试");
                     }

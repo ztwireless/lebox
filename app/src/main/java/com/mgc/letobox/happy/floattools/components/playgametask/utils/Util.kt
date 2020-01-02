@@ -13,7 +13,14 @@ import android.support.v4.view.ViewCompat
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.leto.game.base.util.GlideUtil
+import com.mgc.letobox.happy.R
 import java.io.File
+
 
 fun Context.installApk(file: File) {
     val intent = Intent(ACTION_VIEW)
@@ -42,9 +49,28 @@ fun View.visible() {
 fun View.gone() {
     visibility = View.GONE
 }
+interface LoadStatus {
+    fun onStatus(success: Boolean)
+}
+fun ImageView.load(url: String,loadStatus: LoadStatus = object :LoadStatus{
+    override fun onStatus(success: Boolean) {
+    }
+}) {
+    Glide.with(this).load(url).error(R.drawable.leto_mgc_game_default_pic).listener(object :RequestListener<Drawable>{
+        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+            loadStatus?.onStatus(false);
+            return false
+        }
 
-fun ImageView.load(url: String) {
-    Glide.with(this).load(url).into(this)
+        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+            loadStatus?.onStatus(true);
+            return false
+        }
+
+    }).into(this)
+}
+fun ImageView.loadRoundedCorner(url: String,corner:Int = 13) {
+    GlideUtil.loadRoundedCorner(this.context,url,this,corner,R.drawable.leto_mgc_game_default_pic)
 }
 
 fun View.background(drawable: Drawable) {
