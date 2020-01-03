@@ -104,6 +104,16 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
 
+        <provider
+            android:name=".floattools.components.playgametask.utils.ApkFileProvider"
+            android:authorities="${applicationId}.rxdownload.demo.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/apk_file_provider" />
+        </provider>
+        
         <!-- 适配android N 的文件系统，authorities 中注意替换您的包名，包名+".fileprovider" -->
         <provider
             android:name="com.leto.game.base.provider.LetoFileProvider"
