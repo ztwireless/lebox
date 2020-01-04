@@ -286,6 +286,10 @@ public class FloatToolsCenter {
                     GameStatisticManager.statisticBenefitLog(activity, gameId, StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal(), 0, 0, 0, 0, Constant.BENEFITS_TYPE_UPGRADE_GIFT, 0);
 
                     // create request
+                    // 流程样式
+                    // 1和2, 和主动显示红包api一样
+                    // 3: 类似于样式1, 但是跳过出红包那一步, 直接放视频, 视频放完后出领取界面. 这个样式在主动
+                    // 出红包的api里是不支持的
                     RedPackRequest req = new RedPackRequest();
                     req.mode = RedPackRequest.Mode.UPGRADE_REMOTE;
                     req.levelReward = upgradeView.getRewardLevel();
@@ -296,7 +300,7 @@ public class FloatToolsCenter {
                         req.coin = req.levelReward.getCoins();
                         req.videoRatio = req.upgrade.getCoins_multiple();
                         req.workflow = MGCSharedModel.upgradeRedPackStyle;
-                        if(req.workflow < 1 || req.workflow > 2) {
+                        if(req.workflow < 1 || req.workflow > 3) {
                             req.workflow = 1;
                         }
                         req.listener = new IMGCCoinDialogListener() {
@@ -312,8 +316,11 @@ public class FloatToolsCenter {
                             case 1:
                                 MGCDialogUtil.showRedPackDialogForWorkflow1(activity, req);
                                 break;
-                            default:
+                            case 2:
                                 MGCDialogUtil.showRedPackDialogForWorkflow2(activity, req);
+                                break;
+                            default:
+                                MGCDialogUtil.showRedPackDialogForWorkflow3(activity, req);
                                 break;
                         }
                     } else {
