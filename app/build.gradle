@@ -11,8 +11,8 @@ android {
         applicationId "com.wedobest.gamebox"
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
-        versionCode 4
-        versionName "1.6.0"
+        versionCode 5
+        versionName "1.6.1"
         multiDexEnabled true
 
         ndk {
