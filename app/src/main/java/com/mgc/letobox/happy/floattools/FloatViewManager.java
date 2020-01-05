@@ -112,7 +112,7 @@ public class FloatViewManager {
     private WeakReference<FloatRedPacketSea> weakRedPacket;
 
     public FloatRedPacketSea getRedPacketSeaView() {
-        return weakRedPacket.get();
+        return weakRedPacket == null ? null : weakRedPacket.get();
     }
 
     public FloatRedPacketSea getRedPacket(Activity activity, int xDirection, float yRatio) {
