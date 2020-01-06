@@ -182,13 +182,13 @@
             android:value="kx100_nndyg_mgc_box" />
         <meta-data
             android:name="MGC_ENABLE_WECHAT_LOGIN"
-            android:value="false"/>
+            android:value="true"/>
         <meta-data
             android:name="MGC_WECHAT_APPID"
-            android:value="wx2b06b06ae8f615c8"/>
+            android:value="wx2a22aaea5ddc341b"/>
         <meta-data
             android:name="MGC_WECHAT_APPSECRET"
-            android:value="7e0fdc7309652508e160ae2a8e3f12b1" />
+            android:value="0094f7d29c916aaee9b58484839405db" />
         <meta-data
             android:name="MGC_APPID"
             android:value="1000384" />
