@@ -30,7 +30,7 @@ class PlayGameFloatTool(activity: Activity, gameId: String, val palygameConfig: 
 
     override fun isGameEnabled(): Boolean {
         if (TEST_ENV) return true
-        if (palygameConfig.is_open == 1 && palygameConfig.game_ids != null) {
+        if (palygameConfig != null && palygameConfig.is_open == 1 && palygameConfig.game_ids != null) {
             return palygameConfig.game_ids.contains(gameId)
         }
         return false
@@ -43,7 +43,7 @@ class PlayGameFloatTool(activity: Activity, gameId: String, val palygameConfig: 
         }
     }
 
-    override fun show(activity: Activity){
+    override fun show(activity: Activity) {
         FloatViewManager.getInstance().showPlayGameView(activity, palygameConfig.default_x, palygameConfig.default_y)
     }
 
@@ -62,7 +62,7 @@ class PlayGameFloatTool(activity: Activity, gameId: String, val palygameConfig: 
             val currentTime = System.currentTimeMillis()
             if (currentTime - lastShakeTime < 600) {
                 // do nothing
-            }else {
+            } else {
                 //点击上报
                 GameStatisticManager.statisticBenefitLog(activity, gameId, StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal, 0, 0, 0, 0, Constant.BENEFITS_TYPE_PLAY_GAME_TASK, 0)
 
@@ -76,32 +76,32 @@ class PlayGameFloatTool(activity: Activity, gameId: String, val palygameConfig: 
         var isEnter = false;
         try {
             var resultJson = LeBoxSpUtil.getString(LoginManager.getUserId(activity));
-            if(!TextUtils.isEmpty(resultJson)){
-                val playgameResult: PlayGameResult? = Gson().fromJson(resultJson,PlayGameResult::class.java)
-                if(playgameResult != null){
+            if (!TextUtils.isEmpty(resultJson)) {
+                val playgameResult: PlayGameResult? = Gson().fromJson(resultJson, PlayGameResult::class.java)
+                if (playgameResult != null) {
                     isEnter = true
-                    PlayGameTaskActivity.start(activity,playgameResult)
+                    PlayGameTaskActivity.start(activity, playgameResult, gameId)
                 }
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             isEnter = false
         }
         val service: MGCService = buildRetrofit().create(MGCService::class.java)
-        val playGameResultCall: Call<PlayGameResult> = service.obtainPlayGameResult(toInt(BaseAppUtil.getChannelID(activity)),LoginManager.getUserId(activity), LetoConst.SDK_OPEN_TOKEN)
+        val playGameResultCall: Call<PlayGameResult> = service.obtainPlayGameResult(toInt(BaseAppUtil.getChannelID(activity)), LoginManager.getUserId(activity), LetoConst.SDK_OPEN_TOKEN)
         try {
             val playgameResultResponse: Response<PlayGameResult>? = playGameResultCall.execute()
             if (playgameResultResponse != null) {
                 val playgameResult: PlayGameResult? = playgameResultResponse.body()
                 val json = Gson().toJson(playgameResult)
-                LeBoxSpUtil.saveString(LoginManager.getUserId(activity),json);
-                if(!isEnter){
+                LeBoxSpUtil.saveString(LoginManager.getUserId(activity), json);
+                if (!isEnter) {
                     activity.runOnUiThread {
-                        if(playgameResult == null){
+                        if (playgameResult == null) {
                             ToastUtil.s(activity, "获取数据失败")
                             return@runOnUiThread
                         }
-                        PlayGameTaskActivity.start(activity,playgameResult)
+                        PlayGameTaskActivity.start(activity, playgameResult, gameId)
                     }
                 }
             }

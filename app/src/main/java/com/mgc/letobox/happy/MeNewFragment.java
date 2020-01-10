@@ -135,7 +135,7 @@ public class MeNewFragment extends Fragment implements ApiContainer.IApiResultLi
         }
 
         // create extended ad
-        if(_feedAdUsed && _feedAd != null) {
+        if(_feedAdUsed && _feedAd != null && _apiContainer != null) {
             _apiContainer.destroyFeedAd(this, _feedAd.getAdId());
             _feedAd = null;
             _feedAdUsed = false;
@@ -153,9 +153,16 @@ public class MeNewFragment extends Fragment implements ApiContainer.IApiResultLi
         EventBus.getDefault().unregister(this);
 
         // destroy extended ad
-        if(_feedAd != null) {
+        if(_feedAd != null && _apiContainer != null) {
             _apiContainer.destroyFeedAd(this, _feedAd.getAdId());
+            _feedAd.destroy();
             _feedAd = null;
+        }
+
+        // destroy container
+        if(_apiContainer != null) {
+            _apiContainer.destroy();
+            _apiContainer = null;
         }
     }
 
@@ -226,7 +233,9 @@ public class MeNewFragment extends Fragment implements ApiContainer.IApiResultLi
     private void initModules() {
         List<MeModuleBean> moduleBeanList = new ArrayList<>();
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_COIN));
-        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_SIGININ));
+        if(!AppChannel.LEBOX_MUZHIWAN.getValue().equalsIgnoreCase(BaseAppUtil.getChannelID(getActivity()))) {
+            moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_SIGININ));
+        }
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_MYGAMES));
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_NEWER_TASK));
         //moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_HIGH_COIN_TASK));

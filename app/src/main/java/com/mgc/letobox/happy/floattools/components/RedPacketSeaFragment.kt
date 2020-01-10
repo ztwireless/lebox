@@ -40,6 +40,11 @@ class RedPacketSeaFragment : Fragment() {
             coinCount = it.getInt(KEY_COIN_COUNT, 0)
             coinMultiple = it.getInt(KEY_COIN_MULTIPLE, 1)
         }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
         redPacketDrawable = resources.getDrawable(drawable.redpacket)
 
         itemImage.setOnClickListener {
@@ -51,6 +56,7 @@ class RedPacketSeaFragment : Fragment() {
             itemImage.setImageDrawable(animationDrawable)
             animationDrawable.start()
         }
+
     }
 
     private fun goGetRedPacket() {

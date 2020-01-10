@@ -5,6 +5,9 @@ import android.content.pm.PackageManager
 import android.os.Environment
 import android.text.TextUtils
 import android.util.Log
+import com.ledong.lib.leto.mgc.bean.CoinDialogScene
+import com.leto.game.base.statistic.GameStatisticManager
+import com.leto.game.base.statistic.StatisticEvent
 import com.mgc.letobox.happy.R
 import com.mgc.letobox.happy.floattools.components.playgametask.utils.DownloadProgressButton
 import com.mgc.letobox.happy.floattools.components.playgametask.utils.DownloadProgressButton.*
@@ -16,6 +19,7 @@ import java.io.File
 
 
 class GameListItem(
+        val id: Int,
         val name: String,
         val icon: String,
         val desc: String,
@@ -28,14 +32,18 @@ class GameListItem(
         Log.e("leo","gameitem  "+msg);
     }
 
-    fun action(context: Activity,btn_action: DownloadProgressButton) {
+    fun action(context: Activity,btn_action: DownloadProgressButton, gameId: String) {
         context.runOnUiThread {
 
 
             when(btn_action.state){
                 STATE_NORMAL ->{
                     btn_action.setCurrentText(context.getString(R.string.start_text))
-                    download(context,btn_action)
+                    download(context,btn_action, gameId)
+
+                    // report enter
+                    GameStatisticManager.statisticBenefitLog(context, gameId, StatisticEvent.LETO_BENEFITS_PLAY_GAME_CLICK_DOWNLOAD.ordinal,
+                            0, 0, 0, 0, CoinDialogScene.getBenefitTypeByScene(CoinDialogScene.PLAY_APK_GAME), id)
                 }
                 STATE_DOWNLOADING ->{
                     btn_action.setProgressText("",btn_action.progress)
@@ -44,10 +52,18 @@ class GameListItem(
                     LeBoxSpUtil.saveString(packName,packName)
 
                     context.installApk(File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path, packName))
+
+                    // report enter
+                    GameStatisticManager.statisticBenefitLog(context, gameId, StatisticEvent.LETO_BENEFITS_PLAY_GAME_INSTALL.ordinal,
+                            0, 0, 0, 0, CoinDialogScene.getBenefitTypeByScene(CoinDialogScene.PLAY_APK_GAME), id)
                 }
                 STATE_FAILED->{
                     btn_action.setCurrentText(context.getString(R.string.retry_text))
-                    download(context,btn_action)
+                    download(context,btn_action, gameId)
+
+                    // report enter
+                    GameStatisticManager.statisticBenefitLog(context, gameId, StatisticEvent.LETO_BENEFITS_PLAY_GAME_CLICK_DOWNLOAD.ordinal,
+                            0, 0, 0, 0, CoinDialogScene.getBenefitTypeByScene(CoinDialogScene.PLAY_APK_GAME), id)
                 }
                 else ->{
                     btn_action.setCurrentText(context.getString(R.string.open_text))
@@ -55,9 +71,18 @@ class GameListItem(
                     val packageManager: PackageManager = context.getPackageManager()
                     var intent  = packageManager.getLaunchIntentForPackage(packName)
                     if (intent == null) {
-                        download(context,btn_action)
+                        download(context,btn_action, gameId)
+
+                        // report enter
+                        GameStatisticManager.statisticBenefitLog(context, gameId, StatisticEvent.LETO_BENEFITS_PLAY_GAME_CLICK_DOWNLOAD.ordinal,
+                                0, 0, 0, 0, CoinDialogScene.getBenefitTypeByScene(CoinDialogScene.PLAY_APK_GAME), id)
+
                     } else {
                         context.startActivity(intent)
+
+                        // report enter
+                        GameStatisticManager.statisticBenefitLog(context, gameId, StatisticEvent.LETO_BENEFITS_PLAY_GAME_OPEN_APP.ordinal,
+                                0, 0, 0, 0, CoinDialogScene.getBenefitTypeByScene(CoinDialogScene.PLAY_APK_GAME), id)
                     }
                 }
             }
@@ -65,7 +90,7 @@ class GameListItem(
 
 
     }
-    fun download(context: Activity,btn_action: DownloadProgressButton){
+    fun download(context: Activity,btn_action: DownloadProgressButton, gameId: String){
         DownloadUtil().download(url,packName,object :DownloadUtil.OnDownloadListener{
             override fun onDownloading(progress: Int) {
                 context.runOnUiThread {
@@ -88,7 +113,15 @@ class GameListItem(
                     btn_action.state = STATE_FINISH
                     btn_action.setCurrentText(context.getString(R.string.install_text))
                     LeBoxSpUtil.saveString(packName,packName)
+
+                    // report enter
+                    GameStatisticManager.statisticBenefitLog(context, gameId, StatisticEvent.LETO_BENEFITS_PLAY_GAME_DOWNLOAD_FINISH.ordinal,
+                            0, 0, 0, 0, CoinDialogScene.getBenefitTypeByScene(CoinDialogScene.PLAY_APK_GAME), id)
+
                     context.installApk(file)
+
+                    GameStatisticManager.statisticBenefitLog(context, gameId, StatisticEvent.LETO_BENEFITS_PLAY_GAME_INSTALL.ordinal,
+                            0, 0, 0, 0, CoinDialogScene.getBenefitTypeByScene(CoinDialogScene.PLAY_APK_GAME), id)
                 }
             }
 
