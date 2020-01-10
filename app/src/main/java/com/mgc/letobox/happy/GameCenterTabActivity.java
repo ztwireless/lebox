@@ -355,9 +355,9 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         // switch fragment
         if (null != curFragment) {
             //fragmentTransaction.hide(curFragment).show(fragment).replace(R.id.container, fragment).commit();
-            fragmentTransaction.hide(curFragment).show(fragment).commit();
+            fragmentTransaction.hide(curFragment).show(fragment).commitAllowingStateLoss();
         } else {
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
         }
 
         curFragment = fragment;
@@ -419,6 +419,10 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
 
 
     private void showTaskDialog(final List<TaskResultBean> taskBeans, final int pos, final int action) {
+        if(this.isFinishing()){
+            return;
+        }
+
         MGCDialogUtil.showMGCCoinDialogWithOrderId(this, null, taskBeans.get(pos).getAward_coins(), 1, CoinDialogScene.ROOKIE_TASK,
             taskBeans.get(pos).getChannel_task_id(), new IMGCCoinDialogListener() {
                 @Override

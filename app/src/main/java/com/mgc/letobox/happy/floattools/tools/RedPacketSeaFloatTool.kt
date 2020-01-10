@@ -24,19 +24,19 @@ class RedPacketSeaFloatTool(activity: Activity, gameId: String, val hbrainConfig
 
     override fun isGameEnabled(): Boolean {
         if (TEST_ENV) return true
-        if (hbrainConfig.is_open == 1 && hbrainConfig.game_ids != null) {
+        if (hbrainConfig != null && hbrainConfig.is_open == 1 && hbrainConfig.game_ids != null) {
             return hbrainConfig.game_ids.contains(gameId)
         }
         return false
     }
 
     override fun show(activity: Activity) {
-        FloatViewManager.getInstance().showRedPacket(wrActivity.get(), hbrainConfig.default_x, hbrainConfig.default_y)
-        // 更新view
-
+        if (hbrainConfig != null && wrActivity.get() != null) {
+            FloatViewManager.getInstance().showRedPacket(wrActivity.get(), hbrainConfig.default_x, hbrainConfig.default_y)
+        }
     }
 
-    private var timer : Timer? = null
+    private var timer: Timer? = null
     private val timerTask: TimerTask = object : TimerTask() {
         override fun run() {
             updateText()
@@ -48,13 +48,15 @@ class RedPacketSeaFloatTool(activity: Activity, gameId: String, val hbrainConfig
         val restTime = hbrainConfig.cooling_time * 1000 - (System.currentTimeMillis() - lastTime)
         val playTimes = LeBoxSpUtil.todayHbrainTimes(gameId)
         val text = when {
-            playTimes >= hbrainConfig.create_max_times -> wrActivity.get()?.resources?.getString(R.string.hbrain_rest_times_format, 0) ?: ""
+            playTimes >= hbrainConfig.create_max_times -> wrActivity.get()?.resources?.getString(R.string.hbrain_rest_times_format, 0)
+                    ?: ""
             restTime > 0 -> formatRestTime(restTime)
             else -> {
                 // 剩余次数
                 val restTimes = (hbrainConfig.create_max_times - playTimes).coerceAtLeast(0)
 
-                wrActivity.get()?.resources?.getString(R.string.hbrain_rest_times_format, restTimes) ?: ""
+                wrActivity.get()?.resources?.getString(R.string.hbrain_rest_times_format, restTimes)
+                        ?: ""
             }
         }
         wrActivity.get()?.runOnUiThread {
@@ -77,6 +79,7 @@ class RedPacketSeaFloatTool(activity: Activity, gameId: String, val hbrainConfig
         val redPacketSea: FloatRedPacketSea = FloatViewManager.getInstance().getRedPacket(wrActivity.get(), hbrainConfig.default_x, hbrainConfig.default_y)
         // 更新view
         timer?.cancel()
+        timer?.purge()
         timer = Timer()
         timer?.schedule(timerTask, 0, 1000)
 
@@ -122,8 +125,10 @@ class RedPacketSeaFloatTool(activity: Activity, gameId: String, val hbrainConfig
 
     override fun clean() {
         super.clean()
-        FloatViewManager.getInstance().removeRedPacketView(wrActivity.get())
         timer?.cancel()
+        timer?.purge()
         timer = null
+        FloatViewManager.getInstance().removeRedPacketView(wrActivity.get())
+
     }
 }
