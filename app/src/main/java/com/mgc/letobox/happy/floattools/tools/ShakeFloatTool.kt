@@ -32,7 +32,7 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Benefi
 
     override fun isGameEnabled(): Boolean {
         if (TEST_ENV) return true
-        if (shakeConfig.is_open == 1 && shakeConfig.game_ids != null) {
+        if (shakeConfig != null && shakeConfig.is_open == 1 && shakeConfig.game_ids != null) {
             return shakeConfig.game_ids.contains(gameId)
         }
         return false
@@ -47,7 +47,9 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Benefi
 
     override fun show(activity: Activity) {
         val shake = shakeConfig
-        FloatViewManager.getInstance().showShakeShake(activity, shake.default_x, shake.default_y)
+        if (shake != null && activity != null) {
+            FloatViewManager.getInstance().showShakeShake(activity, shake.default_x, shake.default_y)
+        }
     }
 
     override fun clean() {
@@ -90,7 +92,7 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Benefi
     }
 
     private fun triggerJSShakeAwardEvent(activity: Activity, awardId: String) {
-        if(activity is ILetoContainer) {
+        if (activity is ILetoContainer) {
             activity.notifyServiceSubscribeHandler("onAppShakeAward", String.format("{\"award_id\": \"%s\"}", awardId), 0)
         }
     }

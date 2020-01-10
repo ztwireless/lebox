@@ -33,6 +33,7 @@ import com.leto.game.base.ad.IAdListener;
 import com.leto.game.base.ad.bean.AdConfig;
 import com.leto.game.base.bean.LoginResultBean;
 import com.leto.game.base.db.LoginControl;
+import com.leto.game.base.event.ShowRookieGiftEvent;
 import com.leto.game.base.http.HttpCallbackDecode;
 import com.leto.game.base.http.SdkConstant;
 import com.leto.game.base.listener.IJumpListener;
@@ -44,6 +45,8 @@ import com.leto.game.base.util.DeviceUtil;
 import com.leto.game.base.util.GameUtil;
 import com.mgc.letobox.happy.model.SharedData;
 import com.mgc.letobox.happy.util.LeBoxSpUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -109,6 +112,14 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
 
                             @Override
                             public void onLaunched() {
+                                // 如果新手红包可用, 发送一个事件让leto activity显示新手红包
+                                if (MGCSharedModel.isRookieGiftAvailable()) {
+                                    ShowRookieGiftEvent e = new ShowRookieGiftEvent();
+                                    e.appId = _gameId;
+                                    EventBus.getDefault().postSticky(e);
+                                }
+
+                                // 结束自己
                                 finish();
                             }
 
@@ -388,6 +399,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
         if (requestCode == REQUEST_CHECK_PERMISSION) {
+            // try start main
             _permissionInited = true;
             startMain(false);
         }

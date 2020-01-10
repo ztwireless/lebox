@@ -21,7 +21,7 @@ class BubbleFloatTool(activity: Activity, gameId: String, val bubbleConfig: Bene
     private val TAG = BubbleFloatTool::class.java.simpleName
     override fun isGameEnabled(): Boolean {
         if (TEST_ENV) return true
-        if (bubbleConfig.is_open == 1 && bubbleConfig.game_ids != null) {
+        if (bubbleConfig != null && bubbleConfig.is_open == 1 && bubbleConfig.game_ids != null) {
             return bubbleConfig.game_ids.contains(gameId)
         }
         return false
@@ -31,12 +31,13 @@ class BubbleFloatTool(activity: Activity, gameId: String, val bubbleConfig: Bene
 
     override fun init() {
         Log.i(TAG, "init")
-        if (bubbleConfig.create_interval <= 0 || wrActivity.get() == null) return
+        if (bubbleConfig==null || bubbleConfig.create_interval <= 0 || wrActivity.get() == null) return
         val activity = wrActivity.get()!!
 
         val onBubbleClickListener: OnClickListener? = obtainBubbleClickListener(activity, bubbleConfig)
 
         bubbleTimer?.cancel()
+        bubbleTimer?.purge()
 
         bubbleTimer = Timer()
         bubbleTimer?.schedule(object : TimerTask() {
@@ -63,11 +64,12 @@ class BubbleFloatTool(activity: Activity, gameId: String, val bubbleConfig: Bene
         super.clean()
         FloatViewManager.getInstance().removeAllBubbleViews(wrActivity.get())
         bubbleTimer?.cancel()
+        bubbleTimer?.purge()
         bubbleTimer = null
     }
 
     private fun triggerJSBubbleAwardEvent(activity: Activity, awardId: String) {
-        if(activity is ILetoContainer) {
+        if (activity is ILetoContainer) {
             activity.notifyServiceSubscribeHandler("onAppBubbleAward", String.format("{\"award_id\": \"%s\"}", awardId), 0)
         }
     }
