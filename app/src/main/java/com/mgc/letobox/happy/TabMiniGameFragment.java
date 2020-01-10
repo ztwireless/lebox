@@ -1,7 +1,5 @@
 package com.mgc.letobox.happy;
 
-import android.app.Activity;
-import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Keep;
@@ -17,20 +15,14 @@ import com.ledong.lib.leto.api.ad.MainHandler;
 import com.ledong.lib.leto.api.constant.Constant;
 import com.ledong.lib.leto.listener.ILetoLifecycleListener;
 import com.ledong.lib.leto.main.LetoActivity;
-import com.ledong.lib.leto.mgc.bean.BenefitSettings_rookie;
-import com.ledong.lib.leto.mgc.bean.CoinDialogScene;
-import com.ledong.lib.leto.mgc.dialog.IMGCCoinDialogListener;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
-import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
 import com.ledong.lib.leto.widget.ClickGuard;
 import com.ledong.lib.minigame.GameCenterHomeFragment;
 import com.ledong.lib.minigame.SearchActivity;
-import com.ledong.lib.minigame.view.RookieGuideView;
-import com.leto.game.base.event.GetCoinEvent;
-import com.leto.game.base.statistic.GameStatisticManager;
-import com.leto.game.base.statistic.StatisticEvent;
-import com.leto.game.base.util.IntentConstant;
 import com.ledong.lib.minigame.event.HideTitleEvent;
+import com.ledong.lib.minigame.view.RookieGuideView;
+import com.leto.game.base.event.ShowRookieGiftEvent;
+import com.leto.game.base.util.IntentConstant;
 import com.mgc.letobox.happy.event.ShowBackEvent;
 import com.mgc.letobox.happy.event.ShowRookieGuideEvent;
 import com.mgc.letobox.happy.event.TabSwitchEvent;
@@ -242,22 +234,6 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
         }
     }
 
-    private void showCoinDialog(Activity act) {
-        final BenefitSettings_rookie rookie = MGCSharedModel.benefitSettings.getNewmemhb();
-        MGCDialogUtil.showMGCCoinDialog(act, null, rookie.getAdd_coins(), 1, CoinDialogScene.ROOKIE_GIFT, new IMGCCoinDialogListener() {
-            @Override
-            public void onExit(boolean video, int coinGot) {
-                // 在这里把rookie设置里面的isopen设置为false表示已经领过
-                if (coinGot > 0) {
-                    rookie.setIs_open(0);
-
-                    // trigger a event to update coins in other ui
-                    EventBus.getDefault().post(new GetCoinEvent());
-                }
-            }
-        });
-    }
-
     private void fixRookieGuideViewIfNeeded() {
         if (RookieGuideView.hasActive()) {
             // 计算新的中心
@@ -300,18 +276,9 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
     public void onLetoAppShown(final LetoActivity activity, String appId) {
         // 如果是引导等待的游戏, 显示新手红包
         if (MGCSharedModel.isRookieGiftAvailable()) {
-
-            //点击上报
-            GameStatisticManager.statisticBenefitLog(activity, appId, StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal(),0, 0, 0, 0, Constant.BENEFITS_TYPE_NEWMEM_HB, 0);
-
-            MGCDialogUtil.showRookieGiftDialog(activity, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (which == DialogInterface.BUTTON_POSITIVE) {
-                        showCoinDialog(activity);
-                    }
-                }
-            });
+            ShowRookieGiftEvent e = new ShowRookieGiftEvent();
+            e.appId = appId;
+            EventBus.getDefault().postSticky(e);
         }
 
         // remove rookie guide view

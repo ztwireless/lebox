@@ -23,10 +23,10 @@
             android:id="@+id/rl_status"
             android:visibility="gone"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="4dp"
-            android:layout_centerHorizontal="true"
-            android:layout_width="100dp"
-            android:layout_height="34dp">
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="60dp"
+            android:layout_width="103dp"
+            android:layout_height="33dp">
             <ImageView
                 android:id="@+id/iv_bg"
                 android:background="@drawable/playgame_banner_bt"
@@ -34,8 +34,8 @@
                 android:layout_height="wrap_content"/>
             <ImageView
                 android:id="@+id/iv_status"
-                android:layout_marginTop="7dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_centerHorizontal="true"
                 android:background="@drawable/playgame_banner_get"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
