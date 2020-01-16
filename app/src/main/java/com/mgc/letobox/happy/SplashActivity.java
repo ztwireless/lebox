@@ -33,6 +33,7 @@ import com.leto.game.base.ad.IAdListener;
 import com.leto.game.base.ad.bean.AdConfig;
 import com.leto.game.base.bean.LoginResultBean;
 import com.leto.game.base.db.LoginControl;
+import com.leto.game.base.event.ShowProvicyEvent;
 import com.leto.game.base.event.ShowRookieGiftEvent;
 import com.leto.game.base.http.HttpCallbackDecode;
 import com.leto.game.base.http.SdkConstant;
@@ -116,6 +117,12 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
                                 if (MGCSharedModel.isRookieGiftAvailable()) {
                                     ShowRookieGiftEvent e = new ShowRookieGiftEvent();
                                     e.appId = _gameId;
+                                    EventBus.getDefault().postSticky(e);
+                                }
+
+                                // 如果显示隐私协议, 发送一个事件让leto activity显示相应对话框
+                                if (MGCSharedModel.isShowPrivacy) {
+                                    ShowProvicyEvent e = new ShowProvicyEvent();
                                     EventBus.getDefault().postSticky(e);
                                 }
 

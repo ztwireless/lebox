@@ -19,6 +19,7 @@ import com.ledong.lib.leto.mgc.util.MGCApiUtil;
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
 import com.ledong.lib.leto.trace.LetoTrace;
 import com.ledong.lib.leto.widget.ClickGuard;
+import com.leto.game.base.dialog.PrivacyWebDialog;
 import com.leto.game.base.http.HttpCallbackDecode;
 import com.leto.game.base.login.LoginManager;
 import com.leto.game.base.statistic.GameStatisticManager;
@@ -28,7 +29,6 @@ import com.leto.game.base.util.MResource;
 import com.leto.game.base.util.StorageUtil;
 import com.leto.game.base.util.ToastUtil;
 import com.leto.game.base.view.SwitchButtonO;
-import com.mgc.letobox.happy.dialog.PrivacyWebDialog;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
 
 

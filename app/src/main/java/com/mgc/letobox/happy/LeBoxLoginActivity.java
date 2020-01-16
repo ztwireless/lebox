@@ -181,12 +181,12 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
 
 	@Override
 	public void onError(SHARE_MEDIA share_media, int i, Throwable t) {
-		Toast.makeText(LeBoxLoginActivity.this, "失败：" + t.getMessage(), Toast.LENGTH_LONG).show();
+		ToastUtil.s(LeBoxLoginActivity.this, "失败：" + t.getMessage());
 	}
 
 	@Override
 	public void onCancel(SHARE_MEDIA share_media, int i) {
-		Toast.makeText(LeBoxLoginActivity.this, "取消了", Toast.LENGTH_LONG).show();
+		ToastUtil.s(LeBoxLoginActivity.this, "取消了");
 	}
 
 	@Override
@@ -199,6 +199,6 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
 	@Override
 	public void onFail(String code, String message) {
 		DialogUtil.dismissDialog();
-		Toast.makeText(LeBoxLoginActivity.this, "账号刷新失败, 请重试", Toast.LENGTH_LONG).show();
+		ToastUtil.s(LeBoxLoginActivity.this, "账号刷新失败, 请重试");
 	}
 }
