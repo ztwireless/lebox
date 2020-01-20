@@ -87,7 +87,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="mgc.game.box"
-                    android:host="mgc.com"/>
+                    android:host="${applicationId}"/>
             </intent-filter>
         </activity>
 
