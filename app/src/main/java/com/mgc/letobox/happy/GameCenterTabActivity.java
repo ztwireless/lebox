@@ -107,8 +107,15 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
 
     VersionDialog mVersionDialog;
 
+    private static final String BUNDLE_FRAGMENTS_KEY = "android:support:fragments";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            //重建时清除 fragment的状态
+            savedInstanceState.remove(BUNDLE_FRAGMENTS_KEY);
+        }
+
         super.onCreate(savedInstanceState);
 
         // init
@@ -211,6 +218,14 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         getVersion();
 
         getPrivacy_content();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);  //不保存Bundle数据
+        if (outState != null) {//存在Bundle数据,去除fragments的状态保存，解决Fragme错乱问题。
+            outState.remove(BUNDLE_FRAGMENTS_KEY);
+        }
     }
 
     @Override
@@ -355,6 +370,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         } else {
             fragmentTransaction.commitAllowingStateLoss();
         }
+        getSupportFragmentManager().executePendingTransactions();
 
         curFragment = fragment;
     }
