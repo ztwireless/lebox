@@ -136,6 +136,7 @@ public class FloatToolsCenter {
                     }
                     // 展示视频广告
                     ApiContainer apiContainer = new ApiContainer(context);
+                    apiContainer.setVideoScene(Constant.PLAY_VIDEO_SCENE_GIFT_RAIN_BEFORE);
                     apiContainer.showVideo(new ApiContainer.IApiResultListener() {
                         @Override
                         public void onApiSuccess(ApiContainer.ApiName n, Object data) {
