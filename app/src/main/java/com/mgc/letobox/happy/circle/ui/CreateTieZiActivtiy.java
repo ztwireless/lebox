@@ -286,7 +286,7 @@ public class CreateTieZiActivtiy extends AppCompatActivity implements View.OnCli
             if (MgctUtil.haveSDCard()) {
                 crop(Uri.fromFile(tempFile));
             } else {
-                Toast.makeText(this, "未找到存储卡，无法存储照片！", Toast.LENGTH_SHORT).show();
+                ToastUtil.s(this, "未找到存储卡，无法存储照片！");
             }
 
         } else if (requestCode == PHOTO_REQUEST_CUT) {

@@ -33,6 +33,7 @@ import com.leto.game.base.ad.IAdListener;
 import com.leto.game.base.ad.bean.AdConfig;
 import com.leto.game.base.bean.LoginResultBean;
 import com.leto.game.base.db.LoginControl;
+import com.leto.game.base.event.ShowProvicyEvent;
 import com.leto.game.base.event.ShowRookieGiftEvent;
 import com.leto.game.base.http.HttpCallbackDecode;
 import com.leto.game.base.http.SdkConstant;
@@ -119,6 +120,12 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
                                     EventBus.getDefault().postSticky(e);
                                 }
 
+                                // 如果显示隐私协议, 发送一个事件让leto activity显示相应对话框
+                                if (MGCSharedModel.isShowPrivacy) {
+                                    ShowProvicyEvent e = new ShowProvicyEvent();
+                                    EventBus.getDefault().postSticky(e);
+                                }
+
                                 // 结束自己
                                 finish();
                             }
@@ -188,13 +195,16 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
     }
 
     private void prefetchGameCenter() {
+
         SharedData.MGC_HOME_TAB_ID = BaseAppUtil.getMetaIntValue(this, "MGC_HOME_TAB_ID");
         SharedData.MGC_RANK_TAB_ID = BaseAppUtil.getMetaIntValue(this, "MGC_RANK_TAB_ID");
         SharedData.MGC_CHALLENGE_TAB_ID = BaseAppUtil.getMetaIntValue(this, "MGC_CHALLENGE_TAB_ID");
         PrefetchCache.getInstance().prefetchGameCenter(this, SharedData.MGC_HOME_TAB_ID, 1, null);
         PrefetchCache.getInstance().prefetchGameCenter(this, SharedData.MGC_RANK_TAB_ID, 0, null);
         PrefetchCache.getInstance().prefetchGameCenter(this, SharedData.MGC_CHALLENGE_TAB_ID, 1, null);
+
     }
+
 
     @Override
     protected void onResume() {

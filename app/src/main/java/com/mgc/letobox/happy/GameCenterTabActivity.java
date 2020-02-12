@@ -29,12 +29,9 @@ import com.ledong.lib.leto.Leto;
 import com.ledong.lib.leto.api.ApiContainer;
 import com.ledong.lib.leto.listener.ILetoPlayedDurationListener;
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene;
-import com.ledong.lib.leto.mgc.bean.GetPrivacyContentResultBean;
 import com.ledong.lib.leto.mgc.dialog.IMGCCoinDialogListener;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
-import com.ledong.lib.leto.mgc.util.MGCApiUtil;
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
-import com.ledong.lib.leto.trace.LetoTrace;
 import com.ledong.lib.minigame.bean.TabBean;
 import com.leto.game.base.ad.AdManager;
 import com.leto.game.base.db.LoginControl;
@@ -49,7 +46,6 @@ import com.leto.game.base.util.PermissionsUtil;
 import com.leto.game.base.util.StatusBarUtil;
 import com.mgc.letobox.happy.bean.VersionRequestBean;
 import com.mgc.letobox.happy.bean.VersionResultBean;
-import com.mgc.letobox.happy.dialog.PrivacyWebDialog;
 import com.mgc.letobox.happy.dialog.VersionDialog;
 import com.mgc.letobox.happy.event.NewerTaskRefreshEvent;
 import com.mgc.letobox.happy.event.ShowRookieGuideEvent;
@@ -111,8 +107,15 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
 
     VersionDialog mVersionDialog;
 
+    private static final String BUNDLE_FRAGMENTS_KEY = "android:support:fragments";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            //重建时清除 fragment的状态
+            savedInstanceState.remove(BUNDLE_FRAGMENTS_KEY);
+        }
+
         super.onCreate(savedInstanceState);
 
         // init
@@ -215,6 +218,14 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         getVersion();
 
         getPrivacy_content();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);  //不保存Bundle数据
+        if (outState != null) {//存在Bundle数据,去除fragments的状态保存，解决Fragme错乱问题。
+            outState.remove(BUNDLE_FRAGMENTS_KEY);
+        }
     }
 
     @Override
@@ -359,6 +370,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         } else {
             fragmentTransaction.commitAllowingStateLoss();
         }
+        getSupportFragmentManager().executePendingTransactions();
 
         curFragment = fragment;
     }
@@ -541,26 +553,9 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         return versionName;
     }
 
-
     public void getPrivacy_content() {
-        if (MGCSharedModel.isShowPrivacy) {
-            if (LoginControl.getPrivateShowStatus()) {
-                MGCApiUtil.getPrivacyContent(GameCenterTabActivity.this, new HttpCallbackDecode<GetPrivacyContentResultBean>(this, null) {
-                    @Override
-                    public void onDataSuccess(final GetPrivacyContentResultBean data) {
-                        LetoTrace.d(TAG, "data =" + new Gson().toJson(data));
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                PrivacyWebDialog.show(GameCenterTabActivity.this, data.getInfo(), true);
-                            }
-                        });
-                    }
-                });
-            } else {
-            }
-        } else {
-        }
+
+        MGCDialogUtil.showPrivacyContent(this);
     }
 
     private void showRookieGuideIfNeeded() {

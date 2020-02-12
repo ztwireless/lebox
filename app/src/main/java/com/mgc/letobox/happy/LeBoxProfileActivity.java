@@ -39,6 +39,7 @@ import com.leto.game.base.util.BaseAppUtil;
 import com.leto.game.base.util.ColorUtil;
 import com.leto.game.base.util.MResource;
 import com.leto.game.base.util.StatusBarUtil;
+import com.leto.game.base.util.ToastUtil;
 import com.mgc.letobox.happy.dialog.InputDialog;
 import com.mgc.letobox.happy.imagepicker.ImagePickerCallback;
 import com.mgc.letobox.happy.imagepicker.LetoImagePicker;
@@ -164,7 +165,7 @@ public class LeBoxProfileActivity extends BaseActivity implements ActionSheet.Ac
 
 								@Override
 								public void onFail(String code, String message) {
-									Toast.makeText(LeBoxProfileActivity.this, "退出登录失败", Toast.LENGTH_LONG).show();
+									ToastUtil.s(LeBoxProfileActivity.this, "退出登录失败");
 								}
 							});
 						}

@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.leto.game.base.util.ToastUtil;
 import com.mgc.letobox.happy.imagepicker.cropimage.gallery.IImage;
 import com.mgc.letobox.happy.imagepicker.cropimage.gallery.IImageList;
 import static com.mgc.letobox.happy.imagepicker.cropimage.Strings.*;
@@ -582,10 +583,8 @@ public class CropImage extends MonitoredActivity {
                     }
 
                     if (mNumFaces > 1) {
-                        Toast t = Toast.makeText(CropImage.this,
-                                L("multiface_crop_help"),
-                                Toast.LENGTH_SHORT);
-                        t.show();
+                        ToastUtil.s(CropImage.this,
+                                L("multiface_crop_help"));
                     }
                 }
             });

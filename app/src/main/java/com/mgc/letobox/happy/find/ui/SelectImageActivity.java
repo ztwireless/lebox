@@ -191,7 +191,7 @@ public class SelectImageActivity extends AppCompatActivity implements View.OnCli
 
         // 没有挂载SD卡，无法保存文件
         if (TextUtils.isEmpty(savePath)) {
-            Toast.makeText(this, "无法保存照片，请检查SD卡是否挂载", Toast.LENGTH_LONG).show();
+            ToastUtil.s(this, "无法保存照片，请检查SD卡是否挂载");
             return;
         }
 

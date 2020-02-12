@@ -11,8 +11,11 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import com.ledong.lib.leto.api.ApiContainer
+import com.ledong.lib.leto.api.constant.Constant
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil
+import com.leto.game.base.statistic.GameStatisticManager
+import com.leto.game.base.statistic.StatisticEvent
 import com.mgc.letobox.happy.R
 import com.mgc.letobox.happy.R.drawable
 import com.mgc.letobox.happy.floattools.drawables.Model
@@ -129,6 +132,10 @@ class RedPacketSeaFragment : Fragment() {
 
     private fun timeUp() {
         if (!activity.isFinishing) {
+
+            //红包雨结束时，显示红包上报
+            GameStatisticManager.statisticBenefitLog(activity, gameId, StatisticEvent.LETO_BENEFITS_GIFT_RAIN_SHOW_COIN_DIALOG.ordinal, 0, 0, 0, 0, Constant.BENEFITS_TYPE_GIFT_RAIN, 0)
+
             MGCDialogUtil.showRedEnvelopesDialog(activity, coinCount, coinMultiple, CoinDialogScene.GIFT_RAIN) { p0, p1 ->
                 Log.i(TAG, "gameId coinCount $gameId $coinCount")
                 LeBoxSpUtil.hbrainOnce(gameId)
