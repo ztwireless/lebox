@@ -370,6 +370,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         } else {
             fragmentTransaction.commitAllowingStateLoss();
         }
+        getSupportFragmentManager().executePendingTransactions();
 
         curFragment = fragment;
     }
