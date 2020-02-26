@@ -290,7 +290,11 @@ public class DownloadProgressButton extends TextView {
                 canvas.drawText(mCurrentText.toString(), (getMeasuredWidth() - textWidth) / 2, y, mTextPaint);
                 drawLoadingBall(canvas);
                 break;
-
+            case STATE_FAILED:
+                mTextPaint.setShader(null);
+                mTextPaint.setColor(mTextCoverColor);
+                canvas.drawText(mCurrentText.toString(), (getMeasuredWidth() - textWidth) / 2, y, mTextPaint);
+                break;
         }
 
     }

@@ -117,7 +117,7 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Benefi
 
         LeBoxUtil.getShakeResult(activity, gameId, object : HttpCallbackDecode<ShakeResultBean>(activity, null) {
             override fun onDataSuccess(shakeData: ShakeResultBean?) {
-                activity.runOnUiThread {
+                activity?.runOnUiThread {
                     try {
                         if (shakeData == null) {
                             if (!AdPreloader.isInterstitialPreloaded()) {

@@ -34,6 +34,10 @@ public class ImagePickerActivity extends Activity {
 			intent.setType("image/*");
 			startActivityForResult(intent, REQ_SELECT_PHOTO);
 		} else {
+			if(_imagePicker._destFile == null){
+				finish();
+				return;
+			}
 			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 			intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);

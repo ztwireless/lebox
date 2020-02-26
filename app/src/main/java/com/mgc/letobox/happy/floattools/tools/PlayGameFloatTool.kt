@@ -96,7 +96,7 @@ class PlayGameFloatTool(activity: Activity, gameId: String, val palygameConfig: 
                 val json = Gson().toJson(playgameResult)
                 LeBoxSpUtil.saveString(LoginManager.getUserId(activity), json);
                 if (!isEnter) {
-                    activity.runOnUiThread {
+                    activity?.runOnUiThread {
                         if (playgameResult == null) {
                             ToastUtil.s(activity, "获取数据失败")
                             return@runOnUiThread

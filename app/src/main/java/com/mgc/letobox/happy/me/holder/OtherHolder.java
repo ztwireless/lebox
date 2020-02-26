@@ -72,7 +72,7 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
                 MGCDialogUtil.showClearCacheDialog(_ctx, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(which == DialogInterface.BUTTON_POSITIVE) {
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
                             try {
                                 // clear
                                 StorageUtil.clearCache(_ctx);
@@ -86,7 +86,7 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
 
                                 // report
                                 report(StatisticEvent.LETO_COIN_GAMECENTER_CLEAR.ordinal());
-                            } catch (Exception e){
+                            } catch (Exception e) {
                             }
                         }
                     }
@@ -120,7 +120,7 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
             public boolean onClicked() {
                 Context ctx = itemView.getContext();
                 ClipboardManager clipboardManager = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
-                if(clipboardManager != null) {
+                if (clipboardManager != null) {
                     ClipData clipData = ClipData.newPlainText("wechat", MGCSharedModel.customerServiceWechat);
                     clipboardManager.setPrimaryClip(clipData);
                     ToastUtil.s(ctx, "客服微信号已拷贝到剪贴板");
@@ -130,7 +130,7 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
         });
 
         // privacy show
-		_agreemeView.setVisibility(MGCSharedModel.isShowPrivacy ? View.VISIBLE : View.GONE);
+        _agreemeView.setVisibility(MGCSharedModel.isShowPrivacy ? View.VISIBLE : View.GONE);
 
         // privacy click
         _agreemeView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
@@ -140,12 +140,18 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
                     @Override
                     public void onDataSuccess(final GetPrivacyContentResultBean data) {
                         LetoTrace.d("Leto", "data =" + new Gson().toJson(data));
-                        ((Activity)_ctx).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                PrivacyWebDialog.show((Activity) _ctx, data.getInfo() == null?"协议内容需要在后台配置!":data.getInfo(), false);
+                        try {
+                            if (_ctx != null) {
+                                ((Activity) _ctx).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        PrivacyWebDialog.show((Activity) _ctx, data.getInfo() == null ? "协议内容需要在后台配置!" : data.getInfo(), false);
+                                    }
+                                });
                             }
-                        });
+                        } catch (Throwable e) {
+
+                        }
                     }
                 });
                 return true;
@@ -162,11 +168,12 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
         // wechat label
         _wechatLabel.setText(MGCSharedModel.customerServiceWechat);
     }
+
     /**
      * 上报事件
      */
     private void report(int event) {
-        if(_appConfig != null) {
+        if (_appConfig != null) {
             GameStatisticManager.statisticCoinLog(_ctx, _appConfig.getAppId(), event, _appConfig.getClientKey(),
                     _appConfig.getPackageType(), _appConfig.getMgcGameVersion(), MGCSharedModel.shouldShowCoinFloat(_ctx), 0, 0, 0, _appConfig.getCompact(), 0);
         }

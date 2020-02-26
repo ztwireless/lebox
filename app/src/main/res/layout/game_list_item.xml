@@ -40,11 +40,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:layout_marginTop="3dp"
-
         android:layout_toEndOf="@id/game_icon"
         android:layout_below="@id/game_name"
         android:ellipsize="end"
         android:textSize="11sp"
+        android:textColor="@color/mgc_sdk_text_lowgray"
         android:maxWidth="130dp"
         android:maxLines="1"
         tools:text="TextView" />

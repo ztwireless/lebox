@@ -5,6 +5,7 @@ import android.graphics.Point
 import android.util.Log
 import android.view.View.OnClickListener
 import com.ledong.lib.leto.api.constant.Constant
+import com.ledong.lib.leto.api.mgc.RedPackRequest
 import com.ledong.lib.leto.interfaces.ILetoContainer
 import com.ledong.lib.leto.mgc.bean.BenefitSettings_bubble
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene
@@ -31,7 +32,7 @@ class BubbleFloatTool(activity: Activity, gameId: String, val bubbleConfig: Bene
 
     override fun init() {
         Log.i(TAG, "init")
-        if (bubbleConfig==null || bubbleConfig.create_interval <= 0 || wrActivity.get() == null) return
+        if (bubbleConfig == null || bubbleConfig.create_interval <= 0 || wrActivity.get() == null) return
         val activity = wrActivity.get()!!
 
         val onBubbleClickListener: OnClickListener? = obtainBubbleClickListener(activity, bubbleConfig)
@@ -45,7 +46,7 @@ class BubbleFloatTool(activity: Activity, gameId: String, val bubbleConfig: Bene
                 if (activity.isFinishing) return
                 val position: Point = randomPointIn(activity, bubbleConfig.left_upper, bubbleConfig.left_lower, bubbleConfig.right_upper, bubbleConfig.right_lower)
                 val count = randomIn(bubbleConfig.min_coins, bubbleConfig.max_coins)
-                activity.runOnUiThread {
+                activity?.runOnUiThread {
                     if (FloatViewManager.getInstance().bubbleCount < bubbleConfig.screen_max_times
                             && LeBoxSpUtil.todayBubbleTimes(gameId) < bubbleConfig.create_max_times) {
                         FloatViewManager.getInstance().addBubble(activity, count, position.x, position.y, onBubbleClickListener)
@@ -82,7 +83,20 @@ class BubbleFloatTool(activity: Activity, gameId: String, val bubbleConfig: Bene
                 GameStatisticManager.statisticBenefitLog(activity, gameId, StatisticEvent.LETO_BENEFITS_ENTER_CLICK.ordinal, 0, 0, 0, 0, Constant.BENEFITS_TYPE_BUBBLE, 0)
 
                 FloatViewManager.getInstance().removeBubbleView(activity, view.bubbleId)
-                MGCDialogUtil.showMGCCoinDialog(activity, "", view.coinCount, bubble.coins_multiple, CoinDialogScene.BUBBLE, null)
+
+                // 根据open_ad_type不同
+                if (bubbleConfig.open_ad_type == 1) {
+                    val req = RedPackRequest()
+                    req.mode = RedPackRequest.Mode.BUBBLE
+                    req.redPackId = Int.MAX_VALUE
+                    req.workflow = 1
+                    req.scene = CoinDialogScene.BUBBLE
+                    req.coin = view.coinCount
+                    req.videoRatio = bubble.coins_multiple
+                    MGCDialogUtil.showRedPackDialogForWorkflow1(activity, req)
+                } else {
+                    MGCDialogUtil.showMGCCoinDialog(activity, "", view.coinCount, bubble.coins_multiple, CoinDialogScene.BUBBLE, null)
+                }
             }
         }
     }

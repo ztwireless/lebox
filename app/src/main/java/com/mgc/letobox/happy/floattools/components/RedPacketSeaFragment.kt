@@ -63,32 +63,40 @@ class RedPacketSeaFragment : Fragment() {
     }
 
     private fun goGetRedPacket() {
-        val screenWidth = resources.displayMetrics.widthPixels
-        val screenHeight = resources.displayMetrics.heightPixels
-        val sky = StarrySky(screenWidth, screenHeight)
-        for (i in 0..20) {
-            sky.addRandomStar()
-        }
-        sky.setOnModelOutListener {
-            if (it is Star) {
-                sky.addRandomStar()
-                sky.removeModel(it)
+        try {
+            //判断fragment是否被activity add
+            if(!isAdded){
+                return;
             }
-            if (it is RedPacketModel) {
-                if (it.position.y > sky.height) {
+            val screenWidth = resources.displayMetrics.widthPixels
+            val screenHeight = resources.displayMetrics.heightPixels
+            val sky = StarrySky(screenWidth, screenHeight)
+            for (i in 0..20) {
+                sky.addRandomStar()
+            }
+            sky.setOnModelOutListener {
+                if (it is Star) {
+                    sky.addRandomStar()
                     sky.removeModel(it)
                 }
+                if (it is RedPacketModel) {
+                    if (it.position.y > sky.height) {
+                        sky.removeModel(it)
+                    }
+                }
             }
-        }
-        itemImage!!.setImageDrawable(sky)
-        sky.start()
-        addRedPacketPeriodly(sky, 300L)
-        itemImage!!.setOnTouchListener { v, event ->
-            if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                sky.onTouch(event.x, event.y)
-                true
+            itemImage!!.setImageDrawable(sky)
+            sky.start()
+            addRedPacketPeriodly(sky, 300L)
+            itemImage!!.setOnTouchListener { v, event ->
+                if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+                    sky.onTouch(event.x, event.y)
+                    true
+                }
+                false
             }
-            false
+        }catch (e:Throwable){
+
         }
     }
 

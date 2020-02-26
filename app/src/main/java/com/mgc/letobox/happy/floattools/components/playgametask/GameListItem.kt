@@ -33,7 +33,7 @@ class GameListItem(
     }
 
     fun action(context: Activity,btn_action: DownloadProgressButton, gameId: String) {
-        context.runOnUiThread {
+        context?.runOnUiThread {
 
 
             when(btn_action.state){
@@ -93,7 +93,7 @@ class GameListItem(
     fun download(context: Activity,btn_action: DownloadProgressButton, gameId: String){
         DownloadUtil().download(url,packName,object :DownloadUtil.OnDownloadListener{
             override fun onDownloading(progress: Int) {
-                context.runOnUiThread {
+                context?.runOnUiThread {
                     btn_action.state = STATE_DOWNLOADING
                     btn_action.setProgressText("",progress.toFloat())
                 }
@@ -101,7 +101,7 @@ class GameListItem(
 
             override fun onDownloadFailed() {
                 loge("onDownloadFailed")
-                context.runOnUiThread {
+                context?.runOnUiThread {
                     btn_action.state = STATE_FAILED
                     btn_action.setCurrentText(context.getString(R.string.retry_text))
                 }
@@ -109,7 +109,7 @@ class GameListItem(
 
             override fun onDownloadSuccess(file: File) {
                 loge("onDownloadSuccess " +packName)
-                context.runOnUiThread {
+                context?.runOnUiThread {
                     btn_action.state = STATE_FINISH
                     btn_action.setCurrentText(context.getString(R.string.install_text))
                     LeBoxSpUtil.saveString(packName,packName)
@@ -136,7 +136,7 @@ class GameListItem(
     }
     fun subscribe(btn_action: DownloadProgressButton, context: Activity) {
 //        loge("subscribe "+name +" status "+btn_action.state+"/ "+packName)
-        context.runOnUiThread {
+        context?.runOnUiThread {
             if(packageNames.contains(packName) && !TextUtils.isEmpty(LeBoxSpUtil.getString(packName))){
                 btn_action.state = STATE_OPEN
                 btn_action.setCurrentText(context.getString(R.string.open_text))
