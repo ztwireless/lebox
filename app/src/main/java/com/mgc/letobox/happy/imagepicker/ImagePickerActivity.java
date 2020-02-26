@@ -13,8 +13,8 @@ import com.leto.game.base.provider.LetoFileProvider;
 import com.mgc.letobox.happy.imagepicker.cropimage.CropImageIntentBuilder;
 
 public class ImagePickerActivity extends Activity {
-	private static final int REQ_CAPTURE_IMAGE = 100; 
-	private static final int REQ_CROP_IMAGE = 101; 
+	private static final int REQ_CAPTURE_IMAGE = 100;
+	private static final int REQ_CROP_IMAGE = 101;
 	private static final int REQ_SELECT_PHOTO = 102;
 
 	LetoImagePicker _imagePicker;
@@ -28,12 +28,16 @@ public class ImagePickerActivity extends Activity {
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		
+
 		if(_imagePicker._fromAlbum) {
 			Intent intent = new Intent(Intent.ACTION_PICK);
 			intent.setType("image/*");
 			startActivityForResult(intent, REQ_SELECT_PHOTO);
 		} else {
+			if(_imagePicker._destFile == null){
+				finish();
+				return;
+			}
 			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 			intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
@@ -42,10 +46,10 @@ public class ImagePickerActivity extends Activity {
 			if(_imagePicker._front) {
 				intent.putExtra("android.intent.extras.CAMERA_FACING", CameraInfo.CAMERA_FACING_FRONT);
 			}
-			startActivityForResult(intent, REQ_CAPTURE_IMAGE); 
+			startActivityForResult(intent, REQ_CAPTURE_IMAGE);
 		}
 	}
-	
+
 	private boolean isPNG() {
 		String path = _imagePicker._destFile.getAbsolutePath();
 		int lastDot = path.lastIndexOf('.');
@@ -55,7 +59,7 @@ public class ImagePickerActivity extends Activity {
 			return path.substring(lastDot + 1).equalsIgnoreCase("png");
 		}
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch(requestCode) {
@@ -63,17 +67,17 @@ public class ImagePickerActivity extends Activity {
 				if(resultCode == RESULT_OK) {
 					Uri selectedImage = data.getData();
 					Uri uri = LetoFileProvider.getUriForFile(this, getPackageName() + ".leto.fileprovider", _imagePicker._destFile);
-		            CropImageIntentBuilder cropImage = new CropImageIntentBuilder(_imagePicker._expectedWidth,
-						_imagePicker._expectedHeight, uri);
-		            cropImage.setSourceImage(selectedImage);
-		            if(isPNG()) {
+					CropImageIntentBuilder cropImage = new CropImageIntentBuilder(_imagePicker._expectedWidth,
+							_imagePicker._expectedHeight, uri);
+					cropImage.setSourceImage(selectedImage);
+					if(isPNG()) {
 						cropImage.setOutputFormat(CompressFormat.PNG.toString());
 					}
-		            startActivityForResult(cropImage.getIntent(this), REQ_CROP_IMAGE);
+					startActivityForResult(cropImage.getIntent(this), REQ_CROP_IMAGE);
 				} else {
 					// callback
 					_imagePicker.onImagePickingCancelled();
-					
+
 					// finish self
 					finish();
 				}
@@ -81,21 +85,21 @@ public class ImagePickerActivity extends Activity {
 			case REQ_CAPTURE_IMAGE:
 				if(resultCode == RESULT_OK) {
 					Uri uri = LetoFileProvider.getUriForFile(this, getPackageName() + ".leto.fileprovider", _imagePicker._destFile);
-		            CropImageIntentBuilder cropImage = new CropImageIntentBuilder(_imagePicker._expectedWidth,
-						_imagePicker._expectedHeight, uri);
-		            cropImage.setSourceImage(uri);
-		            if(isPNG()) {
+					CropImageIntentBuilder cropImage = new CropImageIntentBuilder(_imagePicker._expectedWidth,
+							_imagePicker._expectedHeight, uri);
+					cropImage.setSourceImage(uri);
+					if(isPNG()) {
 						cropImage.setOutputFormat(CompressFormat.PNG.toString());
 					}
-		            startActivityForResult(cropImage.getIntent(this), REQ_CROP_IMAGE);
+					startActivityForResult(cropImage.getIntent(this), REQ_CROP_IMAGE);
 				} else {
 					// callback
 					_imagePicker.onImagePickingCancelled();
-					
+
 					// finish self
 					finish();
 				}
-				
+
 				break;
 			case REQ_CROP_IMAGE:
 				if(resultCode == RESULT_OK) {
@@ -103,10 +107,10 @@ public class ImagePickerActivity extends Activity {
 				} else {
 					_imagePicker.onImagePickingCancelled();
 				}
-				
+
 				// finish self
 				finish();
-				
+
 				break;
 			default:
 				super.onActivityResult(requestCode, resultCode, data);
