@@ -34,6 +34,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
 
+        <activity android:name=".LeBoxHighCoinTaskActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
         <activity android:name=".LeBoxLoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
