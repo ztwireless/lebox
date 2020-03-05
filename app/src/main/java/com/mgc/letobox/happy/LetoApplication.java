@@ -7,6 +7,7 @@ import android.support.multidex.MultiDex;
 import com.ledong.lib.leto.Leto;
 import com.ledong.lib.leto.mgc.thirdparty.IAuthRequestListener;
 import com.ledong.lib.leto.mgc.thirdparty.ILetoAuthListener;
+import com.ledong.lib.leto.trace.LetoTrace;
 import com.leto.game.base.util.BaseAppUtil;
 import com.mgc.letobox.happy.floattools.FloatToolsCenter;
 import com.mgc.letobox.happy.util.LeBoxSpUtil;
@@ -22,7 +23,7 @@ public class LetoApplication extends Application {
 
         MultiDex.install(this);
 
-        Leto.setDebugMode(true);
+        LetoTrace.setDebugMode(true);
 
         //SDK 初始化 指定接入渠道
         Leto.init(this);

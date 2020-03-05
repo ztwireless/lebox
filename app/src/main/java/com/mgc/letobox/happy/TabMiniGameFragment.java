@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ledong.lib.leto.Leto;
-import com.ledong.lib.leto.api.ad.MainHandler;
+import com.ledong.lib.leto.utils.MainHandler;
 import com.ledong.lib.leto.api.constant.Constant;
 import com.ledong.lib.leto.listener.ILetoLifecycleListener;
 import com.ledong.lib.leto.main.LetoActivity;

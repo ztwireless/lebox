@@ -48,8 +48,6 @@ class RedPacketSeaFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        redPacketDrawable = resources.getDrawable(drawable.redpacket)
-
         itemImage.setOnClickListener {
             itemImage.setOnClickListener(null)
             val animationDrawable = TitanAnimationDrawable(getResources().getDrawable(drawable.anim_redpacket_time_counter) as AnimationDrawable)
@@ -68,6 +66,9 @@ class RedPacketSeaFragment : Fragment() {
             if(!isAdded){
                 return;
             }
+
+            redPacketDrawable = resources.getDrawable(drawable.redpacket)
+
             val screenWidth = resources.displayMetrics.widthPixels
             val screenHeight = resources.displayMetrics.heightPixels
             val sky = StarrySky(screenWidth, screenHeight)

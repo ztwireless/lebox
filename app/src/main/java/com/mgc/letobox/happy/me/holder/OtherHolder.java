@@ -25,8 +25,8 @@ import com.leto.game.base.login.LoginManager;
 import com.leto.game.base.statistic.GameStatisticManager;
 import com.leto.game.base.statistic.StatisticEvent;
 import com.leto.game.base.util.BaseAppUtil;
+import com.leto.game.base.util.DataCleanManager;
 import com.leto.game.base.util.MResource;
-import com.leto.game.base.util.StorageUtil;
 import com.leto.game.base.util.ToastUtil;
 import com.leto.game.base.view.SwitchButtonO;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
@@ -75,7 +75,7 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
                         if (which == DialogInterface.BUTTON_POSITIVE) {
                             try {
                                 // clear
-                                StorageUtil.clearCache(_ctx);
+                                DataCleanManager.clearCache(_ctx);
 //
 //                                // clear my games
 //                                _myGames = null;
