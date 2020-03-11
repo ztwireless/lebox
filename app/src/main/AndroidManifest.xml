@@ -142,6 +142,15 @@
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+        <activity android:name=".floattools.components.RedPacketSeaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            />
+        <activity android:name=".floattools.components.PlayGameTaskActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            />
+
         <!-- 以下数据不需要修改 -->
         <meta-data
             android:name="MGC_BOX"
