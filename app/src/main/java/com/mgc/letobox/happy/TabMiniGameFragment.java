@@ -11,11 +11,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ledong.lib.leto.Leto;
-import com.ledong.lib.leto.utils.MainHandler;
 import com.ledong.lib.leto.api.constant.Constant;
+import com.ledong.lib.leto.interfaces.ILetoContainer;
 import com.ledong.lib.leto.listener.ILetoLifecycleListener;
-import com.ledong.lib.leto.main.LetoActivity;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
+import com.ledong.lib.leto.utils.MainHandler;
 import com.ledong.lib.leto.widget.ClickGuard;
 import com.ledong.lib.minigame.GameCenterHomeFragment;
 import com.ledong.lib.minigame.SearchActivity;
@@ -265,15 +265,15 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
     }
 
     @Override
-    public void onLetoAppLaunched(LetoActivity activity, String appId) {
+    public void onLetoAppLaunched(ILetoContainer letoContainer, String appId) {
     }
 
     @Override
-    public void onLetoAppLoaded(LetoActivity activity, String appId) {
+    public void onLetoAppLoaded(ILetoContainer letoContainer, String appId) {
     }
 
     @Override
-    public void onLetoAppShown(final LetoActivity activity, String appId) {
+    public void onLetoAppShown(final ILetoContainer letoContainer, String appId) {
         // 如果是引导等待的游戏, 显示新手红包
         if (MGCSharedModel.isRookieGiftAvailable()) {
             ShowRookieGiftEvent e = new ShowRookieGiftEvent();
@@ -286,17 +286,17 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
     }
 
     @Override
-    public void onLetoAppPaused(LetoActivity activity, String appId) {
+    public void onLetoAppPaused(ILetoContainer letoContainer, String appId) {
 
     }
 
     @Override
-    public void onLetoAppResumed(LetoActivity activity, String appId) {
+    public void onLetoAppResumed(ILetoContainer letoContainer, String appId) {
 
     }
 
     @Override
-    public void onLetoAppExit(LetoActivity activity, String appId) {
+    public void onLetoAppExit(ILetoContainer letoContainer, String appId) {
 
     }
 

@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="83dp"
+        >
+
+        <ScrollView
+            android:id="@+id/sv_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFE6118"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/follow_invite_header" />
+
+                    <Button
+                        android:id="@+id/btn_invite"
+                        android:layout_width="205dp"
+                        android:layout_height="47dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="-44dp"
+                        android:background="@drawable/follow_invite_button_bg"
+                        android:text="立即邀请赚钱"
+                        android:textColor="#FF820A01"
+                        android:textSize="19sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_invite_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="我的邀请码："
+                            android:textColor="#FFFFE3D1"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tv_invide_code"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:textColor="#FF820A01"
+                            android:textSize="13sp"
+                            tools:text="xxxxxx" />
+
+                        <TextView
+                            android:id="@+id/copy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/follow_copy_button_bg"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:text="复制"
+                            android:textColor="#FFFFD34C"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btn_invite_guide"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="邀请秘籍"
+                            android:textColor="#FFFFE3D1"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="4dp"
+                            android:src="@drawable/follow_arraw_baifen" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+
+                    <include
+                        layout="@layout/layout_follow_award"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+
+                        />
+
+                    <include
+                        layout="@layout/layout_follow_flow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp" />
+
+                    <include
+                        layout="@layout/layout_follow_rank"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="30dp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </ScrollView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/follow_invite_message_bg"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="12dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/follow_notice" />
+
+        <TextSwitcher
+            android:id="@+id/tv_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:inAnimation="@anim/leto_cgc_marquee_slide_in_bottom"
+            android:outAnimation="@anim/leto_cgc_marquee_slide_out_top"
+            android:text="17级" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="92dp"
+        android:layout_gravity="bottom"
+        android:background="#00000000"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="9dp"
+            android:background="#EBEBEB" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:layout_gravity="bottom"
+            android:background="#00000000"
+            android:orientation="horizontal">
+
+
+            <FrameLayout
+                android:id="@+id/ll_wechat"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:background="@color/mgc_sdk_white">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/follow_share_wechat" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="微信邀请"
+                        android:textColor="#FF999999"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/ll_facetoface"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_weight="1">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/mgc_sdk_white" />
+
+                <View
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/follow_invite_bottom_center_tab_bg" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/mgc_sdk_white" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="63dp"
+                        android:layout_height="63dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/follow_share_face_to_face" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="面对面邀请"
+                        android:textColor="#FF999999"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/ll_wechatmoments"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:background="@color/mgc_sdk_white">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/follow_share_wechatmoment" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="朋友圈邀请"
+                        android:textColor="#FF999999"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+</FrameLayout>

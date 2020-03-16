@@ -29,6 +29,8 @@ import com.leto.game.base.util.DataCleanManager;
 import com.leto.game.base.util.MResource;
 import com.leto.game.base.util.ToastUtil;
 import com.leto.game.base.view.SwitchButtonO;
+import com.mgc.letobox.happy.follow.FollowInviteActivity;
+import com.mgc.letobox.happy.follow.FollowInviteCodeActivity;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
 
 
@@ -41,6 +43,7 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
     private View _csWechatView;
     private TextView _wechatLabel;
     private View _agreemeView;
+    private View _inviteView;
 
     Context _ctx;
 
@@ -64,6 +67,22 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
         _csWechatView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.customer_service"));
         _wechatLabel = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.wechat"));
         _agreemeView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.agreement_view"));
+        _inviteView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.invite_view"));
+
+        _inviteView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
+            @Override
+            public boolean onClicked() {
+                FollowInviteCodeActivity.start(_ctx);
+                return true;
+            }
+        });
+
+        if(MGCSharedModel.isShowInvite || MGCSharedModel.isShowInviteInGameCenter){
+            _inviteView.setVisibility(View.VISIBLE);
+        }else{
+            _inviteView.setVisibility(View.GONE);
+        }
+
 
         // clear cache
         _clearCacheView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {

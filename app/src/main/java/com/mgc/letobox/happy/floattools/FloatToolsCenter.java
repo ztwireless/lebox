@@ -9,6 +9,7 @@ import com.ledong.lib.leto.Leto;
 import com.ledong.lib.leto.api.ApiContainer;
 import com.ledong.lib.leto.api.constant.Constant;
 import com.ledong.lib.leto.api.mgc.RedPackRequest;
+import com.ledong.lib.leto.interfaces.ILetoContainer;
 import com.ledong.lib.leto.listener.ILetoGameUpgradeListener;
 import com.ledong.lib.leto.listener.ILetoGiftRainListener;
 import com.ledong.lib.leto.listener.ILetoLifecycleListener;
@@ -168,7 +169,8 @@ public class FloatToolsCenter {
             private List<BaseFloatTool> floatTools = new ArrayList<>();
 
             @Override
-            public void onLetoAppLaunched(final LetoActivity activity, String gameId) {
+            public void onLetoAppLaunched(final ILetoContainer letoContainer, String gameId) {
+                Activity activity = (Activity)letoContainer.getLetoContext();
                 if (MGCSharedModel.benefitSettings != null) {
                     if (MGCSharedModel.benefitSettings.getBubble() != null) {
                         BubbleFloatTool bubbleFloatTool = new BubbleFloatTool(activity, gameId, MGCSharedModel.benefitSettings.getBubble());
@@ -218,23 +220,24 @@ public class FloatToolsCenter {
             }
 
             @Override
-            public void onLetoAppLoaded(LetoActivity letoActivity, String s) {
+            public void onLetoAppLoaded(ILetoContainer letoContainer, String s) {
             }
 
             @Override
-            public void onLetoAppShown(LetoActivity activity, String appId) {
+            public void onLetoAppShown(ILetoContainer letoContainer, String appId) {
             }
 
             @Override
-            public void onLetoAppPaused(LetoActivity letoActivity, String s) {
+            public void onLetoAppPaused(ILetoContainer letoContainer, String s) {
             }
 
             @Override
-            public void onLetoAppResumed(LetoActivity letoActivity, String s) {
+            public void onLetoAppResumed(ILetoContainer letoContainer, String s) {
             }
 
             @Override
-            public void onLetoAppExit(LetoActivity activity, String s) {
+            public void onLetoAppExit(ILetoContainer letoContainer, String s) {
+                Activity activity = (Activity)letoContainer.getLetoContext();
                 FloatViewManager.getInstance().removeUpgradeView(activity);
 
                 Iterator<BaseFloatTool> it = floatTools.iterator();

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mgc_sdk_white"
+    android:orientation="vertical">
+
+    <include layout="@layout/leto_demo_common_header" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FFE3E3E3" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginRight="19dp"
+        android:background="@color/mgc_sdk_white"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="输入有效的邀请码即可获得相应奖励!"
+            android:textColor="@color/mgc_sdk_black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="（输入他人的数字邀请码会成为徒弟哦～）"
+            android:textColor="@color/mgc_sdk_grayc3"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/et_code"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/follow_invite_code_edit_bg"
+            android:hint="请输入邀请码"
+            android:inputType="number"
+            android:textColor="@color/mgc_sdk_black"
+            android:textColorHint="@color/mgc_sdk_text_lowgray"
+            android:textSize="14sp"
+            android:textCursorDrawable="@drawable/follow_invite_code_edit_cursor"/>
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="93dp"
+            android:background="@drawable/follow_invite_rule_button_bg"
+            android:text="确定"
+            android:textColor="@color/mgc_sdk_white"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

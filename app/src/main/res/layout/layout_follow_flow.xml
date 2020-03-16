@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:RatingBar="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/follow_invite_module_bg"
+    android:orientation="vertical"
+    android:paddingLeft="18dp"
+    android:paddingRight="18dp"
+    android:paddingTop="22dp"
+    android:paddingBottom="29dp"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:padding="5dip">
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/follow_flow_title_dot"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="收徒步骤 十分简单"
+            android:textColor="#FF333333"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            />
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/follow_flow_title_dot"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/follow_flow_share"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:text="点击按钮\n分享给好友"
+                    android:textColor="#FF999999"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_height="1dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/follow_flow_install"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="好友打开连接\n安装下载"
+                    android:gravity="center"
+                    android:textColor="#FF999999"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_height="1dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/follow_flow_play_game"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:text="好友登陆游玩\n您获得红包"
+                    android:textColor="#FF999999"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/view_detail_invite_rule"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="34dp"
+
+        android:text="查看详细邀请规则"
+        android:textSize="14sp"
+        android:textColor="@color/mgc_sdk_white"
+        android:background="@drawable/follow_invite_rule_button_bg"
+        />
+
+
+</LinearLayout>

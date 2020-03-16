@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:RatingBar="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/follow_invite_module_bg"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="22dp"
+    android:paddingBottom="29dp"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:descendantFocusability="blocksDescendants"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dip">
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/follow_flow_title_dot" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="邀请收入排行榜"
+            android:textColor="#FF333333"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/follow_flow_title_dot" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <com.leto.game.base.view.tablayout.CommonTabLayout
+            android:id="@+id/rank_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/mgc_sdk_white" />
+
+        <include
+            layout="@layout/item_follow_rank_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            />
+
+        <com.leto.game.base.view.recycleview.ScrollRecyclerView
+            android:id="@+id/gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="1"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

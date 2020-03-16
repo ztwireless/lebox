@@ -241,7 +241,6 @@ public class MeNewFragment extends Fragment implements ApiContainer.IApiResultLi
         //moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_HIGH_COIN_TASK));
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_DAILY_TASK));
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_OTHER));
-
         _meHomeAdapter.setModels(moduleBeanList);
 
     }

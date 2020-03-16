@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@+id/iv_photo"
+            android:layout_width="57dp"
+            android:layout_height="57dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_gravity="center_vertical" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginLeft="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#FF333333"
+                android:textSize="12sp"
+                tools:text="用户名称信息" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:text="贡献收益:"
+                    android:textColor="#FF666666"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/follow_redpacket"/>
+
+                <TextView
+                    android:id="@+id/tv_cash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="1dp"
+                    android:gravity="center"
+                    android:textColor="#FFFE6118"
+                    android:textSize="12sp"
+                    tools:text="10元" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_tags"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" />
+
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/awake_award"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:gravity="center_horizontal"
+                android:background="@drawable/follow_following_tick_bg"
+                android:text="1元"
+                android:textColor="@color/mgc_sdk_white"
+                android:textSize="11sp" />
+
+            <Button
+                android:id="@+id/btn_awake"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:background="@drawable/follow_awake_button_bg"
+                android:text="提醒Ta"
+                android:textColor="@color/mgc_sdk_white"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+
+</LinearLayout>

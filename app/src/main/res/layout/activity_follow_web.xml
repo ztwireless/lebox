@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mgc_sdk_action_bar_height"
+        android:background="@color/mgc_sdk_white">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/leto_minigame_back_pressed" />
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_toRightOf="@id/iv_back"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:padding="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/leto_title_close" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/mgc_sdk_text_blacks"
+            android:gravity="center"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true" />
+
+        <LinearLayout
+            android:id="@+id/Lin"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
+            android:orientation="horizontal">
+
+
+
+            <TextView
+                android:id="@+id/refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_horizontal"
+                android:text="刷新"
+                android:textColor="#666666"
+                android:textSize="9sp"
+                android:drawableTop="@drawable/leto_title_refresh"/>
+
+            <TextView
+                android:id="@+id/service"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_horizontal"
+                android:text="客服"
+                android:textColor="#666666"
+                android:textSize="9sp"
+                android:layout_marginLeft="20dp"
+                android:drawableTop="@drawable/leto_title_service"
+                android:drawablePadding="0dp"
+                />
+
+
+        </LinearLayout>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FFE3E3E3" />
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/mgc_sdk_rl_top" />
+</LinearLayout>

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ledong.lib.leto.Leto;
@@ -28,6 +29,8 @@ import com.ledong.lib.leto.widget.ClickGuard;
 import com.leto.game.base.bean.LoginResultBean;
 import com.leto.game.base.http.HttpCallbackDecode;
 import com.leto.game.base.login.LoginManager;
+import com.leto.game.base.statistic.GameStatisticManager;
+import com.leto.game.base.statistic.StatisticEvent;
 import com.leto.game.base.util.BaseAppUtil;
 import com.leto.game.base.util.DialogUtil;
 import com.leto.game.base.util.GlideUtil;
@@ -35,6 +38,7 @@ import com.leto.game.base.util.MResource;
 import com.mgc.letobox.happy.LeBoxLoginActivity;
 import com.mgc.letobox.happy.LeBoxMobileLoginActivity;
 import com.mgc.letobox.happy.LeBoxProfileActivity;
+import com.mgc.letobox.happy.follow.FollowInviteActivity;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
 
 public class CoinHolder extends CommonViewHolder<MeModuleBean> {
@@ -54,6 +58,7 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
     LinearLayout _myCoinFieldView;
     LinearLayout _todayCoinFieldView;
     LinearLayout _withdrawField;
+    RelativeLayout _inviteField;
 
     View _splitSpace;
 
@@ -93,6 +98,7 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         _myCoinFieldView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.mycoin_field"));
         _todayCoinFieldView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.todaycoin_field"));
         _moneyLabel = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.money"));
+        _inviteField = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.rl_invite"));
 
         // get strings
         _loading = _ctx.getString(MResource.getIdByName(_ctx, "R.string.loading"));
@@ -124,6 +130,27 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
                 _withdrawTextView.setText("兑换燃力");
             }
         }
+
+        if(MGCSharedModel.isShowInvite){
+            _inviteField.setVisibility(View.VISIBLE);
+        }else{
+            _inviteField.setVisibility(View.GONE);
+        }
+
+        _inviteField.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
+            @Override
+            public boolean onClicked() {
+
+                //点击上报
+                GameStatisticManager.statisticBenefitLog(_ctx, "", StatisticEvent.LETO_FOLLOW_INVITE.ordinal(), 0, 0, 0, 0, Constant.BENEFITS_TYPE_INVITE, 0);
+
+                FollowInviteActivity.start(_ctx);
+
+                return true;
+            }
+        });
+
+
 
         // withdraw click
         _withdrawView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {

@@ -141,9 +141,13 @@ class GameListItem(
                 btn_action.state = STATE_OPEN
                 btn_action.setCurrentText(context.getString(R.string.open_text))
                 return@runOnUiThread
-            }else if(isExist(packName)){
+            }
+            if(isExist(packName)){
                 btn_action.state = STATE_FINISH
                 btn_action.setCurrentText(context.getString(R.string.install_text))
+            } else {
+                //修正Button状态
+                btn_action.setState(STATE_NORMAL);
             }
             when(btn_action.state){
                 STATE_NORMAL ->{

@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="13dp"
         android:layout_marginBottom="11dp"
         android:orientation="horizontal">
@@ -29,8 +30,9 @@
             android:layout_gravity="center_vertical"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
             android:orientation="vertical">
@@ -54,6 +56,38 @@
                 android:text="登录后同步游戏记录"/>
 
         </LinearLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_invite"
+            android:layout_width="98dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:layout_gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/follow_me_invite_bg"
+                android:textSize="13sp"
+                android:textColor="@color/mgc_sdk_white"
+                android:textStyle="bold"
+                android:text="邀请收徒"/>
+
+            <ImageView
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/follow_invite_redpack"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 

@@ -34,7 +34,7 @@ import com.ledong.lib.leto.mgc.model.MGCSharedModel;
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
 import com.ledong.lib.minigame.bean.TabBean;
 import com.leto.game.base.ad.AdManager;
-import com.leto.game.base.db.LoginControl;
+import com.leto.game.base.dialog.PrivacyWebDialog;
 import com.leto.game.base.http.HttpCallbackDecode;
 import com.leto.game.base.http.HttpParamsBuild;
 import com.leto.game.base.util.BaseAppUtil;
@@ -554,8 +554,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
     }
 
     public void getPrivacy_content() {
-
-        MGCDialogUtil.showPrivacyContent(this);
+        PrivacyWebDialog.show(this);
     }
 
     private void showRookieGuideIfNeeded() {

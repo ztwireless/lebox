@@ -5,11 +5,14 @@ import android.app.Application;
 import android.support.multidex.MultiDex;
 
 import com.ledong.lib.leto.Leto;
+import com.ledong.lib.leto.LetoEvents;
+import com.ledong.lib.leto.listener.ILetoInviteListener;
 import com.ledong.lib.leto.mgc.thirdparty.IAuthRequestListener;
 import com.ledong.lib.leto.mgc.thirdparty.ILetoAuthListener;
 import com.ledong.lib.leto.trace.LetoTrace;
 import com.leto.game.base.util.BaseAppUtil;
 import com.mgc.letobox.happy.floattools.FloatToolsCenter;
+import com.mgc.letobox.happy.follow.FollowInviteActivity;
 import com.mgc.letobox.happy.util.LeBoxSpUtil;
 import com.mgc.letobox.happy.util.WechatAuthUtil;
 import com.umeng.commonsdk.UMConfigure;
@@ -39,12 +42,25 @@ public class LetoApplication extends Application {
         FloatToolsCenter.init(this);
 
 
-        Leto.getInstance().setAuthRequestListener(new IAuthRequestListener() {
+        LetoEvents.setAuthRequestListener(new IAuthRequestListener() {
             @Override
             public void requstAuth(Activity activity, ILetoAuthListener listener) {
                 WechatAuthUtil.getWechatAuthInfo(activity, listener);
             }
 
         });
+
+        LetoEvents.setInviteListener(new ILetoInviteListener() {
+            @Override
+            public void show(final Activity context, String gameId) {
+                FollowInviteActivity.start(context);
+            }
+
+            @Override
+            public void hide(Activity context, String s) {
+
+            }
+        });
+
     }
 }
