@@ -79,6 +79,21 @@
         <activity android:name=".circle.ui.CreateCircleActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
+
+
+        <activity android:name=".follow.FollowInviteActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            />
+        <activity android:name=".follow.FollowWebViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            />
+        <activity android:name=".follow.FollowInviteCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            />
+
         <activity android:name=".SplashActivity"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait">
