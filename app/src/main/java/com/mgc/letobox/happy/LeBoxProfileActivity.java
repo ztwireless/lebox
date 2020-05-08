@@ -105,7 +105,7 @@ public class LeBoxProfileActivity extends BaseActivity implements ActionSheet.Ac
 	}
 
 	@Override
-	protected void onCreate(@Nullable Bundle savedInstanceState) {
+	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		// set status bar color
@@ -205,7 +205,7 @@ public class LeBoxProfileActivity extends BaseActivity implements ActionSheet.Ac
 	}
 
 	@Override
-	protected void onDestroy() {
+	public void onDestroy() {
 		super.onDestroy();
 
 		// unregister

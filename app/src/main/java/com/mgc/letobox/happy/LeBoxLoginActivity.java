@@ -50,7 +50,7 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
 	}
 
 	@Override
-	protected void onCreate(@Nullable Bundle savedInstanceState) {
+	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		// set status bar color

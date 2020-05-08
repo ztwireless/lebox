@@ -77,9 +77,7 @@ public class FollowUtil {
             requestBean.setChannel_id(Integer.parseInt(BaseAppUtil.getChannelID(ctx)));
             HttpParamsBuild httpParamsBuild = new HttpParamsBuild(new Gson().toJson(requestBean), true);
             callback.setAuthkey(httpParamsBuild.getAuthkey());
-            callback.setLoadingCancel(false);
             callback.setShowTs(true);
-            callback.setShowLoading(true);
 
             (new RxVolley.Builder()).url(SdkApi.getInviteIndex()).params(httpParamsBuild.getHttpParams()).httpMethod(1).callback(callback).setTag(ctx).shouldCache(false).doTask();
 
@@ -128,9 +126,7 @@ public class FollowUtil {
             requestBean.setChannel_id(Integer.parseInt(BaseAppUtil.getChannelID(ctx)));
             HttpParamsBuild httpParamsBuild = new HttpParamsBuild(new Gson().toJson(requestBean), true);
             callback.setAuthkey(httpParamsBuild.getAuthkey());
-            callback.setLoadingCancel(false);
             callback.setShowTs(true);
-            callback.setShowLoading(true);
             (new RxVolley.Builder()).url(SdkApi.getInviteBind()).params(httpParamsBuild.getHttpParams()).httpMethod(1).callback(callback).setTag(ctx).shouldCache(false).doTask();
 
         } catch (Exception e) {

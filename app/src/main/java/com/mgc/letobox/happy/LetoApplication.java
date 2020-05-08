@@ -5,6 +5,7 @@ import android.app.Application;
 import android.support.multidex.MultiDex;
 
 import com.ledong.lib.leto.Leto;
+import com.ledong.lib.leto.LetoCore;
 import com.ledong.lib.leto.LetoEvents;
 import com.ledong.lib.leto.listener.ILetoInviteListener;
 import com.ledong.lib.leto.mgc.thirdparty.IAuthRequestListener;
@@ -18,15 +19,27 @@ import com.mgc.letobox.happy.util.WechatAuthUtil;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.UMShareAPI;
 
+//import com.squareup.leakcanary.LeakCanary;
+
 
 public class LetoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
 
+//        if (LeakCanary.isInAnalyzerProcess(this)) {
+//            // This process is dedicated to LeakCanary for heap analysis.
+//            // You should not init your app in this process.
+//            return;
+//        }
+//        LeakCanary.install(this);
+
         MultiDex.install(this);
 
         LetoTrace.setDebugMode(true);
+
+        //无需sdk预加载广告sdk
+        LetoCore.setAutoPreloadAd(false);
 
         //SDK 初始化 指定接入渠道
         Leto.init(this);

@@ -24,6 +24,7 @@ import com.ledong.lib.leto.mgc.bean.CoinConfigResultBean;
 import com.ledong.lib.leto.mgc.bean.GetBenefitsSettingResultBean;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
 import com.ledong.lib.leto.mgc.util.MGCApiUtil;
+import com.ledong.lib.leto.trace.LetoTrace;
 import com.ledong.lib.leto.utils.MainHandler;
 import com.ledong.lib.leto.widget.ModalDialog;
 import com.ledong.lib.minigame.util.PrefetchCache;
@@ -83,6 +84,8 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
     private int _benefitRetryCount = 3;
 
     private boolean _splashAdDone = false;
+
+    private boolean _splashAdLoading = false;
 
     // config error dialog
     private boolean _needRerunConfig = true;
@@ -195,13 +198,16 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
     }
 
     private void prefetchGameCenter() {
+
         SharedData.MGC_HOME_TAB_ID = BaseAppUtil.getMetaIntValue(this, "MGC_HOME_TAB_ID");
         SharedData.MGC_RANK_TAB_ID = BaseAppUtil.getMetaIntValue(this, "MGC_RANK_TAB_ID");
         SharedData.MGC_CHALLENGE_TAB_ID = BaseAppUtil.getMetaIntValue(this, "MGC_CHALLENGE_TAB_ID");
         PrefetchCache.getInstance().prefetchGameCenter(this, SharedData.MGC_HOME_TAB_ID, 1, null);
         PrefetchCache.getInstance().prefetchGameCenter(this, SharedData.MGC_RANK_TAB_ID, 0, null);
         PrefetchCache.getInstance().prefetchGameCenter(this, SharedData.MGC_CHALLENGE_TAB_ID, 1, null);
+
     }
+
 
     @Override
     protected void onResume() {
@@ -224,7 +230,6 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
                 doGetConfig();
             } else {
                 _configFetched = true;
-                startSplashAd();
             }
 
             // get benefit settings
@@ -232,17 +237,12 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
                 doGetBenefitSettings();
             } else {
                 _benefitSettingsFetched = true;
-                startSplashAd();
             }
+            startSplashAd();
 
             // prefetch game center data
             prefetchGameCenter();
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     private void doGetBenefitSettings() {
@@ -371,7 +371,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
             if (loadedAd) {
                 _handler.sendEmptyMessageDelayed(START_MAIN, 500);
             } else {
-                _handler.sendEmptyMessageDelayed(START_MAIN, 2000);
+                _handler.sendEmptyMessageDelayed(START_MAIN, 1000);
             }
             _started = true;
 
@@ -521,8 +521,17 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
             }
         });
         if (null != _splashAd) {
+            if(_splashAdLoading) {
+                LetoTrace.d(TAG, "start give up, and skip....");
+                return;
+            }
+            Log.d(TAG, "splash ad show....");
+            _splashAdLoading = true;
+
             _splashAd.show();
+
         } else {
+            Log.d(TAG, "splash is null, skip....");
             _splashAdDone = true;
             startMain(true);
         }

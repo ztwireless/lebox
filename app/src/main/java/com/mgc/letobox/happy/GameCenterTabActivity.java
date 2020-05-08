@@ -1,9 +1,7 @@
 package com.mgc.letobox.happy;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -26,12 +24,16 @@ import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.ledong.lib.leto.Leto;
+import com.ledong.lib.leto.LetoEvents;
 import com.ledong.lib.leto.api.ApiContainer;
 import com.ledong.lib.leto.listener.ILetoPlayedDurationListener;
+import com.ledong.lib.leto.main.LetoActivity;
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene;
 import com.ledong.lib.leto.mgc.dialog.IMGCCoinDialogListener;
+import com.ledong.lib.leto.mgc.dialog.MGCInfoDialog;
 import com.ledong.lib.leto.mgc.model.MGCSharedModel;
 import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
+import com.ledong.lib.leto.trace.LetoTrace;
 import com.ledong.lib.minigame.bean.TabBean;
 import com.leto.game.base.ad.AdManager;
 import com.leto.game.base.dialog.PrivacyWebDialog;
@@ -41,7 +43,6 @@ import com.leto.game.base.util.BaseAppUtil;
 import com.leto.game.base.util.ColorUtil;
 import com.leto.game.base.util.GlideUtil;
 import com.leto.game.base.util.IntentConstant;
-import com.leto.game.base.util.MResource;
 import com.leto.game.base.util.PermissionsUtil;
 import com.leto.game.base.util.StatusBarUtil;
 import com.mgc.letobox.happy.bean.VersionRequestBean;
@@ -94,7 +95,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
     String srcAppId;
     String srcAppPath;
 
-    AlertDialog alertDialog;
+    MGCInfoDialog alertDialog;
     int mTabIndex;
 
     // tab id array
@@ -108,6 +109,9 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
     VersionDialog mVersionDialog;
 
     private static final String BUNDLE_FRAGMENTS_KEY = "android:support:fragments";
+
+
+    ILetoPlayedDurationListener playedDurationListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -200,7 +204,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
             EventBus.getDefault().register(this);
         }
 
-        Leto.getInstance().setLetoPlayedDurationListener(new ILetoPlayedDurationListener() {
+        playedDurationListener = new ILetoPlayedDurationListener() {
             @Override
             public void getPlayedDurations(String gameId, long duration) {
 
@@ -208,7 +212,9 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
 
                 reportTaskProgress(duration);
             }
-        });
+        };
+
+        LetoEvents.addLetoPlayedDurationListener(playedDurationListener);
 
         NewerTaskManager.getTaskList(this, null);
 
@@ -218,6 +224,17 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         getVersion();
 
         getPrivacy_content();
+
+
+        //预加载广告
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                LetoTrace.d(TAG, "ad preload");
+                AdManager.preloadAd(getApplication());
+            }
+        }, 2000);
+
     }
 
     @Override
@@ -243,34 +260,20 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
     }
 
     public void checkSystemVersion() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        if (!BaseAppUtil.supportSystem()) {
 
-            //创建AlertDialog的构造器的对象
-            AlertDialog.Builder builder = new AlertDialog.Builder(GameCenterTabActivity.this);
-            //设置构造器标题
-//            builder.setTitle("提示");
-            //构造器对应的图标
-//            builder.setIcon(R.mipmap.ic_launcher);
-            //构造器内容,为对话框设置文本项(之后还有列表项的例子)
-            builder.setCancelable(false);
-            builder.setMessage(getString(MResource.getIdByName(GameCenterTabActivity.this, "R.string.leto_toast_the_system_version_low")));
-            //为构造器设置确定按钮,第一个参数为按钮显示的文本信息，第二个参数为点击后的监听事件，用匿名内部类实现
-            builder.setPositiveButton(getString(MResource.getIdByName(GameCenterTabActivity.this, "R.string.leto_know_it")), new DialogInterface.OnClickListener() {
+            alertDialog = new MGCInfoDialog(GameCenterTabActivity.this, "温馨提示", "手机版本过低，建议升级系统");
+            alertDialog.setRightButton("确定并退出", new View.OnClickListener(){
+
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(View v) {
                     alertDialog.dismiss();
                     finish();
                 }
             });
-            //为构造器设置取消按钮,若点击按钮后不需要做任何操作则直接为第二个参数赋值null
-//            builder.setNegativeButton("不呀",null);
-            //为构造器设置一个比较中性的按钮，比如忽略、稍后提醒等
-//            builder.setNeutralButton("稍后提醒",null);
-            //利用构造器创建AlertDialog的对象,实现实例化
-            alertDialog = builder.create();
+
             alertDialog.show();
         }
-
     }
 
     @Keep
@@ -311,24 +314,36 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
 
         GlideUtil.clearMemory(this);
 
-        RxVolley.getRequestQueue().cancelAll(GameCenterTabActivity.this);
+        try {
+            RxVolley.getRequestQueue().cancelAll(GameCenterTabActivity.this);
+            RxVolley.getRequestQueue().getCache().clear();
+        } catch (Exception e) {
+
+        }
 
         // unregister event bus
         EventBus.getDefault().unregister(this);
+
+        if (mVersionDialog != null && mVersionDialog.isShowing()) {
+            mVersionDialog.dismiss();
+        }
+        mVersionDialog = null;
+
+        LetoEvents.removeLetoPlayedDurationListener(playedDurationListener);
     }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSwitchTab(TabSwitchEvent event) {
         if (event != null) {
-            if(event.tabindex >= 0) {
+            if (event.tabindex >= 0) {
                 int tabIndex = event.tabindex;
                 if (tabIndex >= 0 && tabIndex < _tabIds.size()) {
                     tabGroup.check(_tabIds.get(tabIndex));
                 }
             } else {
                 int idx = _tabIds.indexOf(event.tabid);
-                if(idx != -1) {
+                if (idx != -1) {
                     tabGroup.check(_tabIds.get(idx));
                 }
             }
@@ -431,23 +446,23 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
 
 
     private void showTaskDialog(final List<TaskResultBean> taskBeans, final int pos, final int action) {
-        if(this.isFinishing()){
+        if (this.isFinishing()) {
             return;
         }
 
         MGCDialogUtil.showMGCCoinDialogWithOrderId(this, null, taskBeans.get(pos).getAward_coins(), 1, CoinDialogScene.ROOKIE_TASK,
-            taskBeans.get(pos).getChannel_task_id(), new IMGCCoinDialogListener() {
-                @Override
-                public void onExit(boolean video, int coinGot) {
-                    if (taskBeans.size() > pos + 1) {
-                        Message msg = new Message();
-                        msg.obj = taskBeans;
-                        msg.arg1 = pos + 1;
-                        msg.arg2 = action;
-                        mTaskHandler.sendMessage(msg);
+                taskBeans.get(pos).getChannel_task_id(), new IMGCCoinDialogListener() {
+                    @Override
+                    public void onExit(boolean video, int coinGot) {
+                        if (taskBeans.size() > pos + 1) {
+                            Message msg = new Message();
+                            msg.obj = taskBeans;
+                            msg.arg1 = pos + 1;
+                            msg.arg2 = action;
+                            mTaskHandler.sendMessage(msg);
+                        }
                     }
-                }
-            });
+                });
     }
 
     boolean isCheckedVersion = false;
@@ -491,9 +506,6 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
                 Log.d(TAG, "获取版本信息失败: " + msg);
             }
         };
-        httpCallbackDecode.setShowTs(false);
-        httpCallbackDecode.setLoadingCancel(false);
-        httpCallbackDecode.setShowLoading(false);//当前Splash显示中
         RxVolley.post(LeBoxUtil.getLatestVersion(), httpParamsBuild.getHttpParams(), httpCallbackDecode);
 
     }
@@ -558,9 +570,9 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
     }
 
     private void showRookieGuideIfNeeded() {
-        if(MGCSharedModel.isRookieGiftAvailable()) {
+        if (MGCSharedModel.isRookieGiftAvailable()) {
             String dstGameId = BaseAppUtil.getMetaStringValue(this, "MGC_GAMEID");
-            if(!TextUtils.isEmpty(dstGameId)) {
+            if (!TextUtils.isEmpty(dstGameId)) {
                 EventBus.getDefault().postSticky(new ShowRookieGuideEvent());
             }
         }

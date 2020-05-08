@@ -70,7 +70,7 @@ public class FollowInviteActivity extends BaseActivity implements IFollowShareLi
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // set status bar color
@@ -203,7 +203,7 @@ public class FollowInviteActivity extends BaseActivity implements IFollowShareLi
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
 
         if (null != shareDialog && shareDialog.isShowing()) {

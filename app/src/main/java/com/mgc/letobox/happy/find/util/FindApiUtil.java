@@ -168,14 +168,6 @@ public class FindApiUtil {
 					}
 				}
 			};
-			cb.setShowTs(false);
-			cb.setLoadingCancel(false);
-			cb.setShowLoading(false);
-			cb.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			String args = new Gson().toJson(bean);
@@ -204,12 +196,6 @@ public class FindApiUtil {
 			bean.setCategory(categoryId);
 			String url = FindApi.getArticleList();
 
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
-
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
 		} catch (Exception e) {
@@ -227,12 +213,6 @@ public class FindApiUtil {
 			bean.setType(type);
 			String url = FindApi.getUserFollow();
 
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
-
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
 		} catch (Exception e) {
@@ -248,12 +228,6 @@ public class FindApiUtil {
 			ArticleDetailRequestBean bean = new ArticleDetailRequestBean();
 			bean.setNews_id(id);
 			String url = FindApi.getNewsDetail();
-
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
@@ -271,12 +245,6 @@ public class FindApiUtil {
 			bean.setNews_id(newsId);
 			bean.page = page;
 			String url = FindApi.getNewsCommentList();
-
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
@@ -297,9 +265,6 @@ public class FindApiUtil {
 
 			// set callback
 			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
@@ -321,9 +286,6 @@ public class FindApiUtil {
 
 			// set callback
 			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
@@ -344,9 +306,6 @@ public class FindApiUtil {
 
 			// set callback
 			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
@@ -366,9 +325,6 @@ public class FindApiUtil {
 
 			// set callback
 			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, false, false, callback);
@@ -390,9 +346,6 @@ public class FindApiUtil {
 
 			// set callback
 			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
@@ -413,9 +366,6 @@ public class FindApiUtil {
 
 			// set callback
 			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
@@ -438,9 +388,6 @@ public class FindApiUtil {
 
 			// set callback
 			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
@@ -463,9 +410,6 @@ public class FindApiUtil {
 
 			// set callback
 			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
@@ -488,9 +432,6 @@ public class FindApiUtil {
 
 			// set callback
 			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
@@ -513,9 +454,6 @@ public class FindApiUtil {
 
 			// set callback
 			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
@@ -538,9 +476,6 @@ public class FindApiUtil {
 
 			// set callback
 			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
@@ -560,9 +495,6 @@ public class FindApiUtil {
 
 			// set callback
 			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
@@ -581,12 +513,6 @@ public class FindApiUtil {
 			bean.setPage(page);
 			String url = FindApi.getUserGame();
 
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
-
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
 		} catch (Exception e) {
@@ -604,12 +530,6 @@ public class FindApiUtil {
 			bean.setPage(page);
 			String url = FindApi.getNewsList();
 
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
-
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
 		} catch (Exception e) {
@@ -625,12 +545,6 @@ public class FindApiUtil {
 			PageSizeRequest bean = new PageSizeRequest();
 			bean.setPage(page);
 			String url = FindApi.getMyGuoups();
-
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
@@ -648,12 +562,6 @@ public class FindApiUtil {
 			bean.setPage(page);
 			String url = FindApi.getHotGroups();
 
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
-
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
 		} catch (Exception e) {
@@ -669,13 +577,6 @@ public class FindApiUtil {
 			PageSizeRequest bean = new PageSizeRequest();
 			bean.setPage(page);
 			String url = FindApi.getCircleGroups();
-
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
-
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
 		} catch (Exception e) {
@@ -693,12 +594,6 @@ public class FindApiUtil {
 			bean.setPage(page);
 			String url = FindApi.getCirclePostList();
 
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
-
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
 		} catch (Exception e) {
@@ -714,12 +609,6 @@ public class FindApiUtil {
 			CircleIdRequest bean = new CircleIdRequest();
 			bean.setId(groupId);
 			String url = FindApi.getCircleDetail();
-
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
@@ -737,12 +626,6 @@ public class FindApiUtil {
 			bean.setGroup_id(groupId);
 			String url = FindApi.getInformCircle();
 
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
-
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
 		} catch (Exception e) {
@@ -758,12 +641,6 @@ public class FindApiUtil {
 			PostIdRequest bean = new PostIdRequest();
 			bean.setPost_id(postId);
 			String url = FindApi.getPostDel();
-
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
@@ -784,12 +661,6 @@ public class FindApiUtil {
 			bean.setBackground(bg);
 			String url = FindApi.getCreateCircle();
 
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
-
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
 		} catch (Exception e) {
@@ -805,13 +676,6 @@ public class FindApiUtil {
 			CircleQuitRequest bean = new CircleQuitRequest();
 			bean.setGroup_id(groupId);
 			String url = FindApi.getCircleJoin();
-
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
-
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
 		} catch (Exception e) {
@@ -827,13 +691,6 @@ public class FindApiUtil {
 			CircleQuitRequest bean = new CircleQuitRequest();
 			bean.setGroup_id(groupId);
 			String url = FindApi.getCircleQuit();
-
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
-
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
 		} catch (Exception e) {
@@ -851,13 +708,6 @@ public class FindApiUtil {
 			bean.setContent(content);
 			bean.setGroup_id(groupId);
 			String url = FindApi.postPut_twhp();
-
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
-
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
 		} catch (Exception e) {
@@ -876,13 +726,6 @@ public class FindApiUtil {
 			bean.setGroup_id(groupId);
 			bean.setAttach_id(attachId);
 			String url = FindApi.postPut();
-
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
-
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
 		} catch (Exception e) {
@@ -902,12 +745,6 @@ public class FindApiUtil {
 			bean.setGroup_id(groupId);
 			String url = FindApi.edit_TieZi_twhp();
 
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
-
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
 		} catch (Exception e) {
@@ -923,12 +760,6 @@ public class FindApiUtil {
 			CircleIdRequest bean = new CircleIdRequest();
 			bean.setId(id);
 			String url = FindApi.getPostDetail();
-
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);
@@ -946,12 +777,6 @@ public class FindApiUtil {
 			bean.setPost_id(articleId);
 			bean.setPage(page);
 			String url = FindApi.getPostCommentList();
-
-			// set callback
-			callback.setShowTs(false);
-			callback.setLoadingCancel(false);
-			callback.setShowLoading(false);
-			callback.setLoadMsg(ctx.getResources().getString(MResource.getIdByName(ctx, "R.string.loading")));
 
 			// request
 			delayOrNow(ctx, bean, url, true, false, callback);

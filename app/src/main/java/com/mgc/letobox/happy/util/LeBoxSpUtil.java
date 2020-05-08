@@ -92,8 +92,8 @@ public class LeBoxSpUtil {
         return _SP.getLong(key, 0);
     }
 
-    public static void saveString(String key,String value){
-        _SP.edit().putString(key,value).apply();
+    public static void saveString(String key, String value) {
+        _SP.edit().putString(key, value).apply();
     }
     public static String getString(String key){
         return _SP.getString(key,"");

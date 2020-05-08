@@ -65,7 +65,7 @@ public class FollowWebViewActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // set status bar color
@@ -158,7 +158,7 @@ public class FollowWebViewActivity extends BaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         if (_loadingDialog != null && _loadingDialog.isShowing()) {
             _loadingDialog.dismiss();

@@ -53,7 +53,7 @@ public class FollowInviteCodeActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // set status bar color
@@ -113,13 +113,10 @@ public class FollowInviteCodeActivity extends BaseActivity {
 
         _titleRightLabel.setText("常见问题");
 
-
     }
 
-
-
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
     }
 
@@ -139,7 +136,15 @@ public class FollowInviteCodeActivity extends BaseActivity {
             public void onFailure(String code, String message){
                 super.onFailure(code, message);
             }
+
+            @Override
+            public void onFinish(){
+
+                dismissLoading();
+            }
         });
+
+        showLoading(false);
 
     }
 }

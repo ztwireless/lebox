@@ -23,6 +23,15 @@ public class FloatBubbleView extends FrameLayout {
     private int mCoinCount;
     private TextView mCoinCountView;
 
+    ValueAnimator animator;
+
+    Runnable startAnimRunnable = new Runnable() {
+        @Override
+        public void run() {
+            startAnim();
+        }
+    };
+
     public FloatBubbleView(@NonNull Context context) {
         this(context, null);
     }
@@ -36,12 +45,7 @@ public class FloatBubbleView extends FrameLayout {
         setBubbleId(ID++);
         inflate(context, R.layout.layout_bubble, this);
         mCoinCountView = findViewById(R.id.itemCoinCount);
-        post(new Runnable() {
-            @Override
-            public void run() {
-                startAnim();
-            }
-        });
+        post(startAnimRunnable);
         ViewConfiguration vc = ViewConfiguration.get(context);
         touchSlop = vc.getScaledTouchSlop();
     }
@@ -51,10 +55,14 @@ public class FloatBubbleView extends FrameLayout {
     }
 
     private void goDown() {
-        ValueAnimator animator = ValueAnimator.ofFloat(-40, 0).setDuration(2000);
-        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        if (animator == null) {
+            animator = ValueAnimator.ofFloat(-40, 0).setDuration(2000);
+            animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        }
+
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             float lastValue;
+
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 float value = (float) valueAnimator.getAnimatedValue();
@@ -75,10 +83,13 @@ public class FloatBubbleView extends FrameLayout {
     }
 
     private void goUp() {
-        ValueAnimator animator = ValueAnimator.ofFloat(0, -40).setDuration(2000);
-        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        if (animator == null) {
+            animator = ValueAnimator.ofFloat(-40, 0).setDuration(2000);
+            animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        }
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             float lastValue;
+
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 float value = (float) valueAnimator.getAnimatedValue();
@@ -156,6 +167,20 @@ public class FloatBubbleView extends FrameLayout {
     private void onDragging(float x, float y, float dx, float dy) {
         this.setX(this.getX() + dx);
         this.setY(this.getY() + dy);
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        if (animator != null && animator.isRunning()) {
+            animator.cancel();
+        }
+
+        if (startAnimRunnable != null) {
+            removeCallbacks(startAnimRunnable);
+        }
+
     }
 
 }

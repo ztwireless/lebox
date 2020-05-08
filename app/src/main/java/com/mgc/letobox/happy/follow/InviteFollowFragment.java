@@ -433,11 +433,18 @@ public class InviteFollowFragment extends HeaderViewPagerFragment implements Swi
             public void onFinish() {
                 super.onFinish();
 
+                dismissLoading();
+
                 if (getActivity() != null && swipeLayout != null) {
                     swipeLayout.setRefreshing(false);
                 }
+
+
+
             }
         });
+
+        showLoading(false);
     }
 
     public void getShareImage(String url) {

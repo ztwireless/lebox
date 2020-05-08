@@ -13,7 +13,6 @@ import com.ledong.lib.leto.interfaces.ILetoContainer;
 import com.ledong.lib.leto.listener.ILetoGameUpgradeListener;
 import com.ledong.lib.leto.listener.ILetoGiftRainListener;
 import com.ledong.lib.leto.listener.ILetoLifecycleListener;
-import com.ledong.lib.leto.main.LetoActivity;
 import com.ledong.lib.leto.mgc.bean.BenefitSettings_hbrain;
 import com.ledong.lib.leto.mgc.bean.BenefitSettings_upgrade;
 import com.ledong.lib.leto.mgc.bean.CoinDialogScene;
@@ -51,13 +50,6 @@ public class FloatToolsCenter {
     private static final String TAG = FloatToolsCenter.class.getSimpleName();
     private static boolean TEST_ENV = false;
 
-    private static int toInt(String text) {
-        try {
-            return Integer.valueOf(text);
-        } catch (Exception e) {
-            return 0;
-        }
-    }
 
     private static Retrofit buildRetrofit() {
         Log.i(TAG, "buildRetrofit " + TEST_ENV);
@@ -170,7 +162,7 @@ public class FloatToolsCenter {
 
             @Override
             public void onLetoAppLaunched(final ILetoContainer letoContainer, String gameId) {
-                Activity activity = (Activity)letoContainer.getLetoContext();
+                Activity activity = (Activity) letoContainer.getLetoContext();
                 if (MGCSharedModel.benefitSettings != null) {
                     if (MGCSharedModel.benefitSettings.getBubble() != null) {
                         BubbleFloatTool bubbleFloatTool = new BubbleFloatTool(activity, gameId, MGCSharedModel.benefitSettings.getBubble());
@@ -237,7 +229,7 @@ public class FloatToolsCenter {
 
             @Override
             public void onLetoAppExit(ILetoContainer letoContainer, String s) {
-                Activity activity = (Activity)letoContainer.getLetoContext();
+                Activity activity = (Activity) letoContainer.getLetoContext();
                 FloatViewManager.getInstance().removeUpgradeView(activity);
 
                 Iterator<BaseFloatTool> it = floatTools.iterator();
@@ -304,7 +296,7 @@ public class FloatToolsCenter {
                         req.coin = req.levelReward.getCoins();
                         req.videoRatio = req.upgrade.getCoins_multiple();
                         req.workflow = MGCSharedModel.upgradeRedPackStyle;
-                        if(req.workflow < 1 || req.workflow > 3) {
+                        if (req.workflow < 1 || req.workflow > 3) {
                             req.workflow = 1;
                         }
                         req.listener = new IMGCCoinDialogListener() {
