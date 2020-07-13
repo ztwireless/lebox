@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ledong.lib.minigame.GameCenterHomeFragment;
-import com.leto.game.base.util.IntentConstant;
+import com.mgc.leto.game.base.utils.IntentConstant;
 import com.mgc.letobox.happy.model.SharedData;
 
 /**
@@ -59,7 +59,7 @@ public class TabChallengeFragment extends BaseFragment {
         }
 
         // install content fragment
-        Fragment fragment = GameCenterHomeFragment.getInstance(_gameCenterPosId, true);
+        Fragment fragment = GameCenterHomeFragment.getInstance(_gameCenterPosId, false);
         getChildFragmentManager().beginTransaction()
                 .add(R.id.home_content, fragment)
                 .commit();

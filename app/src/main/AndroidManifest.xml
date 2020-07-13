@@ -125,7 +125,7 @@
 
         <!-- 适配android N 的文件系统，authorities 中注意替换您的包名，包名+".fileprovider" -->
         <provider
-            android:name="com.leto.game.base.provider.LetoFileProvider"
+            android:name="com.mgc.leto.game.base.provider.LetoFileProvider"
             android:authorities="${applicationId}.leto.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">

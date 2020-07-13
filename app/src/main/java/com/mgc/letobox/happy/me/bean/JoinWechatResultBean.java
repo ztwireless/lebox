@@ -2,10 +2,6 @@ package com.mgc.letobox.happy.me.bean;
 
 import android.support.annotation.Keep;
 
-import com.ledong.lib.leto.mgc.bean.GetUserCoinResultBean;
-
-import java.util.List;
-
 /**
  * Create by zhaozhihui on 2019-08-19
  **/

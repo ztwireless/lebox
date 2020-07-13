@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/mgc_sdk_white"
+    android:background="@color/leto_white"
     android:orientation="vertical">
 
     <View
@@ -41,7 +41,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:text="@string/leto_mgc_daily_task"
-                android:textColor="@color/mgc_sdk_black"
+                android:textColor="@color/leto_black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 

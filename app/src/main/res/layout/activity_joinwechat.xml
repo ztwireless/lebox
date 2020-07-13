@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/mgc_sdk_action_bar_height">
+        android:layout_height="@dimen/leto_action_bar_height">
 
         <ImageView
             android:id="@+id/iv_back"
@@ -67,7 +67,7 @@
                     android:background="@drawable/lebox_joinwechat_recharge_button_bg"
                     android:gravity="center"
                     android:text="@string/lebox_wechat_recharge"
-                    android:textColor="@color/mgc_sdk_white"
+                    android:textColor="@color/leto_white"
                     android:textSize="17sp" />
 
 

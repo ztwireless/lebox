@@ -15,17 +15,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ledong.lib.leto.api.ApiContainer;
-import com.ledong.lib.leto.api.adext.FeedAd;
-import com.ledong.lib.leto.config.AppConfig;
-import com.ledong.lib.leto.mgc.AppChannel;
-import com.leto.game.base.db.LoginControl;
-import com.leto.game.base.event.DataRefreshEvent;
-import com.leto.game.base.event.GetCoinEvent;
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.GameUtil;
-import com.leto.game.base.util.IntentConstant;
-import com.leto.game.base.util.MResource;
+import com.mgc.leto.game.base.api.ApiContainer;
+import com.mgc.leto.game.base.api.adext.FeedAd;
+import com.mgc.leto.game.base.config.AppConfig;
+import com.mgc.leto.game.base.db.LoginControl;
+import com.mgc.leto.game.base.event.DataRefreshEvent;
+import com.mgc.leto.game.base.event.GetCoinEvent;
+import com.mgc.leto.game.base.mgc.AppChannel;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.GameUtil;
+import com.mgc.leto.game.base.utils.IntentConstant;
+import com.mgc.leto.game.base.utils.MResource;
 import com.mgc.letobox.happy.event.NewerTaskRefreshEvent;
 import com.mgc.letobox.happy.me.adapter.MeHomeAdapter;
 import com.mgc.letobox.happy.me.bean.MeFeedAdModuleBean;
@@ -265,7 +265,7 @@ public class MeNewFragment extends Fragment implements ApiContainer.IApiResultLi
     }
 
     @Override
-    public void onApiFailed(ApiContainer.ApiName n, boolean aborted) {
+    public void onApiFailed(ApiContainer.ApiName n, Object data, boolean aborted) {
 
     }
 }

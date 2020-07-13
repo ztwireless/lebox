@@ -11,18 +11,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ledong.lib.leto.Leto;
-import com.ledong.lib.leto.api.constant.Constant;
-import com.ledong.lib.leto.interfaces.ILetoContainer;
-import com.ledong.lib.leto.listener.ILetoLifecycleListener;
-import com.ledong.lib.leto.mgc.model.MGCSharedModel;
-import com.ledong.lib.leto.utils.MainHandler;
-import com.ledong.lib.leto.widget.ClickGuard;
 import com.ledong.lib.minigame.GameCenterHomeFragment;
 import com.ledong.lib.minigame.SearchActivity;
 import com.ledong.lib.minigame.event.HideTitleEvent;
 import com.ledong.lib.minigame.view.RookieGuideView;
 import com.leto.game.base.event.ShowRookieGiftEvent;
-import com.leto.game.base.util.IntentConstant;
+import com.mgc.leto.game.base.api.constant.Constant;
+import com.mgc.leto.game.base.interfaces.ILetoGameContainer;
+import com.mgc.leto.game.base.listener.ILetoLifecycleListener;
+import com.mgc.leto.game.base.mgc.model.MGCSharedModel;
+import com.mgc.leto.game.base.utils.IntentConstant;
+import com.mgc.leto.game.base.utils.MainHandler;
+import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.event.ShowBackEvent;
 import com.mgc.letobox.happy.event.ShowRookieGuideEvent;
 import com.mgc.letobox.happy.event.TabSwitchEvent;
@@ -155,7 +155,8 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
         }
 
         // install content fragment
-        _fragment = GameCenterHomeFragment.getInstance(_gameCenterPosId);
+        _fragment = GameCenterHomeFragment.getInstance(_gameCenterPosId, true);
+        _fragment.setMgcActivity(true);
         getChildFragmentManager().beginTransaction()
                 .add(R.id.home_content, _fragment)
                 .commit();
@@ -265,15 +266,15 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
     }
 
     @Override
-    public void onLetoAppLaunched(ILetoContainer letoContainer, String appId) {
+    public void onLetoAppLaunched(ILetoGameContainer letoContainer, String appId) {
     }
 
     @Override
-    public void onLetoAppLoaded(ILetoContainer letoContainer, String appId) {
+    public void onLetoAppLoaded(ILetoGameContainer letoContainer, String appId) {
     }
 
     @Override
-    public void onLetoAppShown(final ILetoContainer letoContainer, String appId) {
+    public void onLetoAppShown(final ILetoGameContainer letoContainer, String appId) {
         // 如果是引导等待的游戏, 显示新手红包
         if (MGCSharedModel.isRookieGiftAvailable()) {
             ShowRookieGiftEvent e = new ShowRookieGiftEvent();
@@ -286,17 +287,17 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
     }
 
     @Override
-    public void onLetoAppPaused(ILetoContainer letoContainer, String appId) {
+    public void onLetoAppPaused(ILetoGameContainer letoContainer, String appId) {
 
     }
 
     @Override
-    public void onLetoAppResumed(ILetoContainer letoContainer, String appId) {
+    public void onLetoAppResumed(ILetoGameContainer letoContainer, String appId) {
 
     }
 
     @Override
-    public void onLetoAppExit(ILetoContainer letoContainer, String appId) {
+    public void onLetoAppExit(ILetoGameContainer letoContainer, String appId) {
 
     }
 

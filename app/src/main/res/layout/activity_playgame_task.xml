@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/mgc_sdk_white"
+    android:background="@color/leto_white"
     android:orientation="vertical">
 
     <include layout="@layout/leto_demo_common_header" />

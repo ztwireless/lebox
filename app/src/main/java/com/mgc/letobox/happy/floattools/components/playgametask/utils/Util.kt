@@ -17,7 +17,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.leto.game.base.util.GlideUtil
+import com.mgc.leto.game.base.utils.GlideUtil
 import com.mgc.letobox.happy.R
 import java.io.File
 

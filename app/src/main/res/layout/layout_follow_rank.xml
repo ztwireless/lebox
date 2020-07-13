@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="@color/mgc_sdk_white" />
+            android:background="@color/leto_white" />
 
         <include
             layout="@layout/item_follow_rank_header"

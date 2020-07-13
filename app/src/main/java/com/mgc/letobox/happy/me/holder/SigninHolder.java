@@ -8,19 +8,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ledong.lib.leto.mgc.bean.CoinDialogScene;
-import com.ledong.lib.leto.mgc.dialog.IMGCCoinDialogListener;
-import com.ledong.lib.leto.mgc.holder.CommonViewHolder;
-import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
-import com.ledong.lib.leto.widget.ClickGuard;
+import com.ledong.lib.minigame.bean.GameCenterData_Signin;
 import com.ledong.lib.minigame.bean.SigninStatus;
-import com.leto.game.base.util.ColorUtil;
-import com.leto.game.base.util.GlideUtil;
-import com.leto.game.base.util.MResource;
-import com.mgc.letobox.happy.me.bean.SigninBean;
+import com.mgc.leto.game.base.mgc.bean.CoinDialogScene;
+import com.mgc.leto.game.base.mgc.dialog.IMGCCoinDialogListener;
+import com.mgc.leto.game.base.mgc.util.MGCDialogUtil;
+import com.mgc.leto.game.base.utils.ColorUtil;
+import com.mgc.leto.game.base.utils.GlideUtil;
+import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.widget.ClickGuard;
 
 
-public class SigninHolder extends CommonViewHolder<SigninBean> {
+public class SigninHolder extends CommonViewHolder<GameCenterData_Signin> {
     private ImageView iv_picture;
     private TextView tv_coin;
     private TextView tv_status, video_multiple;
@@ -50,7 +49,7 @@ public class SigninHolder extends CommonViewHolder<SigninBean> {
     }
 
     @Override
-    public void onBind(final SigninBean signin, final int position) {
+    public void onBind(final GameCenterData_Signin signin, final int position) {
         // name & desc
         final Context ctx = itemView.getContext();
 
@@ -178,7 +177,7 @@ public class SigninHolder extends CommonViewHolder<SigninBean> {
         }
     }
 
-    private void signin(final Context ctx, SigninBean signin) {
+    private void signin(final Context ctx, GameCenterData_Signin signin) {
         MGCDialogUtil.showMGCCoinDialogWithAdContainer(ctx, null, signin.getSign_coins(), signin.getMultiple_reward(), CoinDialogScene.SIGN_IN, _adContainer, new IMGCCoinDialogListener() {
             @Override
             public void onExit(boolean video, int coinGot) {

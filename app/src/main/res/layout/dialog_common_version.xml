@@ -30,7 +30,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="24dp"
                     android:text="升级上线"
-                    android:textColor="@color/mgc_sdk_black_3"
+                    android:textColor="@color/leto_black_3"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 

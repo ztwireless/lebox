@@ -16,35 +16,43 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.ledong.lib.leto.Leto;
-import com.ledong.lib.leto.MgcAccountManager;
-import com.ledong.lib.leto.mgc.bean.CoinConfigResultBean;
-import com.ledong.lib.leto.mgc.bean.GetBenefitsSettingResultBean;
-import com.ledong.lib.leto.mgc.model.MGCSharedModel;
-import com.ledong.lib.leto.mgc.util.MGCApiUtil;
-import com.ledong.lib.leto.trace.LetoTrace;
-import com.ledong.lib.leto.utils.MainHandler;
-import com.ledong.lib.leto.widget.ModalDialog;
 import com.ledong.lib.minigame.util.PrefetchCache;
-import com.leto.game.base.ad.AdManager;
-import com.leto.game.base.ad.BaseAd;
-import com.leto.game.base.ad.IAdListener;
-import com.leto.game.base.ad.bean.AdConfig;
-import com.leto.game.base.bean.LoginResultBean;
-import com.leto.game.base.db.LoginControl;
 import com.leto.game.base.event.ShowProvicyEvent;
 import com.leto.game.base.event.ShowRookieGiftEvent;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.http.SdkConstant;
-import com.leto.game.base.listener.IJumpListener;
-import com.leto.game.base.listener.JumpError;
-import com.leto.game.base.listener.SyncUserInfoListener;
-import com.leto.game.base.login.LoginManager;
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.DeviceUtil;
-import com.leto.game.base.util.GameUtil;
+import com.mgc.leto.game.base.LetoConst;
+import com.mgc.leto.game.base.MgcAccountManager;
+import com.mgc.leto.game.base.api.be.AdDotManager;
+import com.mgc.leto.game.base.be.AdConst;
+import com.mgc.leto.game.base.be.AdManager;
+import com.mgc.leto.game.base.be.BaseAd;
+import com.mgc.leto.game.base.be.IAdListener;
+import com.mgc.leto.game.base.be.bean.AdConfig;
+import com.mgc.leto.game.base.be.bean.mgc.MgcAdBean;
+import com.mgc.leto.game.base.bean.LoginResultBean;
+import com.mgc.leto.game.base.db.LoginControl;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.http.SdkConstant;
+import com.mgc.leto.game.base.listener.IJumpListener;
+import com.mgc.leto.game.base.listener.JumpError;
+import com.mgc.leto.game.base.listener.SyncUserInfoListener;
+import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.mgc.bean.CoinConfigResultBean;
+import com.mgc.leto.game.base.mgc.bean.GetBenefitsSettingResultBean;
+import com.mgc.leto.game.base.mgc.model.MGCSharedModel;
+import com.mgc.leto.game.base.mgc.util.MGCApiUtil;
+import com.mgc.leto.game.base.statistic.AdInfo;
+import com.mgc.leto.game.base.statistic.GameStatisticManager;
+import com.mgc.leto.game.base.statistic.StatisticEvent;
+import com.mgc.leto.game.base.trace.LetoTrace;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.DeviceUtil;
+import com.mgc.leto.game.base.utils.GameUtil;
+import com.mgc.leto.game.base.utils.MainHandler;
+import com.mgc.leto.game.base.widget.ModalDialog;
 import com.mgc.letobox.happy.model.SharedData;
 import com.mgc.letobox.happy.util.LeBoxSpUtil;
 
@@ -98,6 +106,12 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
 
     // ad class
     private BaseAd _splashAd;
+
+    AdConfig _adConfig;
+
+    private String clientKey;
+
+    MgcAdBean _mgcAdBean;
 
     private Handler _handler = new Handler(Looper.getMainLooper()) {
         public void handleMessage(android.os.Message msg) {
@@ -178,6 +192,8 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
             _configFetched = true; // 如果不需要检查openType, 直接设置为true
         }
 
+        clientKey =String.valueOf(System.currentTimeMillis()) ;
+
         // sync account
         syncAccount();
 
@@ -243,6 +259,11 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
             // prefetch game center data
             prefetchGameCenter();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     private void doGetBenefitSettings() {
@@ -385,7 +406,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
         // init rx volley
         try {
             RxVolley.setRequestQueue(RequestQueue.newRequestQueue(BaseAppUtil.getDefaultSaveRootPath(this, "mgc")));
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
 
@@ -471,12 +492,22 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
                         if (null != _splashAdContainer) {
                             _splashAdContainer.setVisibility(View.VISIBLE);
                         }
+
+                        //上报给mgc
+                        if (null != _mgcAdBean && !TextUtils.isEmpty(_mgcAdBean.mgcExposeReportUrl)) {
+                            AdDotManager.showDot(_mgcAdBean.mgcExposeReportUrl, null);
+                        }
                     }
                 });
             }
 
             @Override
             public void onClick(String platform) {
+
+                //上报给mgc
+                if (null != _mgcAdBean && !TextUtils.isEmpty(_mgcAdBean.mgcClickReportUrl)) {
+                    AdDotManager.showDot(_mgcAdBean.mgcClickReportUrl, null);
+                }
 
             }
 
@@ -525,6 +556,20 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
                 LetoTrace.d(TAG, "start give up, and skip....");
                 return;
             }
+
+            if (_mgcAdBean == null) {
+                _mgcAdBean = new MgcAdBean();
+            }
+            _mgcAdBean.finalAdFrom = AdConst.AD_FROM_SDK;
+            _mgcAdBean.appId = adConfig.app_id;
+            _mgcAdBean.posId = adConfig.getSplash_pos_id();
+            _mgcAdBean.platform = adConfig.getPlatform();
+
+            _mgcAdBean.buildMgcReportUrl(SplashActivity.this, "", adConfig.id, AdConst.AD_TYPE_SPLASH);
+
+            reportAdRequest();
+
+
             Log.d(TAG, "splash ad show....");
             _splashAdLoading = true;
 
@@ -536,4 +581,30 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
             startMain(true);
         }
     }
+
+    private void report(int login_type, String adinfo, int videoScene) {
+
+        GameStatisticManager.statisticGameLog(SplashActivity.this, BaseAppUtil.getChannelID(SplashActivity.this), login_type, 0, 0, clientKey, 0, LetoConst.EVENT_SUCCESS, "", 0, "", adinfo,
+                false, 0, 0, 0, 0, 0, 0, 0, "", videoScene,
+                null);
+    }
+
+    private AdInfo getAdInfo(AdConfig adConfig){
+        AdInfo adinfo = new AdInfo();
+        adinfo.setAd_type(AdConst.AD_TYPE_SPLASH);
+        adinfo.setApp_id(BaseAppUtil.getChannelID(SplashActivity.this));
+        adinfo.setChannel_id(BaseAppUtil.getChannelID(SplashActivity.this));
+        adinfo.setMobile(LoginManager.getMobile(SplashActivity.this));
+        adinfo.setOrigin(adConfig != null ? adConfig.id : 0);
+        adinfo.setAction_type(_splashAd != null ? _splashAd.getActionType() : AdConst.AD_ACTION_DOWNLOAD);
+        return adinfo;
+    }
+
+    private void reportAdRequest() {
+
+        //请求广告上报
+        AdInfo adinfo = getAdInfo(_adConfig);
+        report(StatisticEvent.LETO_INGAMEAD_REQUEST.ordinal(), new Gson().toJson(adinfo), 0);
+    }
+
 }

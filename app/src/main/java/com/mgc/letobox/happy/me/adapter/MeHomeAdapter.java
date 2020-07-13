@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.leto.game.base.bean.GameExtendInfo;
+import com.mgc.leto.game.base.bean.GameExtendInfo;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
 import com.mgc.letobox.happy.me.holder.CoinHolder;
 import com.mgc.letobox.happy.me.holder.CommonViewHolder;

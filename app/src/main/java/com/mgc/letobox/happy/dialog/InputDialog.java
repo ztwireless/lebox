@@ -13,10 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.ledong.lib.leto.widget.ClickGuard;
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.DensityUtil;
-import com.leto.game.base.util.MResource;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.DensityUtil;
+import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.widget.ClickGuard;
 
 /**
  * 输入对话框

@@ -25,6 +25,7 @@ public class CheckPermissionUtils {
             Manifest.permission.INTERNET,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.REQUEST_INSTALL_PACKAGES,
 
 //            Manifest.permission.SYSTEM_ALERT_WINDOW,
     };

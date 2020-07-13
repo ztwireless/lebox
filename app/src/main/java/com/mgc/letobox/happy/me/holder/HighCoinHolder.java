@@ -5,11 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ledong.lib.leto.widget.ClickGuard;
-import com.leto.game.base.util.MResource;
+import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.LeBoxHighCoinTaskActivity;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
-
 
 
 public class HighCoinHolder extends CommonViewHolder<MeModuleBean> {

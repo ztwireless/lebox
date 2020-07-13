@@ -4,16 +4,14 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
-import com.ledong.lib.leto.LetoConst;
-import com.ledong.lib.leto.mgc.bean.BaseUserRequestBean;
-import com.ledong.lib.leto.mgc.bean.SignInRequestBean;
 import com.leto.game.base.bean.BasePageRequetBean;
-import com.leto.game.base.bean.LetoError;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.http.HttpParamsBuild;
-import com.leto.game.base.http.SdkApi;
-import com.leto.game.base.login.LoginManager;
-import com.leto.game.base.util.BaseAppUtil;
+import com.mgc.leto.game.base.bean.LetoError;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.http.HttpParamsBuild;
+import com.mgc.leto.game.base.http.SdkApi;
+import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.mgc.bean.BaseUserRequestBean;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
 import com.mgc.letobox.happy.follow.bean.FollowBindRequestBean;
 import com.mgc.letobox.happy.follow.bean.FollowInviteApprenticesRequestBean;
 

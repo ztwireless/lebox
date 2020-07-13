@@ -9,9 +9,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
-import com.leto.game.base.bean.SHARE_PLATFORM;
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.MResource;
+import com.mgc.leto.game.base.bean.SHARE_PLATFORM;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.MResource;
 
 /**
  * Create by zhaozhihui on 2020-03-05
@@ -26,7 +26,7 @@ public class SharePlatformDialog {
         dismiss();
         this.mlistener = listener;
         View dialogview = LayoutInflater.from(context).inflate(MResource.getIdByName(context,"R.layout.follow_dialog_share_platform" ), null);
-        dialog = new Dialog(context,MResource.getIdByName(context, "R.style.LetoCustomDialog") );
+        dialog = new Dialog(context,MResource.getIdByName(context, "R.style.leto_custom_dialog") );
         //设置view
         dialog.setContentView(dialogview);
         dialog.setCanceledOnTouchOutside(true);
@@ -93,12 +93,5 @@ public class SharePlatformDialog {
             mlistener = null;
         }
     }
-
-    public interface ConfirmDialogListener {
-        void setPlatform(SHARE_PLATFORM platform);
-
-        void cancel();
-    }
-
 
 }

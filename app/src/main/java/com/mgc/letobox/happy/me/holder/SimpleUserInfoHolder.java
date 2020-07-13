@@ -7,12 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.leto.game.base.util.MResource;
+import com.mgc.leto.game.base.utils.MResource;
 
 public class SimpleUserInfoHolder extends CommonViewHolder<Pair<String, String>> {
 	private TextView _nameLabel;
 	private TextView _valueLabel;
-
 
 	public static SimpleUserInfoHolder create(Context ctx, ViewGroup parent) {
 		// load game row, and leave a gap so that next column can be seen

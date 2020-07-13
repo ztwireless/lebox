@@ -13,8 +13,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.MResource;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.MResource;
+
 
 @Keep
 public class WebDialog extends Dialog {

@@ -12,8 +12,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.DensityUtil;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.DensityUtil;
 import com.mgc.letobox.happy.R;
 
 
@@ -264,10 +264,5 @@ public class CommonDialog {
             dialog.dismiss();
             mlistener=null;
         }
-    }
-    public interface ConfirmDialogListener{
-        void ok();
-        void cancel();
-        void dismiss();
     }
 }

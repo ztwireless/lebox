@@ -1,23 +1,21 @@
 package com.mgc.letobox.happy.me.holder;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ledong.lib.leto.main.IntegralDownloadTaskActivity;
-import com.ledong.lib.leto.trace.LetoTrace;
-import com.ledong.lib.leto.widget.ClickGuard;
-import com.leto.game.base.ad.bean.mgc.MgcAdBean;
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.ColorUtil;
-import com.leto.game.base.util.GlideUtil;
-import com.leto.game.base.util.MResource;
+import com.mgc.leto.game.base.be.bean.mgc.MgcAdBean;
+import com.mgc.leto.game.base.main.IntegralDownloadTaskActivity;
+import com.mgc.leto.game.base.trace.LetoTrace;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.ColorUtil;
+import com.mgc.leto.game.base.utils.GlideUtil;
+import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.R;
-
 
 import java.text.DecimalFormat;
 

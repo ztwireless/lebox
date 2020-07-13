@@ -26,17 +26,18 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.reflect.TypeToken;
 import com.jaeger.library.StatusBarUtil;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.login.LoginManager;
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.DensityUtil;
-import com.leto.game.base.util.DialogUtil;
-import com.leto.game.base.util.GlideUtil;
-import com.leto.game.base.util.ToastUtil;
-import com.leto.game.base.view.StarBar;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.DensityUtil;
+import com.mgc.leto.game.base.utils.DialogUtil;
+import com.mgc.leto.game.base.utils.GlideUtil;
+import com.mgc.leto.game.base.utils.ToastUtil;
+import com.mgc.leto.game.base.view.StarBar;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.circle.CircleConst;
 import com.mgc.letobox.happy.circle.adapter.CircleDetailsAdapter;
+import com.mgc.letobox.happy.circle.adapter.CircleDetailsClickListener;
 import com.mgc.letobox.happy.circle.adapter.CircleListAdapter;
 import com.mgc.letobox.happy.circle.bean.CircleBean;
 import com.mgc.letobox.happy.circle.bean.CircleGroupsResponse;
@@ -44,10 +45,12 @@ import com.mgc.letobox.happy.circle.bean.CircleTieZiListResponse;
 import com.mgc.letobox.happy.circle.bean.CreateTieZiReponse;
 import com.mgc.letobox.happy.circle.bean.ReplyCountBean;
 import com.mgc.letobox.happy.circle.dialog.CommonDialog;
+import com.mgc.letobox.happy.circle.dialog.ConfirmDialogListener;
 import com.mgc.letobox.happy.circle.util.CircleDialogUtils;
 import com.mgc.letobox.happy.find.FindConst;
 import com.mgc.letobox.happy.find.bean.BaseResultBean;
 import com.mgc.letobox.happy.find.bean.RewardResultBean;
+import com.mgc.letobox.happy.find.dialog.FillDialogCallBack;
 import com.mgc.letobox.happy.find.dialog.RichEditDialog;
 import com.mgc.letobox.happy.find.dialog.SharePlatformDialog;
 import com.mgc.letobox.happy.find.event.FollowEvent;
@@ -70,7 +73,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CircleDetailsActivity extends AppCompatActivity implements CircleDetailsAdapter.CircleDetailsClickListener {
+public class CircleDetailsActivity extends AppCompatActivity implements CircleDetailsClickListener {
 
     ImageView iv_game_cover;
     CheckBox cb_follow;
@@ -479,7 +482,7 @@ public class CircleDetailsActivity extends AppCompatActivity implements CircleDe
                 if (mRichEditDialog == null) {
                     mRichEditDialog = new RichEditDialog();
                 }
-                mRichEditDialog.fillDialog(CircleDetailsActivity.this, 3, new RichEditDialog.FillDialogCallBack() {
+                mRichEditDialog.fillDialog(CircleDetailsActivity.this, 3, new FillDialogCallBack() {
                     @Override
                     public void textViewCreate(Dialog dialog, StarBar starBar, EditText editText, EditText title) {
                         mDialog = dialog;
@@ -528,7 +531,7 @@ public class CircleDetailsActivity extends AppCompatActivity implements CircleDe
                 if (mRichEditDialog == null) {
                     mRichEditDialog = new RichEditDialog();
                 }
-                mRichEditDialog.fillDialog(CircleDetailsActivity.this, 3, new RichEditDialog.FillDialogCallBack() {
+                mRichEditDialog.fillDialog(CircleDetailsActivity.this, 3, new FillDialogCallBack() {
                     @Override
                     public void textViewCreate(Dialog dialog, StarBar starBar, EditText editText, EditText title) {
                         mDialog = dialog;
@@ -984,7 +987,7 @@ public class CircleDetailsActivity extends AppCompatActivity implements CircleDe
             public void popWindow3(PopupWindow popupWindow) {
                 popupWindow.dismiss();
                 CommonDialog commonDialog = new CommonDialog();
-                commonDialog.showDialog(CircleDetailsActivity.this, true, null, "确定退出该圈子？", new CommonDialog.ConfirmDialogListener() {
+                commonDialog.showDialog(CircleDetailsActivity.this, true, null, "确定退出该圈子？", new ConfirmDialogListener() {
                     @Override
                     public void ok() {
                         initQuit();
@@ -1023,7 +1026,7 @@ public class CircleDetailsActivity extends AppCompatActivity implements CircleDe
                     mRichEditDialog = new RichEditDialog();
                 }
 
-                mRichEditDialog.fillDialog(CircleDetailsActivity.this, 3, new RichEditDialog.FillDialogCallBack() {
+                mRichEditDialog.fillDialog(CircleDetailsActivity.this, 3, new FillDialogCallBack() {
                     @Override
                     public void textViewCreate(Dialog dialog, StarBar starBar, EditText contentEditer, EditText titleEditer) {
                         mDialog = dialog;
@@ -1050,7 +1053,7 @@ public class CircleDetailsActivity extends AppCompatActivity implements CircleDe
             @Override
             public void Detele() {
                 CommonDialog commonDialog = new CommonDialog();
-                commonDialog.showDialog(CircleDetailsActivity.this, true, null, "确定要删除该帖子？", new CommonDialog.ConfirmDialogListener() {
+                commonDialog.showDialog(CircleDetailsActivity.this, true, null, "确定要删除该帖子？", new ConfirmDialogListener() {
                     @Override
                     public void ok() {
                         postDel(response.getPost_id());

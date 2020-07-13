@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.leto.game.base.util.DensityUtil;
-import com.mgc.letobox.happy.find.ui.ArticleListFragment;
+import com.mgc.leto.game.base.utils.DensityUtil;
 import com.mgc.letobox.happy.circle.ui.CircleFragment;
+import com.mgc.letobox.happy.find.ui.ArticleListFragment;
 import com.mgc.letobox.happy.find.ui.TopNewsFragment;
 import com.mgc.letobox.happy.view.ColorBar;
 import com.mgc.letobox.happy.view.NoScrollViewPager;

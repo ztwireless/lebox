@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.reflect.TypeToken;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.util.ToastUtil;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.utils.ToastUtil;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.find.adapter.ArticleListAdapter;
 import com.mgc.letobox.happy.find.bean.ArticleResultBean;
@@ -88,7 +88,7 @@ public class ArticleListFragment extends Fragment {
 		super.onDestroy();
 
 		// unregister event bus
-		if (EventBus.getDefault().isRegistered(this)) {
+		if(EventBus.getDefault().isRegistered(this)) {
 			EventBus.getDefault().unregister(this);
 		}
 	}
@@ -107,7 +107,7 @@ public class ArticleListFragment extends Fragment {
 
 		// get arguments
 		Bundle arguments = getArguments();
-		if (arguments != null) {
+		if(arguments != null) {
 			type = arguments.getInt(TYPE, TYPE_TOP);
 			categoryId = arguments.getInt(CATEGORY, 0);
 		}
@@ -117,11 +117,11 @@ public class ArticleListFragment extends Fragment {
 		mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
 			@Override
 			public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-				if (view.getId() == R.id.cb_follow) {
+				if(view.getId() == R.id.cb_follow) {
 					userFollow(mAdapter.getData().get(position).getKol().id, mAdapter.getData().get(position).getKol().isfollow == 1 ? 2 : 1, position);
-				} else if (view.getId() == R.id.ll_weibo) {
+				} else if(view.getId() == R.id.ll_weibo) {
 					ArticleDetailActivity.start(getActivity(), mAdapter.getData().get(position));
-				} else if (view.getId() == R.id.iv_avatar) {
+				} else if(view.getId() == R.id.iv_avatar) {
 					KOLActivitiy.startActivity(getActivity(), mAdapter.getData().get(position).getKol().id);
 				}
 			}
@@ -156,12 +156,13 @@ public class ArticleListFragment extends Fragment {
 
 	public void getPageData(final int requestPageNo, final boolean isRefresh) {
 		Context ctx = getContext();
-		FindApiUtil.getArticleList(ctx, type, requestPageNo, categoryId, new HttpCallbackDecode<List<ArticleResultBean>>(getActivity(), null, new TypeToken<List<ArticleResultBean>>(){}.getType()) {
+		FindApiUtil.getArticleList(ctx, type, requestPageNo, categoryId, new HttpCallbackDecode<List<ArticleResultBean>>(getActivity(), null, new TypeToken<List<ArticleResultBean>>() {
+		}.getType()) {
 			@Override
 			public void onDataSuccess(List<ArticleResultBean> data) {
 				setData(isRefresh, data);
 
-				if (mAdapter.getData().size() == 0) {
+				if(mAdapter.getData().size() == 0) {
 					tv_no_data.setVisibility(View.VISIBLE);
 				} else {
 					tv_no_data.setVisibility(View.GONE);
@@ -189,14 +190,14 @@ public class ArticleListFragment extends Fragment {
 		FindApiUtil.followUser(ctx, userId, type, new HttpCallbackDecode<RewardResultBean>(getActivity(), null) {
 			@Override
 			public void onDataSuccess(RewardResultBean data) {
-				for (int i = 0; i < mAdapter.getData().size(); i++) {
-					if (mAdapter.getData().get(i).getKol().getId() == userId) {
+				for(int i = 0; i < mAdapter.getData().size(); i++) {
+					if(mAdapter.getData().get(i).getKol().getId() == userId) {
 						mAdapter.getData().get(i).getKol().setIsfollow(type == 1 ? 1 : 0);
 					}
 				}
 				mAdapter.notifyDataSetChanged();
 				EventBus.getDefault().post(new FollowEvent(userId, type == 1 ? true : false));
-				if (data != null) {
+				if(data != null) {
 					ToastUtil.s(getContext(), "关注成功");
 				}
 			}
@@ -212,12 +213,12 @@ public class ArticleListFragment extends Fragment {
 	private void setData(boolean isRefresh, List data) {
 		mNextRequestPage++;
 		final int size = data == null ? 0 : data.size();
-		if (isRefresh) {
+		if(isRefresh) {
 			mAdapter.setNewData(data);
 			refreshLayout.finishRefresh();
 			refreshLayout.setNoMoreData(false);
 		} else {
-			if (size > 0) {
+			if(size > 0) {
 				mAdapter.addData(data);
 				refreshLayout.finishLoadMore();
 			} else {
@@ -225,12 +226,12 @@ public class ArticleListFragment extends Fragment {
 				refreshLayout.finishLoadMoreWithNoMoreData();
 			}
 		}
-		if (mAdapter.getData() != null && mAdapter.getData().size() == 0) {
+		if(mAdapter.getData() != null && mAdapter.getData().size() == 0) {
 			refreshLayout.setNoMoreData(true);
 			refreshLayout.finishLoadMore();
 			refreshLayout.finishLoadMoreWithNoMoreData();
 		}
-		if (size < PAGE_SIZE) {
+		if(size < PAGE_SIZE) {
 			refreshLayout.finishLoadMoreWithNoMoreData();
 		} else {
 			refreshLayout.finishLoadMore();
@@ -240,8 +241,8 @@ public class ArticleListFragment extends Fragment {
 	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void onFollowChange(FollowEvent change) {
 
-		for (int i = 0; i < mAdapter.getData().size(); i++) {
-			if (mAdapter.getData().get(i).getKol().getId() == change.getUid()) {
+		for(int i = 0; i < mAdapter.getData().size(); i++) {
+			if(mAdapter.getData().get(i).getKol().getId() == change.getUid()) {
 				mAdapter.getData().get(i).getKol().setIsfollow(change.isFollow() ? 1 : 0);
 			}
 		}

@@ -3,15 +3,12 @@ package com.mgc.letobox.happy.util;
 import android.content.Context;
 import android.text.TextUtils;
 
-
-
-import com.ledong.lib.leto.trace.LetoTrace;
-import com.leto.game.base.config.FileConfig;
-import com.leto.game.base.listener.IProgressListener;
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.IOUtil;
-import com.leto.game.base.util.MD5;
-import com.leto.game.base.util.OkHttpUtil;
+import com.mgc.leto.game.base.config.FileConfig;
+import com.mgc.leto.game.base.listener.IProgressListener;
+import com.mgc.leto.game.base.trace.LetoTrace;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.IOUtil;
+import com.mgc.leto.game.base.utils.OkHttpUtil;
 import com.mgc.letobox.happy.bean.VersionResultBean;
 
 import org.json.JSONObject;

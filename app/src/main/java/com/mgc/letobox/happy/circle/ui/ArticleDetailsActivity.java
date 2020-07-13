@@ -31,14 +31,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.reflect.TypeToken;
 import com.jaeger.library.StatusBarUtil;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.login.LoginManager;
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.DensityUtil;
-import com.leto.game.base.util.DialogUtil;
-import com.leto.game.base.util.GlideUtil;
-import com.leto.game.base.util.ToastUtil;
-import com.leto.game.base.view.StarBar;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.DensityUtil;
+import com.mgc.leto.game.base.utils.DialogUtil;
+import com.mgc.leto.game.base.utils.GlideUtil;
+import com.mgc.leto.game.base.utils.ToastUtil;
+import com.mgc.leto.game.base.view.StarBar;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.circle.CircleConst;
 import com.mgc.letobox.happy.circle.bean.CircleTieZiListResponse;
@@ -46,12 +46,14 @@ import com.mgc.letobox.happy.circle.bean.CreateTieZiReponse;
 import com.mgc.letobox.happy.circle.bean.PostIdResponse;
 import com.mgc.letobox.happy.circle.bean.ReplyCountBean;
 import com.mgc.letobox.happy.circle.dialog.CommonDialog;
+import com.mgc.letobox.happy.circle.dialog.ConfirmDialogListener;
 import com.mgc.letobox.happy.circle.util.CircleDialogUtils;
 import com.mgc.letobox.happy.find.FindConst;
 import com.mgc.letobox.happy.find.adapter.ArticleCommentListAdapter;
 import com.mgc.letobox.happy.find.bean.ArticleCommentListResultBean;
 import com.mgc.letobox.happy.find.bean.BaseResultBean;
 import com.mgc.letobox.happy.find.bean.RewardResultBean;
+import com.mgc.letobox.happy.find.dialog.FillDialogCallBack;
 import com.mgc.letobox.happy.find.dialog.RichEditDialog;
 import com.mgc.letobox.happy.find.dialog.SharePlatformDialog;
 import com.mgc.letobox.happy.find.event.FollowEvent;
@@ -369,7 +371,7 @@ public class ArticleDetailsActivity extends AppCompatActivity {
                         mRichEditDialog = new RichEditDialog();
                     }
                     mRichEditDialog.clear();
-                    mRichEditDialog.fillDialog(ArticleDetailsActivity.this, 1, new RichEditDialog.FillDialogCallBack() {
+                    mRichEditDialog.fillDialog(ArticleDetailsActivity.this, 1, new FillDialogCallBack() {
                         @Override
                         public void textViewCreate(Dialog dialog, StarBar starBar, EditText comment, EditText titleEdit) {
                             commentDialog = dialog;
@@ -856,7 +858,7 @@ public class ArticleDetailsActivity extends AppCompatActivity {
             mRichEditDialog = new RichEditDialog();
         }
 
-        mRichEditDialog.fillDialog(ArticleDetailsActivity.this, 3, new RichEditDialog.FillDialogCallBack() {
+        mRichEditDialog.fillDialog(ArticleDetailsActivity.this, 3, new FillDialogCallBack() {
             @Override
             public void textViewCreate(Dialog dialog, StarBar starBar, EditText contentEditer, EditText titleEditer) {
                 commentDialog = dialog;
@@ -881,7 +883,7 @@ public class ArticleDetailsActivity extends AppCompatActivity {
 
     private void delete() {
         CommonDialog commonDialog = new CommonDialog();
-        commonDialog.showDialog(ArticleDetailsActivity.this, true, null, "确定要删除该帖子？", new CommonDialog.ConfirmDialogListener() {
+        commonDialog.showDialog(ArticleDetailsActivity.this, true, null, "确定要删除该帖子？", new ConfirmDialogListener() {
             @Override
             public void ok() {
                 postDel(articleId);

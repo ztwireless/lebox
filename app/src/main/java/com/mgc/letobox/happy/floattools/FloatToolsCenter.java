@@ -6,25 +6,25 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.ledong.lib.leto.Leto;
-import com.ledong.lib.leto.api.ApiContainer;
-import com.ledong.lib.leto.api.constant.Constant;
-import com.ledong.lib.leto.api.mgc.RedPackRequest;
-import com.ledong.lib.leto.interfaces.ILetoContainer;
-import com.ledong.lib.leto.listener.ILetoGameUpgradeListener;
-import com.ledong.lib.leto.listener.ILetoGiftRainListener;
-import com.ledong.lib.leto.listener.ILetoLifecycleListener;
-import com.ledong.lib.leto.mgc.bean.BenefitSettings_hbrain;
-import com.ledong.lib.leto.mgc.bean.BenefitSettings_upgrade;
-import com.ledong.lib.leto.mgc.bean.CoinDialogScene;
-import com.ledong.lib.leto.mgc.dialog.IMGCCoinDialogListener;
-import com.ledong.lib.leto.mgc.model.MGCSharedModel;
-import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
-import com.ledong.lib.leto.trace.LetoTrace;
-import com.ledong.lib.leto.widget.ClickGuard;
-import com.leto.game.base.statistic.GameStatisticManager;
-import com.leto.game.base.statistic.StatisticEvent;
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.ToastUtil;
+import com.mgc.leto.game.base.api.ApiContainer;
+import com.mgc.leto.game.base.api.constant.Constant;
+import com.mgc.leto.game.base.api.mgc.RedPackRequest;
+import com.mgc.leto.game.base.interfaces.ILetoGameContainer;
+import com.mgc.leto.game.base.listener.ILetoGameUpgradeListener;
+import com.mgc.leto.game.base.listener.ILetoGiftRainListener;
+import com.mgc.leto.game.base.listener.ILetoLifecycleListener;
+import com.mgc.leto.game.base.mgc.bean.BenefitSettings_hbrain;
+import com.mgc.leto.game.base.mgc.bean.BenefitSettings_upgrade;
+import com.mgc.leto.game.base.mgc.bean.CoinDialogScene;
+import com.mgc.leto.game.base.mgc.dialog.IMGCCoinDialogListener;
+import com.mgc.leto.game.base.mgc.model.MGCSharedModel;
+import com.mgc.leto.game.base.mgc.util.MGCDialogUtil;
+import com.mgc.leto.game.base.statistic.GameStatisticManager;
+import com.mgc.leto.game.base.statistic.StatisticEvent;
+import com.mgc.leto.game.base.trace.LetoTrace;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.ToastUtil;
+import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.floattools.components.RedPacketSeaActivity;
 import com.mgc.letobox.happy.floattools.tools.BubbleFloatTool;
@@ -58,7 +58,6 @@ public class FloatToolsCenter {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
-
 
     public static void init(final Application app) {
         TEST_ENV = BaseAppUtil.getMetaBooleanValue(app, "MGC_TEST_ENV");
@@ -140,7 +139,7 @@ public class FloatToolsCenter {
                         }
 
                         @Override
-                        public void onApiFailed(ApiContainer.ApiName n, boolean aborted) {
+                        public void onApiFailed(ApiContainer.ApiName n, Object data, boolean aborted) {
                             Log.i(TAG, "onApiFailed");
                             apiContainer.destroy();
                         }
@@ -161,7 +160,7 @@ public class FloatToolsCenter {
             private List<BaseFloatTool> floatTools = new ArrayList<>();
 
             @Override
-            public void onLetoAppLaunched(final ILetoContainer letoContainer, String gameId) {
+            public void onLetoAppLaunched(final ILetoGameContainer letoContainer, String gameId) {
                 Activity activity = (Activity) letoContainer.getLetoContext();
                 if (MGCSharedModel.benefitSettings != null) {
                     if (MGCSharedModel.benefitSettings.getBubble() != null) {
@@ -212,23 +211,23 @@ public class FloatToolsCenter {
             }
 
             @Override
-            public void onLetoAppLoaded(ILetoContainer letoContainer, String s) {
+            public void onLetoAppLoaded(ILetoGameContainer letoContainer, String s) {
             }
 
             @Override
-            public void onLetoAppShown(ILetoContainer letoContainer, String appId) {
+            public void onLetoAppShown(ILetoGameContainer letoContainer, String appId) {
             }
 
             @Override
-            public void onLetoAppPaused(ILetoContainer letoContainer, String s) {
+            public void onLetoAppPaused(ILetoGameContainer letoContainer, String s) {
             }
 
             @Override
-            public void onLetoAppResumed(ILetoContainer letoContainer, String s) {
+            public void onLetoAppResumed(ILetoGameContainer letoContainer, String s) {
             }
 
             @Override
-            public void onLetoAppExit(ILetoContainer letoContainer, String s) {
+            public void onLetoAppExit(ILetoGameContainer letoContainer, String s) {
                 Activity activity = (Activity) letoContainer.getLetoContext();
                 FloatViewManager.getInstance().removeUpgradeView(activity);
 

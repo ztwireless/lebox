@@ -32,13 +32,13 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jaeger.library.StatusBarUtil;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.login.LoginManager;
-import com.leto.game.base.util.DensityUtil;
-import com.leto.game.base.util.DialogUtil;
-import com.leto.game.base.util.GlideUtil;
-import com.leto.game.base.util.ToastUtil;
-import com.leto.game.base.view.StarBar;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.utils.DensityUtil;
+import com.mgc.leto.game.base.utils.DialogUtil;
+import com.mgc.leto.game.base.utils.GlideUtil;
+import com.mgc.leto.game.base.utils.ToastUtil;
+import com.mgc.leto.game.base.view.StarBar;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.find.FindConst;
 import com.mgc.letobox.happy.find.adapter.ArticleCommentListAdapter;
@@ -46,6 +46,7 @@ import com.mgc.letobox.happy.find.bean.ArticleCommentListResultBean;
 import com.mgc.letobox.happy.find.bean.ArticleDetailResultBean;
 import com.mgc.letobox.happy.find.bean.ArticleResultBean;
 import com.mgc.letobox.happy.find.bean.RewardResultBean;
+import com.mgc.letobox.happy.find.dialog.FillDialogCallBack;
 import com.mgc.letobox.happy.find.dialog.RichEditDialog;
 import com.mgc.letobox.happy.find.event.FollowEvent;
 import com.mgc.letobox.happy.find.util.FileUtils;
@@ -345,7 +346,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
                     mRichEditDialog = new RichEditDialog();
                 }
 
-                mRichEditDialog.fillDialog(ArticleDetailActivity.this, 1, new RichEditDialog.FillDialogCallBack() {
+                mRichEditDialog.fillDialog(ArticleDetailActivity.this, 1, new FillDialogCallBack() {
                     @Override
                     public void textViewCreate(Dialog dialog, StarBar starBar, EditText comment, EditText titleEdit) {
                         commentDialog = dialog;

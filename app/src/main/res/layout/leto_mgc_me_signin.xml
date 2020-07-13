@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/mgc_sdk_white"
+    android:background="@color/leto_white"
     android:orientation="vertical">
 
     <View
@@ -32,7 +32,7 @@
             android:gravity="left"
             android:singleLine="true"
             android:text="@string/leto_mgc_me_signin"
-            android:textColor="@color/mgc_sdk_black"
+            android:textColor="@color/leto_black"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>

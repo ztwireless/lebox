@@ -156,7 +156,7 @@
 
         android:text="查看详细邀请规则"
         android:textSize="14sp"
-        android:textColor="@color/mgc_sdk_white"
+        android:textColor="@color/leto_white"
         android:background="@drawable/follow_invite_rule_button_bg"
         />
 

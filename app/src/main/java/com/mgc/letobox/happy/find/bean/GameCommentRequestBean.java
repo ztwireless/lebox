@@ -1,12 +1,16 @@
 package com.mgc.letobox.happy.find.bean;
 
-import com.leto.game.base.bean.BaseRequestBean;
+import com.mgc.leto.game.base.bean.BaseRequestBean;
 
 /**
  * Created by liu hong liang on 2016/11/12.
  */
 
 public class GameCommentRequestBean extends BaseRequestBean {
+    public int game_id;
+    public String content;
+    public int star;
+    private String agent_id;
 
     public int getGame_id() {
         return game_id;
@@ -24,10 +28,6 @@ public class GameCommentRequestBean extends BaseRequestBean {
         this.content = content;
     }
 
-    public int game_id;
-
-    public String content;
-
     public int getStar() {
         return star;
     }
@@ -43,8 +43,4 @@ public class GameCommentRequestBean extends BaseRequestBean {
     public void setAgent_id(String agent_id) {
         this.agent_id = agent_id;
     }
-
-    public int star;
-
-    private String agent_id;
 }

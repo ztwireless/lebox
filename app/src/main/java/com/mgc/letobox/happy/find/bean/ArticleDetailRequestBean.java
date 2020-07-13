@@ -1,10 +1,9 @@
 package com.mgc.letobox.happy.find.bean;
 
 
-import com.leto.game.base.bean.BaseRequestBean;
+import com.mgc.leto.game.base.bean.BaseRequestBean;
 
 public class ArticleDetailRequestBean extends BaseRequestBean {
-
     public int getNews_id() {
         return news_id;
     }

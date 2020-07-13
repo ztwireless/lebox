@@ -3,20 +3,18 @@ package com.mgc.letobox.happy.floattools.tools
 import android.app.Activity
 import android.text.TextUtils
 import android.util.Log
-import android.widget.Toast
-import com.ledong.lib.leto.api.ApiContainer
-import com.ledong.lib.leto.api.ApiContainer.ApiName
-import com.ledong.lib.leto.api.ApiContainer.IApiResultListener
-import com.ledong.lib.leto.api.constant.Constant
-import com.ledong.lib.leto.interfaces.ILetoContainer
-import com.ledong.lib.leto.mgc.bean.BenefitSettings_shake
-import com.ledong.lib.leto.mgc.bean.CoinDialogScene
-import com.ledong.lib.leto.mgc.util.MGCDialogUtil
-import com.leto.game.base.ad.AdPreloader
-import com.leto.game.base.http.HttpCallbackDecode
-import com.leto.game.base.statistic.GameStatisticManager
-import com.leto.game.base.statistic.StatisticEvent
-import com.leto.game.base.util.ToastUtil
+import com.mgc.leto.game.base.api.ApiContainer
+import com.mgc.leto.game.base.api.constant.Constant
+import com.mgc.leto.game.base.be.AdPreloader
+import com.mgc.leto.game.base.http.HttpCallbackDecode
+import com.mgc.leto.game.base.interfaces.ILetoContainer
+import com.mgc.leto.game.base.interfaces.ILetoGameContainer
+import com.mgc.leto.game.base.mgc.bean.BenefitSettings_shake
+import com.mgc.leto.game.base.mgc.bean.CoinDialogScene
+import com.mgc.leto.game.base.mgc.util.MGCDialogUtil
+import com.mgc.leto.game.base.statistic.GameStatisticManager
+import com.mgc.leto.game.base.statistic.StatisticEvent
+import com.mgc.leto.game.base.utils.ToastUtil
 import com.mgc.letobox.happy.R
 import com.mgc.letobox.happy.bean.ShakeResultBean
 import com.mgc.letobox.happy.floattools.BaseFloatTool
@@ -92,20 +90,20 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Benefi
     }
 
     private fun triggerJSShakeAwardEvent(activity: Activity, awardId: String) {
-        if (activity is ILetoContainer) {
+        if (activity is ILetoGameContainer) {
             activity.notifyServiceSubscribeHandler("onAppShakeAward", String.format("{\"award_id\": \"%s\"}", awardId), 0)
         }
     }
 
     private fun presentInterstitialAd(activity: Activity) {
         val apiContainer = ApiContainer(activity)
-        apiContainer.presentInterstitialAd(object : IApiResultListener {
-            override fun onApiSuccess(apiName: ApiName?, o: Any?) {
+        apiContainer.presentInterstitialAd(object : ApiContainer.IApiResultListener {
+            override fun onApiSuccess(apiName: ApiContainer.ApiName?, o: Any?) {
                 Log.i(TAG, "onApiSuccess")
                 apiContainer.destroy()
             }
 
-            override fun onApiFailed(apiName: ApiName?, b: Boolean) {
+            override fun onApiFailed(apiName: ApiContainer.ApiName?, o: Any?, b: Boolean) {
                 Log.i(TAG, "onApiFailed")
                 apiContainer.destroy()
                 ToastUtil.s(activity, R.string.obtain_ad_failed)

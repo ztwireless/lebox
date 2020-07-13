@@ -27,10 +27,10 @@ import com.google.gson.Gson;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
 import com.kymjs.rxvolley.http.VolleyError;
-import com.leto.game.base.http.HttpParamsBuild;
-import com.leto.game.base.util.DialogUtil;
-import com.leto.game.base.util.ToastUtil;
-import com.leto.game.base.view.StarBar;
+import com.mgc.leto.game.base.http.HttpParamsBuild;
+import com.mgc.leto.game.base.utils.DialogUtil;
+import com.mgc.leto.game.base.utils.ToastUtil;
+import com.mgc.leto.game.base.view.StarBar;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.find.bean.CommentBean;
 import com.mgc.letobox.happy.find.bean.PostImage;
@@ -333,15 +333,6 @@ public class RichEditDialog {
             return context.getResources().getDimensionPixelSize(resourceId);
         }
         return 0;
-    }
-
-
-    public interface FillDialogCallBack {
-        void textViewCreate(Dialog dialog, StarBar starBar, EditText contentEditer, EditText titleEditer);
-
-        void selectPicture();
-
-        void cancel();
     }
 
     public void bindImage(String path) {

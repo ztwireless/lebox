@@ -6,7 +6,7 @@
     android:background="#FCFCFC"
     android:orientation="vertical">
 
-    <include layout="@layout/leto_minigame_include_common_header" />
+    <include layout="@layout/lebox_include_common_header" />
 
     <FrameLayout
         android:id="@+id/content"
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/mgc_sdk_text_lowgray"
+            android:textColor="@color/leto_text_lowgray"
             android:text="登录即代表您已阅读并同意"/>
 
         <TextView
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/mgc_sdk_text_lowgray"
+            android:textColor="@color/leto_text_lowgray"
             android:text="及"/>
 
         <TextView

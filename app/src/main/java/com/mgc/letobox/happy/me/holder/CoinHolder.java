@@ -14,27 +14,26 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ledong.lib.leto.Leto;
-import com.ledong.lib.leto.api.constant.Constant;
-import com.ledong.lib.leto.mgc.AppChannel;
-import com.ledong.lib.leto.mgc.ExchangeActivity;
-import com.ledong.lib.leto.mgc.WithdrawActivity;
-import com.ledong.lib.leto.mgc.bean.GetUserCoinResultBean;
-import com.ledong.lib.leto.mgc.model.MGCSharedModel;
-import com.ledong.lib.leto.mgc.thirdparty.IMintage;
-import com.ledong.lib.leto.mgc.thirdparty.IWithdraw;
-import com.ledong.lib.leto.mgc.thirdparty.WithdrawRequest;
-import com.ledong.lib.leto.mgc.util.MGCApiUtil;
-import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
-import com.ledong.lib.leto.widget.ClickGuard;
-import com.leto.game.base.bean.LoginResultBean;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.login.LoginManager;
-import com.leto.game.base.statistic.GameStatisticManager;
-import com.leto.game.base.statistic.StatisticEvent;
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.DialogUtil;
-import com.leto.game.base.util.GlideUtil;
-import com.leto.game.base.util.MResource;
+import com.mgc.leto.game.base.api.constant.Constant;
+import com.mgc.leto.game.base.bean.LoginResultBean;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.mgc.AppChannel;
+import com.mgc.leto.game.base.mgc.ExchangeActivity;
+import com.mgc.leto.game.base.mgc.WithdrawActivity;
+import com.mgc.leto.game.base.mgc.bean.GetUserCoinResultBean;
+import com.mgc.leto.game.base.mgc.model.MGCSharedModel;
+import com.mgc.leto.game.base.mgc.thirdparty.IWithdraw;
+import com.mgc.leto.game.base.mgc.thirdparty.WithdrawRequest;
+import com.mgc.leto.game.base.mgc.util.MGCApiUtil;
+import com.mgc.leto.game.base.mgc.util.MGCDialogUtil;
+import com.mgc.leto.game.base.statistic.GameStatisticManager;
+import com.mgc.leto.game.base.statistic.StatisticEvent;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.DialogUtil;
+import com.mgc.leto.game.base.utils.GlideUtil;
+import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.LeBoxLoginActivity;
 import com.mgc.letobox.happy.LeBoxMobileLoginActivity;
 import com.mgc.letobox.happy.LeBoxProfileActivity;
@@ -101,7 +100,7 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         _inviteField = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.rl_invite"));
 
         // get strings
-        _loading = _ctx.getString(MResource.getIdByName(_ctx, "R.string.loading"));
+        _loading = _ctx.getString(MResource.getIdByName(_ctx, "R.string.leto_loading"));
         _leto_mgc_failed_get_user_coin = _ctx.getString(MResource.getIdByName(_ctx, "R.string.leto_mgc_failed_get_user_coin"));
         _leto_mgc_dollar = _ctx.getString(MResource.getIdByName(_ctx, "R.string.leto_mgc_dollar"));
     }

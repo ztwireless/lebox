@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 
-import com.leto.game.base.provider.LetoFileProvider;
+import com.mgc.leto.game.base.provider.LetoFileProvider;
 import com.mgc.letobox.happy.imagepicker.cropimage.CropImageIntentBuilder;
 
 public class ImagePickerActivity extends Activity {

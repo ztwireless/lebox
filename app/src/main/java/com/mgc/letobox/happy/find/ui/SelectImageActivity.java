@@ -18,10 +18,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.leto.game.base.util.DensityUtil;
-import com.leto.game.base.util.ToastUtil;
+import com.mgc.leto.game.base.utils.DensityUtil;
+import com.mgc.leto.game.base.utils.ToastUtil;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.circle.view.SpaceGridItemDecoration;
 import com.mgc.letobox.happy.find.FindConst;

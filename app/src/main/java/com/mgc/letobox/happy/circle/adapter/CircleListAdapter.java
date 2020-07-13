@@ -43,9 +43,9 @@ public class CircleListAdapter extends MultipleItemRvAdapter<CircleTieZiListResp
     public static final int RIGHT_VIDEO_NEWS = 7;
 
 
-    private CircleDetailsAdapter.CircleDetailsClickListener listener;
+    private CircleDetailsClickListener listener;
 
-    public CircleListAdapter(List<CircleTieZiListResponse> data,CircleDetailsAdapter.CircleDetailsClickListener listener) {
+    public CircleListAdapter(List<CircleTieZiListResponse> data, CircleDetailsClickListener listener) {
         super(data);
         this.listener = listener;
         finishInitialize();

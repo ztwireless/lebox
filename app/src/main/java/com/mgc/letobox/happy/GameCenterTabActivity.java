@@ -24,27 +24,26 @@ import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.ledong.lib.leto.Leto;
-import com.ledong.lib.leto.LetoEvents;
-import com.ledong.lib.leto.api.ApiContainer;
-import com.ledong.lib.leto.listener.ILetoPlayedDurationListener;
-import com.ledong.lib.leto.main.LetoActivity;
-import com.ledong.lib.leto.mgc.bean.CoinDialogScene;
-import com.ledong.lib.leto.mgc.dialog.IMGCCoinDialogListener;
-import com.ledong.lib.leto.mgc.dialog.MGCInfoDialog;
-import com.ledong.lib.leto.mgc.model.MGCSharedModel;
-import com.ledong.lib.leto.mgc.util.MGCDialogUtil;
-import com.ledong.lib.leto.trace.LetoTrace;
-import com.ledong.lib.minigame.bean.TabBean;
-import com.leto.game.base.ad.AdManager;
 import com.leto.game.base.dialog.PrivacyWebDialog;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.http.HttpParamsBuild;
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.ColorUtil;
-import com.leto.game.base.util.GlideUtil;
-import com.leto.game.base.util.IntentConstant;
-import com.leto.game.base.util.PermissionsUtil;
-import com.leto.game.base.util.StatusBarUtil;
+import com.mgc.leto.game.base.LetoEvents;
+import com.mgc.leto.game.base.api.ApiContainer;
+import com.mgc.leto.game.base.listener.ILetoPlayedDurationListener;
+import com.ledong.lib.minigame.bean.TabBean;
+import com.mgc.leto.game.base.be.AdManager;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.http.HttpParamsBuild;
+import com.mgc.leto.game.base.mgc.bean.CoinDialogScene;
+import com.mgc.leto.game.base.mgc.dialog.IMGCCoinDialogListener;
+import com.mgc.leto.game.base.mgc.dialog.MGCInfoDialog;
+import com.mgc.leto.game.base.mgc.model.MGCSharedModel;
+import com.mgc.leto.game.base.mgc.util.MGCDialogUtil;
+import com.mgc.leto.game.base.trace.LetoTrace;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.ColorUtil;
+import com.mgc.leto.game.base.utils.GlideUtil;
+import com.mgc.leto.game.base.utils.IntentConstant;
+import com.mgc.leto.game.base.utils.PermissionsUtil;
+import com.mgc.leto.game.base.utils.StatusBarUtil;
 import com.mgc.letobox.happy.bean.VersionRequestBean;
 import com.mgc.letobox.happy.bean.VersionResultBean;
 import com.mgc.letobox.happy.dialog.VersionDialog;
@@ -67,10 +66,6 @@ import java.util.List;
 import java.util.Map;
 
 import pub.devrel.easypermissions.EasyPermissions;
-
-/**
- * Created by DELL on 2018/8/4.
- */
 
 public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.OnCheckedChangeListener {
     private static final String TAG = "GameCenterActivity";
@@ -192,7 +187,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         try {
             //init rxVolley
             RxVolley.setRequestQueue(RequestQueue.newRequestQueue(BaseAppUtil.getDefaultSaveRootPath(this, "RxVolley")));
-        } catch (Exception e) {
+        } catch (Throwable e) {
 
         }
 
@@ -317,7 +312,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         try {
             RxVolley.getRequestQueue().cancelAll(GameCenterTabActivity.this);
             RxVolley.getRequestQueue().getCache().clear();
-        } catch (Exception e) {
+        } catch (Throwable e) {
 
         }
 

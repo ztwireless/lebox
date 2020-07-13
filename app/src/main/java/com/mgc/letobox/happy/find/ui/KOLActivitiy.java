@@ -16,12 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
-import com.ledong.lib.leto.widget.ClickGuard;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.login.LoginManager;
-import com.leto.game.base.util.GlideUtil;
-import com.leto.game.base.util.ToastUtil;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.utils.GlideUtil;
+import com.mgc.leto.game.base.utils.ToastUtil;
 import com.lzy.widget.HeaderViewPager;
+import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.circle.ui.CircleArticleFragment;
 import com.mgc.letobox.happy.circle.ui.CircleGameFragment;

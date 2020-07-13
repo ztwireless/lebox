@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ledong.lib.minigame.GameCenterRankFragment;
-import com.leto.game.base.util.IntentConstant;
+import com.mgc.leto.game.base.utils.IntentConstant;
 import com.mgc.letobox.happy.model.SharedData;
 
 /**

@@ -1,7 +1,6 @@
 package com.mgc.letobox.happy.circle.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -13,10 +12,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.provider.BaseItemProvider;
-import com.leto.game.base.login.LoginManager;
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.DensityUtil;
-import com.leto.game.base.util.GlideUtil;
+import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.DensityUtil;
+import com.mgc.leto.game.base.utils.GlideUtil;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.circle.bean.CircleTieZiListResponse;
 import com.mgc.letobox.happy.find.FindConst;
@@ -27,9 +26,9 @@ import com.mgc.letobox.happy.find.ui.KOLActivitiy;
  */
 
 public class RightPicItemProvider extends BaseItemProvider<CircleTieZiListResponse, BaseViewHolder> {
-    private CircleDetailsAdapter.CircleDetailsClickListener listener;
+    private CircleDetailsClickListener listener;
 
-    public RightPicItemProvider(CircleDetailsAdapter.CircleDetailsClickListener listener) {
+    public RightPicItemProvider(CircleDetailsClickListener listener) {
         this.listener = listener;
     }
 

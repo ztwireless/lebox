@@ -157,7 +157,7 @@
                 android:id="@+id/tv_share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/share"
+                android:text="@string/leto_share"
                 android:textColor="@color/text_blue2"
                 android:textSize="12sp" />
         </LinearLayout>

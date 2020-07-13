@@ -8,14 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ledong.lib.leto.mgc.util.MGCApiUtil;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.util.MResource;
-import com.leto.game.base.util.ToastUtil;
+import com.ledong.lib.minigame.bean.GameCenterData_Signin;
 import com.leto.game.base.view.recycleview.ScrollRecyclerView;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.mgc.util.MGCApiUtil;
+import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.utils.ToastUtil;
 import com.mgc.letobox.happy.me.adapter.SignInAdapter;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
-import com.mgc.letobox.happy.me.bean.SigninBean;
 import com.mgc.letobox.happy.me.bean.SigninStatusResultBean;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class MeSigninHolder extends CommonViewHolder<MeModuleBean> {
 
     Context _context;
 
-    List<SigninBean> _signinList;
+    List<GameCenterData_Signin> _signinList;
 
 
     public static MeSigninHolder create(Context ctx, ViewGroup parent) {

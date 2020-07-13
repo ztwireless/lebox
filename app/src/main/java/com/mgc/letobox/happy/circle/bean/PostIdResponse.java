@@ -1,7 +1,7 @@
 package com.mgc.letobox.happy.circle.bean;
 
 import com.google.gson.annotations.SerializedName;
-import com.leto.game.base.bean.BaseRequestBean;
+import com.mgc.leto.game.base.bean.BaseRequestBean;
 import com.mgc.letobox.happy.find.bean.CommentBean;
 import com.mgc.letobox.happy.find.bean.ShareBean;
 

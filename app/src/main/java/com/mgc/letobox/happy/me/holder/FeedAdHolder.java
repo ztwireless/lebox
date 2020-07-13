@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.ledong.lib.leto.api.adext.FeedAd;
-import com.ledong.lib.leto.api.adext.FeedAdView;
-import com.leto.game.base.util.MResource;
+import com.mgc.leto.game.base.api.adext.FeedAd;
+import com.mgc.leto.game.base.api.adext.FeedAdView;
+import com.mgc.leto.game.base.utils.MResource;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.me.bean.MeFeedAdModuleBean;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;

@@ -9,22 +9,21 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ledong.lib.leto.MgcAccountManager;
-import com.ledong.lib.leto.mgc.util.MGCApiUtil;
-import com.ledong.lib.leto.widget.ClickGuard;
-import com.leto.game.base.bean.LoginResultBean;
-import com.leto.game.base.event.DataRefreshEvent;
-import com.leto.game.base.event.GetCoinEvent;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.listener.SyncUserInfoListener;
-import com.leto.game.base.login.LoginManager;
-import com.leto.game.base.util.ColorUtil;
-import com.leto.game.base.util.DialogUtil;
-import com.leto.game.base.util.MResource;
-import com.leto.game.base.util.StatusBarUtil;
-import com.leto.game.base.util.ToastUtil;
+import com.mgc.leto.game.base.MgcAccountManager;
+import com.mgc.leto.game.base.bean.LoginResultBean;
+import com.mgc.leto.game.base.event.DataRefreshEvent;
+import com.mgc.leto.game.base.event.GetCoinEvent;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.listener.SyncUserInfoListener;
+import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.mgc.util.MGCApiUtil;
+import com.mgc.leto.game.base.utils.ColorUtil;
+import com.mgc.leto.game.base.utils.DialogUtil;
+import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.utils.StatusBarUtil;
+import com.mgc.leto.game.base.utils.ToastUtil;
+import com.mgc.leto.game.base.widget.ClickGuard;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
@@ -148,7 +147,7 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
 	@Override
 	public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
 		// show loading 
-		DialogUtil.showDialog(this, getString(MResource.getIdByName(this, "R.string.loading")));
+		DialogUtil.showDialog(this, getString(MResource.getIdByName(this, "R.string.leto_loading")));
 
 		// sync account
 		int gender =0;

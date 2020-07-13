@@ -16,20 +16,20 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ledong.lib.leto.LetoComponent;
-import com.ledong.lib.leto.listener.ILetoShareListener;
-import com.ledong.lib.leto.widget.ClickGuard;
-import com.leto.game.base.bean.SHARE_PLATFORM;
-import com.leto.game.base.config.FileConfig;
-import com.leto.game.base.util.ColorUtil;
-import com.leto.game.base.util.MD5;
-import com.leto.game.base.util.MResource;
-import com.leto.game.base.util.StatusBarUtil;
-import com.leto.game.base.util.ToastUtil;
-import com.leto.game.base.view.tablayout.CommonTabLayout;
-import com.leto.game.base.view.tablayout.entity.TabEntity;
-import com.leto.game.base.view.tablayout.listener.CustomTabEntity;
-import com.leto.game.base.view.tablayout.listener.OnTabSelectListener;
+import com.mgc.leto.game.base.LetoComponent;
+import com.mgc.leto.game.base.bean.SHARE_PLATFORM;
+import com.mgc.leto.game.base.config.FileConfig;
+import com.mgc.leto.game.base.listener.ILetoShareListener;
+import com.mgc.leto.game.base.utils.ColorUtil;
+import com.mgc.leto.game.base.utils.MD5;
+import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.utils.StatusBarUtil;
+import com.mgc.leto.game.base.utils.ToastUtil;
+import com.mgc.leto.game.base.view.tablayout.CommonTabLayout;
+import com.mgc.leto.game.base.view.tablayout.entity.TabEntity;
+import com.mgc.leto.game.base.view.tablayout.listener.CustomTabEntity;
+import com.mgc.leto.game.base.view.tablayout.listener.OnTabSelectListener;
+import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.BaseActivity;
 import com.mgc.letobox.happy.find.ui.HeaderViewPagerFragment;
 import com.mgc.letobox.happy.follow.bean.FollowInviteBean;
@@ -223,7 +223,7 @@ public class FollowInviteActivity extends BaseActivity implements IFollowShareLi
         if (null != shareDialog && shareDialog.isShowing()) {
             shareDialog.dismiss();
         }
-        shareDialog = new SharePlatformDialog().showDialog(FollowInviteActivity.this, new SharePlatformDialog.ConfirmDialogListener() {
+        shareDialog = new SharePlatformDialog().showDialog(FollowInviteActivity.this, new ConfirmDialogListener() {
 
             @Override
             public void setPlatform(SHARE_PLATFORM platform) {

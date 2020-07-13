@@ -10,12 +10,12 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import com.ledong.lib.leto.api.ApiContainer
-import com.ledong.lib.leto.api.constant.Constant
-import com.ledong.lib.leto.mgc.bean.CoinDialogScene
-import com.ledong.lib.leto.mgc.util.MGCDialogUtil
-import com.leto.game.base.statistic.GameStatisticManager
-import com.leto.game.base.statistic.StatisticEvent
+import com.mgc.leto.game.base.api.ApiContainer
+import com.mgc.leto.game.base.api.constant.Constant
+import com.mgc.leto.game.base.mgc.bean.CoinDialogScene
+import com.mgc.leto.game.base.mgc.util.MGCDialogUtil
+import com.mgc.leto.game.base.statistic.GameStatisticManager
+import com.mgc.leto.game.base.statistic.StatisticEvent
 import com.mgc.letobox.happy.R
 import com.mgc.letobox.happy.R.drawable
 import com.mgc.letobox.happy.floattools.drawables.Model
@@ -158,7 +158,7 @@ class RedPacketSeaFragment : Fragment() {
                     apiContainer.destroy()
                 }
 
-                override fun onApiFailed(apiName: ApiContainer.ApiName?, b: Boolean) {
+                override fun onApiFailed(apiName: ApiContainer.ApiName?,  o: Any?, b: Boolean) {
                     Log.i(TAG, "onApiFailed")
                     apiContainer.destroy()
                 }

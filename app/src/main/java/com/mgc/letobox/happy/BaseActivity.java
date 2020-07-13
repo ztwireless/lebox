@@ -3,10 +3,9 @@ package com.mgc.letobox.happy;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 
-import com.ledong.lib.leto.widget.LoadingDialog;
-import com.leto.game.base.util.MResource;
+import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.widget.LoadingDialog;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -59,7 +58,7 @@ public class BaseActivity extends FragmentActivity {
                 mDialog = new LoadingDialog(this);
             }
             mDialog.setCancelable(cancelable);
-            mDialog.show(getResources().getString(MResource.getIdByName(this, "R.string.loading")));
+            mDialog.show(getResources().getString(MResource.getIdByName(this, "R.string.leto_loading")));
         }
     }
 

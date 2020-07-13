@@ -157,7 +157,7 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/shape_circle_rect_white_bolder"
                     android:gravity="center"
-                    android:textColor="@color/mgc_sdk_black_3"
+                    android:textColor="@color/leto_black_3"
                     android:text="查看更多"
                     android:visibility="gone"
                     android:layout_marginBottom="@dimen/dp_10"/>

@@ -2,38 +2,22 @@ package com.mgc.letobox.happy.follow;
 
 import android.content.Context;
 import android.content.Intent;
-import android.icu.text.UnicodeSetSpanner;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ledong.lib.leto.widget.ClickGuard;
-import com.leto.game.base.ad.bean.mgc.MgcAdBean;
-import com.leto.game.base.ad.net.IAdCallback;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.util.ColorUtil;
-import com.leto.game.base.util.MResource;
-import com.leto.game.base.util.StatusBarUtil;
-import com.leto.game.base.util.ToastUtil;
-import com.leto.game.base.view.tablayout.CommonTabLayout;
-import com.leto.game.base.view.tablayout.entity.TabEntity;
-import com.leto.game.base.view.tablayout.listener.CustomTabEntity;
-import com.leto.game.base.view.tablayout.listener.OnTabSelectListener;
-import com.mgc.letobox.happy.BaseActivity;
-import com.mgc.letobox.happy.find.ui.HeaderViewPagerFragment;
-import com.mgc.letobox.happy.find.view.ScrollBottomView;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.main.BaseActivity;
+import com.mgc.leto.game.base.utils.ColorUtil;
+import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.utils.StatusBarUtil;
+import com.mgc.leto.game.base.utils.ToastUtil;
+import com.mgc.leto.game.base.widget.ClickGuard;
 
 public class FollowInviteCodeActivity extends BaseActivity {
 
@@ -144,7 +128,7 @@ public class FollowInviteCodeActivity extends BaseActivity {
             }
         });
 
-        showLoading(false);
+        showLoading("");
 
     }
 }

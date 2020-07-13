@@ -1,13 +1,8 @@
 package com.mgc.letobox.happy.circle.bean;
 
-import com.leto.game.base.bean.BaseRequestBean;
-
-/**
- * Created by DELL on 2018/7/19.
- */
+import com.mgc.leto.game.base.bean.BaseRequestBean;
 
 public class CircleTieZiListRequest extends BaseRequestBean {
-
     private int group_id;
     private int page;
 

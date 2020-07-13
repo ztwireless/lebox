@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:textColor="@color/mgc_sdk_black_3"
+        android:textColor="@color/leto_black_3"
         android:layout_gravity="center_vertical"
         tools:text="我的的的"/>
 

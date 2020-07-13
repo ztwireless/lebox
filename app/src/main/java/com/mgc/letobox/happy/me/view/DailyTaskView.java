@@ -7,8 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-import com.leto.game.base.util.ColorUtil;
-import com.leto.game.base.util.DensityUtil;
+import com.mgc.leto.game.base.utils.ColorUtil;
+import com.mgc.leto.game.base.utils.DensityUtil;
 import com.leto.game.base.view.recycleview.RecycleViewDivider;
 import com.mgc.letobox.happy.NewerTaskManager;
 import com.mgc.letobox.happy.R;

@@ -25,10 +25,10 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ledong.lib.leto.widget.ClickGuard;
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.DensityUtil;
-import com.leto.game.base.view.StarBar;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.DensityUtil;
+import com.mgc.leto.game.base.view.StarBar;
+import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.circle.view.InputContentPopupWindon;
 import com.mgc.letobox.happy.circle.view.KeyboardDetectorRelativeLayout;

@@ -5,12 +5,12 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
-import com.ledong.lib.leto.LetoConst;
-import com.leto.game.base.bean.LetoError;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.http.SdkApi;
-import com.leto.game.base.login.LoginManager;
-import com.leto.game.base.util.BaseAppUtil;
+import com.mgc.leto.game.base.LetoConst;
+import com.mgc.leto.game.base.bean.LetoError;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.http.SdkApi;
+import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
 import com.mgc.letobox.happy.me.bean.ExchangeRequestBean;
 import com.mgc.letobox.happy.me.bean.TaskListRequestBean;
 import com.mgc.letobox.happy.me.bean.UserTaskStatusRequestBean;

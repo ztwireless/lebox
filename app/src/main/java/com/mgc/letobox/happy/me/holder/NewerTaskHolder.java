@@ -8,11 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.reflect.TypeToken;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.util.ColorUtil;
-import com.leto.game.base.util.DensityUtil;
-import com.leto.game.base.util.MResource;
-import com.leto.game.base.util.ToastUtil;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.utils.ColorUtil;
+import com.mgc.leto.game.base.utils.DensityUtil;
+import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.utils.ToastUtil;
 import com.leto.game.base.view.recycleview.RecycleViewDivider;
 import com.mgc.letobox.happy.NewerTaskManager;
 import com.mgc.letobox.happy.me.adapter.TaskAdapter;

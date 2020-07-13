@@ -13,10 +13,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.leto.game.base.login.LoginManager;
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.DensityUtil;
-import com.leto.game.base.util.GlideUtil;
+import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.DensityUtil;
+import com.mgc.leto.game.base.utils.GlideUtil;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.circle.bean.CircleTieZiListResponse;
 import com.mgc.letobox.happy.circle.holder.FootViewHolder;
@@ -688,13 +688,5 @@ public class CircleDetailsAdapter extends SwipeRefreshAdaptor implements IDataAd
             View viewLine = itemView.findViewById(R.id.viewLine);
             viewLine.setVisibility(View.VISIBLE);
         }
-    }
-
-    public interface CircleDetailsClickListener {
-        void onClick(int pos, CircleTieZiListResponse news);
-
-        void onShowCircle(ImageView imageView, int pos, int editext, int detele, CircleTieZiListResponse response);
-
-        void onCheckBox(boolean isCheck, CheckBox cb_follow, int userId, int pos);
     }
 }

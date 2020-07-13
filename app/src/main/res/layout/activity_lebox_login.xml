@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mgc_sdk_white"
+    android:background="@color/leto_white"
     android:orientation="vertical">
 
-    <include layout="@layout/leto_minigame_include_common_header" />
+    <include layout="@layout/lebox_include_common_header" />
 
     <View
         android:layout_width="1dp"
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:textColor="@color/mgc_sdk_black_3"
+        android:textColor="@color/leto_black_3"
         android:text="登录后"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="27dp"/>
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:text="预计本月可获得收益"
             android:textSize="14sp"
-            android:textColor="@color/mgc_sdk_black2"/>
+            android:textColor="@color/leto_black2"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="@color/mgc_sdk_black2"
+            android:textColor="@color/leto_black2"
             android:text="元"/>
 
     </LinearLayout>
@@ -116,7 +116,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="21dp"
         android:textSize="12sp"
-        android:textColor="@color/mgc_sdk_text_lowgray"
+        android:textColor="@color/leto_text_lowgray"
         android:text="手机登录"
         android:drawableTop="@mipmap/lebox_mobile"
         android:drawablePadding="8dp"/>
@@ -133,7 +133,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/mgc_sdk_text_lowgray"
+            android:textColor="@color/leto_text_lowgray"
             android:text="登录即代表您已阅读并同意"/>
 
         <TextView
@@ -148,7 +148,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/mgc_sdk_text_lowgray"
+            android:textColor="@color/leto_text_lowgray"
             android:text="及"/>
 
         <TextView

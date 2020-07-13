@@ -2,7 +2,7 @@ package com.mgc.letobox.happy.bean;
 
 import android.support.annotation.Keep;
 
-import com.leto.game.base.bean.BaseRequestBean;
+import com.mgc.leto.game.base.bean.BaseRequestBean;
 
 /**
  * Created by liu hong liang on 2016/11/10.

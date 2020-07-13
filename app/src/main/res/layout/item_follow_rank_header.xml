@@ -32,7 +32,7 @@
             android:ellipsize="end"
             android:text="用户信息"
             android:textSize="11sp"
-            android:textColor="@color/mgc_sdk_black"
+            android:textColor="@color/leto_black"
              />
 
     </LinearLayout>
@@ -50,7 +50,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="11sp"
-            android:textColor="@color/mgc_sdk_black"
+            android:textColor="@color/leto_black"
             android:text="邀请数"
             />
     </FrameLayout>
@@ -68,7 +68,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="11sp"
-            android:textColor="@color/mgc_sdk_black"
+            android:textColor="@color/leto_black"
             android:text="收入(元)"
             />
 

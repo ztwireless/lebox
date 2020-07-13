@@ -1,6 +1,7 @@
 package com.mgc.letobox.happy;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,22 +25,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ledong.lib.leto.Leto;
-import com.ledong.lib.leto.MgcAccountManager;
-import com.ledong.lib.leto.widget.ClickGuard;
 import com.ledong.lib.minigame.bean.ModifyUserInfoResultBean;
 import com.ledong.lib.minigame.bean.SetPortraitResultBean;
 import com.ledong.lib.minigame.util.ApiUtil;
-import com.leto.game.base.bean.LoginResultBean;
-import com.leto.game.base.db.LoginControl;
-import com.leto.game.base.event.DataRefreshEvent;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.listener.SyncUserInfoListener;
-import com.leto.game.base.login.LoginManager;
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.ColorUtil;
-import com.leto.game.base.util.MResource;
-import com.leto.game.base.util.StatusBarUtil;
-import com.leto.game.base.util.ToastUtil;
+import com.mgc.leto.game.base.MgcAccountManager;
+import com.mgc.leto.game.base.bean.LoginResultBean;
+import com.mgc.leto.game.base.db.LoginControl;
+import com.mgc.leto.game.base.event.DataRefreshEvent;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.listener.SyncUserInfoListener;
+import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.ColorUtil;
+import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.utils.StatusBarUtil;
+import com.mgc.leto.game.base.utils.ToastUtil;
+import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.dialog.InputDialog;
 import com.mgc.letobox.happy.imagepicker.ImagePickerCallback;
 import com.mgc.letobox.happy.imagepicker.LetoImagePicker;
@@ -129,8 +130,8 @@ public class LeBoxProfileActivity extends BaseActivity implements ActionSheet.Ac
 		_signOutBtn = findViewById(MResource.getIdByName(this, "R.id.sign_out"));
 
 		// load strings
-		_loading = getString(MResource.getIdByName(this, "R.string.loading"));
-		_cancel = getString(MResource.getIdByName(this, "R.string.cancel"));
+		_loading = getString(MResource.getIdByName(this, "R.string.leto_loading"));
+		_cancel = getString(MResource.getIdByName(this, "R.string.leto_cancel"));
 		_from_camera = getString(MResource.getIdByName(this, "R.string.from_camera"));
 		_from_album = getString(MResource.getIdByName(this, "R.string.from_album"));
 		_lebox_set_portrait_failed = getString(MResource.getIdByName(this, "R.string.lebox_set_portrait_failed"));
@@ -272,13 +273,13 @@ public class LeBoxProfileActivity extends BaseActivity implements ActionSheet.Ac
 					// trigger event to let outer activity updated
 					EventBus.getDefault().post(new DataRefreshEvent());
 				}
-				com.leto.game.base.util.DialogUtil.dismissDialog();
+				com.mgc.leto.game.base.utils.DialogUtil.dismissDialog();
 			}
 
 			@Override
 			public void onFailure(String code, String msg) {
 				super.onFailure(code, msg);
-				com.leto.game.base.util.DialogUtil.dismissDialog();
+				com.mgc.leto.game.base.utils.DialogUtil.dismissDialog();
 			}
 		});
 	}
@@ -308,7 +309,7 @@ public class LeBoxProfileActivity extends BaseActivity implements ActionSheet.Ac
 			public void onClick(DialogInterface dialog, int which) {
 				if(which == DialogInterface.BUTTON_POSITIVE) {
 					// save in local
-					_loginInfo.setNickname(((InputDialog)dialog).getText());
+					_loginInfo.setNickname(((InputDialog) dialog).getText());
 					LoginControl.saveLoginInfo(LeBoxProfileActivity.this, _loginInfo);
 
 					// modify
@@ -388,7 +389,7 @@ public class LeBoxProfileActivity extends BaseActivity implements ActionSheet.Ac
 			// load avatar jpg file
 			File f = new File(path);
 			Uri uri = Uri.fromFile(f);
-			int len = (int)f.length();
+			int len = (int) f.length();
 			byte[] buf = new byte[len];
 			ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(uri, "r");
 			InputStream fileStream = new FileInputStream(pfd.getFileDescriptor());
@@ -406,7 +407,7 @@ public class LeBoxProfileActivity extends BaseActivity implements ActionSheet.Ac
 	}
 
 	private void doUploadPortrait(final byte[] buf) {
-		com.leto.game.base.util.DialogUtil.showDialog(this, _loading);
+		com.mgc.leto.game.base.utils.DialogUtil.showDialog(this, _loading);
 		ApiUtil.modifyPortrait(LeBoxProfileActivity.this, buf, new HttpCallbackDecode<SetPortraitResultBean>(this, null) {
 			@Override
 			public void onDataSuccess(SetPortraitResultBean data) {
@@ -430,14 +431,14 @@ public class LeBoxProfileActivity extends BaseActivity implements ActionSheet.Ac
 	}
 
 	private void hintRetryUploadPortrait(final byte[] buf) {
-		com.leto.game.base.util.DialogUtil.dismissDialog();
+		com.mgc.leto.game.base.utils.DialogUtil.dismissDialog();
 
 		// show dialog
 		DialogUtil.showRetryDialog(this, _lebox_set_portrait_failed, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				if(which == DialogInterface.BUTTON_POSITIVE) {
-					com.leto.game.base.util.DialogUtil.showDialog(LeBoxProfileActivity.this, _loading);
+					com.mgc.leto.game.base.utils.DialogUtil.showDialog(LeBoxProfileActivity.this, _loading);
 					doUploadPortrait(buf);
 				}
 			}
@@ -466,6 +467,7 @@ public class LeBoxProfileActivity extends BaseActivity implements ActionSheet.Ac
 			}
 		}
 
+		@SuppressLint("RecyclerView")
 		@Override
 		public void onBindViewHolder(@NonNull CommonViewHolder<Pair<String, String>> holder, final int position) {
 			holder.onBind(_infos.get(position), position);

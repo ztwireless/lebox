@@ -4,14 +4,15 @@ import android.app.Activity
 import android.graphics.Point
 import android.util.Log
 import android.view.View.OnClickListener
-import com.ledong.lib.leto.api.constant.Constant
-import com.ledong.lib.leto.api.mgc.RedPackRequest
-import com.ledong.lib.leto.interfaces.ILetoContainer
-import com.ledong.lib.leto.mgc.bean.BenefitSettings_bubble
-import com.ledong.lib.leto.mgc.bean.CoinDialogScene
-import com.ledong.lib.leto.mgc.util.MGCDialogUtil
-import com.leto.game.base.statistic.GameStatisticManager
-import com.leto.game.base.statistic.StatisticEvent
+import com.mgc.leto.game.base.api.constant.Constant
+import com.mgc.leto.game.base.api.mgc.RedPackRequest
+import com.mgc.leto.game.base.interfaces.ILetoContainer
+import com.mgc.leto.game.base.interfaces.ILetoGameContainer
+import com.mgc.leto.game.base.mgc.bean.BenefitSettings_bubble
+import com.mgc.leto.game.base.mgc.bean.CoinDialogScene
+import com.mgc.leto.game.base.mgc.util.MGCDialogUtil
+import com.mgc.leto.game.base.statistic.GameStatisticManager
+import com.mgc.leto.game.base.statistic.StatisticEvent
 import com.mgc.letobox.happy.floattools.BaseFloatTool
 import com.mgc.letobox.happy.floattools.FloatViewManager
 import com.mgc.letobox.happy.util.LeBoxSpUtil
@@ -70,7 +71,7 @@ class BubbleFloatTool(activity: Activity, gameId: String, val bubbleConfig: Bene
     }
 
     private fun triggerJSBubbleAwardEvent(activity: Activity, awardId: String) {
-        if (activity is ILetoContainer) {
+        if (activity is ILetoGameContainer) {
             activity.notifyServiceSubscribeHandler("onAppBubbleAward", String.format("{\"award_id\": \"%s\"}", awardId), 0)
         }
     }

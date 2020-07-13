@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/mgc_sdk_white"
+    android:background="@color/leto_white"
     android:orientation="vertical"
     >
 
@@ -37,7 +37,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="13dp"
             android:text="@string/leto_minigame_clear_cache"
-            android:textColor="@color/mgc_sdk_black_3"
+            android:textColor="@color/leto_black_3"
             android:textSize="15sp" />
 
         <View
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/mgc_sdk_login_arrows_right" />
+            android:src="@drawable/leto_login_arrows_right" />
 
     </LinearLayout>
 
@@ -76,7 +76,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="13dp"
             android:text="@string/leto_mgc_show_coin_float"
-            android:textColor="@color/mgc_sdk_black_3"
+            android:textColor="@color/leto_black_3"
             android:textSize="15sp" />
 
         <View
@@ -115,7 +115,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="13dp"
             android:text="用户协议&amp;隐私政策"
-            android:textColor="@color/mgc_sdk_black_3"
+            android:textColor="@color/leto_black_3"
             android:textSize="15sp" />
 
         <View
@@ -148,7 +148,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="13dp"
             android:text="邀请码"
-            android:textColor="@color/mgc_sdk_black_3"
+            android:textColor="@color/leto_black_3"
             android:textSize="15sp" />
 
         <View
@@ -160,7 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/mgc_sdk_login_arrows_right" />
+            android:src="@drawable/leto_login_arrows_right" />
 
     </LinearLayout>
 
@@ -186,8 +186,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="13dp"
-            android:text="@string/customer_service_wechat"
-            android:textColor="@color/mgc_sdk_black_3"
+            android:text="@string/leto_customer_service_wechat"
+            android:textColor="@color/leto_black_3"
             android:textSize="15sp" />
 
         <View
@@ -201,7 +201,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textSize="15sp"
-            android:textColor="@color/mgc_sdk_black_3"
+            android:textColor="@color/leto_black_3"
             tools:text="121212121"/>
 
     </LinearLayout>

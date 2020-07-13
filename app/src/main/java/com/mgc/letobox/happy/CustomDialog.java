@@ -12,9 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.ledong.lib.leto.utils.DeviceInfo;
-import com.leto.game.base.util.MResource;
-import com.leto.game.base.util.ToastUtil;
+import com.mgc.leto.game.base.utils.DeviceInfo;
+import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.utils.ToastUtil;
 
 
 /**
@@ -29,7 +29,7 @@ public class CustomDialog {
 
     public static Dialog showLogin(final Context context,final ConfirmDialogListener listener) {
         View dialogview = LayoutInflater.from(context).inflate(MResource.getIdByName(context,"R.layout.demo_dialog_login"), null);
-        final Dialog dialog = new Dialog(context, MResource.getIdByName(context,"R.style.LetoCustomDialog"));
+        final Dialog dialog = new Dialog(context, MResource.getIdByName(context,"R.style.leto_custom_dialog"));
         //设置view
         dialog.setContentView(dialogview);
         dialog.setCanceledOnTouchOutside(true);

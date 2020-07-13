@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-import com.leto.game.base.util.DensityUtil;
+import com.mgc.leto.game.base.utils.DensityUtil;
 import com.mgc.letobox.happy.find.view.richedittext.Emoji;
 
 /**

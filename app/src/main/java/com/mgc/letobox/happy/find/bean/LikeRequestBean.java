@@ -1,6 +1,6 @@
 package com.mgc.letobox.happy.find.bean;
 
-import com.leto.game.base.bean.BaseRequestBean;
+import com.mgc.leto.game.base.bean.BaseRequestBean;
 
 /**
  * Created by liu hong liang on 2016/11/12.
@@ -9,6 +9,8 @@ import com.leto.game.base.bean.BaseRequestBean;
 public class LikeRequestBean extends BaseRequestBean {
     private String appname; //应用名：圈子帖子Group 资讯News
     private String table;   //表名：圈子帖子group_post 资讯news_detail
+    private int row; //应用id ，eg：帖子id 资讯id
+    private String jump;  //跳转链接 ，圈子帖子group/index/detail 资讯 无
 
     public String getAppname() {
         return appname;
@@ -41,8 +43,4 @@ public class LikeRequestBean extends BaseRequestBean {
     public void setJump(String jump) {
         this.jump = jump;
     }
-
-    private int row; //应用id ，eg：帖子id 资讯id
-    private String jump;  //跳转链接 ，圈子帖子group/index/detail 资讯 无
-
 }

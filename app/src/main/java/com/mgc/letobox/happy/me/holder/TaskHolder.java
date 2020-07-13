@@ -7,10 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.ledong.lib.leto.mgc.holder.CommonViewHolder;
-import com.ledong.lib.leto.widget.ClickGuard;
-import com.leto.game.base.util.ColorUtil;
-import com.leto.game.base.util.MResource;
+import com.mgc.leto.game.base.utils.ColorUtil;
+import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.event.TabSwitchEvent;
 import com.mgc.letobox.happy.me.JoinWeChatActivity;

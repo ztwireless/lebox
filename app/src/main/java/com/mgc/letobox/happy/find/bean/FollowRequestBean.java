@@ -1,6 +1,7 @@
 package com.mgc.letobox.happy.find.bean;
 
-import com.leto.game.base.bean.BaseRequestBean;
+
+import com.mgc.leto.game.base.bean.BaseRequestBean;
 
 public class FollowRequestBean extends BaseRequestBean {
 
@@ -23,7 +24,4 @@ public class FollowRequestBean extends BaseRequestBean {
     private int follow_who;
 
     private int type;
-
-
-
 }

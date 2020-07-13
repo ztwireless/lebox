@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ledong.lib.leto.config.AppConfig;
-import com.ledong.lib.leto.widget.ClickGuard;
-import com.leto.game.base.login.LoginManager;
-import com.leto.game.base.util.BaseAppUtil;
+import com.mgc.leto.game.base.config.AppConfig;
+import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.event.ShowBackEvent;
 import com.mgc.letobox.happy.event.TabSwitchEvent;
 

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/mgc_sdk_white"
+    android:background="@color/leto_white"
     android:orientation="vertical">
 
     <View
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:textColor="@color/mgc_sdk_black_3"
+                android:textColor="@color/leto_black_3"
                 android:textStyle="bold"
                 tools:text="游客43434"/>
 
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:textSize="12sp"
-                android:textColor="@color/mgc_sdk_text_lowgray"
+                android:textColor="@color/leto_text_lowgray"
                 android:text="登录后同步游戏记录"/>
 
         </LinearLayout>
@@ -76,7 +76,7 @@
                 android:gravity="center_vertical"
                 android:background="@drawable/follow_me_invite_bg"
                 android:textSize="13sp"
-                android:textColor="@color/mgc_sdk_white"
+                android:textColor="@color/leto_white"
                 android:textStyle="bold"
                 android:text="邀请收徒"/>
 
@@ -129,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="11dp"
                         android:layout_marginTop="12dp"
-                        android:textColor="@color/mgc_sdk_white"
+                        android:textColor="@color/leto_white"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         tools:text="4444" />
@@ -140,7 +140,7 @@
                         android:layout_marginLeft="11dp"
                         android:layout_marginTop="2dp"
                         android:text="@string/leto_mgc_my_coin_balance"
-                        android:textColor="@color/mgc_sdk_white"
+                        android:textColor="@color/leto_white"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -185,7 +185,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="11dp"
                         android:layout_marginTop="12dp"
-                        android:textColor="@color/mgc_sdk_white"
+                        android:textColor="@color/leto_white"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         tools:text="4444" />
@@ -196,7 +196,7 @@
                         android:layout_marginLeft="11dp"
                         android:layout_marginTop="2dp"
                         android:text="@string/leto_mgc_my_today_coin"
-                        android:textColor="@color/mgc_sdk_white"
+                        android:textColor="@color/leto_white"
                         android:textSize="12sp" />
 
 
@@ -240,7 +240,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="11dp"
                         android:text="@string/leto_mgc_withdraw_now"
-                        android:textColor="@color/mgc_sdk_white"
+                        android:textColor="@color/leto_white"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -251,7 +251,7 @@
                         android:layout_marginLeft="11dp"
                         android:layout_marginTop="2dp"
                         tools:text="0.33元"
-                        android:textColor="@color/mgc_sdk_white"
+                        android:textColor="@color/leto_white"
                         android:textSize="12sp" />
 
                 </LinearLayout>

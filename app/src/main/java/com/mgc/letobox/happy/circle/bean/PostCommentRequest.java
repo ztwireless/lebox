@@ -1,13 +1,8 @@
 package com.mgc.letobox.happy.circle.bean;
 
-import com.leto.game.base.bean.BaseRequestBean;
-
-/**
- * Created by DELL on 2018/7/24.
- */
+import com.mgc.leto.game.base.bean.BaseRequestBean;
 
 public class PostCommentRequest extends BaseRequestBean {
-
     private int post_id;
     private String content;
 

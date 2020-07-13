@@ -4,5 +4,5 @@
         android:topLeftRadius="9dp"
         android:topRightRadius="9dp"
         />
-    <solid android:color="@color/mgc_sdk_white" />
+    <solid android:color="@color/leto_white" />
 </shape>

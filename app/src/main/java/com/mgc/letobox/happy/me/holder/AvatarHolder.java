@@ -8,13 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.leto.game.base.util.GlideUtil;
-import com.leto.game.base.util.MResource;
+import com.mgc.leto.game.base.utils.GlideUtil;
+import com.mgc.leto.game.base.utils.MResource;
 
 public class AvatarHolder extends CommonViewHolder<Pair<String, String>> {
 	private TextView _nameLabel;
 	private ImageView _avatarView;
-
 
 	public static AvatarHolder create(Context ctx, ViewGroup parent) {
 		// load game row, and leave a gap so that next column can be seen

@@ -1,11 +1,8 @@
 package com.mgc.letobox.happy.follow;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,13 +11,12 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.ledong.lib.leto.widget.ClickGuard;
-import com.leto.game.base.bean.SHARE_PLATFORM;
-import com.leto.game.base.util.ColorUtil;
-import com.leto.game.base.util.DensityUtil;
-import com.leto.game.base.util.GlideUtil;
-import com.leto.game.base.util.MResource;
-import com.leto.game.base.util.ToastUtil;
+import com.mgc.leto.game.base.bean.SHARE_PLATFORM;
+import com.mgc.leto.game.base.utils.ColorUtil;
+import com.mgc.leto.game.base.utils.DensityUtil;
+import com.mgc.leto.game.base.utils.GlideUtil;
+import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.follow.bean.FollowAwaken;
 import com.mgc.letobox.happy.follow.bean.FollowingUser;

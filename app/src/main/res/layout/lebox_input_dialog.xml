@@ -16,7 +16,7 @@
         android:gravity="center"
         android:background="#3D9AF0"
         android:textSize="14sp"
-        android:textColor="@color/mgc_sdk_white"
+        android:textColor="@color/leto_white"
         tools:text="Title"/>
 
     <EditText
@@ -30,7 +30,7 @@
         android:focusableInTouchMode="true"
         android:background="@drawable/lebox_input_dialog_edit_bg"
         android:textSize="14sp"
-        android:textColor="@color/mgc_sdk_black_3"
+        android:textColor="@color/leto_black_3"
         android:paddingLeft="10dp"
         tools:text="dfdfdfdfd"/>
 
@@ -49,8 +49,8 @@
             android:background="@drawable/lebox_general_dialog_ok_btn_bg"
             android:gravity="center"
             android:textSize="16sp"
-            android:textColor="@color/mgc_sdk_white"
-            android:text="@string/confirm"/>
+            android:textColor="@color/leto_white"
+            android:text="@string/leto_confirm"/>
 
         <TextView
             android:id="@+id/cancel"
@@ -60,8 +60,8 @@
             android:background="@drawable/lebox_general_dialog_cancel_btn_bg"
             android:layout_marginLeft="20dp"
             android:textSize="16sp"
-            android:textColor="@color/mgc_sdk_black2"
-            android:text="@string/cancel"/>
+            android:textColor="@color/leto_black2"
+            android:text="@string/leto_cancel"/>
         
     </LinearLayout>
 

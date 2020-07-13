@@ -3,7 +3,7 @@ package com.mgc.letobox.happy.floattools
 import android.app.Activity
 import android.graphics.Point
 import android.util.Log
-import com.leto.game.base.util.BaseAppUtil
+import com.mgc.leto.game.base.utils.BaseAppUtil
 import com.mgc.letobox.happy.util.LeBoxConstant
 import retrofit2.Retrofit
 import retrofit2.Retrofit.Builder

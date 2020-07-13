@@ -14,9 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.reflect.TypeToken;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.view.tablayout.SlidingTabLayout;
-import com.leto.game.base.view.tablayout.listener.OnTabSelectListener;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.view.tablayout.SlidingTabLayout;
+import com.mgc.leto.game.base.view.tablayout.listener.OnTabSelectListener;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.find.model.NewsCategory;
 import com.mgc.letobox.happy.find.util.FindApiUtil;
@@ -59,13 +59,13 @@ public class TopNewsFragment extends Fragment {
 
 		loadLocalCategory();
 		int size = mCategoryList.size();
-		for (int i = 0; i < size; i++) {
+		for(int i = 0; i < size; i++) {
 			fragments.add(ArticleListFragment.getInstance(ArticleListFragment.TYPE_TOP, mCategoryList.get(i).getId()));
 		}
 
 		homePager.setOffscreenPageLimit(7);
 		homePager.setAdapter(new MyPagerAdapter(getChildFragmentManager()));
-		homePager.setCurrentItem(0,false);
+		homePager.setCurrentItem(0, false);
 		homePager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			@Override
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -116,7 +116,8 @@ public class TopNewsFragment extends Fragment {
 
 	private void doGetNewsCategory() {
 		Context ctx = getContext();
-		FindApiUtil.getNewsCategory(ctx, new HttpCallbackDecode<List<NewsCategory>>(ctx, null, new TypeToken<List<NewsCategory>>(){}.getType()) {
+		FindApiUtil.getNewsCategory(ctx, new HttpCallbackDecode<List<NewsCategory>>(ctx, null, new TypeToken<List<NewsCategory>>() {
+		}.getType()) {
 			@Override
 			public void onDataSuccess(List<NewsCategory> data) {
 				if(data != null) {
@@ -129,15 +130,15 @@ public class TopNewsFragment extends Fragment {
 		});
 	}
 
-	private void loadLocalCategory(){
+	private void loadLocalCategory() {
 		List<NewsCategory> categories = new ArrayList<>();
 		try {
 			categories = MgctUtil.loadNewsCategory(getActivity());
-			if (null != categories && categories.size() > 0) {
+			if(null != categories && categories.size() > 0) {
 				mCategoryList.clear();
 				mCategoryList.addAll(categories);
 			}
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}

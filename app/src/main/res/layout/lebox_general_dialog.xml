@@ -16,7 +16,7 @@
         android:gravity="center"
         android:background="#3D9AF0"
         android:textSize="14sp"
-        android:textColor="@color/mgc_sdk_white"
+        android:textColor="@color/leto_white"
         tools:text="Title"/>
 
     <ScrollView
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="@color/mgc_sdk_black_3"
+            android:textColor="@color/leto_black_3"
             tools:text="很遗憾，您的兑换失败了，请重新进行兑换"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
@@ -53,8 +53,8 @@
             android:background="@drawable/lebox_general_dialog_ok_btn_bg"
             android:gravity="center"
             android:textSize="16sp"
-            android:textColor="@color/mgc_sdk_white"
-            android:text="@string/confirm"/>
+            android:textColor="@color/leto_white"
+            android:text="@string/leto_confirm"/>
 
         <TextView
             android:id="@+id/cancel"
@@ -64,8 +64,8 @@
             android:background="@drawable/lebox_general_dialog_cancel_btn_bg"
             android:layout_marginLeft="20dp"
             android:textSize="16sp"
-            android:textColor="@color/mgc_sdk_black2"
-            android:text="@string/cancel"/>
+            android:textColor="@color/leto_black2"
+            android:text="@string/leto_cancel"/>
         
     </LinearLayout>
 

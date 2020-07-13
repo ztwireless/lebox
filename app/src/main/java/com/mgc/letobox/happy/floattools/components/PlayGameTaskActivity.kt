@@ -11,13 +11,13 @@ import android.os.Environment
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import com.ledong.lib.leto.mgc.bean.CoinDialogScene
-import com.ledong.lib.leto.mgc.util.MGCDialogUtil
-import com.leto.game.base.statistic.GameStatisticManager
-import com.leto.game.base.statistic.StatisticEvent
-import com.leto.game.base.util.ColorUtil
-import com.leto.game.base.util.StatusBarUtil
-import com.leto.game.base.util.ToastUtil
+import com.mgc.leto.game.base.mgc.bean.CoinDialogScene
+import com.mgc.leto.game.base.mgc.util.MGCDialogUtil
+import com.mgc.leto.game.base.statistic.GameStatisticManager
+import com.mgc.leto.game.base.statistic.StatisticEvent
+import com.mgc.leto.game.base.utils.ColorUtil
+import com.mgc.leto.game.base.utils.StatusBarUtil
+import com.mgc.leto.game.base.utils.ToastUtil
 import com.mgc.letobox.happy.R
 import com.mgc.letobox.happy.floattools.components.playgametask.GameListItem
 import com.mgc.letobox.happy.floattools.components.playgametask.PlayGameDataSource
@@ -94,7 +94,7 @@ class PlayGameTaskActivity : Activity() {
     override fun onResume() {
         super.onResume()
         if (recycler_view.adapter != null) {
-            recycler_view.adapter.notifyDataSetChanged()
+            recycler_view.adapter!!.notifyDataSetChanged()
         }
     }
 
@@ -161,7 +161,7 @@ class PlayGameTaskActivity : Activity() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent != null && TextUtils.equals(Intent.ACTION_PACKAGE_ADDED, intent.action)) {
                 if (intent.data != null) {
-                    val packageName = intent.data.schemeSpecificPart
+                    val packageName = intent.data!!.schemeSpecificPart
 //                    loge("安装的app的包名是-------->$packageName")
                     if (!packageNames.contains(packageName)) {
                         packageNames.add(packageName)

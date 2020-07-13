@@ -9,7 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
-import com.leto.game.base.util.BaseAppUtil;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.find.bean.ShareBean;
 import com.umeng.socialize.bean.SHARE_MEDIA;

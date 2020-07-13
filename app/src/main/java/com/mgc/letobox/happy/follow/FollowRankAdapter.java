@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.leto.game.base.util.DensityUtil;
-import com.leto.game.base.util.GlideUtil;
+import com.mgc.leto.game.base.utils.DensityUtil;
+import com.mgc.leto.game.base.utils.GlideUtil;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.follow.bean.FollowRankUser;
 

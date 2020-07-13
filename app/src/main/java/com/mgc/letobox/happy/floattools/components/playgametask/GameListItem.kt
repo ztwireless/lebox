@@ -5,9 +5,9 @@ import android.content.pm.PackageManager
 import android.os.Environment
 import android.text.TextUtils
 import android.util.Log
-import com.ledong.lib.leto.mgc.bean.CoinDialogScene
-import com.leto.game.base.statistic.GameStatisticManager
-import com.leto.game.base.statistic.StatisticEvent
+import com.mgc.leto.game.base.mgc.bean.CoinDialogScene
+import com.mgc.leto.game.base.statistic.GameStatisticManager
+import com.mgc.leto.game.base.statistic.StatisticEvent
 import com.mgc.letobox.happy.R
 import com.mgc.letobox.happy.floattools.components.playgametask.utils.DownloadProgressButton
 import com.mgc.letobox.happy.floattools.components.playgametask.utils.DownloadProgressButton.*

@@ -1,10 +1,6 @@
 package com.mgc.letobox.happy.find.bean;
 
-import com.leto.game.base.bean.BaseRequestBean;
-
-/**
- * Created by liu hong liang on 2016/11/11.
- */
+import com.mgc.leto.game.base.bean.BaseRequestBean;
 
 public class ListBaseRequestBean extends BaseRequestBean {
     public ListBaseRequestBean() {
@@ -31,5 +27,4 @@ public class ListBaseRequestBean extends BaseRequestBean {
     }
 
     public int offset;  // 每页调取条数，默认为10
-
 }

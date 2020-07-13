@@ -50,7 +50,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="2dp"
                 android:text="x"
-                android:textColor="@color/mgc_sdk_white"
+                android:textColor="@color/leto_white"
                 android:textSize="6sp"
                 android:textStyle="bold"
                 />
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textColor="@color/mgc_sdk_white"
+                android:textColor="@color/leto_white"
                 android:textSize="8sp"
                 android:textStyle="bold"
                 tools:text="2"

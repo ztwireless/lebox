@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/mgc_sdk_white"
+    android:background="@color/leto_white"
     android:orientation="vertical">
 
     <View
@@ -39,7 +39,7 @@
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="12dp"
                 android:text="@string/leto_mgc_my_games"
-                android:textColor="@color/mgc_sdk_black"
+                android:textColor="@color/leto_black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:text="@string/leto_gamecenter_view_all"
-                android:textColor="@color/mgc_sdk_black2"
+                android:textColor="@color/leto_black2"
                 android:textSize="12sp"
                 android:visibility="gone" />
 
@@ -65,7 +65,7 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="14dp"
                 android:layout_marginBottom="3dp"
-                android:src="@drawable/mgc_sdk_login_arrows_right"
+                android:src="@drawable/leto_login_arrows_right"
                 android:visibility="gone" />
 
         </LinearLayout>

@@ -3,17 +3,15 @@ package com.mgc.letobox.happy.floattools.tools
 import android.app.Activity
 import android.util.Log
 import android.widget.Toast
-import com.ledong.lib.leto.api.ApiContainer
-import com.ledong.lib.leto.api.ApiContainer.ApiName
-import com.ledong.lib.leto.api.ApiContainer.IApiResultListener
-import com.ledong.lib.leto.api.constant.Constant
+import com.mgc.leto.game.base.api.ApiContainer
+import com.mgc.leto.game.base.api.constant.Constant
+import com.mgc.leto.game.base.mgc.bean.BenefitSettings_hbrain
+import com.mgc.leto.game.base.statistic.GameStatisticManager
+import com.mgc.leto.game.base.statistic.StatisticEvent
+import com.mgc.leto.game.base.utils.ToastUtil
 import com.mgc.letobox.happy.R
 import com.mgc.letobox.happy.floattools.BaseFloatTool
 import com.mgc.letobox.happy.floattools.FloatViewManager
-import com.ledong.lib.leto.mgc.bean.BenefitSettings_hbrain
-import com.leto.game.base.statistic.GameStatisticManager
-import com.leto.game.base.statistic.StatisticEvent
-import com.leto.game.base.util.ToastUtil
 import com.mgc.letobox.happy.floattools.components.RedPacketSeaActivity
 import com.mgc.letobox.happy.util.LeBoxSpUtil
 import com.mgc.letobox.happy.view.FloatRedPacketSea
@@ -105,8 +103,8 @@ class RedPacketSeaFloatTool(activity: Activity, gameId: String, val hbrainConfig
             }
             // 展示视频广告
             val apiContainer = ApiContainer(activity)
-            apiContainer.showVideo(object : IApiResultListener {
-                override fun onApiSuccess(apiName: ApiName?, o: Any?) {
+            apiContainer.showVideo(object : ApiContainer.IApiResultListener {
+                override fun onApiSuccess(apiName: ApiContainer.ApiName?, o: Any?) {
                     if (wrActivity.get() == null) return
 
                     Log.i(TAG, "onApiSuccess")
@@ -115,7 +113,7 @@ class RedPacketSeaFloatTool(activity: Activity, gameId: String, val hbrainConfig
                     apiContainer.destroy()
                 }
 
-                override fun onApiFailed(apiName: ApiName?, b: Boolean) {
+                override fun onApiFailed(apiName: ApiContainer.ApiName?, o: Any?, b: Boolean) {
                     Log.i(TAG, "onApiFailed")
                     apiContainer.destroy()
                 }

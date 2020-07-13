@@ -30,7 +30,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.leto.game.base.util.ToastUtil;
+import com.mgc.leto.game.base.utils.ToastUtil;
 import com.mgc.letobox.happy.imagepicker.cropimage.gallery.IImage;
 import com.mgc.letobox.happy.imagepicker.cropimage.gallery.IImageList;
 import static com.mgc.letobox.happy.imagepicker.cropimage.Strings.*;

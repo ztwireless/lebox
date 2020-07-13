@@ -47,7 +47,7 @@ public class QRCodeUtil {
                 }
             }
             return Bitmap.createBitmap(pixels, 0, width, width, height, Bitmap.Config.RGB_565);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -202,7 +202,7 @@ public class QRCodeUtil {
             }
 
             return bitmap;
-        } catch (Throwable e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

@@ -3,7 +3,7 @@ package com.mgc.letobox.happy.util;
 import android.app.Activity;
 import android.support.annotation.Keep;
 
-import com.ledong.lib.leto.mgc.thirdparty.ILetoAuthListener;
+import com.mgc.leto.game.base.mgc.thirdparty.ILetoAuthListener;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
@@ -11,14 +11,9 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.Map;
 
-/**
- * Create by zhaozhihui on 2019-12-28
- **/
 @Keep
 public class WechatAuthUtil {
-
     public static void getWechatAuthInfo(Activity activity, ILetoAuthListener authListener) {
-
         UMAuthListener umAuthListener = new UMAuthListener() {
             @Override
             public void onStart(SHARE_MEDIA share_media) {

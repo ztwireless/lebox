@@ -18,9 +18,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.githang.statusbar.StatusBarCompat;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.login.LoginManager;
-import com.leto.game.base.util.GlideUtil;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.utils.GlideUtil;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.circle.CircleConst;
 import com.mgc.letobox.happy.circle.bean.CircleGroupsResponse;
@@ -37,12 +37,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-/**
- * Created by DELL on 2018/6/30.
- */
-
 public class CircleListActivity extends AppCompatActivity {
-
 	RecyclerView recyclerView;
     ImageView imageView_back;
     TextView circle_name;

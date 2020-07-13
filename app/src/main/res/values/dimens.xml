@@ -3,7 +3,7 @@
     <dimen name="progressbar_radiu">2dp</dimen>
     <dimen name="collection_padding">4dp</dimen>
 
-    <dimen name="mgc_sdk_action_bar_height">42dp</dimen>
+    <dimen name="leto_action_bar_height">42dp</dimen>
     
     <dimen name="edit_height">48dp</dimen>
     <dimen name="action_bar_height">54dp</dimen>

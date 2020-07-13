@@ -1,13 +1,8 @@
 package com.mgc.letobox.happy.circle.bean;
 
-import com.leto.game.base.bean.BaseRequestBean;
-
-/**
- * Created by DELL on 2018/7/18.
- */
+import com.mgc.leto.game.base.bean.BaseRequestBean;
 
 public class CircleQuitRequest extends BaseRequestBean {
-
     private int group_id;
 
     public int getGroup_id() {

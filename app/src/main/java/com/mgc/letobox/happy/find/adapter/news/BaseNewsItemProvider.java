@@ -10,8 +10,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.provider.BaseItemProvider;
-import com.leto.game.base.login.LoginManager;
-import com.leto.game.base.util.GlideUtil;
+import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.utils.GlideUtil;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.find.bean.ArticleResultBean;
 

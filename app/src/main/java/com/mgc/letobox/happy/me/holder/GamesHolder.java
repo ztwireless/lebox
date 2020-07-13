@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.ledong.lib.leto.mgc.holder.MyGameHolder;
-import com.leto.game.base.bean.GameModel;
-import com.leto.game.base.login.LoginManager;
-import com.leto.game.base.util.GameUtil;
-import com.leto.game.base.util.MResource;
+import com.mgc.leto.game.base.bean.GameModel;
+import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.utils.GameUtil;
+import com.mgc.leto.game.base.utils.MResource;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
 
 import java.util.List;

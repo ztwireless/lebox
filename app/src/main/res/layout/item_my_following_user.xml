@@ -108,7 +108,7 @@
                 android:gravity="center_horizontal"
                 android:background="@drawable/follow_following_tick_bg"
                 android:text="1元"
-                android:textColor="@color/mgc_sdk_white"
+                android:textColor="@color/leto_white"
                 android:textSize="11sp" />
 
             <Button
@@ -117,7 +117,7 @@
                 android:layout_height="30dp"
                 android:background="@drawable/follow_awake_button_bg"
                 android:text="提醒Ta"
-                android:textColor="@color/mgc_sdk_white"
+                android:textColor="@color/leto_white"
                 android:textSize="11sp" />
 
         </LinearLayout>

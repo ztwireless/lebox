@@ -24,23 +24,24 @@ import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
 import com.ledong.lib.leto.Leto;
-import com.ledong.lib.leto.widget.ClickGuard;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.login.LoginManager;
-import com.leto.game.base.util.BaseAppUtil;
-import com.leto.game.base.util.DialogUtil;
-import com.leto.game.base.util.GlideUtil;
-import com.leto.game.base.util.NetUtil;
-import com.leto.game.base.util.ToastUtil;
-import com.leto.game.base.view.StarBar;
-import com.leto.game.base.view.tablayout.CommonTabLayout;
-import com.leto.game.base.view.tablayout.entity.TabEntity;
-import com.leto.game.base.view.tablayout.listener.CustomTabEntity;
-import com.leto.game.base.view.tablayout.listener.OnTabSelectListener;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
+import com.mgc.leto.game.base.utils.DialogUtil;
+import com.mgc.leto.game.base.utils.GlideUtil;
+import com.mgc.leto.game.base.utils.NetUtil;
+import com.mgc.leto.game.base.utils.ToastUtil;
+import com.mgc.leto.game.base.view.StarBar;
+import com.mgc.leto.game.base.view.tablayout.CommonTabLayout;
+import com.mgc.leto.game.base.view.tablayout.entity.TabEntity;
+import com.mgc.leto.game.base.view.tablayout.listener.CustomTabEntity;
+import com.mgc.leto.game.base.view.tablayout.listener.OnTabSelectListener;
+import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.find.FindConst;
 import com.mgc.letobox.happy.find.bean.GameBean;
 import com.mgc.letobox.happy.find.bean.RewardResultBean;
+import com.mgc.letobox.happy.find.dialog.FillDialogCallBack;
 import com.mgc.letobox.happy.find.dialog.RichEditDialog;
 import com.mgc.letobox.happy.find.dialog.SharePlatformDialog;
 import com.mgc.letobox.happy.find.event.CommentUpdateEvent;
@@ -589,7 +590,7 @@ public class GameDetailActivity extends AppCompatActivity implements View.OnClic
             mRichEditDialog = new RichEditDialog();
         }
 
-        mRichEditDialog.fillRatingDialog(GameDetailActivity.this, 0, enableChange, star, new RichEditDialog.FillDialogCallBack() {
+        mRichEditDialog.fillRatingDialog(GameDetailActivity.this, 0, enableChange, star, new FillDialogCallBack() {
             @Override
             public void textViewCreate(Dialog dialog, StarBar starBar, EditText contentEditer, EditText titleEditer) {
                 mDialog = dialog;

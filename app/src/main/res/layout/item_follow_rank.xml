@@ -30,7 +30,7 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:textSize="11sp"
-            android:textColor="@color/mgc_sdk_black"
+            android:textColor="@color/leto_black"
             tools:text="名字我的谁认识水电费水电费噶阿斯顿发送到过" />
 
     </LinearLayout>
@@ -48,7 +48,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="11sp"
-            android:textColor="@color/mgc_sdk_black"
+            android:textColor="@color/leto_black"
             tools:text="12300(人)"
             />
     </FrameLayout>
@@ -66,7 +66,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="11sp"
-            android:textColor="@color/mgc_sdk_black"
+            android:textColor="@color/leto_black"
             tools:text="99999.99(元)"
             />
 

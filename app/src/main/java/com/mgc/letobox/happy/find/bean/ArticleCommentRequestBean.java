@@ -1,9 +1,12 @@
 package com.mgc.letobox.happy.find.bean;
 
 
-import com.leto.game.base.bean.BaseRequestBean;
+import com.mgc.leto.game.base.bean.BaseRequestBean;
 
 public class ArticleCommentRequestBean extends BaseRequestBean {
+    public int news_id;
+    public String content;
+
     public int getNews_id() {
         return news_id;
     }
@@ -12,8 +15,6 @@ public class ArticleCommentRequestBean extends BaseRequestBean {
         this.news_id = news_id;
     }
 
-    public int news_id;
-
     public String getContent() {
         return content;
     }
@@ -21,6 +22,4 @@ public class ArticleCommentRequestBean extends BaseRequestBean {
     public void setContent(String content) {
         this.content = content;
     }
-
-    public String content;
 }

@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.mgc.letobox.happy.me.bean.SigninBean;
+import com.ledong.lib.minigame.bean.GameCenterData_Signin;
 import com.mgc.letobox.happy.me.holder.SigninHolder;
 
 import java.util.List;
@@ -17,11 +17,11 @@ public class SignInAdapter extends RecyclerView.Adapter<SigninHolder> {
 
     Context _context;
 
-    List<SigninBean> _list;
+    List<GameCenterData_Signin> _list;
 
     ViewGroup _adContainer;
 
-    public SignInAdapter(Context context, List<SigninBean> dataList) {
+    public SignInAdapter(Context context, List<GameCenterData_Signin> dataList) {
         _context = context;
 
         _list = dataList;

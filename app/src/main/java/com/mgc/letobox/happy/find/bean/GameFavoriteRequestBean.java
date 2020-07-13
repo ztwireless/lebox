@@ -1,8 +1,10 @@
 package com.mgc.letobox.happy.find.bean;
 
-import com.leto.game.base.bean.BaseRequestBean;
+import com.mgc.leto.game.base.bean.BaseRequestBean;
 
 public class GameFavoriteRequestBean extends BaseRequestBean {
+    private int type;
+    private String game_id;
 
     public String getGame_id() {
         return game_id;
@@ -12,8 +14,6 @@ public class GameFavoriteRequestBean extends BaseRequestBean {
         this.game_id = game_id;
     }
 
-    private String game_id;
-
     public int getType() {
         return type;
     }
@@ -21,9 +21,4 @@ public class GameFavoriteRequestBean extends BaseRequestBean {
     public void setType(int type) {
         this.type = type;
     }
-
-    private int type;
-
-
-
 }

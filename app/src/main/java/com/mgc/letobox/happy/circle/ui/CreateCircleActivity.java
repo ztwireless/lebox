@@ -26,14 +26,14 @@ import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
 import com.kymjs.rxvolley.http.VolleyError;
-import com.leto.game.base.db.LoginControl;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.http.HttpParamsBuild;
-import com.leto.game.base.http.SdkConstant;
-import com.leto.game.base.util.DeviceUtil;
-import com.leto.game.base.util.DialogUtil;
-import com.leto.game.base.util.GlideUtil;
-import com.leto.game.base.util.ToastUtil;
+import com.mgc.leto.game.base.db.LoginControl;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.http.HttpParamsBuild;
+import com.mgc.leto.game.base.http.SdkConstant;
+import com.mgc.leto.game.base.utils.DeviceUtil;
+import com.mgc.leto.game.base.utils.DialogUtil;
+import com.mgc.leto.game.base.utils.GlideUtil;
+import com.mgc.leto.game.base.utils.ToastUtil;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.circle.CircleConst;
 import com.mgc.letobox.happy.find.FindConst;
@@ -49,10 +49,6 @@ import java.io.File;
 import java.util.List;
 
 import pub.devrel.easypermissions.EasyPermissions;
-
-/**
- * Created by DELL on 2018/7/10.
- */
 
 public class CreateCircleActivity extends AppCompatActivity {
     TextView textViewCreate;

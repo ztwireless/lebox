@@ -3,15 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/mgc_sdk_white"
+    android:background="@color/leto_white"
     android:hardwareAccelerated="true"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/mgc_sdk_action_bar_height"
+        android:layout_height="@dimen/leto_action_bar_height"
         android:id="@+id/rl_title"
-        android:background="@color/mgc_sdk_white">
+        android:background="@color/leto_white">
 
         <ImageView
             android:id="@+id/back"

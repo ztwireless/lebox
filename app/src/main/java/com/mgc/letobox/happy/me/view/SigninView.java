@@ -8,14 +8,14 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.ledong.lib.leto.api.ApiContainer;
-import com.ledong.lib.leto.mgc.util.MGCApiUtil;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.util.MResource;
-import com.leto.game.base.util.ToastUtil;
+import com.ledong.lib.minigame.bean.GameCenterData_Signin;
 import com.leto.game.base.view.recycleview.ScrollRecyclerView;
+import com.mgc.leto.game.base.api.ApiContainer;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.mgc.util.MGCApiUtil;
+import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.utils.ToastUtil;
 import com.mgc.letobox.happy.me.adapter.SignInAdapter;
-import com.mgc.letobox.happy.me.bean.SigninBean;
 import com.mgc.letobox.happy.me.bean.SigninStatusResultBean;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class SigninView extends LinearLayout {
 
     Context _context;
 
-    List<SigninBean> _signinList;
+    List<GameCenterData_Signin> _signinList;
 
     // api容器
     private ApiContainer _apiContainer;
@@ -88,15 +88,12 @@ public class SigninView extends LinearLayout {
             public void onDataSuccess(final SigninStatusResultBean data) {
                 if (null != data) {
                     try {
-                        new Handler().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (_signinList != null && data.getSignlist() != null) {
-                                    _signinList.addAll(data.getSignlist());
-                                }
-
-                                _adapter.notifyDataSetChanged();
+                        new Handler().post(() -> {
+                            if (_signinList != null && data.getSignlist() != null) {
+                                _signinList.addAll(data.getSignlist());
                             }
+
+                            _adapter.notifyDataSetChanged();
                         });
 
                     } catch (Exception e) {

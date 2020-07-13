@@ -36,7 +36,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="好友游戏4天"
-                    android:textColor="@color/mgc_sdk_white"
+                    android:textColor="@color/leto_white"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -84,7 +84,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="奖励"
-                    android:textColor="@color/mgc_sdk_white"
+                    android:textColor="@color/leto_white"
                     android:textSize="16sp"
                     android:textStyle="bold"/>
 
@@ -108,7 +108,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="元"
-                    android:textColor="@color/mgc_sdk_white"
+                    android:textColor="@color/leto_white"
                     android:textSize="16sp"
                     android:textStyle="bold"/>
 
@@ -141,7 +141,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="好友玩游戏\n你得收益"
-                    android:textColor="@color/mgc_sdk_white"
+                    android:textColor="@color/leto_white"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -189,7 +189,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="累计"
-                    android:textColor="@color/mgc_sdk_white"
+                    android:textColor="@color/leto_white"
                     android:textSize="16sp"
                     android:textStyle="bold"/>
 
@@ -212,7 +212,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="元"
-                    android:textColor="@color/mgc_sdk_white"
+                    android:textColor="@color/leto_white"
                     android:textSize="16sp"
                     android:textStyle="bold"/>
 
@@ -244,7 +244,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="邀请好友"
-                    android:textColor="@color/mgc_sdk_white"
+                    android:textColor="@color/leto_white"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -293,7 +293,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="立得"
-                    android:textColor="@color/mgc_sdk_white"
+                    android:textColor="@color/leto_white"
                     android:textSize="16sp"
                     android:textStyle="bold"/>
 
@@ -317,7 +317,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="元"
-                    android:textColor="@color/mgc_sdk_white"
+                    android:textColor="@color/leto_white"
                     android:textSize="16sp"
                     android:textStyle="bold"/>
 

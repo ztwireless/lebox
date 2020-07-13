@@ -5,11 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -22,15 +19,14 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ledong.lib.leto.trace.LetoTrace;
-import com.ledong.lib.leto.widget.ClickGuard;
-import com.leto.game.base.util.ColorUtil;
-import com.leto.game.base.util.DialogUtil;
-import com.leto.game.base.util.IntentConstant;
-import com.leto.game.base.util.MResource;
-import com.leto.game.base.util.StatusBarUtil;
-import com.leto.game.base.util.ToastUtil;
-import com.mgc.letobox.happy.BaseActivity;
+import com.mgc.leto.game.base.main.BaseActivity;
+import com.mgc.leto.game.base.trace.LetoTrace;
+import com.mgc.leto.game.base.utils.ColorUtil;
+import com.mgc.leto.game.base.utils.DialogUtil;
+import com.mgc.leto.game.base.utils.IntentConstant;
+import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.utils.StatusBarUtil;
+import com.mgc.leto.game.base.widget.ClickGuard;
 
 public class FollowWebViewActivity extends BaseActivity {
 
@@ -199,7 +195,7 @@ public class FollowWebViewActivity extends BaseActivity {
                     _loadingDialog.dismiss();
                     _loadingDialog = null;
                 }
-                _loadingDialog = DialogUtil.showDialog(FollowWebViewActivity.this, true, getString(MResource.getIdByName(FollowWebViewActivity.this, "R.string.loading")));
+                _loadingDialog = DialogUtil.showDialog(FollowWebViewActivity.this, true, getString(MResource.getIdByName(FollowWebViewActivity.this, "R.string.leto_loading")));
             }
 
             @Override

@@ -3,8 +3,8 @@ package com.mgc.letobox.happy;
 import android.content.Context;
 
 import com.google.gson.reflect.TypeToken;
-import com.leto.game.base.http.HttpCallbackDecode;
-import com.leto.game.base.util.MResource;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.utils.MResource;
 import com.mgc.letobox.happy.me.bean.TaskResultBean;
 import com.mgc.letobox.happy.me.bean.UserTaskStatusResultBean;
 import com.mgc.letobox.happy.util.LeBoxConstant;

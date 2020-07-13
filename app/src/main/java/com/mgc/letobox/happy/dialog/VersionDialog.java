@@ -15,11 +15,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.ledong.lib.leto.trace.LetoTrace;
-import com.leto.game.base.listener.IProgressListener;
-import com.leto.game.base.util.DensityUtil;
-import com.leto.game.base.util.GlideUtil;
-import com.leto.game.base.util.MResource;
+import com.mgc.leto.game.base.listener.IProgressListener;
+import com.mgc.leto.game.base.trace.LetoTrace;
+import com.mgc.leto.game.base.utils.DensityUtil;
+import com.mgc.leto.game.base.utils.GlideUtil;
+import com.mgc.leto.game.base.utils.MResource;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.bean.VersionResultBean;
 import com.mgc.letobox.happy.util.UpdateUtil;
@@ -49,7 +49,7 @@ public class VersionDialog {
         final boolean isCanCancel = version.getType() != 1 ? true : false;
         this.mlistener = listener;
         View dialogview = LayoutInflater.from(context).inflate(MResource.getIdByName(context, "R.layout.dialog_common_version"), null);
-        dialog = new Dialog(context, MResource.getIdByName(context, "R.style.LetoCustomDialog"));
+        dialog = new Dialog(context, MResource.getIdByName(context, "R.style.leto_custom_dialog"));
         //设置view
         dialog.setContentView(dialogview);
         dialog.setCanceledOnTouchOutside(isCanCancel);
