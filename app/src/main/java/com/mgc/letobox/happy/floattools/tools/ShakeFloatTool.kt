@@ -118,8 +118,8 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Benefi
                 activity?.runOnUiThread {
                     try {
                         if (shakeData == null) {
-                            if (!AdPreloader.isInterstitialPreloaded()) {
-                                AdPreloader.preloadInterstitialIfNeeded()
+                            if (!AdPreloader.getInstance(activity).isInterstitialPreloaded()) {
+                                AdPreloader.getInstance(activity).preloadInterstitialIfNeeded()
                                 ToastUtil.s(activity, R.string.shake_nothing)
                             } else {
                                 presentInterstitialAd(activity)
@@ -131,8 +131,8 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Benefi
                                 shakeData.add_coins_type == 2 && !TextUtils.isEmpty(shakeData.propid) ->
                                     triggerJSShakeAwardEvent(activity, shakeData.propid)
                                 else ->
-                                    if (!AdPreloader.isInterstitialPreloaded()) {
-                                        AdPreloader.preloadInterstitialIfNeeded()
+                                    if (!AdPreloader.getInstance(activity).isInterstitialPreloaded()) {
+                                        AdPreloader.getInstance(activity).preloadInterstitialIfNeeded()
                                         ToastUtil.s(activity, R.string.shake_nothing)
                                     } else {
                                         presentInterstitialAd(activity)

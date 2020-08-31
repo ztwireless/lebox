@@ -7,11 +7,12 @@ import com.mgc.leto.game.base.mgc.bean.GetUserCoinResultBean;
 
 import java.util.List;
 
+/**
+ * Create by zhaozhihui on 2019-08-19
+ **/
 @Keep
 public class SigninStatusResultBean {
-    GetUserCoinResultBean coinslist;
 
-    List<GameCenterData_Signin> signlist;
 
     public List<GameCenterData_Signin> getSignlist() {
         return signlist;
@@ -28,4 +29,8 @@ public class SigninStatusResultBean {
     public void setCoins(GetUserCoinResultBean coins) {
         this.coinslist = coins;
     }
+
+    GetUserCoinResultBean coinslist;
+
+    List<GameCenterData_Signin> signlist;
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ledong.lib.minigame.bean.GameCenterData_Signin;
+import com.ledong.lib.minigame.bean.SigninStatusResultBean;
 import com.leto.game.base.view.recycleview.ScrollRecyclerView;
 import com.mgc.leto.game.base.http.HttpCallbackDecode;
 import com.mgc.leto.game.base.mgc.util.MGCApiUtil;
@@ -16,7 +17,6 @@ import com.mgc.leto.game.base.utils.MResource;
 import com.mgc.leto.game.base.utils.ToastUtil;
 import com.mgc.letobox.happy.me.adapter.SignInAdapter;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
-import com.mgc.letobox.happy.me.bean.SigninStatusResultBean;
 
 import java.util.ArrayList;
 import java.util.List;

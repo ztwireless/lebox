@@ -44,6 +44,7 @@ import com.mgc.leto.game.base.mgc.bean.CoinConfigResultBean;
 import com.mgc.leto.game.base.mgc.bean.GetBenefitsSettingResultBean;
 import com.mgc.leto.game.base.mgc.model.MGCSharedModel;
 import com.mgc.leto.game.base.mgc.util.MGCApiUtil;
+import com.mgc.leto.game.base.sdk.LetoAdInfo;
 import com.mgc.leto.game.base.statistic.AdInfo;
 import com.mgc.leto.game.base.statistic.GameStatisticManager;
 import com.mgc.leto.game.base.statistic.StatisticEvent;
@@ -259,11 +260,6 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
             // prefetch game center data
             prefetchGameCenter();
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     private void doGetBenefitSettings() {
@@ -484,7 +480,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
         // 开始载入splash ad
         _splashAd = AdManager.getInstance().getSplashAD(SplashActivity.this, adConfig, _splashAdContainer, 1, new IAdListener() {
             @Override
-            public void onPresent(String platform) {
+            public void onPresent(LetoAdInfo platform) {
                 MainHandler.getInstance().post(new Runnable() {
                     @Override
                     public void run() {
@@ -502,7 +498,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
             }
 
             @Override
-            public void onClick(String platform) {
+            public void onClick(LetoAdInfo platform) {
 
                 //上报给mgc
                 if (null != _mgcAdBean && !TextUtils.isEmpty(_mgcAdBean.mgcClickReportUrl)) {
@@ -512,13 +508,13 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
             }
 
             @Override
-            public void onDismissed(String platform) {
+            public void onDismissed(LetoAdInfo platform) {
                 _splashAdDone = true;
                 startMain(true);
             }
 
             @Override
-            public void onFailed(String platform, String s) {
+            public void onFailed(LetoAdInfo platform, String s) {
                 MainHandler.getInstance().post(new Runnable() {
                     @Override
                     public void run() {
@@ -532,7 +528,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
             }
 
             @Override
-            public void onAdLoaded(String platform, int size) {
+            public void onAdLoaded(LetoAdInfo platform, int size) {
                 MainHandler.getInstance().post(new Runnable() {
                     @Override
                     public void run() {
@@ -547,7 +543,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
             }
 
             @Override
-            public void onStimulateSuccess(String platform) {
+            public void onStimulateSuccess(LetoAdInfo platform) {
 
             }
         });

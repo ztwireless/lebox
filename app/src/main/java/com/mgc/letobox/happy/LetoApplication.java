@@ -29,6 +29,9 @@ public class LetoApplication extends Application {
 
         LetoTrace.setDebugMode(true);
 
+        // 使用竞价策略
+        LetoCore.useBiddingAdPolicy(true);
+
         //无需sdk预加载广告sdk
         LetoCore.setAutoPreloadAd(false);
 
