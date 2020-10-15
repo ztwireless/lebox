@@ -163,6 +163,21 @@
                 android:resource="@xml/sigmob_provider_paths" />
         </provider>
 
+        <activity android:name="com.sigmob.sdk.base.common.AdActivity"
+            android:theme="@android:style/Theme.DeviceDefault"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+
+        <!-- lightingbox ad config-->
+        <provider
+            android:name="com.wannuosili.sdk.ad.component.WNFileProvider"
+            android:authorities="${applicationId}.WNFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/wn_file_paths" />
+        </provider>
+
         <!-- 渠道自带的微信分享集成 -->
         <activity
             android:name="${applicationId}.wxapi.WXEntryActivity"
