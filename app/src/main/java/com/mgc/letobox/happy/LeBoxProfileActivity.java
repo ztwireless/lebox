@@ -154,7 +154,7 @@ public class LeBoxProfileActivity extends BaseActivity implements ActionSheet.Ac
 					public void onClick(DialogInterface dialog, int which) {
 						if(which == DialogInterface.BUTTON_POSITIVE) {
 							// first we need clear local cache to switch a temp account
-							_loginInfo = Leto.getInstance().switchToTempAccount(LeBoxProfileActivity.this);
+							_loginInfo = Leto.switchToTempAccount(LeBoxProfileActivity.this);
 
 							// then we sync this temp account
 							MgcAccountManager.syncAccount(LeBoxProfileActivity.this, "", _loginInfo.getMobile(), false, new SyncUserInfoListener() {

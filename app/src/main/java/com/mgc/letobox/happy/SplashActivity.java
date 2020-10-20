@@ -17,12 +17,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
+
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.ledong.lib.leto.Leto;
 import com.ledong.lib.minigame.util.PrefetchCache;
-import com.leto.game.base.event.ShowProvicyEvent;
-import com.leto.game.base.event.ShowRookieGiftEvent;
 import com.mgc.leto.game.base.LetoConst;
 import com.mgc.leto.game.base.MgcAccountManager;
 import com.mgc.leto.game.base.api.be.AdDotManager;
@@ -32,9 +31,12 @@ import com.mgc.leto.game.base.be.BaseAd;
 import com.mgc.leto.game.base.be.IAdListener;
 import com.mgc.leto.game.base.be.bean.AdConfig;
 import com.mgc.leto.game.base.be.bean.mgc.MgcAdBean;
+import com.leto.game.base.event.ShowProvicyEvent;
+import com.leto.game.base.event.ShowRookieGiftEvent;
 import com.mgc.leto.game.base.bean.LoginResultBean;
 import com.mgc.leto.game.base.db.LoginControl;
 import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.http.RxVolleyManager;
 import com.mgc.leto.game.base.http.SdkConstant;
 import com.mgc.leto.game.base.listener.IJumpListener;
 import com.mgc.leto.game.base.listener.JumpError;
@@ -59,6 +61,7 @@ import com.mgc.letobox.happy.util.LeBoxSpUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.HashMap;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -87,10 +90,8 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
     // 启动主程序的条件标识
     private boolean _permissionInited;
     private boolean _configFetched;
-    private boolean _benefitSettingsFetched;
     private boolean _started;
     private int _configRetryCount = 3;
-    private int _benefitRetryCount = 3;
 
     private boolean _splashAdDone = false;
 
@@ -124,7 +125,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
                         startActivity(intent);
                         finish();
                     } else {
-                        Leto.getInstance().jumpMiniGameWithAppId(SplashActivity.this, _gameId, new IJumpListener() {
+                        Leto.jumpMiniGameWithAppId(SplashActivity.this, _gameId, new IJumpListener() {
                             @Override
                             public void onDownloaded(String path) {
                             }
@@ -252,8 +253,6 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
             // get benefit settings
             if (!MGCSharedModel.isBenefitSettingsInited()) {
                 doGetBenefitSettings();
-            } else {
-                _benefitSettingsFetched = true;
             }
             startSplashAd();
 
@@ -266,28 +265,11 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
         MGCApiUtil.getBenefitSettings(this, new HttpCallbackDecode<GetBenefitsSettingResultBean>(this, null) {
             @Override
             public void onDataSuccess(GetBenefitsSettingResultBean data) {
-                // start main if can
-                _benefitSettingsFetched = true;
-                startSplashAd();
             }
 
             @Override
             public void onFailure(String code, String msg) {
                 super.onFailure(code, msg);
-
-                // 重试3次, 不成功则不允许打开盒子
-                _benefitRetryCount--;
-                if (_benefitRetryCount > 0) {
-                    _handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            doGetBenefitSettings();
-                        }
-                    }, 100);
-                } else {
-                    // 只能提示退出了
-                    onConfigError("获取福利配置失败, 暂时无法启动, 请稍后重试");
-                }
             }
         });
     }
@@ -334,7 +316,6 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
         // 设置标志, 以便onResume时重新尝试获取配置
         _needRerunConfig = true;
         _configRetryCount = 3;
-        _benefitRetryCount = 3;
 
         // ensure no other dialog
         if (_configErrorDialog != null) {
@@ -384,7 +365,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
 		 2. 如果配置了MGC_GAMEID, 则必须等待getCoinConfig完成以便检查openType, 因此getCoinConfig一旦失败则需要重试, 重试3次后还失败则退出.
 		 	第二个条件是权限检查完成. 两个条件都达到时, 检查openType, 2则启动盒子, 1则启动游戏
 		 */
-        if (_permissionInited && _configFetched && _benefitSettingsFetched && !_started && _splashAdDone) {
+        if (_permissionInited && _configFetched && !_started && _splashAdDone) {
             if (loadedAd) {
                 _handler.sendEmptyMessageDelayed(START_MAIN, 500);
             } else {

@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ledong.lib.leto.Leto;
+import com.mgc.leto.game.base.LetoEvents;
 import com.mgc.leto.game.base.api.constant.Constant;
 import com.mgc.leto.game.base.bean.LoginResultBean;
 import com.mgc.leto.game.base.http.HttpCallbackDecode;
@@ -117,7 +117,7 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         // 更新金币数, 因为提现会减少金币, 先更新一次, 然后再通过网络请求更新
         _totalCoinLabel.setText(String.valueOf(MGCSharedModel.myCoin));
         _todayCoinLabel.setText(String.valueOf(MGCSharedModel.todayCoin));
-        _moneyLabel.setText(String.format("%.02f%s", (float)MGCSharedModel.myCoin / MGCSharedModel.coinRmbRatio, _leto_mgc_dollar));
+        _moneyLabel.setText(String.format("%.02f%s", (float) MGCSharedModel.myCoin / MGCSharedModel.coinRmbRatio, _leto_mgc_dollar));
 
         if (MGCSharedModel.coinExchageType == Constant.COIN_CONSUME_TYPE_EXCHANGE) {
             _withdrawTextView.setText("立即兑换");
@@ -130,9 +130,9 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
             }
         }
 
-        if(MGCSharedModel.isShowInvite){
+        if (MGCSharedModel.isShowInvite) {
             _inviteField.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             _inviteField.setVisibility(View.GONE);
         }
 
@@ -150,7 +150,6 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         });
 
 
-
         // withdraw click
         _withdrawView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
             @Override
@@ -159,7 +158,7 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
                 if (MGCSharedModel.coinExchageType == Constant.COIN_CONSUME_TYPE_EXCHANGE) {
                     ExchangeActivity.start(_ctx);
                 } else {
-                    IWithdraw withdrawInterface = Leto.getInstance().getThirdpartyWithdraw();
+                    IWithdraw withdrawInterface = LetoEvents.getThirdpartyWithdraw();
                     if (MGCSharedModel.thirdpartyWithdraw && withdrawInterface != null) {
                         thirdpartyWithdraw();
                     } else {
@@ -175,8 +174,8 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         _totalCoinView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
             @Override
             public boolean onClicked() {
-                if(Leto.getInstance().getThirdpartyCoinListener()!=null){
-                    Leto.getInstance().getThirdpartyCoinListener().onTotalCoin();
+                if (LetoEvents.getThirdpartyCoinListener() != null) {
+                    LetoEvents.getThirdpartyCoinListener().onTotalCoin();
                 }
                 return true;
             }
@@ -186,20 +185,20 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         _todayCoinView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
             @Override
             public boolean onClicked() {
-                if(Leto.getInstance().getThirdpartyCoinListener()!=null){
-                    Leto.getInstance().getThirdpartyCoinListener().onTodayCoin();
+                if (LetoEvents.getThirdpartyCoinListener() != null) {
+                    LetoEvents.getThirdpartyCoinListener().onTodayCoin();
                 }
                 return true;
             }
         });
-        if( MGCSharedModel.hideMycoins){
+        if (MGCSharedModel.hideMycoins) {
             _myCoinFieldView.setVisibility(View.GONE);
             _todayCoinFieldView.setVisibility(View.GONE);
         }
-        if(MGCSharedModel.hideExchangeBtn) {
+        if (MGCSharedModel.hideExchangeBtn) {
             _withdrawField.setVisibility(View.GONE);
         }
-        if(MGCSharedModel.hideExchangeBtn && MGCSharedModel.hideMycoins){
+        if (MGCSharedModel.hideExchangeBtn && MGCSharedModel.hideMycoins) {
             _coinView.setVisibility(View.GONE);
         }
 
@@ -207,8 +206,8 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         _profileContainer.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
             @Override
             public boolean onClicked() {
-                if(!LoginManager.isSignedIn(_ctx)) {
-                    if(BaseAppUtil.getMetaBooleanValue(_ctx, "MGC_ENABLE_WECHAT_LOGIN")) {
+                if (!LoginManager.isSignedIn(_ctx)) {
+                    if (BaseAppUtil.getMetaBooleanValue(_ctx, "MGC_ENABLE_WECHAT_LOGIN")) {
                         LeBoxLoginActivity.start(_ctx);
                     } else {
                         LeBoxMobileLoginActivity.start(_ctx);
@@ -227,13 +226,13 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
     private void updateProfile() {
         // get login info
         LoginResultBean loginInfo = LoginManager.getUserLoginInfo(_ctx);
-        if(loginInfo != null) {
+        if (loginInfo != null) {
             // if temp account, use default avatar builtin
             // if not, load avatar
-            if(!LoginManager.isSignedIn(_ctx)) {
+            if (!LoginManager.isSignedIn(_ctx)) {
                 // avatar
                 _avatarView.setImageResource(MResource.getIdByName(_ctx, "R.mipmap.lebox_no_avatar"));
-                
+
                 // name
                 _nameLabel.setText(String.format("游客%s", loginInfo.getMem_id()));
 
@@ -241,7 +240,7 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
                 _sigLabel.setText("登录后同步游戏记录");
             } else {
                 // avatar
-                if(TextUtils.isEmpty(loginInfo.getPortrait())) {
+                if (TextUtils.isEmpty(loginInfo.getPortrait())) {
                     _avatarView.setImageResource(MResource.getIdByName(_ctx, "R.mipmap.lebox_no_avatar"));
                 } else {
                     GlideUtil.loadCircle(_ctx, loginInfo.getPortrait(), _avatarView);
@@ -262,8 +261,8 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
 
     private void thirdpartyWithdraw() {
 
-        IWithdraw withdrawInterface = Leto.getInstance().getThirdpartyWithdraw();
-        if(withdrawInterface != null) {
+        IWithdraw withdrawInterface = LetoEvents.getThirdpartyWithdraw();
+        if (withdrawInterface != null) {
             withdrawInterface.requestWithdraw(_ctx, new WithdrawRequest(_ctx));
         } else {
             onThirdpartyWithdrawFail();
@@ -275,7 +274,7 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         MGCApiUtil.getUserCoin(_ctx, new HttpCallbackDecode<GetUserCoinResultBean>(_ctx, null) {
             @Override
             public void onDataSuccess(GetUserCoinResultBean data) {
-                if(data != null) {
+                if (data != null) {
                     onGetUserCoinOK(data);
                 } else {
                     hintRetryGetUserCoin();
@@ -287,7 +286,7 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
                 super.onFailure(code, msg);
 
                 // hint retry, or debug
-                if(Constant.FAKE_DATA) {
+                if (Constant.FAKE_DATA) {
                     onGetUserCoinOK(GetUserCoinResultBean.debugFakeData());
                 } else {
                     hintRetryGetUserCoin();
@@ -305,7 +304,7 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
                 // update labels
                 _totalCoinLabel.setText(String.valueOf(_model.getCoins()));
                 _todayCoinLabel.setText(String.valueOf(_model.getToday_coins()));
-                _moneyLabel.setText(String.format("%.02f%s", (float)_model.getCoins() / MGCSharedModel.coinRmbRatio, _leto_mgc_dollar));
+                _moneyLabel.setText(String.format("%.02f%s", (float) _model.getCoins() / MGCSharedModel.coinRmbRatio, _leto_mgc_dollar));
 
                 // dismiss dialog
                 DialogUtil.dismissDialog();
@@ -318,7 +317,7 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         MGCDialogUtil.showRetryDialog(_ctx, _leto_mgc_failed_get_user_coin, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(which == DialogInterface.BUTTON_POSITIVE) {
+                if (which == DialogInterface.BUTTON_POSITIVE) {
                     DialogUtil.showDialog(_ctx, _loading);
                     doGetUserCoin();
                 }

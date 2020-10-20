@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.ledong.lib.leto.Leto;
+import com.mgc.leto.game.base.LetoEvents;
 import com.mgc.leto.game.base.api.ApiContainer;
 import com.mgc.leto.game.base.api.constant.Constant;
 import com.mgc.leto.game.base.api.mgc.RedPackRequest;
@@ -67,7 +68,7 @@ public class FloatToolsCenter {
     }
 
     private static void setGameUpgradeListener(Application app) {
-        Leto.getInstance().setGameUpgradeListener(new ILetoGameUpgradeListener() {
+        LetoEvents.setGameUpgradeListener(new ILetoGameUpgradeListener() {
 
             @Override
             public void show(Activity context, String gameId, Map<String, Integer> gameInfo, JSONObject params) {
@@ -107,10 +108,10 @@ public class FloatToolsCenter {
     }
 
     private static void setGiftRainListener() {
-        Leto.getInstance().setGiftRainListener(new ILetoGiftRainListener() {
+        LetoEvents.setGiftRainListener(new ILetoGiftRainListener() {
             @Override
             public void show(final Activity context, String gameId) {
-                if (MGCSharedModel.benefitSettings.getHbrain() != null) {
+                if (MGCSharedModel.benefitSettings != null && MGCSharedModel.benefitSettings.getHbrain() != null) {
                     BenefitSettings_hbrain hbrainConfig = MGCSharedModel.benefitSettings.getHbrain();
 
                     // 剩余次数
@@ -156,7 +157,7 @@ public class FloatToolsCenter {
     }
 
     private static void addLetoLifecycleListener(Application app) {
-        Leto.getInstance().addLetoLifecycleListener(new ILetoLifecycleListener() {
+        LetoEvents.addLetoLifecycleListener(new ILetoLifecycleListener() {
             private List<BaseFloatTool> floatTools = new ArrayList<>();
 
             @Override

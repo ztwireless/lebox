@@ -32,10 +32,13 @@ import com.ledong.lib.minigame.bean.TabBean;
 import com.mgc.leto.game.base.be.AdManager;
 import com.mgc.leto.game.base.http.HttpCallbackDecode;
 import com.mgc.leto.game.base.http.HttpParamsBuild;
+import com.mgc.leto.game.base.http.RxVolleyManager;
 import com.mgc.leto.game.base.mgc.bean.CoinDialogScene;
+import com.mgc.leto.game.base.mgc.bean.GetBenefitsSettingResultBean;
 import com.mgc.leto.game.base.mgc.dialog.IMGCCoinDialogListener;
 import com.mgc.leto.game.base.mgc.dialog.MGCInfoDialog;
 import com.mgc.leto.game.base.mgc.model.MGCSharedModel;
+import com.mgc.leto.game.base.mgc.util.MGCApiUtil;
 import com.mgc.leto.game.base.mgc.util.MGCDialogUtil;
 import com.mgc.leto.game.base.trace.LetoTrace;
 import com.mgc.leto.game.base.utils.BaseAppUtil;
@@ -184,13 +187,8 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         // detect system version, if too low, give a hint
         checkSystemVersion();
 
-        try {
-            //init rxVolley
-            RxVolley.setRequestQueue(RequestQueue.newRequestQueue(BaseAppUtil.getDefaultSaveRootPath(this, "RxVolley")));
-        } catch (Throwable e) {
-
-        }
-
+        //init rxVolley
+        RxVolleyManager.init(GameCenterTabActivity.this);
 
         tabGroup.setOnCheckedChangeListener(this);
         tabGroup.check(_tabIds.get(0));
@@ -292,8 +290,25 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
 
         // check rookie guide
         showRookieGuideIfNeeded();
+
+        // get benefit settings
+        if (!MGCSharedModel.isBenefitSettingsInited()) {
+            doGetBenefitSettings();
+        }
     }
 
+    private void doGetBenefitSettings() {
+        MGCApiUtil.getBenefitSettings(this, new HttpCallbackDecode<GetBenefitsSettingResultBean>(this, null) {
+            @Override
+            public void onDataSuccess(GetBenefitsSettingResultBean data) {
+            }
+
+            @Override
+            public void onFailure(String code, String msg) {
+                super.onFailure(code, msg);
+            }
+        });
+    }
 
     @Override
     public void onPause() {

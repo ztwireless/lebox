@@ -16,6 +16,7 @@ import com.ledong.lib.minigame.SearchActivity;
 import com.ledong.lib.minigame.event.HideTitleEvent;
 import com.ledong.lib.minigame.view.RookieGuideView;
 import com.leto.game.base.event.ShowRookieGiftEvent;
+import com.mgc.leto.game.base.LetoEvents;
 import com.mgc.leto.game.base.api.constant.Constant;
 import com.mgc.leto.game.base.interfaces.ILetoGameContainer;
 import com.mgc.leto.game.base.listener.ILetoLifecycleListener;
@@ -162,7 +163,7 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
                 .commit();
 
         // 添加自己为leto生命周期监听器以便弹出新手红包
-        Leto.getInstance().addLetoLifecycleListener(this);
+        LetoEvents.addLetoLifecycleListener(this);
 
         // 添加一个layout监听器, 因为如果网络较慢, 一开始游戏的大图不会显示, 会显示占位图, 这样新手引导的位置
         // 就会偏上, 一旦大图加载完成, 就不对了, 所以需要重新计算新手引导位置
@@ -211,7 +212,7 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
         EventBus.getDefault().unregister(this);
 
         // 移除监听器
-        Leto.getInstance().removeLetoLifecycleListener(this);
+        LetoEvents.removeLetoLifecycleListener(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)

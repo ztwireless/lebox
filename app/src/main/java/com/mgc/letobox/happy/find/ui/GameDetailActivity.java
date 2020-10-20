@@ -326,7 +326,7 @@ public class GameDetailActivity extends AppCompatActivity implements View.OnClic
             @Override
             public boolean onClicked() {
                 // TODO 判断游戏类型
-                Leto.getInstance().jumpMiniGameWithAppId(GameDetailActivity.this, mGameId);
+                Leto.jumpMiniGameWithAppId(GameDetailActivity.this, mGameId);
                 return true;
             }
         });
