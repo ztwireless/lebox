@@ -81,6 +81,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
     RadioButton tabCategoryBtn;
     RadioButton tabMeBtn;
     RadioButton tabFindBtn;
+    RadioButton tabRewardBtn;
     MyRadioGroup tabGroup;
 
     Fragment curFragment;
@@ -129,6 +130,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         _fragmentClasses.put(R.id.tab_challenge, TabChallengeFragment.class);
         _fragmentClasses.put(R.id.tab_category, TabCategoryFragment.class);
         _fragmentClasses.put(R.id.tab_me, TabMeFragment.class);
+        _fragmentClasses.put(R.id.tab_reward, TabRewardFragment.class);
 
         // init leto
         Leto.init(this);
@@ -148,6 +150,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         srcAppId = getIntent().getStringExtra(IntentConstant.SRC_APP_ID);
         srcAppPath = getIntent().getStringExtra(IntentConstant.SRC_APP_PATH);
 
+        tabRewardBtn = findViewById(R.id.tab_reward);
         tabGameBtn = findViewById(R.id.tab_game);
         tabRankBtn = findViewById(R.id.tab_rank);
         tabChallengeBtn = findViewById(R.id.tab_challenge);
@@ -161,7 +164,8 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
                 tabChallengeBtn,
                 tabCategoryBtn,
                 tabMeBtn,
-                tabFindBtn
+                tabFindBtn,
+                tabRewardBtn
         );
         if (_censorMode) {
             _tabIds = Arrays.asList(
@@ -173,7 +177,8 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
             _tabIds = Arrays.asList(
                     R.id.tab_game,
                     R.id.tab_rank,
-                    R.id.tab_challenge,
+                    R.id.tab_reward,
+//                    R.id.tab_challenge,
                     R.id.tab_category,
                     R.id.tab_me
             );

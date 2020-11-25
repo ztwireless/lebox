@@ -23,6 +23,7 @@ public class LeBoxConstant {
     public final static int LETO_ME_FEED_AD = 8;
     public final static int LETO_ME_MODULE_FOLLOW = 9;
 
+    public final static int LETO_ME_MODULE_REWARD = 11;
 
 
     public final static String LETO_TASK_ID = "task_id";

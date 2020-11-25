@@ -53,11 +53,27 @@
                 android:drawableTop="@drawable/tab_rank"
                 android:text="榜单" />
 
+
+            <RadioButton
+                android:id="@+id/tab_reward"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button ="@null"
+                android:background="@null"
+                android:gravity ="center"
+                android:textSize ="12sp"
+                android:textColor ="@drawable/tab_reward_text_select"
+                android:drawableTop="@drawable/tab_reward"
+                android:text="福利场" />
+
+
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:clipChildren="false">
+                android:clipChildren="false"
+                android:visibility="gone">
 
                 <RadioButton
                     android:id="@+id/tab_challenge"

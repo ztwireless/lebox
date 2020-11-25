@@ -16,6 +16,7 @@ import com.mgc.letobox.happy.me.holder.HighCoinHolder;
 import com.mgc.letobox.happy.me.holder.MeSigninHolder;
 import com.mgc.letobox.happy.me.holder.NewerTaskHolder;
 import com.mgc.letobox.happy.me.holder.OtherHolder;
+import com.mgc.letobox.happy.me.holder.RewardGameHolder;
 import com.mgc.letobox.happy.util.LeBoxConstant;
 
 import java.util.ArrayList;
@@ -78,6 +79,8 @@ public class MeHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 return DailyTaskHolder.create(mContext, parent);
             case LeBoxConstant.LETO_ME_MODULE_HIGH_COIN_TASK:
                 return HighCoinHolder.create(mContext, parent);
+            case LeBoxConstant.LETO_ME_MODULE_REWARD:
+                return RewardGameHolder.create(mContext, parent);
             default:
                 return OtherHolder.create(mContext, parent);
         }
