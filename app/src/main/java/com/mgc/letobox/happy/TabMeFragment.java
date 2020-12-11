@@ -39,7 +39,7 @@ public class TabMeFragment extends BaseFragment {
         // install content fragment
         fragment = MeNewFragment.create(appConfig);
         getChildFragmentManager().beginTransaction()
-                .add(R.id.home_content, fragment)
+                .add(R.id.home_me, fragment)
                 .commit();
 
         return view;

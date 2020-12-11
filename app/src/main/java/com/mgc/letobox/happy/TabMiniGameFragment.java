@@ -34,7 +34,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 /**
- * Create by zhaozhihui on 2019-09-06
+ * 小游戏中心Fragment
  **/
 public class TabMiniGameFragment extends BaseFragment implements RookieGuideView.RookieGuideClickListener, ILetoLifecycleListener, View.OnLayoutChangeListener {
 
@@ -159,7 +159,7 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
         _fragment = GameCenterHomeFragment.getInstance(_gameCenterPosId, true);
         _fragment.setMgcActivity(true);
         getChildFragmentManager().beginTransaction()
-                .add(R.id.home_content, _fragment)
+                .add(R.id.game_ceneter_content, _fragment)
                 .commit();
 
         // 添加自己为leto生命周期监听器以便弹出新手红包

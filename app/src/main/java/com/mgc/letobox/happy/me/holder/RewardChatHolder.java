@@ -96,30 +96,31 @@ public class RewardChatHolder extends CommonViewHolder<MeModuleBean> {
 
         long curChatDuration = LetoRewardManager.getChatGameProgress(_context);
         int progress = (int) curChatDuration / 60000; //转化成分钟
-
         _leto_chat_pregress.setProgress(progress);
-        _leto_chat_pregress.setMax(90);
 
-        if (_adapter == null) {
-            _adapter = new RewardChatRedpacketAdapter(_context, _rewardButtonList, getRewardAdRequest());
-
-            _recyclerView.setLayoutManager(new GridLayoutManager(_context, 4));
-            _recyclerView.setAdapter(_adapter);
-        } else {
-            _adapter.notifyDataSetChanged();
-        }
-
+        getUserStatus();
     }
 
     private void initRedPacketData() {
         _rewardButtonList = new ArrayList<>();
 
         String rewardList = LetoRewardManager.loadUserChatProgress(_context, LoginManager.getMobile(_context));
-        if(!TextUtils.isEmpty(rewardList)){
+        if (!TextUtils.isEmpty(rewardList)) {
             List<RewardChatRedpacketBean> chatList = new Gson().fromJson(rewardList, new TypeToken<List<RewardChatRedpacketBean>>() {
             }.getType());
             _rewardButtonList.clear();
             _rewardButtonList.addAll(chatList);
+            long maxTime = 0;
+            int size = _rewardButtonList.size();
+            for (int i = 0; i < size; i++) {
+                long min = _rewardButtonList.get(i).getChatTime();
+                if (min >= maxTime) {
+                    maxTime = min;
+                }
+            }
+            if (_leto_chat_pregress != null) {
+                _leto_chat_pregress.setMax((int) maxTime);
+            }
         }
 
         if (MGCSharedModel.isBenefitSettingsInited()) {
@@ -147,28 +148,47 @@ public class RewardChatHolder extends CommonViewHolder<MeModuleBean> {
                 _rewardButtonList.clear();
                 int size = chatConfig.getYuliao().size();
                 double totalCoins = 0;
+                long maxTime = 0;
                 for (int i = 0; i < size; i++) {
+                    long min = chatConfig.getYuliao().get(i).getChat_time() / 60;
                     RewardChatRedpacketBean redpacketBean = new RewardChatRedpacketBean();
                     totalCoins += chatConfig.getYuliao().get(i).getCoin_num();
                     redpacketBean.amount = chatConfig.getYuliao().get(i).getCoin_num();
-                    redpacketBean.chatTime = chatConfig.getYuliao().get(i).getChat_time() / 60;
+                    redpacketBean.chatTime = min;
                     redpacketBean.status = 0;
                     _rewardButtonList.add(redpacketBean);
+                    if (min >= maxTime) {
+                        maxTime = min;
+                    }
                 }
                 int radio = MGCSharedModel.coinRmbRatio == 0 ? 10000 : MGCSharedModel.coinRmbRatio;
                 leto_chat_tip.setText(String.format("美女陪聊最高可获得%.02f元红包", totalCoins / radio));
+
+                _leto_chat_pregress.setMax((int) maxTime);
             }
         }
         getUserStatus();
     }
 
-    private void getUserStatus(){
+    private void getUserStatus() {
         RewardApiUtil.getUserChatStatus(_context, new OkHttpCallbackDecode<List<Integer>>(new TypeToken<List<Integer>>() {
         }.getType()) {
             @Override
             public void onFailure(String code, final String msg) {
+                super.onFailure(code, msg);
                 LetoTrace.d(msg);
+                try {
+                    if (_adapter == null) {
+                        _adapter = new RewardChatRedpacketAdapter(_context, _rewardButtonList, getRewardAdRequest());
 
+                        _recyclerView.setLayoutManager(new GridLayoutManager(_context, 4));
+                        _recyclerView.setAdapter(_adapter);
+                    } else {
+                        _adapter.notifyDataSetChanged();
+                    }
+                } catch (Throwable e) {
+
+                }
             }
 
             @Override
@@ -219,6 +239,7 @@ public class RewardChatHolder extends CommonViewHolder<MeModuleBean> {
 
                 }
             }
+
         });
     }
 

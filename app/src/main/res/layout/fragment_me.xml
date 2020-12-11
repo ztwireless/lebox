@@ -8,7 +8,7 @@
 
     <!-- fragment container for game center list -->
     <FrameLayout
-        android:id="@+id/home_content"
+        android:id="@+id/home_me"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

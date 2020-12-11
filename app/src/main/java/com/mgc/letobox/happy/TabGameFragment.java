@@ -13,7 +13,7 @@ import com.mgc.leto.game.base.trace.LetoTrace;
 import com.mgc.leto.game.base.utils.IntentConstant;
 
 /**
- * Create by zhaozhihui on 2019-09-06
+ * 单款游戏Fragment
  **/
 public class TabGameFragment extends BaseFragment {
     private static final String TAG = TabGameFragment.class.getSimpleName();

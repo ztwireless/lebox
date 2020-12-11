@@ -22,7 +22,7 @@ public class RewardChatRedpacketBean implements Serializable {
         this.amount = amount;
     }
 
-    public double getChatTime() {
+    public long getChatTime() {
         return chatTime;
     }
 

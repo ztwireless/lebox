@@ -35,9 +35,9 @@ import com.leto.reward.listener.ILetoIdiomCallBack;
 import com.leto.reward.listener.ILetoOpenRedPacketCallBack;
 import com.leto.reward.listener.ILetoScratchCardCallBack;
 import com.leto.reward.listener.ILetoTurntableCallBack;
+import com.leto.reward.model.IdiomResultGame;
 import com.leto.reward.model.QaGameRewardBean;
 import com.leto.reward.model.TurnTableRewardBean;
-import com.leto.reward.model.IdiomResultGame;
 import com.mgc.leto.game.base.LetoEvents;
 import com.mgc.leto.game.base.LetoScene;
 import com.mgc.leto.game.base.api.ApiContainer;
@@ -246,13 +246,13 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
             public void getPlayedDurations(String gameId, long duration) {
 
                 Log.i(TAG, "gameId: " + gameId + "-------------duration: " + duration);
-
-                reportTaskProgress(duration);
-
+                //如果是语聊，则更新到本地
                 if (!TextUtils.isEmpty(gameId) && LetoRewardManager.isChatGame(gameId)) {
                     LetoTrace.d(TAG, "reportChatGameProgress: " + duration);
                     LetoRewardManager.updateChatGameProgress(GameCenterTabActivity.this, duration);
                 }
+
+                reportTaskProgress(duration);
             }
         };
 
