@@ -15,6 +15,189 @@
 
 
     <LinearLayout
+        android:id="@+id/invite_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/leto_mgc_selectable_bg"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingTop="17dp"
+        android:paddingRight="14dp"
+        android:paddingBottom="18dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/follow_invite" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="13dp"
+            android:text="邀请码"
+            android:textColor="@color/leto_black_3"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/leto_login_arrows_right" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/feed_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/leto_mgc_selectable_bg"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingTop="17dp"
+        android:paddingRight="14dp"
+        android:paddingBottom="18dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/leto_mgc_feedback" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="13dp"
+            android:text="问题反馈"
+            android:textColor="@color/leto_black_3"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/log_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/leto_mgc_selectable_bg"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingTop="17dp"
+        android:paddingRight="14dp"
+        android:paddingBottom="18dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/leto_mgc_logout" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="13dp"
+            android:text="退出登陆"
+            android:textColor="@color/leto_black_3"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/delete_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/leto_mgc_selectable_bg"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingTop="17dp"
+        android:paddingRight="14dp"
+        android:paddingBottom="18dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/leto_mgc_log_off" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="13dp"
+            android:text="注销账号"
+            android:textColor="@color/leto_black_3"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/about_me"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/leto_mgc_selectable_bg"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingTop="17dp"
+        android:paddingRight="14dp"
+        android:paddingBottom="18dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/leto_mgc_about_me" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="13dp"
+            android:text="关于我们"
+            android:textColor="@color/leto_black_3"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#f5f5f5" />
+
+    <LinearLayout
         android:id="@+id/clear_cache"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -114,7 +297,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="13dp"
-            android:text="用户协议&amp;隐私政策"
+            android:text="用户协议"
             android:textColor="@color/leto_black_3"
             android:textSize="15sp" />
 
@@ -125,44 +308,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/invite_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/leto_mgc_selectable_bg"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp"
-        android:paddingTop="17dp"
-        android:paddingRight="14dp"
-        android:paddingBottom="18dp">
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/follow_invite" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="13dp"
-            android:text="邀请码"
-            android:textColor="@color/leto_black_3"
-            android:textSize="15sp" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/leto_login_arrows_right" />
-
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/customer_service"
@@ -205,5 +351,6 @@
             tools:text="121212121"/>
 
     </LinearLayout>
+
 
 </LinearLayout>

@@ -6,13 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
+import com.ledong.lib.leto.Leto;
+import com.leto.reward.LetoRewardManager;
 import com.leto.reward.RewardGridView;
-import com.leto.reward.constant.RewardConst;
 import com.leto.reward.constant.RewardType;
+import com.mgc.leto.game.base.utils.GlideUtil;
 import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
-
 
 public class RewardGameHolder extends CommonViewHolder<MeModuleBean> {
     View _splitSpace;
@@ -21,6 +24,11 @@ public class RewardGameHolder extends CommonViewHolder<MeModuleBean> {
     Context _context;
 
     FrameLayout _rewardLayout;
+    ImageView _banbanLayout;
+
+    ImageView leto_turntable;
+    ImageView leto_answer;
+    ImageView leto_scratch_card;
 
     public static RewardGameHolder create(Context ctx, ViewGroup parent) {
         // load game row, and leave a gap so that next column can be seen
@@ -36,24 +44,41 @@ public class RewardGameHolder extends CommonViewHolder<MeModuleBean> {
         _splitSpace = itemView.findViewById(MResource.getIdByName(context, "R.id.split_space"));
 
 //        this._recyclerView = view.findViewById(MResource.getIdByName(context, "R.id.recyclerView"));
-        this._rewardLayout = view.findViewById(MResource.getIdByName(context, "R.id.reward_grid"));
+        this.leto_answer = view.findViewById(MResource.getIdByName(context, "R.id.leto_answer"));
+        this.leto_scratch_card = view.findViewById(MResource.getIdByName(context, "R.id.leto_scratch_card"));
+        this.leto_turntable = view.findViewById(MResource.getIdByName(context, "R.id.leto_turntable"));
 
-        RewardGridView _rewardView;
+        GlideUtil.load(context, MResource.getIdByName(context, "R.drawable.leto_reward_turntable"), this.leto_turntable);
+        GlideUtil.load(context, MResource.getIdByName(context, "R.drawable.leto_reward_answer"), this.leto_answer);
+        GlideUtil.load(context, MResource.getIdByName(context, "R.drawable.leto_reward_scratch_card_big"), this.leto_scratch_card);
 
-        FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        flp.gravity = Gravity.CENTER_HORIZONTAL;
-
-        int [] rewardList = new int[]{
-                RewardType.REWARD_TYPE_SCRATCH_CARD, RewardType.REWARD_TYPE_ANSWER,
-        };
-        _rewardView = new RewardGridView(context,rewardList);
-        _rewardLayout.addView(_rewardView, flp );
-
+        leto_turntable.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
+            @Override
+            public boolean onClicked() {
+                LetoRewardManager.startDanzhuanpan(_context);
+                return true;
+            }
+        });
+        leto_scratch_card.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
+            @Override
+            public boolean onClicked() {
+                LetoRewardManager.startGuaGuaCard(_context);
+                return true;
+            }
+        });
+        leto_answer.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
+            @Override
+            public boolean onClicked() {
+                LetoRewardManager.startDaTi(_context, true);
+                return true;
+            }
+        });
     }
 
     @Override
     public void onBind(final MeModuleBean signin, final int position) {
         // name & desc
-        _splitSpace.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
+//        _splitSpace.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
+        _splitSpace.setVisibility(View.GONE);
     }
 }

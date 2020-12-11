@@ -37,4 +37,9 @@
     <string name="retry_text">重试下载</string>
     <string name="open_text">开始游戏</string>
 
+    <string name="feedback_hint">请写下您的意见...</string>
+
+    <string name="link_user_agreement"><u>用户协议</u></string>
+    <string name="link_privacy"><u>隐私协议</u></string>
+
 </resources>

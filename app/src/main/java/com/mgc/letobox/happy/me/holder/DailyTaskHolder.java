@@ -9,14 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.reflect.TypeToken;
+import com.mgc.leto.game.base.http.HttpCallbackDecode;
 import com.mgc.leto.game.base.utils.ColorUtil;
 import com.mgc.leto.game.base.utils.DensityUtil;
 import com.mgc.leto.game.base.utils.MResource;
 import com.leto.game.base.view.recycleview.RecycleViewDivider;
+import com.mgc.leto.game.base.utils.ToastUtil;
 import com.mgc.letobox.happy.NewerTaskManager;
 import com.mgc.letobox.happy.me.adapter.TaskAdapter;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
 import com.mgc.letobox.happy.me.bean.TaskResultBean;
+import com.mgc.letobox.happy.me.bean.UserTaskStatusResultBean;
+import com.mgc.letobox.happy.util.LeBoxUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,16 +54,16 @@ public class DailyTaskHolder extends CommonViewHolder<MeModuleBean> {
 
         _taskList = new ArrayList<>();
 
-        NewerTaskManager.addDailyTasks(_taskList);
+//        NewerTaskManager.addDailyTasks(_taskList);
 
-        _taskAdapter = new TaskAdapter(_context, _taskList);
+        _taskAdapter = new TaskAdapter(_context, NewerTaskManager.mDailyTaskBeanList);
 
         // setup views
         _recyclerView.setLayoutManager(new LinearLayoutManager(context));
         _recyclerView.setAdapter(_taskAdapter);
 
         _recyclerView.addItemDecoration(new RecycleViewDivider(
-                context, LinearLayoutManager.HORIZONTAL, DensityUtil.dip2px(context,1), ColorUtil.parseColor("#f3f3f3")));
+                context, LinearLayoutManager.HORIZONTAL, DensityUtil.dip2px(context, 1), ColorUtil.parseColor("#f3f3f3")));
 
         _recyclerView.setNestedScrollingEnabled(false);
 
@@ -71,7 +76,59 @@ public class DailyTaskHolder extends CommonViewHolder<MeModuleBean> {
 
         _splitSpace.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
 
+        initData();
 
         _taskAdapter.notifyDataSetChanged();
+    }
+
+
+    private void initData() {
+        if (NewerTaskManager.mDailyTaskBeanList.isEmpty()) {
+            getDailyTaskList();
+        } else {
+            getUserTaskStatus();
+        }
+    }
+
+    public void getDailyTaskList() {
+        NewerTaskManager.getDailyTaskList(_context, false, new HttpCallbackDecode<List<TaskResultBean>>(_context, null) {
+            @Override
+            public void onDataSuccess(List<TaskResultBean> data) {
+                if (data != null) {
+                    if (_taskAdapter != null) {
+                        _taskAdapter.notifyDataSetChanged();
+                    }
+                    getUserTaskStatus();
+                }
+            }
+
+            @Override
+            public void onFailure(String code, String msg) {
+                super.onFailure(code, msg);
+                ToastUtil.s(_context, msg);
+            }
+        });
+    }
+
+    public void getUserTaskStatus() {
+        NewerTaskManager.getUserDailyTaskStatus(_context, new HttpCallbackDecode<List<UserTaskStatusResultBean>>(_context, null, new TypeToken<List<UserTaskStatusResultBean>>() {
+        }.getType()) {
+            @Override
+            public void onDataSuccess(final List<UserTaskStatusResultBean> data) {
+
+            }
+            @Override
+            public void onFailure(String code, String msg) {
+                super.onFailure(code, msg);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                if (_taskAdapter != null) {
+                    _taskAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 }

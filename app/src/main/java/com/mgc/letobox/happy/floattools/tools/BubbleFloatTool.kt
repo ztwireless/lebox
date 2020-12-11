@@ -22,7 +22,7 @@ import java.util.*
 class BubbleFloatTool(activity: Activity, gameId: String, val bubbleConfig: BenefitSettings_bubble) : BaseFloatTool(activity, gameId) {
     private val TAG = BubbleFloatTool::class.java.simpleName
     override fun isGameEnabled(): Boolean {
-        if (TEST_ENV) return true
+//        if (TEST_ENV) return true
         if (bubbleConfig != null && bubbleConfig.is_open == 1 && bubbleConfig.game_ids != null) {
             return bubbleConfig.game_ids.contains(gameId)
         }

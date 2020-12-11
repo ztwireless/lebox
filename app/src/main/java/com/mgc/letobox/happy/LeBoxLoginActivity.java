@@ -1,5 +1,6 @@
 package com.mgc.letobox.happy;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -24,6 +25,7 @@ import com.mgc.leto.game.base.utils.MResource;
 import com.mgc.leto.game.base.utils.StatusBarUtil;
 import com.mgc.leto.game.base.utils.ToastUtil;
 import com.mgc.leto.game.base.widget.ClickGuard;
+import com.mgc.letobox.happy.util.LeBoxConstant;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
@@ -33,171 +35,194 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.Map;
 
+import static com.mgc.letobox.happy.util.LeBoxConstant.REQUEST_CODE;
+
 public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, SyncUserInfoListener {
-	// views
-	private View _signInWechatBtn;
-	private View _signInMobileBtn;
-	private TextView _userAgreementLabel;
-	private TextView _privacyAgreementLabel;
-	private ImageView _backBtn;
+    // views
+    private View _signInWechatBtn;
+    private View _signInMobileBtn;
+    private TextView _userAgreementLabel;
+    private TextView _privacyAgreementLabel;
+    private ImageView _backBtn;
 
-	public static void start(Context context) {
-		if (null != context) {
-			Intent intent = new Intent(context, LeBoxLoginActivity.class);
-			context.startActivity(intent);
-		}
-	}
+    private int reqestCode = -1;
 
-	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    public static void start(Context context) {
+        if (null != context) {
+            Intent intent = new Intent(context, LeBoxLoginActivity.class);
+            context.startActivity(intent);
+        }
+    }
 
-		// set status bar color
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			StatusBarUtil.setStatusBarColor(this, ColorUtil.parseColor("#ffffff"));
-		}
+    public static void startActivityByRequestCode(Activity context, int requestCode) {
+        if (null != context) {
+            Intent intent = new Intent(context, LeBoxLoginActivity.class);
+            intent.putExtra(REQUEST_CODE, requestCode);
 
-		// set content view
-		setContentView(MResource.getIdByName(this, "R.layout.activity_lebox_login"));
+            context.startActivityForResult(intent, requestCode);
+        }
+    }
 
-		// find views
-		_backBtn = findViewById(MResource.getIdByName(this, "R.id.iv_back"));
-		_signInWechatBtn = findViewById(MResource.getIdByName(this, "R.id.sign_in_wechat"));
-		_signInMobileBtn = findViewById(MResource.getIdByName(this, "R.id.sign_in_mobile"));
-		_userAgreementLabel = findViewById(MResource.getIdByName(this, "R.id.user_agreement"));
-		_privacyAgreementLabel = findViewById(MResource.getIdByName(this, "R.id.privacy_agreement"));
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		// back click
-		_backBtn.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
-			@Override
-			public boolean onClicked() {
-				finish();
-				return true;
-			}
-		});
+        // set status bar color
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            StatusBarUtil.setStatusBarColor(this, ColorUtil.parseColor("#ffffff"));
+        }
 
-		// agreement label underline & click
-		_userAgreementLabel.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-		_userAgreementLabel.getPaint().setAntiAlias(true);
-		_privacyAgreementLabel.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-		_privacyAgreementLabel.getPaint().setAntiAlias(true);
-		_userAgreementLabel.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
-			@Override
-			public boolean onClicked() {
-				com.mgc.letobox.happy.util.DialogUtil.showAgreement(LeBoxLoginActivity.this, "user.html");
-				return true;
-			}
-		});
-		_privacyAgreementLabel.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
-			@Override
-			public boolean onClicked() {
-				com.mgc.letobox.happy.util.DialogUtil.showAgreement(LeBoxLoginActivity.this, "privacy.html");
-				return true;
-			}
-		});
+        // set content view
+        setContentView(MResource.getIdByName(this, "R.layout.activity_lebox_login"));
 
-		// sign in wechat
-		_signInWechatBtn.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
-			@Override
-			public boolean onClicked() {
-				getWechatAuthInfo();
-				return true;
-			}
-		});
+        if (getIntent() != null) {
+            reqestCode = getIntent().getIntExtra(LeBoxConstant.REQUEST_CODE, -1);
+        }
 
-		// sign in mobile
-		_signInMobileBtn.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
-			@Override
-			public boolean onClicked() {
-				LeBoxMobileLoginActivity.start(LeBoxLoginActivity.this);
-				return true;
-			}
-		});
-	}
+        // find views
+        _backBtn = findViewById(MResource.getIdByName(this, "R.id.iv_back"));
+        _signInWechatBtn = findViewById(MResource.getIdByName(this, "R.id.sign_in_wechat"));
+        _signInMobileBtn = findViewById(MResource.getIdByName(this, "R.id.sign_in_mobile"));
+        _userAgreementLabel = findViewById(MResource.getIdByName(this, "R.id.user_agreement"));
+        _privacyAgreementLabel = findViewById(MResource.getIdByName(this, "R.id.privacy_agreement"));
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-	}
+        // back click
+        _backBtn.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
+            @Override
+            public boolean onClicked() {
+                finish();
+                return true;
+            }
+        });
 
-	@Override
-	public void onResume() {
-		super.onResume();
+        // agreement label underline & click
+        _userAgreementLabel.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        _userAgreementLabel.getPaint().setAntiAlias(true);
+        _privacyAgreementLabel.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        _privacyAgreementLabel.getPaint().setAntiAlias(true);
+        _userAgreementLabel.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
+            @Override
+            public boolean onClicked() {
+                com.mgc.letobox.happy.util.DialogUtil.showAgreement(LeBoxLoginActivity.this, "user.html");
+                return true;
+            }
+        });
+        _privacyAgreementLabel.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
+            @Override
+            public boolean onClicked() {
+                com.mgc.letobox.happy.util.DialogUtil.showAgreement(LeBoxLoginActivity.this, "privacy.html");
+                return true;
+            }
+        });
 
-		// check if signed in, finish self
-		if(LoginManager.isSignedIn(this)) {
-			EventBus.getDefault().post(new DataRefreshEvent());
-			finish();
-		}
-	}
+        // sign in wechat
+        _signInWechatBtn.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
+            @Override
+            public boolean onClicked() {
+                getWechatAuthInfo();
+                return true;
+            }
+        });
 
-	private void getWechatAuthInfo() {
-		// get weixin info
-		UMShareConfig config = new UMShareConfig();
-		config.isNeedAuthOnGetUserInfo(true);
-		UMShareAPI umShareAPI = UMShareAPI.get(this);
-		umShareAPI.setShareConfig(config);
-		umShareAPI.getPlatformInfo(LeBoxLoginActivity.this, SHARE_MEDIA.WEIXIN, this);
-	}
+        // sign in mobile
+        _signInMobileBtn.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
+            @Override
+            public boolean onClicked() {
+                if (reqestCode != -1) {
+                    LeBoxMobileLoginActivity.startActivityByRequestCode(LeBoxLoginActivity.this, reqestCode);
+                } else {
+                    LeBoxMobileLoginActivity.start(LeBoxLoginActivity.this);
+                }
 
-	@Override
-	public void onStart(SHARE_MEDIA share_media) {
-	}
+                return true;
+            }
+        });
+    }
 
-	@Override
-	public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-		// show loading 
-		DialogUtil.showDialog(this, getString(MResource.getIdByName(this, "R.string.leto_loading")));
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
-		// sync account
-		int gender =0;
-		try {
-			gender = Integer.parseInt(map.get("gender"));
-		} catch(NumberFormatException e) {
-		}
+    @Override
+    public void onResume() {
+        super.onResume();
 
-		final int userGender = gender;
-		MGCApiUtil.bindWeiXin(LeBoxLoginActivity.this, map, new HttpCallbackDecode(LeBoxLoginActivity.this,null) {
-			@Override
-			public void onDataSuccess(Object data) {
-				MgcAccountManager.syncAccount(LeBoxLoginActivity.this,
-						map.get("unionid"),
-						"",
-						map.get("name"),
-						map.get("iconurl"),
-						userGender,
-						true,
-						LeBoxLoginActivity.this
-				);
-			}
-			@Override
-			public void onFailure(String code, String message) {
-				DialogUtil.dismissDialog();
-				ToastUtil.s(LeBoxLoginActivity.this, message);
-			}
-		});
-	}
+        // check if signed in, finish self
+        if (LoginManager.isSignedIn(this)) {
+            EventBus.getDefault().post(new DataRefreshEvent());
+            finish();
+        }
+    }
 
-	@Override
-	public void onError(SHARE_MEDIA share_media, int i, Throwable t) {
-		ToastUtil.s(LeBoxLoginActivity.this, "失败：" + t.getMessage());
-	}
+    private void getWechatAuthInfo() {
+        // get weixin info
+        UMShareConfig config = new UMShareConfig();
+        config.isNeedAuthOnGetUserInfo(true);
+        UMShareAPI umShareAPI = UMShareAPI.get(this);
+        umShareAPI.setShareConfig(config);
+        umShareAPI.getPlatformInfo(LeBoxLoginActivity.this, SHARE_MEDIA.WEIXIN, this);
+    }
 
-	@Override
-	public void onCancel(SHARE_MEDIA share_media, int i) {
-		ToastUtil.s(LeBoxLoginActivity.this, "取消了");
-	}
+    @Override
+    public void onStart(SHARE_MEDIA share_media) {
+    }
 
-	@Override
-	public void onSuccess(LoginResultBean data) {
-	    EventBus.getDefault().post( new GetCoinEvent());
-		DialogUtil.dismissDialog();
-		finish();
-	}
+    @Override
+    public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+        // show loading
+        DialogUtil.showDialog(this, getString(MResource.getIdByName(this, "R.string.leto_loading")));
 
-	@Override
-	public void onFail(String code, String message) {
-		DialogUtil.dismissDialog();
-		ToastUtil.s(LeBoxLoginActivity.this, "账号刷新失败, 请重试");
-	}
+        // sync account
+        int gender = 0;
+        try {
+            gender = Integer.parseInt(map.get("gender"));
+        } catch (NumberFormatException e) {
+        }
+
+        final int userGender = gender;
+        MGCApiUtil.bindWeiXin(LeBoxLoginActivity.this, map, new HttpCallbackDecode(LeBoxLoginActivity.this, null) {
+            @Override
+            public void onDataSuccess(Object data) {
+                MgcAccountManager.syncAccount(LeBoxLoginActivity.this,
+                        map.get("unionid"),
+                        "",
+                        map.get("name"),
+                        map.get("iconurl"),
+                        userGender,
+                        true,
+                        LeBoxLoginActivity.this
+                );
+            }
+
+            @Override
+            public void onFailure(String code, String message) {
+                DialogUtil.dismissDialog();
+                ToastUtil.s(LeBoxLoginActivity.this, message);
+            }
+        });
+    }
+
+    @Override
+    public void onError(SHARE_MEDIA share_media, int i, Throwable t) {
+        ToastUtil.s(LeBoxLoginActivity.this, "失败：" + t.getMessage());
+    }
+
+    @Override
+    public void onCancel(SHARE_MEDIA share_media, int i) {
+        ToastUtil.s(LeBoxLoginActivity.this, "取消了");
+    }
+
+    @Override
+    public void onSuccess(LoginResultBean data) {
+        EventBus.getDefault().post(new GetCoinEvent());
+        DialogUtil.dismissDialog();
+        finish();
+    }
+
+    @Override
+    public void onFail(String code, String message) {
+        DialogUtil.dismissDialog();
+        ToastUtil.s(LeBoxLoginActivity.this, "账号刷新失败, 请重试");
+    }
 }

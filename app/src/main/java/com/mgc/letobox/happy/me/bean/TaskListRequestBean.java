@@ -28,4 +28,13 @@ public class TaskListRequestBean extends BaseRequestBean {
 	}
 
 	private  String mobile;
+	private  int api_v;    //该参数=1时,/channel/tasklist接口返回新版的每日任务,
+
+	public int getApi_v() {
+		return api_v;
+	}
+
+	public void setApi_v(int api_v) {
+		this.api_v = api_v;
+	}
 }

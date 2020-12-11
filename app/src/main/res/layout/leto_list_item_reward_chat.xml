@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#00000000">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <View-->
+<!--                    android:id="@+id/leto_line_left"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="10dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:background="#1AFD7D2C" />-->
+
+<!--                <View-->
+<!--                    android:id="@+id/leto_line_right"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="10dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:background="#1AFD7D2C" />-->
+
+<!--            </LinearLayout>-->
+
+            <FrameLayout
+                android:id="@+id/leto_redpacket_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:paddingBottom="6dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/leto_redpacket"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:scaleType="fitCenter"
+                        android:src="@mipmap/leto_reward_chat_redpacket"
+                        android:text="10"
+                        android:textColor="#ffffff"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/leto_redpacket_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="11dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:textColor="#ffffff"
+                        android:textSize="11sp"
+                        tools:text="10" />
+
+                    <TextView
+                        android:id="@+id/leto_chat_tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="42dp"
+                        android:background="@mipmap/leto_reward_chat_redpacket_amount_bg"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="伴伴聊"
+                        android:textColor="#ffffff"
+                        android:textSize="10sp" />
+                </FrameLayout>
+            </FrameLayout>
+        </FrameLayout>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/leto_time_long"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFA268"
+            android:textSize="10sp"
+            tools:text="0" />
+        <TextView
+            android:id="@+id/leto_time_split"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FF6771"
+            android:textSize="10sp"
+            tools:text="/" />
+
+        <TextView
+            android:id="@+id/leto_total_time_long"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FF6771"
+            android:textSize="10sp"
+            tools:text="30" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分钟"
+            android:textColor="#FF6771"
+            android:textSize="10sp" />
+    </LinearLayout>
+</LinearLayout>

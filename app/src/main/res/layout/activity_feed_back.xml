@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>     
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+	android:orientation="vertical"
+    >
+
+	<include layout="@layout/lebox_include_common_header" />
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:background="#FFE3E3E3" />
+
+	<RelativeLayout
+		android:id="@+id/rl_feedback_content"
+		android:layout_width="fill_parent"
+		android:layout_height="320dp"
+		android:layout_marginTop="40dp"
+		android:layout_marginStart="20dp"
+		android:layout_marginEnd="20dp"
+		>
+        <EditText  
+            android:id="@+id/et_feedback_content"    
+	        android:layout_width="fill_parent"
+	        android:layout_height="match_parent"           
+            android:hint="@string/feedback_hint"
+			android:gravity="top|left" 
+			android:paddingTop="20dp"
+			android:paddingLeft="20dp"
+			android:paddingRight="20dp"			
+			android:inputType="textMultiLine"
+			android:textColorHint="@color/leto_grayc3"
+            android:textColor="@color/leto_black"
+            android:background="@drawable/lebox_feedback_edit_bg"
+            android:textSize="16sp"/>
+	</RelativeLayout>
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="20dp"
+		android:layout_gravity="end"
+		>
+		<TextView
+			android:id="@+id/tv_content_number"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="#FF3D9AF0"
+			android:textSize="14sp"
+			tools:text="100"
+			>
+		</TextView>
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="@color/leto_text_lowgray"
+			android:textSize="14sp"
+			android:text="/"
+			>
+		</TextView>
+		<TextView
+			android:id="@+id/tv_max_number"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="@color/leto_text_lowgray"
+			android:textSize="14sp"
+			tools:text="200"
+			>
+		</TextView>
+	</LinearLayout>
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1"/>
+
+	<Button
+		android:id="@+id/btn_feedback"
+		android:layout_width="match_parent"
+		android:layout_height="40dp"
+		android:layout_gravity="center_horizontal"
+		android:layout_marginStart="20dp"
+		android:layout_marginEnd="20dp"
+		android:layout_marginTop="20dp"
+		android:layout_marginBottom="40dp"
+		android:text="提交"
+		android:textSize="14sp"
+		android:textColor="@color/leto_white"
+		android:background="@drawable/leto_feedback_btn_right_blue"
+		/>
+
+   
+</LinearLayout>

@@ -29,7 +29,7 @@ class ShakeFloatTool(activity: Activity, gameId: String, val shakeConfig: Benefi
     private val TAG = ShakeFloatTool::class.java.simpleName
 
     override fun isGameEnabled(): Boolean {
-        if (TEST_ENV) return true
+//        if (TEST_ENV) return true
         if (shakeConfig != null && shakeConfig.is_open == 1 && shakeConfig.game_ids != null) {
             return shakeConfig.game_ids.contains(gameId)
         }

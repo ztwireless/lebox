@@ -31,7 +31,7 @@
                 android:layout_width="19dp"
                 android:layout_height="18dp"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/leto_mgc_daily_task_icon" />
+                android:src="@mipmap/leto_mgc_newer_task_icon" />
 
 
             <TextView

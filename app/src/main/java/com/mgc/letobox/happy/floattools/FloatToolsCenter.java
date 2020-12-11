@@ -162,6 +162,9 @@ public class FloatToolsCenter {
 
             @Override
             public void onLetoAppLaunched(final ILetoGameContainer letoContainer, String gameId) {
+                if(letoContainer.forbiddenFloatView()){
+                    return;
+                }
                 Activity activity = (Activity) letoContainer.getLetoContext();
                 if (MGCSharedModel.benefitSettings != null) {
                     if (MGCSharedModel.benefitSettings.getBubble() != null) {
@@ -229,6 +232,9 @@ public class FloatToolsCenter {
 
             @Override
             public void onLetoAppExit(ILetoGameContainer letoContainer, String s) {
+                if(letoContainer.forbiddenFloatView()){
+                    return;
+                }
                 Activity activity = (Activity) letoContainer.getLetoContext();
                 FloatViewManager.getInstance().removeUpgradeView(activity);
 
@@ -243,7 +249,7 @@ public class FloatToolsCenter {
 //
 
     private static boolean isGameUpgradeEnabled(String gameId) {
-        if (TEST_ENV) return true;
+//        if (TEST_ENV) return true;
         if (!TextUtils.isEmpty(gameId) && MGCSharedModel.benefitSettings != null && MGCSharedModel.benefitSettings.getUpgrade() != null) {
             BenefitSettings_upgrade update = MGCSharedModel.benefitSettings.getUpgrade();
             if (update.getIs_open() == 1 && update.getGame_ids() != null) {

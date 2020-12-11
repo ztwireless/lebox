@@ -29,7 +29,7 @@ class PlayGameFloatTool(activity: Activity, gameId: String, val palygameConfig: 
     private val TAG = PlayGameFloatTool::class.java.simpleName
 
     override fun isGameEnabled(): Boolean {
-        if (TEST_ENV) return true
+//        if (TEST_ENV) return true
         if (palygameConfig != null && palygameConfig.is_open == 1 && palygameConfig.game_ids != null) {
             return palygameConfig.game_ids.contains(gameId)
         }

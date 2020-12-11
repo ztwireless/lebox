@@ -1,5 +1,6 @@
 package com.mgc.letobox.happy.me.holder;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
@@ -33,12 +34,14 @@ import com.mgc.leto.game.base.utils.BaseAppUtil;
 import com.mgc.leto.game.base.utils.DialogUtil;
 import com.mgc.leto.game.base.utils.GlideUtil;
 import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.utils.ToastUtil;
 import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.LeBoxLoginActivity;
 import com.mgc.letobox.happy.LeBoxMobileLoginActivity;
 import com.mgc.letobox.happy.LeBoxProfileActivity;
 import com.mgc.letobox.happy.follow.FollowInviteActivity;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
+import com.mgc.letobox.happy.util.LeBoxConstant;
 
 public class CoinHolder extends CommonViewHolder<MeModuleBean> {
     // views
@@ -53,6 +56,8 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
     private View _profileContainer;
     private TextView _sigLabel;
     private TextView _moneyLabel;
+    private TextView _invideCodeLabel;
+    private TextView _copyCodeLabel;
     LinearLayout _coinView;
     LinearLayout _myCoinFieldView;
     LinearLayout _todayCoinFieldView;
@@ -98,6 +103,8 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
         _todayCoinFieldView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.todaycoin_field"));
         _moneyLabel = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.money"));
         _inviteField = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.rl_invite"));
+        _invideCodeLabel = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.invite_code"));
+        _copyCodeLabel = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.copy_code"));
 
         // get strings
         _loading = _ctx.getString(MResource.getIdByName(_ctx, "R.string.leto_loading"));
@@ -148,6 +155,8 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
                 return true;
             }
         });
+
+        _inviteField.setVisibility(View.GONE);
 
 
         // withdraw click
@@ -210,7 +219,7 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
                     if (BaseAppUtil.getMetaBooleanValue(_ctx, "MGC_ENABLE_WECHAT_LOGIN")) {
                         LeBoxLoginActivity.start(_ctx);
                     } else {
-                        LeBoxMobileLoginActivity.start(_ctx);
+                        LeBoxMobileLoginActivity.startActivityByRequestCode((Activity) _ctx, LeBoxConstant.REQUEST_CODE_TASK_PHONE_LOGIN);
                     }
                 } else {
                     LeBoxProfileActivity.start(_ctx);
@@ -238,6 +247,9 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
 
                 // sig
                 _sigLabel.setText("登录后同步游戏记录");
+
+                _invideCodeLabel.setVisibility(View.GONE);
+                _copyCodeLabel.setVisibility(View.GONE);
             } else {
                 // avatar
                 if (TextUtils.isEmpty(loginInfo.getPortrait())) {
@@ -247,10 +259,31 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
                 }
 
                 // name
-                _nameLabel.setText(loginInfo.getNickname());
+
+                String mobile = loginInfo.getMobile();
+                if(mobile.length()==11){
+                    mobile = mobile.substring(0, 3) + "****" + mobile.substring(7, mobile.length());
+                }else{
+                    mobile = mobile.substring(0, 11);
+                }
+                _nameLabel.setText(mobile);
 
                 // sig
-                _sigLabel.setText("边玩游戏边赚钱");
+//                _sigLabel.setText("边玩游戏边赚钱");
+                _sigLabel.setText("邀请码：");
+
+                _invideCodeLabel.setVisibility(View.VISIBLE);
+                _copyCodeLabel.setVisibility(View.VISIBLE);
+
+                _invideCodeLabel.setText(String.valueOf(loginInfo.getInvate_code()));
+
+                _copyCodeLabel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        BaseAppUtil.copyToSystem(_ctx, "" + loginInfo.getInvate_code());
+                        ToastUtil.s(_ctx, "复制成功");
+                    }
+                });
             }
         }
     }

@@ -19,6 +19,7 @@ import com.mgc.letobox.happy.me.adapter.TaskAdapter;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
 import com.mgc.letobox.happy.me.bean.TaskResultBean;
 import com.mgc.letobox.happy.me.bean.UserTaskStatusResultBean;
+import com.mgc.letobox.happy.util.LeBoxConstant;
 import com.mgc.letobox.happy.util.LeBoxUtil;
 
 import java.util.List;
@@ -50,14 +51,14 @@ public class NewerTaskHolder extends CommonViewHolder<MeModuleBean> {
         this._recyclerView = view.findViewById(MResource.getIdByName(context, "R.id.recyclerView"));
 
 
-        _taskAdapter = new TaskAdapter(_context, NewerTaskManager.mTaskBeanList);
+        _taskAdapter = new TaskAdapter(_context, NewerTaskManager.mNewPlayerTaskBeanList);
 
         // setup views
         _recyclerView.setLayoutManager(new LinearLayoutManager(context));
         _recyclerView.setAdapter(_taskAdapter);
 
         _recyclerView.addItemDecoration(new RecycleViewDivider(
-                context, LinearLayoutManager.HORIZONTAL, DensityUtil.dip2px(context,1), ColorUtil.parseColor("#f3f3f3")));
+                context, LinearLayoutManager.HORIZONTAL, DensityUtil.dip2px(context, 1), ColorUtil.parseColor("#f3f3f3")));
 
         _recyclerView.setNestedScrollingEnabled(false);
     }
@@ -72,20 +73,25 @@ public class NewerTaskHolder extends CommonViewHolder<MeModuleBean> {
         _taskAdapter.notifyDataSetChanged();
     }
 
-    private void initData(){
-        if(NewerTaskManager.mTaskBeanList.isEmpty()) {
-            getTaskList();
+    private void initData() {
+        if (NewerTaskManager.mNewPlayerTaskBeanList.isEmpty()) {
+            getNewPlayerTaskList();
         } else {
             getUserTaskStatus();
         }
     }
 
-    public void getTaskList(){
-        NewerTaskManager.getTaskList(_context, new HttpCallbackDecode< List<TaskResultBean>>(_context, null) {
+    public void getNewPlayerTaskList() {
+
+        NewerTaskManager.getNewPlayerTaskList(_context, false, new HttpCallbackDecode<List<TaskResultBean>>(_context, null) {
             @Override
             public void onDataSuccess(List<TaskResultBean> data) {
-                _taskAdapter.notifyDataSetChanged();
-                getUserTaskStatus();
+                if (null != data) {
+                    if (_taskAdapter != null) {
+                        _taskAdapter.notifyDataSetChanged();
+                    }
+                    getUserTaskStatus();
+                }
             }
 
             @Override
@@ -97,10 +103,20 @@ public class NewerTaskHolder extends CommonViewHolder<MeModuleBean> {
     }
 
     public void getUserTaskStatus() {
-        LeBoxUtil.getUserNewPlayerTasklist(_context, new HttpCallbackDecode< List<UserTaskStatusResultBean>>(_context, null, new TypeToken<List<UserTaskStatusResultBean>>(){}.getType()) {
+        NewerTaskManager.getUserNewPlayerTaskStatus(_context, new HttpCallbackDecode<List<UserTaskStatusResultBean>>(_context, null, new TypeToken<List<UserTaskStatusResultBean>>() {
+        }.getType()) {
             @Override
             public void onDataSuccess(final List<UserTaskStatusResultBean> data) {
-                if (null != data) {
+            }
+            @Override
+            public void onFailure(String code, String msg) {
+                super.onFailure(code, msg);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                if (_taskAdapter != null) {
                     _taskAdapter.notifyDataSetChanged();
                 }
             }

@@ -49,7 +49,7 @@
         android:layout_marginTop="10dp"
         android:orientation="vertical">
 
-        <com.leto.game.base.view.tablayout.CommonTabLayout
+        <com.mgc.leto.game.base.view.tablayout.CommonTabLayout
             android:id="@+id/rank_tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

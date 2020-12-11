@@ -27,6 +27,8 @@ import com.mgc.leto.game.base.utils.GameUtil;
 import com.mgc.leto.game.base.utils.IntentConstant;
 import com.mgc.leto.game.base.utils.MResource;
 import com.mgc.letobox.happy.event.NewerTaskRefreshEvent;
+import com.mgc.letobox.happy.me.IRewardAdRequest;
+import com.mgc.letobox.happy.me.IRewardAdResult;
 import com.mgc.letobox.happy.me.adapter.MeHomeAdapter;
 import com.mgc.letobox.happy.me.bean.MeFeedAdModuleBean;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
@@ -91,7 +93,7 @@ public class MeNewFragment extends Fragment implements ApiContainer.IApiResultLi
             public void onRefresh() {
                 if (_meHomeAdapter != null) {
                     // clear task list so that it will be reloaded
-                    NewerTaskManager.mTaskBeanList.clear();
+                    NewerTaskManager.clearTask();
 
                     // reload
                     _meHomeAdapter.notifyDataSetChanged();
@@ -111,7 +113,27 @@ public class MeNewFragment extends Fragment implements ApiContainer.IApiResultLi
             EventBus.getDefault().register(this);
         }
 
-        _meHomeAdapter = new MeHomeAdapter(getActivity());
+        _meHomeAdapter = new MeHomeAdapter(getActivity(), new IRewardAdRequest() {
+            @Override
+            public void requestRewardAd(Context context, final IRewardAdResult result) {
+
+                _apiContainer.showVideo(new ApiContainer.IApiResultListener() {
+                    @Override
+                    public void onApiSuccess(ApiContainer.ApiName n, Object data) {
+                        if (result != null) {
+                            result.onSuccess();
+                        }
+                    }
+
+                    @Override
+                    public void onApiFailed(ApiContainer.ApiName n, Object data, boolean aborted) {
+                        if (result != null) {
+                            result.onFail("-1", "加载视频广告失败");
+                        }
+                    }
+                });
+            }
+        } );
         _meHomeAdapter.setAdContainer(_adContainer);
         _meHomeAdapter.setFragment(this);
 
@@ -173,7 +195,7 @@ public class MeNewFragment extends Fragment implements ApiContainer.IApiResultLi
         // update if login info changed
         if(isLoginInfoUpdated(_loginInfoVersion)) {
             // clear task list so that it will be reloaded
-            NewerTaskManager.mTaskBeanList.clear();
+            NewerTaskManager.clearTask();
 
             // now reload list
             _meHomeAdapter.notifyDataSetChanged();
@@ -233,14 +255,14 @@ public class MeNewFragment extends Fragment implements ApiContainer.IApiResultLi
     private void initModules() {
         List<MeModuleBean> moduleBeanList = new ArrayList<>();
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_COIN));
-        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_REWARD));
-        if(!AppChannel.LEBOX_MUZHIWAN.getValue().equalsIgnoreCase(BaseAppUtil.getChannelID(getActivity()))) {
-            moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_SIGININ));
-        }
-        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_MYGAMES));
-        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_NEWER_TASK));
+//        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_REWARD));
+//        if(!AppChannel.LEBOX_MUZHIWAN.getValue().equalsIgnoreCase(BaseAppUtil.getChannelID(getActivity()))) {
+//            moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_SIGININ));
+//        }
+//        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_MYGAMES));
+//        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_NEWER_TASK));
         //moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_HIGH_COIN_TASK));
-        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_DAILY_TASK));
+//        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_DAILY_TASK));
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_OTHER));
         _meHomeAdapter.setModels(moduleBeanList);
 

@@ -79,7 +79,7 @@ public class TaskResultBean implements Serializable {
 
     long process;        //当前进度
 
-    int finish_type;   // 完成任务类型 1 等级 2 时长 3 称号 4 数量
+    int finish_type;   // 完成任务类型 1等级 2时长 3称号 4数量 5加入微信朋友圈  6绑定手机号 7填写验证码
 
     public int getClassify() {
         return classify;

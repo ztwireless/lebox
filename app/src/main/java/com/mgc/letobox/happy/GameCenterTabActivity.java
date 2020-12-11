@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,21 +19,39 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.RadioButton;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kymjs.rxvolley.RxVolley;
-import com.kymjs.rxvolley.http.RequestQueue;
 import com.ledong.lib.leto.Leto;
 import com.leto.game.base.dialog.PrivacyWebDialog;
+import com.leto.reward.LetoRewardEvents;
+import com.leto.reward.LetoRewardManager;
+import com.leto.reward.listener.ILetoAnswerCallBack;
+import com.leto.reward.listener.ILetoIdiomCallBack;
+import com.leto.reward.listener.ILetoOpenRedPacketCallBack;
+import com.leto.reward.listener.ILetoScratchCardCallBack;
+import com.leto.reward.listener.ILetoTurntableCallBack;
+import com.leto.reward.model.QaGameRewardBean;
+import com.leto.reward.model.TurnTableRewardBean;
+import com.leto.reward.model.IdiomResultGame;
 import com.mgc.leto.game.base.LetoEvents;
+import com.mgc.leto.game.base.LetoScene;
 import com.mgc.leto.game.base.api.ApiContainer;
+import com.mgc.leto.game.base.bean.LoginResultBean;
+import com.mgc.leto.game.base.interfaces.ILetoContainerProvider;
+import com.mgc.leto.game.base.interfaces.ILetoGameContainer;
+import com.mgc.leto.game.base.listener.ILetoLoginResultCallback;
 import com.mgc.leto.game.base.listener.ILetoPlayedDurationListener;
 import com.ledong.lib.minigame.bean.TabBean;
 import com.mgc.leto.game.base.be.AdManager;
 import com.mgc.leto.game.base.http.HttpCallbackDecode;
 import com.mgc.leto.game.base.http.HttpParamsBuild;
 import com.mgc.leto.game.base.http.RxVolleyManager;
+import com.mgc.leto.game.base.login.LoginManager;
 import com.mgc.leto.game.base.mgc.bean.CoinDialogScene;
 import com.mgc.leto.game.base.mgc.bean.GetBenefitsSettingResultBean;
 import com.mgc.leto.game.base.mgc.dialog.IMGCCoinDialogListener;
@@ -40,9 +59,10 @@ import com.mgc.leto.game.base.mgc.dialog.MGCInfoDialog;
 import com.mgc.leto.game.base.mgc.model.MGCSharedModel;
 import com.mgc.leto.game.base.mgc.util.MGCApiUtil;
 import com.mgc.leto.game.base.mgc.util.MGCDialogUtil;
+import com.mgc.leto.game.base.statistic.GameStatisticManager;
+import com.mgc.leto.game.base.statistic.StatisticEvent;
 import com.mgc.leto.game.base.trace.LetoTrace;
 import com.mgc.leto.game.base.utils.BaseAppUtil;
-import com.mgc.leto.game.base.utils.ColorUtil;
 import com.mgc.leto.game.base.utils.GlideUtil;
 import com.mgc.leto.game.base.utils.IntentConstant;
 import com.mgc.leto.game.base.utils.PermissionsUtil;
@@ -50,10 +70,12 @@ import com.mgc.leto.game.base.utils.StatusBarUtil;
 import com.mgc.letobox.happy.bean.VersionRequestBean;
 import com.mgc.letobox.happy.bean.VersionResultBean;
 import com.mgc.letobox.happy.dialog.VersionDialog;
-import com.mgc.letobox.happy.event.NewerTaskRefreshEvent;
+import com.mgc.letobox.happy.event.DailyTaskRefreshEvent;
 import com.mgc.letobox.happy.event.ShowRookieGuideEvent;
 import com.mgc.letobox.happy.event.TabSwitchEvent;
 import com.mgc.letobox.happy.me.bean.TaskResultBean;
+import com.mgc.letobox.happy.me.bean.UserTaskStatusResultBean;
+import com.mgc.letobox.happy.util.LeBoxConstant;
 import com.mgc.letobox.happy.util.LeBoxUtil;
 import com.mgc.letobox.happy.view.MyRadioGroup;
 
@@ -70,18 +92,19 @@ import java.util.Map;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.OnCheckedChangeListener {
+public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.OnCheckedChangeListener, ILetoContainerProvider {
     private static final String TAG = "GameCenterActivity";
 
     private static final int REQUEST_CODE_WRITE_PERMISSION = 2003;
 
-    RadioButton tabGameBtn;
+    RadioButton tabGameCenterBtn;
     RadioButton tabRankBtn;
     RadioButton tabChallengeBtn;
     RadioButton tabCategoryBtn;
     RadioButton tabMeBtn;
     RadioButton tabFindBtn;
     RadioButton tabRewardBtn;
+    RadioButton tabMiniGameBtn;
     MyRadioGroup tabGroup;
 
     Fragment curFragment;
@@ -112,8 +135,26 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
 
     ILetoPlayedDurationListener playedDurationListener;
 
+    ILetoAnswerCallBack _anserCallBack;
+    ILetoIdiomCallBack _idiomCallBack;
+    ILetoOpenRedPacketCallBack _openRedPacketCallBack;
+    ILetoScratchCardCallBack _scratchCardCallBack;
+    ILetoTurntableCallBack _turntableCallBack;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+            getWindow()
+                    .getDecorView()
+                    .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow()
+                    .setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
         if (savedInstanceState != null) {
             //重建时清除 fragment的状态
             savedInstanceState.remove(BUNDLE_FRAGMENTS_KEY);
@@ -126,18 +167,15 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         _fragmentClasses = new HashMap<>();
         _fragmentClasses.put(R.id.tab_find, TabFindFragment.class);
         _fragmentClasses.put(R.id.tab_game, TabMiniGameFragment.class);
+        _fragmentClasses.put(R.id.tab_minigame, TabGameFragment.class);
         _fragmentClasses.put(R.id.tab_rank, TabGameRankFragment.class);
-        _fragmentClasses.put(R.id.tab_challenge, TabChallengeFragment.class);
+//        _fragmentClasses.put(R.id.tab_challenge, TabChallengeFragment.class);
         _fragmentClasses.put(R.id.tab_category, TabCategoryFragment.class);
         _fragmentClasses.put(R.id.tab_me, TabMeFragment.class);
         _fragmentClasses.put(R.id.tab_reward, TabRewardFragment.class);
 
         // init leto
         Leto.init(this);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            StatusBarUtil.setStatusBarColor(this, ColorUtil.parseColor("#ffffff"));
-        }
 
         // set content view
         setContentView(R.layout.activity_tab_gamecenter);
@@ -150,16 +188,16 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         srcAppId = getIntent().getStringExtra(IntentConstant.SRC_APP_ID);
         srcAppPath = getIntent().getStringExtra(IntentConstant.SRC_APP_PATH);
 
-        tabRewardBtn = findViewById(R.id.tab_reward);
-        tabGameBtn = findViewById(R.id.tab_game);
+        tabGameCenterBtn = findViewById(R.id.tab_game);
         tabRankBtn = findViewById(R.id.tab_rank);
         tabChallengeBtn = findViewById(R.id.tab_challenge);
         tabCategoryBtn = findViewById(R.id.tab_category);
         tabMeBtn = findViewById(R.id.tab_me);
         tabFindBtn = findViewById(R.id.tab_find);
         tabGroup = findViewById(R.id.tab_group);
+        tabRewardBtn = findViewById(R.id.tab_reward);
         _tabBtns = Arrays.asList(
-                tabGameBtn,
+                tabGameCenterBtn,
                 tabRankBtn,
                 tabChallengeBtn,
                 tabCategoryBtn,
@@ -175,11 +213,12 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
             );
         } else {
             _tabIds = Arrays.asList(
+                    R.id.tab_minigame,
                     R.id.tab_game,
-                    R.id.tab_rank,
-                    R.id.tab_reward,
+//                    R.id.tab_rank,
 //                    R.id.tab_challenge,
-                    R.id.tab_category,
+                    R.id.tab_reward,
+//                    R.id.tab_category,
                     R.id.tab_me
             );
         }
@@ -209,12 +248,18 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
                 Log.i(TAG, "gameId: " + gameId + "-------------duration: " + duration);
 
                 reportTaskProgress(duration);
+
+                if (!TextUtils.isEmpty(gameId) && LetoRewardManager.isChatGame(gameId)) {
+                    LetoTrace.d(TAG, "reportChatGameProgress: " + duration);
+                    LetoRewardManager.updateChatGameProgress(GameCenterTabActivity.this, duration);
+                }
             }
         };
 
         LetoEvents.addLetoPlayedDurationListener(playedDurationListener);
 
-        NewerTaskManager.getTaskList(this, null);
+        NewerTaskManager.getNewPlayerTaskList(this, null);
+        NewerTaskManager.getDailyTaskList(this, null);
 
         AdManager.getInstance().getTmTaskList(this);
 
@@ -233,6 +278,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
             }
         }, 2000);
 
+        initRewardListener();
     }
 
     @Override
@@ -248,6 +294,19 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         // deliver to api container
         ApiContainer.handleActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == LeBoxConstant.REQUEST_CODE_TASK_INVITE_CODE) {
+            LetoTrace.d("invite code call back: resultCode =" + resultCode);
+            if (resultCode == 1) {
+                reportDailyTaskProgressByTaskType(LeBoxConstant.LETO_TASK_TYP_BIND_INVITE, 1);
+            }
+
+        } else if (requestCode == LeBoxConstant.REQUEST_CODE_TASK_PHONE_LOGIN) {
+            LetoTrace.d("phone login call back: resultCode =" + resultCode);
+            if (resultCode == 1) {
+                reportDailyTaskProgressByTaskType(LeBoxConstant.LETO_TASK_TYP_BIND_PHONE, 1);
+            }
+        }
+
         // for this
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -261,7 +320,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         if (!BaseAppUtil.supportSystem()) {
 
             alertDialog = new MGCInfoDialog(GameCenterTabActivity.this, "温馨提示", "手机版本过低，建议升级系统");
-            alertDialog.setRightButton("确定并退出", new View.OnClickListener(){
+            alertDialog.setRightButton("确定并退出", new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
@@ -384,6 +443,10 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         // set tab index
         mTabIndex = _tabIds.indexOf(i);
 
+        MGCSharedModel.OPEN_TYPE_BOX_TAB = mTabIndex + 1;
+
+        reportTabClick(mTabIndex + 1);
+
         // add fragment
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (!fragment.isAdded()) {
@@ -403,6 +466,12 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         getSupportFragmentManager().executePendingTransactions();
 
         curFragment = fragment;
+    }
+
+    @Override
+    public ILetoGameContainer getLetoContainer() {
+        TabGameFragment gameFragment = (TabGameFragment) _fragments.get(R.id.tab_minigame);
+        return gameFragment.getLetoContainer();
     }
 
 
@@ -433,14 +502,34 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
 
 
     public void reportTaskProgress(long progress) {
-
+        boolean hasNewTask = false;
+        boolean hasDailyTask = false;
         List<TaskResultBean> taskResultBeans = NewerTaskManager.getCompleteNewerTaskId(this, "", progress);
+        if (taskResultBeans != null && taskResultBeans.size() > 0) {
+            hasNewTask = true;
+        }
+
+        List<TaskResultBean> dailyTaskResultBeans = NewerTaskManager.getCompleteDailyTaskIdOnPlayGame(this, "", progress);
+
+        if (dailyTaskResultBeans != null && dailyTaskResultBeans.size() > 0) {
+            taskResultBeans.addAll(dailyTaskResultBeans);
+            hasDailyTask = true;
+        }
         if (taskResultBeans != null && taskResultBeans.size() > 0) {
             showTaskDialog(taskResultBeans, 0, 0);
         }
 
-        EventBus.getDefault().post(new NewerTaskRefreshEvent());
+        EventBus.getDefault().post(new DailyTaskRefreshEvent());
+    }
 
+    public void reportDailyTaskProgressByTaskType(int taskType, long progress) {
+
+        List<TaskResultBean> taskResultBeans = NewerTaskManager.getCompleteDailyTaskId(this, taskType, "", progress);
+        if (taskResultBeans != null && taskResultBeans.size() > 0) {
+            showTaskDialog(taskResultBeans, 0, 0);
+        }
+
+        EventBus.getDefault().post(new DailyTaskRefreshEvent());
     }
 
     Handler mTaskHandler = new Handler() {
@@ -591,5 +680,89 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
                 EventBus.getDefault().postSticky(new ShowRookieGuideEvent());
             }
         }
+    }
+
+    public void initRewardListener() {
+
+        _anserCallBack = new ILetoAnswerCallBack() {
+            @Override
+            public void onAnswer(Context ctx, QaGameRewardBean request) {
+                LetoTrace.d("dati callback");
+                if (request.getIs_correct() == 1) {
+                    reportDailyTaskProgressByTaskType(LeBoxConstant.LETO_TASK_TYP_REWARD_ANSWER, 1);
+                }
+            }
+        };
+        _idiomCallBack = new ILetoIdiomCallBack() {
+            @Override
+            public void onAnswer(Context ctx, IdiomResultGame request) {
+                LetoTrace.d("idiom callback");
+                if (request.getIs_correct() == 1) {
+                    reportDailyTaskProgressByTaskType(LeBoxConstant.LETO_TASK_TYP_REWARD_IDIOM, 1);
+                }
+            }
+        };
+        _scratchCardCallBack = new ILetoScratchCardCallBack() {
+            @Override
+            public void onScratch(Context ctx, TurnTableRewardBean request) {
+                LetoTrace.d("scratch callback");
+
+                reportDailyTaskProgressByTaskType(LeBoxConstant.LETO_TASK_TYP_REWARD_SCRATCH_CARD, 1);
+
+            }
+        };
+        _turntableCallBack = new ILetoTurntableCallBack() {
+            @Override
+            public void onTurntable(Context ctx, TurnTableRewardBean request) {
+                LetoTrace.d("turntable callback");
+                reportDailyTaskProgressByTaskType(LeBoxConstant.LETO_TASK_TYP_REWARD_TURNTABLE, 1);
+            }
+        };
+        LetoRewardEvents.setAnserCallBack(_anserCallBack);
+        LetoRewardEvents.setScratchCardCallBack(_scratchCardCallBack);
+        LetoRewardEvents.setTurntableCallBack(_turntableCallBack);
+        LetoRewardEvents.setIdiomCallBack(_idiomCallBack);
+
+        LetoEvents.setLetoLoginResultCallback(this, new ILetoLoginResultCallback() {
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onLoginSuccess(LoginResultBean data) {
+                LetoTrace.d(TAG, "setLetoLoginResultCallback onLoginSuccess...");
+                try {
+                    if (data != null && !LoginManager.isTempAccount(data.getMobile())) {
+                        LetoTrace.d(TAG, "finish bind phone task...");
+                        NewerTaskManager.getUserNewPlayerTaskStatus(GameCenterTabActivity.this, new HttpCallbackDecode<List<UserTaskStatusResultBean>>(GameCenterTabActivity.this, null, new TypeToken<List<UserTaskStatusResultBean>>() {
+                        }.getType()) {
+                            @Override
+                            public void onDataSuccess(final List<UserTaskStatusResultBean> data) {
+                                reportDailyTaskProgressByTaskType(LeBoxConstant.LETO_TASK_TYP_BIND_PHONE, 1);
+                            }
+
+                            @Override
+                            public void onFailure(String code, String msg) {
+                                super.onFailure(code, msg);
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                super.onFinish();
+
+                            }
+                        });
+                    }
+                } catch (Throwable e) {
+
+                }
+            }
+        });
+    }
+
+
+    private void reportTabClick(int position) {
+        GameStatisticManager.statisticGameLog(this, BaseAppUtil.getChannelID(this), StatisticEvent.LETO_BOX_TAB_CLICK.ordinal(), 0, LetoScene.DEFAULT.ordinal(), "" + System.currentTimeMillis(), 0, 0, "", 0, "", "", false, 0, 0, 0, 0, position, 0, 0, "", null);
     }
 }

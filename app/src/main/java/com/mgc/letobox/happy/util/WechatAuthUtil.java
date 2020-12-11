@@ -1,6 +1,7 @@
 package com.mgc.letobox.happy.util;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.Keep;
 
 import com.mgc.leto.game.base.mgc.thirdparty.ILetoAuthListener;
@@ -51,5 +52,9 @@ public class WechatAuthUtil {
         UMShareAPI umShareAPI = UMShareAPI.get(activity);
         umShareAPI.setShareConfig(config);
         umShareAPI.getPlatformInfo(activity, SHARE_MEDIA.WEIXIN, umAuthListener);
+    }
+
+    public static void setOnActivityResult(Activity activity, int requestCode, int resultCode, Intent data){
+        UMShareAPI.get(activity).onActivityResult(requestCode,resultCode,data);
     }
 }

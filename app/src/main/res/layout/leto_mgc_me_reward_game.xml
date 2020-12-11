@@ -10,63 +10,78 @@
         android:id="@+id/split_space"
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:background="#F5F5F5" />
+         />
 
     <LinearLayout
         android:id="@+id/my_games_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:descendantFocusability="blocksDescendants"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="12dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="14dp"
-            android:paddingRight="14dp"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
-            <ImageView
-                android:layout_width="19dp"
-                android:layout_height="18dp"
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/leto_mgc_daily_task_icon" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:text="福利游戏"
-                android:textColor="@color/leto_black"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="visible">
 
+                <ImageView
+                    android:id="@+id/leto_turntable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/leto_reward_turntable" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp" />
+
+                <ImageView
+                    android:id="@+id/leto_answer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/leto_reward_answer" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/leto_scratch_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/leto_reward_scratch_card_big" />
+
+
+            </LinearLayout>
         </LinearLayout>
 
-<!--        <android.support.v7.widget.RecyclerView-->
-<!--            android:id="@+id/recyclerView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:overScrollMode="never"-->
-<!--            >-->
 
-<!--        </android.support.v7.widget.RecyclerView>-->
-
-        <FrameLayout
-            android:id="@+id/reward_grid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="vertical">
-
-        </FrameLayout>
 
 
     </LinearLayout>
-
 
 
 </LinearLayout>

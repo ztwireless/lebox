@@ -21,7 +21,7 @@ class RedPacketSeaFloatTool(activity: Activity, gameId: String, val hbrainConfig
     private val TAG = RedPacketSeaFloatTool::class.java.simpleName
 
     override fun isGameEnabled(): Boolean {
-        if (TEST_ENV) return true
+//        if (TEST_ENV) return true
         if (hbrainConfig != null && hbrainConfig.is_open == 1 && hbrainConfig.game_ids != null) {
             return hbrainConfig.game_ids.contains(gameId)
         }

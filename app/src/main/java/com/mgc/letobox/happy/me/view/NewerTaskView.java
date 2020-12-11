@@ -103,7 +103,7 @@ public class NewerTaskView extends LinearLayout {
             @Override
             public void run() {
                 _taskList.clear();
-                _taskList.addAll(NewerTaskManager.mTaskBeanList);
+                _taskList.addAll(NewerTaskManager.mNewPlayerTaskBeanList);
                 _taskAdapter.notifyDataSetChanged();
             }
         });
@@ -114,11 +114,11 @@ public class NewerTaskView extends LinearLayout {
 
     private void initData(){
 
-        if(NewerTaskManager.mTaskBeanList!=null){
-            for (TaskResultBean taskResultBean: NewerTaskManager.mTaskBeanList){
+        if(NewerTaskManager.mNewPlayerTaskBeanList!=null){
+            for (TaskResultBean taskResultBean: NewerTaskManager.mNewPlayerTaskBeanList){
                 taskResultBean.setClassify(LeBoxConstant.LETO_TASK_NEWER);
             }
-            _taskList.addAll(NewerTaskManager.mTaskBeanList);
+            _taskList.addAll(NewerTaskManager.mNewPlayerTaskBeanList);
             _taskAdapter.notifyDataSetChanged();
 
         }else{

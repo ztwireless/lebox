@@ -63,13 +63,13 @@ public class MeSigninHolder extends CommonViewHolder<MeModuleBean> {
     public void onBind(final MeModuleBean signin, final int position) {
         // name & desc
         final Context ctx = itemView.getContext();
-        _splitSpace.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
+//        _splitSpace.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
+        _splitSpace.setVisibility(View.GONE);
 
         getSignInStatus();
 
         _adapter.setAdContainer(_adContainer);
     }
-
 
 
     public void getSignInStatus() {

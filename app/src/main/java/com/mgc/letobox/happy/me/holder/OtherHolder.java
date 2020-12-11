@@ -12,10 +12,15 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.ledong.lib.leto.Leto;
 import com.leto.game.base.dialog.PrivacyWebDialog;
 import com.leto.game.base.view.SwitchButtonO;
+import com.mgc.leto.game.base.MgcAccountManager;
+import com.mgc.leto.game.base.bean.LoginResultBean;
 import com.mgc.leto.game.base.config.AppConfig;
+import com.mgc.leto.game.base.event.DataRefreshEvent;
 import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.listener.SyncUserInfoListener;
 import com.mgc.leto.game.base.login.LoginManager;
 import com.mgc.leto.game.base.mgc.bean.GetPrivacyContentResultBean;
 import com.mgc.leto.game.base.mgc.model.MGCSharedModel;
@@ -29,8 +34,17 @@ import com.mgc.leto.game.base.utils.DataCleanManager;
 import com.mgc.leto.game.base.utils.MResource;
 import com.mgc.leto.game.base.utils.ToastUtil;
 import com.mgc.leto.game.base.widget.ClickGuard;
+import com.mgc.letobox.happy.LeBoxMobileLoginActivity;
+import com.mgc.letobox.happy.LeBoxProfileActivity;
 import com.mgc.letobox.happy.follow.FollowInviteCodeActivity;
+import com.mgc.letobox.happy.me.AboutMeActivity;
+import com.mgc.letobox.happy.me.FeedBackActivity;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
+import com.mgc.letobox.happy.util.DialogUtil;
+import com.mgc.letobox.happy.util.LeBoxConstant;
+import com.mgc.letobox.happy.util.LeBoxUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 public class OtherHolder extends CommonViewHolder<MeModuleBean> {
@@ -43,6 +57,10 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
     private TextView _wechatLabel;
     private View _agreemeView;
     private View _inviteView;
+    private View _deleteAccountView;
+    private View _feedBackView;
+    private View _logoutView;  //退出登陆
+    private View _aboutMeView;  //关于我们
 
     Context _ctx;
 
@@ -67,11 +85,23 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
         _wechatLabel = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.wechat"));
         _agreemeView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.agreement_view"));
         _inviteView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.invite_view"));
+        _deleteAccountView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.delete_account"));
+        _feedBackView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.feed_back"));
+        _logoutView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.log_out"));
+        _aboutMeView = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.about_me"));
+
+        _aboutMeView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
+            @Override
+            public boolean onClicked() {
+                AboutMeActivity.start(_ctx);
+                return true;
+            }
+        });
 
         _inviteView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
             @Override
             public boolean onClicked() {
-                FollowInviteCodeActivity.start(_ctx);
+                FollowInviteCodeActivity.startActivityByRequestCode((Activity) _ctx, LeBoxConstant.REQUEST_CODE_TASK_INVITE_CODE);
                 return true;
             }
         });
@@ -177,6 +207,71 @@ public class OtherHolder extends CommonViewHolder<MeModuleBean> {
         });
 
         _appConfig = new AppConfig(BaseAppUtil.getChannelID(_ctx), LoginManager.getUserId(_ctx));
+
+        _deleteAccountView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogUtil.showConfirmDialog(_ctx, "确定注销账号吗?", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which == DialogInterface.BUTTON_POSITIVE) {
+
+                            LeBoxUtil.deleteAccount(_ctx, new HttpCallbackDecode<Object>(_ctx,null ) {
+                                @Override
+                                public void onDataSuccess(Object data) {
+                                    switchToTemp();
+                                }
+                                @Override
+                                public void onFailure(String code, String message) {
+
+                                    ToastUtil.s(_ctx, "注销失败： " + message);
+                                }
+                            });
+
+                        }
+                    }
+                });
+            }
+        });
+
+        _feedBackView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FeedBackActivity.start(context);
+            }
+        });
+
+        _logoutView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogUtil.showConfirmDialog(_ctx, "确定退出账号吗?", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which == DialogInterface.BUTTON_POSITIVE) {
+                            switchToTemp();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    public void switchToTemp(){
+        // first we need clear local cache to switch a temp account
+        LoginResultBean _loginInfo = Leto.switchToTempAccount(_ctx);
+
+        // then we sync this temp account
+        MgcAccountManager.syncAccount(_ctx, "", _loginInfo.getMobile(), false, new SyncUserInfoListener() {
+            @Override
+            public void onSuccess(LoginResultBean data) {
+                EventBus.getDefault().post(new DataRefreshEvent());
+            }
+
+            @Override
+            public void onFail(String code, String message) {
+                ToastUtil.s(_ctx, "退出登录失败");
+            }
+        });
     }
 
     @Override

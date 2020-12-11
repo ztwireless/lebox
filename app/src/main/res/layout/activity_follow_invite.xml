@@ -9,7 +9,7 @@
 
     <include layout="@layout/leto_demo_common_header" />
 
-    <com.leto.game.base.view.tablayout.CommonTabLayout
+    <com.mgc.leto.game.base.view.tablayout.CommonTabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

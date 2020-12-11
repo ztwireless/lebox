@@ -2,6 +2,7 @@ package com.mgc.letobox.happy;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.support.multidex.MultiDex;
 
 import com.ledong.lib.leto.Leto;
@@ -9,6 +10,7 @@ import com.mgc.leto.game.base.LetoCore;
 import com.mgc.leto.game.base.LetoEvents;
 import com.mgc.leto.game.base.listener.ILetoInviteListener;
 import com.mgc.leto.game.base.mgc.thirdparty.IAuthRequestListener;
+import com.mgc.leto.game.base.mgc.thirdparty.ILetoAuthActivityListener;
 import com.mgc.leto.game.base.mgc.thirdparty.ILetoAuthListener;
 import com.mgc.leto.game.base.trace.LetoTrace;
 import com.mgc.leto.game.base.utils.BaseAppUtil;
@@ -47,6 +49,14 @@ public class LetoApplication extends Application {
 
         // 悬浮工具
         FloatToolsCenter.init(this);
+
+
+        LetoEvents.setAuthActivityResultListener(new ILetoAuthActivityListener() {
+            @Override
+            public void onActivityForResult(Activity activity, int requestCode, int resultCode, Intent data) {
+                WechatAuthUtil.setOnActivityResult(activity, requestCode, resultCode, data);
+            }
+        });
 
 
         LetoEvents.setAuthRequestListener(new IAuthRequestListener() {

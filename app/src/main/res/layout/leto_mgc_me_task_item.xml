@@ -5,12 +5,27 @@
     android:layout_height="wrap_content"
     android:background="@color/leto_white"
     android:orientation="horizontal"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
     android:paddingLeft="14dp"
+    android:paddingTop="10dp"
     android:paddingRight="14dp"
-    >
+    android:paddingBottom="10dp">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@+id/task_icon"
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/leto_reward_task_play_game"
+            />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -27,8 +42,8 @@
                 android:id="@+id/task_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:maxLines="1"
                 android:text="@string/leto_mgc_daily_task"
                 android:textColor="@color/leto_black"
                 android:textSize="15sp"
@@ -76,8 +91,56 @@
             android:paddingRight="10dp"
             android:textColor="#FF88898D"
             android:textSize="11sp"
-            tools:text="登录后试玩任意小游戏5分钟，累计达到3个即可获得500金币奖励"
-            />
+            tools:text="登录后试玩任意小游戏5分钟，累计达到3个即可获得500金币奖励" />
+
+        <LinearLayout
+            android:id="@+id/leto_progress_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal">
+
+            <ProgressBar
+                android:id="@+id/leto_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="4dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:progressDrawable="@drawable/lebox_task_progress_bar" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="2dp">
+
+                <TextView
+                    android:id="@+id/leto_tv_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#3D9AF0"
+                    android:textSize="9sp"
+                    tools:text="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/"
+                    android:textColor="@color/leto_text_lowgray"
+                    android:textSize="9sp" />
+
+                <TextView
+                    android:id="@+id/leto_tv_total_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/leto_text_lowgray"
+                    android:textSize="9sp"
+                    tools:text="10" />
+
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
 
@@ -85,9 +148,9 @@
         android:id="@+id/btn_play"
         android:layout_width="50dp"
         android:layout_height="22dp"
-        android:gravity="center"
-        android:background="@drawable/leto_minigame_play_btn_bg_gray"
         android:layout_gravity="center_vertical"
+        android:background="@drawable/leto_minigame_play_btn_bg_gray"
+        android:gravity="center"
         android:textColor="@color/leto_grayc3"
         android:textSize="11sp"
         tools:text="已领取" />
