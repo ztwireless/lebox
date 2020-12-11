@@ -98,7 +98,11 @@ public class RewardChatHolder extends CommonViewHolder<MeModuleBean> {
         int progress = (int) curChatDuration / 60000; //转化成分钟
         _leto_chat_pregress.setProgress(progress);
 
-        getUserStatus();
+        if(_rewardButtonList!=null && _rewardButtonList.size()>0){
+            getUserStatus();
+        }else{
+            initList();
+        }
     }
 
     private void initRedPacketData() {

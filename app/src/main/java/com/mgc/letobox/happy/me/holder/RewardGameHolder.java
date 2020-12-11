@@ -48,10 +48,6 @@ public class RewardGameHolder extends CommonViewHolder<MeModuleBean> {
         this.leto_scratch_card = view.findViewById(MResource.getIdByName(context, "R.id.leto_scratch_card"));
         this.leto_turntable = view.findViewById(MResource.getIdByName(context, "R.id.leto_turntable"));
 
-        GlideUtil.load(context, MResource.getIdByName(context, "R.drawable.leto_reward_turntable"), this.leto_turntable);
-        GlideUtil.load(context, MResource.getIdByName(context, "R.drawable.leto_reward_answer"), this.leto_answer);
-        GlideUtil.load(context, MResource.getIdByName(context, "R.drawable.leto_reward_scratch_card_big"), this.leto_scratch_card);
-
         leto_turntable.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
             @Override
             public boolean onClicked() {
@@ -80,5 +76,10 @@ public class RewardGameHolder extends CommonViewHolder<MeModuleBean> {
         // name & desc
 //        _splitSpace.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
         _splitSpace.setVisibility(View.GONE);
+
+        GlideUtil.load(_context, MResource.getIdByName(_context, "R.drawable.leto_reward_turntable"), this.leto_turntable);
+        GlideUtil.load(_context, MResource.getIdByName(_context, "R.drawable.leto_reward_answer"), this.leto_answer);
+        GlideUtil.load(_context, MResource.getIdByName(_context, "R.drawable.leto_reward_scratch_card_big"), this.leto_scratch_card);
+
     }
 }
