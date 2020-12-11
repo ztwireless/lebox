@@ -123,28 +123,28 @@ public class OpenRedpacketHolder extends CommonViewHolder<MeModuleBean> {
 
     }
 
-    private void loadConfig(Context context) {
-        String config = LetoFileUtil.loadStringFromFile(context, RewardConst.CACHE_FILE_REDPACKET);
-        if (TextUtils.isEmpty(config)) {
-            return;
-        }
-        List<HongbaoBean> hongbaoBeanList = new Gson().fromJson(config, new TypeToken<List<HongbaoBean>>() {
-        }.getType());
-        if (hongbaoBeanList != null && hongbaoBeanList.size() > 0) {
-            hongbaoList.clear();
-            if (mRecyclerView != null)
-                mRecyclerView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (_mRedPackageAdapter != null) {
-                            _mRedPackageAdapter.notifyDataSetChanged();
-                        }
-                    }
-                });
-
-            hongbaoList.addAll(hongbaoBeanList);
-        }
-    }
+//    private void loadConfig(Context context) {
+//        String config = LetoFileUtil.loadStringFromFile(context, RewardConst.CACHE_FILE_REDPACKET);
+//        if (TextUtils.isEmpty(config)) {
+//            return;
+//        }
+//        List<HongbaoBean> hongbaoBeanList = new Gson().fromJson(config, new TypeToken<List<HongbaoBean>>() {
+//        }.getType());
+//        if (hongbaoBeanList != null && hongbaoBeanList.size() > 0) {
+//            hongbaoList.clear();
+//            if (mRecyclerView != null)
+//                mRecyclerView.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if (_mRedPackageAdapter != null) {
+//                            _mRedPackageAdapter.notifyDataSetChanged();
+//                        }
+//                    }
+//                });
+//
+//            hongbaoList.addAll(hongbaoBeanList);
+//        }
+//    }
 
 
     private void saveConfig(Context context) {

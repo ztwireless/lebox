@@ -120,7 +120,6 @@ public class RewardChatRedpacketAdapter extends RecyclerView.Adapter<RewardChatR
 
         @Override
         public void onBind(RewardChatRedpacketBean model, int position) {
-
             int radio = MGCSharedModel.coinRmbRatio == 0 ? 10000 : MGCSharedModel.coinRmbRatio;
 
             long curChatTime = (LetoRewardManager.getChatGameProgress(_context) / 60000);//转化成分钟
@@ -131,7 +130,7 @@ public class RewardChatRedpacketAdapter extends RecyclerView.Adapter<RewardChatR
             _totalTimeTv.setTextColor(ColorUtil.parseColor("#FF6771"));
             _tagTv.setVisibility(View.VISIBLE);
             _splitTv.setText("/");
-
+             boolean animaStatus =false;
             int status = model.status;
             if (status == 0) { //未完成
                 _redpacket.setImageResource(R.mipmap.leto_reward_chat_redpacket);
@@ -139,7 +138,7 @@ public class RewardChatRedpacketAdapter extends RecyclerView.Adapter<RewardChatR
                     if (curChatTime < model.chatTime) {
                         //设置红包
                         _curTimeTv.setText(String.valueOf(curChatTime));
-                        setAnimation(_redpacketLayout);
+                        animaStatus = true;
                     } else {
                         _curTimeTv.setText("");
                         _splitTv.setText("");
@@ -150,7 +149,7 @@ public class RewardChatRedpacketAdapter extends RecyclerView.Adapter<RewardChatR
                     if (preChatTime <= curChatTime && curChatTime < model.chatTime) {
                         //设置红包
                         _curTimeTv.setText(String.valueOf(curChatTime));
-                        setAnimation(_redpacketLayout);
+                        animaStatus = true;
                     } else {
                         _curTimeTv.setText("");
                         _splitTv.setText("");
@@ -169,7 +168,7 @@ public class RewardChatRedpacketAdapter extends RecyclerView.Adapter<RewardChatR
                 _totalTimeTv.setTextColor(ColorUtil.parseColor("#FF6771"));
                 _tagTv.setVisibility(View.INVISIBLE);
                 _redpacket.setImageResource(R.mipmap.leto_reward_chat_redpacket_open);
-                setAnimation(_redpacketLayout);
+                animaStatus = true;
 
                 _rootView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -181,7 +180,7 @@ public class RewardChatRedpacketAdapter extends RecyclerView.Adapter<RewardChatR
                                     MGCApiUtil.addCoin(_context, "", (int) model.amount, "", RewardConst.ADD_COIN_BY_CHAT, position, new HttpCallbackDecode<AddCoinResultBean>(_context, null) {
                                         @Override
                                         public void onDataSuccess(AddCoinResultBean data) {
-                                            ToastUtil.s(_context, String.format("恭喜您获得%d金币",(int) model.amount));
+                                            ToastUtil.s(_context, String.format("恭喜您获得%d金币", (int) model.amount));
                                             model.status = 2;
                                             notifyDataSetChanged();
                                         }
@@ -198,7 +197,7 @@ public class RewardChatRedpacketAdapter extends RecyclerView.Adapter<RewardChatR
                                     MGCApiUtil.addCoin(_context, "", (int) model.amount, "", RewardConst.ADD_COIN_BY_CHAT, position, new HttpCallbackDecode<AddCoinResultBean>(_context, null) {
                                         @Override
                                         public void onDataSuccess(AddCoinResultBean data) {
-                                            ToastUtil.s(_context, String.format("恭喜您获得%d金币",(int) model.amount));
+                                            ToastUtil.s(_context, String.format("恭喜您获得%d金币", (int) model.amount));
                                             model.status = 2;
                                             notifyDataSetChanged();
                                         }
@@ -210,11 +209,11 @@ public class RewardChatRedpacketAdapter extends RecyclerView.Adapter<RewardChatR
                                     });
                                 }
                             });
-                        }else{
+                        } else {
                             MGCApiUtil.addCoin(_context, "", (int) model.amount, "", RewardConst.ADD_COIN_BY_CHAT, position, new HttpCallbackDecode<AddCoinResultBean>(_context, null) {
                                 @Override
                                 public void onDataSuccess(AddCoinResultBean data) {
-                                    ToastUtil.s(_context, String.format("恭喜您获得%d金币",(int) model.amount));
+                                    ToastUtil.s(_context, String.format("恭喜您获得%d金币", (int) model.amount));
                                     model.status = 2;
                                     notifyDataSetChanged();
                                 }
@@ -244,6 +243,30 @@ public class RewardChatRedpacketAdapter extends RecyclerView.Adapter<RewardChatR
                     }
                 });
             }
+
+            final boolean startAnima = animaStatus;
+
+            if (_redpacketLayout.getTag() instanceof View.OnAttachStateChangeListener) {
+                _redpacketLayout.removeOnAttachStateChangeListener((View.OnAttachStateChangeListener) _redpacketLayout.getTag());
+            }
+            View.OnAttachStateChangeListener attachListener = new View.OnAttachStateChangeListener() {
+                @Override
+                public void onViewAttachedToWindow(View v) {
+                    // 注意，需要在这里面判断状态，不能先判断状态再设置监听。
+                    if (startAnima) {
+                        setAnimation(_redpacketLayout);
+                    } else {// 其他状态清除动画
+                        clearAnimation(_redpacketLayout);
+                    }
+                }
+
+                @Override
+                public void onViewDetachedFromWindow(View v) {
+
+                }
+            };
+            _redpacketLayout.addOnAttachStateChangeListener(attachListener);
+            _redpacketLayout.setTag(attachListener);
         }
 
         private void setAnimation(View animationView) {
@@ -256,6 +279,10 @@ public class RewardChatRedpacketAdapter extends RecyclerView.Adapter<RewardChatR
             // 设置为匀速
             rotateAnim.setInterpolator(new LinearInterpolator());
             animationView.startAnimation(rotateAnim);
+        }
+
+        private void clearAnimation(View animationView) {
+            animationView.clearAnimation();
         }
     }
 
