@@ -13,28 +13,20 @@ import android.widget.TextView;
 import com.leto.reward.LetoRewardManager;
 import com.leto.reward.constant.RewardConst;
 import com.mgc.leto.game.base.api.ApiContainer;
-import com.mgc.leto.game.base.api.adpush.PushAppManager;
-import com.mgc.leto.game.base.be.AdConst;
-import com.mgc.leto.game.base.be.net.IAdCallback;
-import com.mgc.leto.game.base.event.DataRefreshEvent;
 import com.mgc.leto.game.base.http.HttpCallbackDecode;
-import com.mgc.leto.game.base.interfaces.IApiCallback;
-import com.mgc.leto.game.base.mgc.MGCConst;
+
 import com.mgc.leto.game.base.mgc.bean.AddCoinResultBean;
 import com.mgc.leto.game.base.mgc.model.MGCSharedModel;
 import com.mgc.leto.game.base.mgc.util.MGCApiUtil;
 import com.mgc.leto.game.base.utils.ColorUtil;
 import com.mgc.leto.game.base.utils.MResource;
 import com.mgc.leto.game.base.utils.ToastUtil;
-import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.me.IRewardAdRequest;
 import com.mgc.letobox.happy.me.IRewardAdResult;
 import com.mgc.letobox.happy.me.bean.RewardChatRedpacketBean;
 import com.mgc.letobox.happy.me.holder.CommonViewHolder;
 import com.mgc.letobox.happy.view.CustomRotateAnim;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -130,7 +122,7 @@ public class RewardChatRedpacketAdapter extends RecyclerView.Adapter<RewardChatR
             _totalTimeTv.setTextColor(ColorUtil.parseColor("#FF6771"));
             _tagTv.setVisibility(View.VISIBLE);
             _splitTv.setText("/");
-             boolean animaStatus =false;
+            boolean animaStatus = false;
             int status = model.status;
             if (status == 0) { //未完成
                 _redpacket.setImageResource(R.mipmap.leto_reward_chat_redpacket);
@@ -182,7 +174,14 @@ public class RewardChatRedpacketAdapter extends RecyclerView.Adapter<RewardChatR
                                         public void onDataSuccess(AddCoinResultBean data) {
                                             ToastUtil.s(_context, String.format("恭喜您获得%d金币", (int) model.amount));
                                             model.status = 2;
-                                            notifyDataSetChanged();
+                                            if (v != null) {
+                                                v.post(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        notifyDataSetChanged();
+                                                    }
+                                                });
+                                            }
                                         }
 
                                         @Override
@@ -285,20 +284,4 @@ public class RewardChatRedpacketAdapter extends RecyclerView.Adapter<RewardChatR
             animationView.clearAnimation();
         }
     }
-
-//    private void addCoin(int coin, int position){
-//        MGCApiUtil.addCoin(_context, "", coin, "", RewardConst.ADD_COIN_BY_CHAT, position, new HttpCallbackDecode<AddCoinResultBean>(_context, null) {
-//            @Override
-//            public void onDataSuccess(AddCoinResultBean data) {
-//                ToastUtil.s(_context, "添加成功");
-//                model.status = 2;
-//                notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onFailure(String code, String msg) {
-//                super.onFailure(code, msg);
-//            }
-//        });
-//    }
 }

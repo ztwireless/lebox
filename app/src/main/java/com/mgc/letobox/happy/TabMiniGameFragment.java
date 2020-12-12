@@ -21,6 +21,7 @@ import com.mgc.leto.game.base.api.constant.Constant;
 import com.mgc.leto.game.base.interfaces.ILetoGameContainer;
 import com.mgc.leto.game.base.listener.ILetoLifecycleListener;
 import com.mgc.leto.game.base.mgc.model.MGCSharedModel;
+import com.mgc.leto.game.base.trace.LetoTrace;
 import com.mgc.leto.game.base.utils.IntentConstant;
 import com.mgc.leto.game.base.utils.MainHandler;
 import com.mgc.leto.game.base.widget.ClickGuard;
@@ -124,7 +125,7 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
         splitView = view.findViewById(R.id.splitline);
 
         //如果盒子 红包开关打开了，则隐藏上部搜索栏
-        if(!MGCSharedModel.isShowGameCenterTitle) {
+        if (!MGCSharedModel.isShowGameCenterTitle) {
             rl_title.setVisibility(View.GONE);
             splitView.setVisibility(View.GONE);
         }
@@ -183,7 +184,7 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
                 public void run() {
                     try {
                         hideTitle(event._isHide);
-                    }catch (Throwable t){
+                    } catch (Throwable t) {
 
                     }
                 }
@@ -305,5 +306,22 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
     @Override
     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
         fixRookieGuideViewIfNeeded();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LetoTrace.d("TabMiniGameFragment", "onResume");
+        if (_fragment != null) {
+            _fragment.onResume();
+        }
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        LetoTrace.d("TabMiniGameFragment", "onPause");
+        if (_fragment != null) {
+            _fragment.onPause();
+        }
     }
 }

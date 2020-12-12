@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.mgc.leto.game.base.config.AppConfig;
 import com.mgc.leto.game.base.login.LoginManager;
+import com.mgc.leto.game.base.trace.LetoTrace;
 import com.mgc.leto.game.base.utils.BaseAppUtil;
 
 
@@ -48,14 +49,27 @@ public class TabMeFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
+        if (fragment != null) {
+            fragment.onDestroyView();
+        }
     }
 
     @Override
-    public  void  onResume(){
+    public void onResume() {
         super.onResume();
-
-        fragment.onResume();
+        LetoTrace.d("TabMeFragment", "onResume");
+        if (fragment != null) {
+            fragment.onResume();
+        }
     }
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LetoTrace.d("TabMeFragment", "onPause");
+        if (fragment != null) {
+            fragment.onPause();
+        }
+    }
 }

@@ -157,7 +157,7 @@ public class FollowInviteCodeActivity extends BaseActivity {
                     Intent i = new Intent();
                     i.putExtra("result", 1);
                     i.putExtra("invite_code", code);
-                    setResult(1, i);
+                    setResult(0, i);
                 }
 
                 finish();

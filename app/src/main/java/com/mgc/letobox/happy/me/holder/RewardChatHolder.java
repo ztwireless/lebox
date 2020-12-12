@@ -48,7 +48,7 @@ public class RewardChatHolder extends CommonViewHolder<MeModuleBean> {
 
     RewardChatRedpacketAdapter _adapter;
 
-    List<RewardChatRedpacketBean> _rewardButtonList;
+    List<RewardChatRedpacketBean> _rewardButtonList = new ArrayList<>();
 
 
     public static RewardChatHolder create(Context ctx, ViewGroup parent) {
@@ -68,10 +68,9 @@ public class RewardChatHolder extends CommonViewHolder<MeModuleBean> {
         _leto_chat_pregress = itemView.findViewById(MResource.getIdByName(context, "R.id.leto_chat_progress"));
         leto_chat_tip = itemView.findViewById(MResource.getIdByName(context, "R.id.leto_chat_tip"));
 
-        initRedPacketData();
-
+//        initRedPacketData();
         int width = BaseAppUtil.getDeviceWidth(context);
-        int count = _rewardButtonList.size() == 0 ? 4 : _rewardButtonList.size();
+        int count = _rewardButtonList == null || _rewardButtonList.size() == 0 ? 4 : _rewardButtonList.size();
         int margin = (width - DensityUtil.dip2px(context, 48)) / (2 * count);
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) _leto_chat_pregress.getLayoutParams();
         layoutParams.leftMargin = margin;
@@ -98,15 +97,11 @@ public class RewardChatHolder extends CommonViewHolder<MeModuleBean> {
         int progress = (int) curChatDuration / 60000; //转化成分钟
         _leto_chat_pregress.setProgress(progress);
 
-        if(_rewardButtonList!=null && _rewardButtonList.size()>0){
-            getUserStatus();
-        }else{
-            initList();
-        }
+        initRedPacketData();
     }
 
     private void initRedPacketData() {
-        _rewardButtonList = new ArrayList<>();
+
 
         String rewardList = LetoRewardManager.loadUserChatProgress(_context, LoginManager.getMobile(_context));
         if (!TextUtils.isEmpty(rewardList)) {
@@ -182,16 +177,23 @@ public class RewardChatHolder extends CommonViewHolder<MeModuleBean> {
                 super.onFailure(code, msg);
                 LetoTrace.d(msg);
                 try {
-                    if (_adapter == null) {
-                        _adapter = new RewardChatRedpacketAdapter(_context, _rewardButtonList, getRewardAdRequest());
+                    if (_recyclerView != null) {
+                        _recyclerView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (_adapter == null) {
+                                    _adapter = new RewardChatRedpacketAdapter(_context, _rewardButtonList, getRewardAdRequest());
 
-                        _recyclerView.setLayoutManager(new GridLayoutManager(_context, 4));
-                        _recyclerView.setAdapter(_adapter);
-                    } else {
-                        _adapter.notifyDataSetChanged();
+                                    _recyclerView.setLayoutManager(new GridLayoutManager(_context, 4));
+                                    _recyclerView.setAdapter(_adapter);
+                                } else {
+                                    _adapter.notifyDataSetChanged();
+                                }
+                            }
+                        });
                     }
                 } catch (Throwable e) {
-
+                    e.printStackTrace();
                 }
             }
 
@@ -199,48 +201,58 @@ public class RewardChatHolder extends CommonViewHolder<MeModuleBean> {
             public void onDataSuccess(List<Integer> data) {
                 LetoTrace.d("get user chat status....");
                 try {
-                    //因为聊天时长在本地存储，当用户删掉缓存或换设备登陆，此时本地无记录。目前采用通过用户状态记录对应的时长，更新到本地
-                    //因为状态取决用户是否点击加金币，如果用户完成后并没有领取金币，记录也会无法保存
-                    long serverChatTime = 0;
+                    if (_recyclerView != null) {
+                        _recyclerView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                //因为聊天时长在本地存储，当用户删掉缓存或换设备登陆，此时本地无记录。目前采用通过用户状态记录对应的时长，更新到本地
+                                //因为状态取决用户是否点击加金币，如果用户完成后并没有领取金币，记录也会无法保存
+                                long serverChatTime = 0;
 
-                    //本地时长，单位毫秒
-                    long curChatDuration = LetoRewardManager.getChatGameProgress(_context);
-                    //转化成分钟
-                    long curChatTime = (curChatDuration / 60000);
+                                //本地时长，单位毫秒
+                                long curChatDuration = LetoRewardManager.getChatGameProgress(_context);
+                                //转化成分钟
+                                long curChatTime = (curChatDuration / 60000);
 
-                    for (int i = 0; i < _rewardButtonList.size(); i++) {
-                        RewardChatRedpacketBean redpacketBean = _rewardButtonList.get(i);
-                        if (data.get(i) == 2) {
-                            redpacketBean.status = 2;
-                            serverChatTime = redpacketBean.chatTime * 60000;
-                        } else {
-                            if (curChatTime >= redpacketBean.chatTime) {
-                                _rewardButtonList.get(i).status = 1;
-                            } else {
-                                _rewardButtonList.get(i).status = 0;
+                                for (int i = 0; i < _rewardButtonList.size(); i++) {
+                                    RewardChatRedpacketBean redpacketBean = _rewardButtonList.get(i);
+                                    if (data.get(i) == 2) {
+                                        redpacketBean.status = 2;
+                                        serverChatTime = redpacketBean.chatTime * 60000;
+                                    } else {
+                                        if (curChatTime >= redpacketBean.chatTime) {
+                                            _rewardButtonList.get(i).status = 1;
+                                        } else {
+                                            _rewardButtonList.get(i).status = 0;
+                                        }
+                                    }
+                                }
+                                //如果需要更新到本地
+                                if (curChatDuration == 0 && serverChatTime > 0) {
+                                    LetoTrace.d("update chat time to loacal: " + serverChatTime);
+                                    LetoRewardManager.updateChatGameProgress(_context, serverChatTime);
+                                }
+
+                                //保存数据更新到本地
+                                LetoRewardManager.saveUserChatProgress(_context, LoginManager.getMobile(_context), new Gson().toJson(_rewardButtonList));
+
+                                if (_adapter == null) {
+                                    _adapter = new RewardChatRedpacketAdapter(_context, _rewardButtonList, getRewardAdRequest());
+
+                                    _recyclerView.setLayoutManager(new GridLayoutManager(_context, 4));
+                                    _recyclerView.setAdapter(_adapter);
+                                    LetoTrace.d("new adapter: notifyDataSetChanged");
+                                } else {
+                                    LetoTrace.d("getUserStatus notifyDataSetChanged");
+                                    _adapter.notifyDataSetChanged();
+                                }
                             }
-                        }
-                    }
-                    //如果需要更新到本地
-                    if (curChatDuration == 0 && serverChatTime > 0) {
-                        LetoTrace.d("update chat time to loacal: " + serverChatTime);
-                        LetoRewardManager.updateChatGameProgress(_context, serverChatTime);
-                    }
+                        });
 
-                    //保存数据更新到本地
-                    LetoRewardManager.saveUserChatProgress(_context, LoginManager.getMobile(_context), new Gson().toJson(_rewardButtonList));
-
-                    if (_adapter == null) {
-                        _adapter = new RewardChatRedpacketAdapter(_context, _rewardButtonList, getRewardAdRequest());
-
-                        _recyclerView.setLayoutManager(new GridLayoutManager(_context, 4));
-                        _recyclerView.setAdapter(_adapter);
-                    } else {
-                        _adapter.notifyDataSetChanged();
                     }
 
                 } catch (Throwable e) {
-
+                    e.printStackTrace();
                 }
             }
 
