@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/leto_white"
-    android:hardwareAccelerated="true"
     android:orientation="vertical">
     <View
         android:id="@+id/fake_status_bar"

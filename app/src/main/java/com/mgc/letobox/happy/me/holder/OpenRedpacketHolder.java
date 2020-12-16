@@ -4,41 +4,33 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.leto.reward.OpenRedpacketView;
 import com.leto.reward.adapter.HomeRedPackageAdapter;
 import com.leto.reward.constant.RewardConst;
 import com.leto.reward.model.HongbaoBean;
 import com.leto.reward.util.RewardApiUtil;
 import com.leto.reward.widget.GridDividerItemDecoration;
-import com.mgc.leto.game.base.be.bean.mgc.MgcAdBean;
+import com.mgc.leto.game.base.api.constant.Constant;
 import com.mgc.leto.game.base.http.OkHttpCallbackDecode;
-import com.mgc.leto.game.base.main.IntegralDownloadTaskActivity;
 import com.mgc.leto.game.base.mgc.bean.BaseUserRequestBean;
+import com.mgc.leto.game.base.statistic.GameStatisticManager;
+import com.mgc.leto.game.base.statistic.StatisticEvent;
 import com.mgc.leto.game.base.trace.LetoTrace;
 import com.mgc.leto.game.base.utils.BaseAppUtil;
-import com.mgc.leto.game.base.utils.ColorUtil;
 import com.mgc.leto.game.base.utils.DensityUtil;
-import com.mgc.leto.game.base.utils.DeviceInfo;
-import com.mgc.leto.game.base.utils.GlideUtil;
 import com.mgc.leto.game.base.utils.LetoFileUtil;
 import com.mgc.leto.game.base.utils.MResource;
 import com.mgc.leto.game.base.utils.OkHttpUtil;
 import com.mgc.leto.game.base.utils.ToastUtil;
-import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +69,10 @@ public class OpenRedpacketHolder extends CommonViewHolder<MeModuleBean> {
 
         //从服务器获取数据
         initData();
+
+        //View点击上报
+        GameStatisticManager.statisticBenefitLog(_ctx, BaseAppUtil.getChannelID(_ctx), StatisticEvent.LETO_BENEFITS_MODULE_SHOW.ordinal(),
+                0, 0, 0, 0, Constant.BENEFITS_TYPE_REWARD_OPEN_REDPACKET, 0);
     }
 
     @Override
