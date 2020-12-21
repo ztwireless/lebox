@@ -255,6 +255,7 @@ public class MeNewFragment extends Fragment implements ApiContainer.IApiResultLi
     private void initModules() {
         List<MeModuleBean> moduleBeanList = new ArrayList<>();
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_COIN));
+        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_REWARD_CHAT));
 //        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_REWARD));
 //        if(!AppChannel.LEBOX_MUZHIWAN.getValue().equalsIgnoreCase(BaseAppUtil.getChannelID(getActivity()))) {
 //            moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_SIGININ));

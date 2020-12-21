@@ -272,17 +272,19 @@ public class TabRewardFragment extends Fragment implements ApiContainer.IApiResu
     private void initModules() {
         List<MeModuleBean> moduleBeanList = new ArrayList<>();
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_REWARD_COIN));
+
+        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_OPEN_REDPACKET));
+
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_REWARD));
 
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_SIGININ));
 
 //        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_REWARD_BUTTON));
-        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_REWARD_CHAT));
+//        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_REWARD_CHAT));
 
-        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_REWARD_GAME));
+//        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_REWARD_GAME));
 
 
-        moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_OPEN_REDPACKET));
 
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_NEWER_TASK));
         moduleBeanList.add(new MeModuleBean(LeBoxConstant.LETO_ME_MODULE_DAILY_TASK));
