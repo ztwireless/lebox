@@ -25,9 +25,11 @@ import com.mgc.letobox.happy.LeBoxMobileLoginActivity;
 import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.event.TabSwitchEvent;
 import com.mgc.letobox.happy.follow.FollowInviteCodeActivity;
+import com.mgc.letobox.happy.me.IRewardAdResult;
 import com.mgc.letobox.happy.me.JoinWeChatActivity;
 import com.mgc.letobox.happy.me.bean.TaskResultBean;
 import com.mgc.letobox.happy.util.LeBoxConstant;
+import com.mgc.letobox.happy.util.LetoBoxEvents;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -125,8 +127,6 @@ public class TaskHolder extends CommonViewHolder<TaskResultBean> {
         _progressBar.setProgress((int) progress);
         _progressBar.setMax((int) totalProgress);
 
-        LetoTrace.d("taskpreogress: " + progress + "/" + totalProgress);
-
         // set tag
         itemView.setTag(position);
         int status = model.getProcess() >= model.getFinish_level() ? 1 : 0;
@@ -138,7 +138,7 @@ public class TaskHolder extends CommonViewHolder<TaskResultBean> {
                 _playlabel.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
                     @Override
                     public boolean onClicked() {
-
+                        LetoTrace.d("click  task type :" + model.getFinish_type());
                         if (model.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_SCRATCH_CARD) {
                             LetoRewardManager.startGuaGuaCard(_ctx);
                         } else if (model.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_ANSWER) {
@@ -147,6 +147,26 @@ public class TaskHolder extends CommonViewHolder<TaskResultBean> {
                             LetoRewardManager.startIdiom(_ctx);
                         } else if (model.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_TURNTABLE) {
                             LetoRewardManager.startDanzhuanpan(_ctx);
+                        } else if (model.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_VIEW_VIDEO) {
+                            if (getRewardAdRequest() != null) {
+                                getRewardAdRequest().requestRewardAd(_ctx, new IRewardAdResult() {
+                                    @Override
+                                    public void onSuccess() {
+                                        if (LetoBoxEvents.getRewardedVideoListener() != null) {
+                                            LetoBoxEvents.getRewardedVideoListener().showVideo();
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onFail(String code, String message) {
+
+                                    }
+                                });
+                            } else {
+                                LetoTrace.d("request ad callback is null");
+                            }
+
                         } else {
                             EventBus.getDefault().post(new TabSwitchEvent(1));
                         }

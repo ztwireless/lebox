@@ -267,7 +267,8 @@ public class NewerTaskManager {
                         } else if (newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_SCRATCH_CARD ||
                                 newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_ANSWER ||
                                 newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_IDIOM ||
-                                newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_TURNTABLE
+                                newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_TURNTABLE||
+                                newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_VIEW_VIDEO
                         ) {
                             long process = newerTaskBean.getProcess() + time;
                             newerTaskBean.setProcess(process);

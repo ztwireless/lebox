@@ -73,10 +73,12 @@ import com.mgc.letobox.happy.dialog.VersionDialog;
 import com.mgc.letobox.happy.event.DailyTaskRefreshEvent;
 import com.mgc.letobox.happy.event.ShowRookieGuideEvent;
 import com.mgc.letobox.happy.event.TabSwitchEvent;
+import com.mgc.letobox.happy.listener.IRewardedVideoListener;
 import com.mgc.letobox.happy.me.bean.TaskResultBean;
 import com.mgc.letobox.happy.me.bean.UserTaskStatusResultBean;
 import com.mgc.letobox.happy.util.LeBoxConstant;
 import com.mgc.letobox.happy.util.LeBoxUtil;
+import com.mgc.letobox.happy.util.LetoBoxEvents;
 import com.mgc.letobox.happy.view.MyRadioGroup;
 
 import org.greenrobot.eventbus.EventBus;
@@ -140,6 +142,8 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
     ILetoOpenRedPacketCallBack _openRedPacketCallBack;
     ILetoScratchCardCallBack _scratchCardCallBack;
     ILetoTurntableCallBack _turntableCallBack;
+
+    IRewardedVideoListener _rewardedVideoCallback;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -404,6 +408,8 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         mVersionDialog = null;
 
         LetoEvents.removeLetoPlayedDurationListener(playedDurationListener);
+
+        removeRewardListener();
     }
 
 
@@ -682,7 +688,22 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         }
     }
 
+    private void removeRewardListener(){
+        LetoRewardEvents.setAnserCallBack(null);
+        LetoRewardEvents.setScratchCardCallBack(null);
+        LetoRewardEvents.setTurntableCallBack(null);
+        LetoRewardEvents.setIdiomCallBack(null);
+        LetoEvents.setLetoLoginResultCallback(null, null);
+    }
+
     public void initRewardListener() {
+
+        _rewardedVideoCallback = new IRewardedVideoListener() {
+            @Override
+            public void showVideo() {
+                reportDailyTaskProgressByTaskType(LeBoxConstant.LETO_TASK_TYP_VIEW_VIDEO, 1);
+            }
+        };
 
         _anserCallBack = new ILetoAnswerCallBack() {
             @Override
@@ -722,6 +743,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         LetoRewardEvents.setScratchCardCallBack(_scratchCardCallBack);
         LetoRewardEvents.setTurntableCallBack(_turntableCallBack);
         LetoRewardEvents.setIdiomCallBack(_idiomCallBack);
+        LetoBoxEvents.setRewardedVideoListener(_rewardedVideoCallback);
 
         LetoEvents.setLetoLoginResultCallback(this, new ILetoLoginResultCallback() {
             @Override

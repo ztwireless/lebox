@@ -24,7 +24,7 @@ public class LeBoxConstant {
     public final static int LETO_TASK_TYP_REWARD_IDIOM = 10;  // 答题10
     public final static int LETO_TASK_TYP_REWARD_TURNTABLE = 11;  // 抽奖11
 
-    public final static int LETO_TASK_TYP_VIDEO_VIDEO = 12;  // 看视频领金币
+    public final static int LETO_TASK_TYP_VIEW_VIDEO = 12;  // 看视频领金币
 
 
     public final static int LETO_ME_MODULE_COIN = 1;

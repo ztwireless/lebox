@@ -171,7 +171,7 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
     @Override
     public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
         // show loading
-        DialogUtil.showDialog(this, getString(MResource.getIdByName(this, "R.string.leto_loading")));
+        showLoading(false, getString(MResource.getIdByName(this, "R.string.leto_loading")));
 
         // sync account
         int gender = 0;
@@ -197,7 +197,7 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
 
             @Override
             public void onFailure(String code, String message) {
-                DialogUtil.dismissDialog();
+                dismissLoading();
                 ToastUtil.s(LeBoxLoginActivity.this, message);
             }
         });
@@ -206,23 +206,25 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
     @Override
     public void onError(SHARE_MEDIA share_media, int i, Throwable t) {
         ToastUtil.s(LeBoxLoginActivity.this, "失败：" + t.getMessage());
+        dismissLoading();
     }
 
     @Override
     public void onCancel(SHARE_MEDIA share_media, int i) {
         ToastUtil.s(LeBoxLoginActivity.this, "取消了");
+        dismissLoading();
     }
 
     @Override
     public void onSuccess(LoginResultBean data) {
         EventBus.getDefault().post(new GetCoinEvent());
-        DialogUtil.dismissDialog();
+        dismissLoading();
         finish();
     }
 
     @Override
     public void onFail(String code, String message) {
-        DialogUtil.dismissDialog();
+        dismissLoading();
         ToastUtil.s(LeBoxLoginActivity.this, "账号刷新失败, 请重试");
     }
 }

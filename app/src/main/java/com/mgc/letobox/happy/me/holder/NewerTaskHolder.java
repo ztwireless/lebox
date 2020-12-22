@@ -69,7 +69,7 @@ public class NewerTaskHolder extends CommonViewHolder<MeModuleBean> {
         _splitSpace.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
 
         initData();
-
+        _taskAdapter.setRewardAdRequest(getRewardAdRequest());
         _taskAdapter.notifyDataSetChanged();
     }
 

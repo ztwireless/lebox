@@ -78,6 +78,8 @@ public class DailyTaskHolder extends CommonViewHolder<MeModuleBean> {
 
         initData();
 
+        _taskAdapter.setRewardAdRequest(getRewardAdRequest());
+
         _taskAdapter.notifyDataSetChanged();
     }
 
