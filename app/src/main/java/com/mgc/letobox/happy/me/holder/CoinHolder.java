@@ -259,14 +259,18 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
                 }
 
                 // name
-
-                String mobile = loginInfo.getMobile();
-                if(mobile.length()==11){
-                    mobile = mobile.substring(0, 3) + "****" + mobile.substring(7, mobile.length());
-                }else{
-                    mobile = mobile.substring(0, 11);
+                if (BaseAppUtil.getMetaBooleanValue(_ctx, "MGC_ENABLE_WECHAT_LOGIN")) {
+                    String nickname = loginInfo.getNickname();
+                    _nameLabel.setText(nickname);
+                } else {
+                    String mobile = loginInfo.getMobile();
+                    if(mobile.length()==11){
+                        mobile = mobile.substring(0, 3) + "****" + mobile.substring(7, mobile.length());
+                    }else{
+                        mobile = mobile.substring(0, 11);
+                    }
+                    _nameLabel.setText(mobile);
                 }
-                _nameLabel.setText(mobile);
 
                 // sig
 //                _sigLabel.setText("边玩游戏边赚钱");
