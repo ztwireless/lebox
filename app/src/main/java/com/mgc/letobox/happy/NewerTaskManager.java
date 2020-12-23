@@ -26,8 +26,20 @@ public class NewerTaskManager {
 
     public static void clearTask() {
         LetoTrace.d(TAG, "clear task list");
-        NewerTaskManager.mNewPlayerTaskBeanList.clear();
-        NewerTaskManager.mDailyTaskBeanList.clear();
+
+        if (mNewPlayerTaskBeanList != null && mNewPlayerTaskBeanList.size() > 0) {
+            for (TaskResultBean taskResultBean : mNewPlayerTaskBeanList) {
+                taskResultBean.setStatus(0);
+                taskResultBean.setProcess(0);
+            }
+        }
+
+        if (mDailyTaskBeanList != null && mDailyTaskBeanList.size() > 0) {
+            for (TaskResultBean taskResultBean : mDailyTaskBeanList) {
+                taskResultBean.setStatus(0);
+                taskResultBean.setProcess(0);
+            }
+        }
     }
 
     public static void getNewPlayerTaskList(final Context context, final HttpCallbackDecode callback) {
