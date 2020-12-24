@@ -279,7 +279,7 @@ public class NewerTaskManager {
                         } else if (newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_SCRATCH_CARD ||
                                 newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_ANSWER ||
                                 newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_IDIOM ||
-                                newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_TURNTABLE||
+                                newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_TURNTABLE ||
                                 newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_VIEW_VIDEO
                         ) {
                             long process = newerTaskBean.getProcess() + time;
@@ -322,7 +322,7 @@ public class NewerTaskManager {
 
 
     public static void reportTaskProgress(Context context, int taskId, long progress) {
-        LeBoxUtil.reportUserNewPlayerTasklist(context, taskId, progress, new HttpCallbackDecode<List<UserTaskStatusResultBean>>(context, null) {
+        LeBoxUtil.reportUserTasklist(context, taskId, progress, new HttpCallbackDecode<List<UserTaskStatusResultBean>>(context, null) {
             @Override
             public void onDataSuccess(final List<UserTaskStatusResultBean> data) {
                 if (null != data) {

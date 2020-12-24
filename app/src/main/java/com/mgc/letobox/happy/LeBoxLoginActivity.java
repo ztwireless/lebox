@@ -139,14 +139,34 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
         });
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        UMShareAPI.get(this).onSaveInstanceState(outState);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        // check if signed in, finish self
+        if (LoginManager.isSignedIn(this)) {
+            EventBus.getDefault().post(new DataRefreshEvent());
+            finish();
+        }
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        UMShareAPI.get(this).release();
 
         // check if signed in, finish self
         if (LoginManager.isSignedIn(this)) {
@@ -171,7 +191,7 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
     @Override
     public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
         // show loading
-        showLoading(false, getString(MResource.getIdByName(this, "R.string.leto_loading")));
+        showLoading(false,getString(MResource.getIdByName(this, "R.string.leto_loading")) );
 
         // sync account
         int gender = 0;
@@ -198,7 +218,7 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
             @Override
             public void onFailure(String code, String message) {
                 dismissLoading();
-                ToastUtil.s(LeBoxLoginActivity.this, message);
+                ToastUtil.s(LeBoxLoginActivity.this, message+"("+ code +")");
             }
         });
     }

@@ -165,11 +165,11 @@ public class LeBoxUtil {
     }
 
     /**
-     * 上报新手任务列表
+     * 上报用户任务状态
      */
-    public static void reportUserNewPlayerTasklist(final Context ctx, int task_id, long progress, final HttpCallbackDecode callback) {
+    public static void reportUserTasklist(final Context ctx, int task_id, long progress, final HttpCallbackDecode callback) {
         try {
-            Log.i(TAG, "reportUserNewPlayerTasklist:  task_id=" + task_id + " ---- progress= " + progress);
+            Log.i(TAG, "reportUserTasklist:  task_id=" + task_id + " ---- progress= " + progress);
             UserTaskStatusRequestBean requestBean = new UserTaskStatusRequestBean();
             requestBean.setChannel_task_id(task_id);
             requestBean.setProgress(progress);
@@ -178,7 +178,7 @@ public class LeBoxUtil {
             requestBean.setApi_v(1);
 
             String args = new Gson().toJson(requestBean);
-            Log.i(TAG, "reportUserNewPlayerTask: url= " + SdkApi.updateUserTask() + "?data=" + args);
+            Log.i(TAG, "reportUserTasklist: url= " + SdkApi.updateUserTask() + "?data=" + args);
             (new RxVolley.Builder())
                     .setTag(ctx)
                     .shouldCache(false)
