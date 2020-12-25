@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mgc.leto.game.base.LetoEvents;
 import com.mgc.leto.game.base.MgcAccountManager;
 import com.mgc.leto.game.base.bean.LoginResultBean;
 import com.mgc.leto.game.base.event.DataRefreshEvent;
@@ -46,6 +48,10 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
     private ImageView _backBtn;
 
     private int reqestCode = -1;
+
+    private String openId;
+
+    Handler mHandler;
 
     public static void start(Context context) {
         if (null != context) {
@@ -137,6 +143,8 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
                 return true;
             }
         });
+
+        mHandler = new Handler();
     }
 
 
@@ -162,11 +170,16 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
             finish();
         }
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
 
         UMShareAPI.get(this).release();
+
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+        }
 
         // check if signed in, finish self
         if (LoginManager.isSignedIn(this)) {
@@ -191,7 +204,7 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
     @Override
     public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
         // show loading
-        showLoading(false,getString(MResource.getIdByName(this, "R.string.leto_loading")) );
+        showLoading(false, getString(MResource.getIdByName(this, "R.string.leto_loading")));
 
         // sync account
         int gender = 0;
@@ -199,26 +212,51 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
             gender = Integer.parseInt(map.get("gender"));
         } catch (NumberFormatException e) {
         }
+        openId = map.get("unionid");
 
         final int userGender = gender;
         MGCApiUtil.bindWeiXin(LeBoxLoginActivity.this, map, new HttpCallbackDecode(LeBoxLoginActivity.this, null) {
             @Override
             public void onDataSuccess(Object data) {
-                MgcAccountManager.syncAccount(LeBoxLoginActivity.this,
-                        map.get("unionid"),
-                        "",
-                        map.get("name"),
-                        map.get("iconurl"),
-                        userGender,
-                        true,
-                        LeBoxLoginActivity.this
-                );
+                if (LetoEvents.getLoginListener() != null) {
+                    LetoEvents.getLoginListener().onLoginSuccess(openId, "", true);
+                    //延迟1s 再调，防止服务器报同步账号 请求频繁
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            MgcAccountManager.syncAccount(LeBoxLoginActivity.this,
+                                    map.get("unionid"),
+                                    "",
+                                    map.get("name"),
+                                    map.get("iconurl"),
+                                    userGender,
+                                    true,
+                                    LeBoxLoginActivity.this
+                            );
+                        }
+                    }, 1000);
+                }else{
+                    MgcAccountManager.syncAccount(LeBoxLoginActivity.this,
+                            map.get("unionid"),
+                            "",
+                            map.get("name"),
+                            map.get("iconurl"),
+                            userGender,
+                            true,
+                            LeBoxLoginActivity.this
+                    );
+                }
             }
 
             @Override
             public void onFailure(String code, String message) {
                 dismissLoading();
-                ToastUtil.s(LeBoxLoginActivity.this, message+"("+ code +")");
+                ToastUtil.s(LeBoxLoginActivity.this, message + "(" + code + ")");
+
+                //绑定微信账号失败
+                if (LetoEvents.getLoginListener() != null) {
+                    LetoEvents.getLoginListener().onCancel();
+                }
             }
         });
     }
@@ -227,16 +265,29 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
     public void onError(SHARE_MEDIA share_media, int i, Throwable t) {
         ToastUtil.s(LeBoxLoginActivity.this, "失败：" + t.getMessage());
         dismissLoading();
+
+        //微信授权失败，通知登陆失败
+        if (LetoEvents.getLoginListener() != null) {
+            LetoEvents.getLoginListener().onCancel();
+        }
     }
 
     @Override
     public void onCancel(SHARE_MEDIA share_media, int i) {
         ToastUtil.s(LeBoxLoginActivity.this, "取消了");
         dismissLoading();
+
+        //微信授权取消，通知登陆取消
+        if (LetoEvents.getLoginListener() != null) {
+            LetoEvents.getLoginListener().onCancel();
+        }
     }
 
     @Override
     public void onSuccess(LoginResultBean data) {
+        if (LetoEvents.getLoginListener() != null) {
+            LetoEvents.getLoginListener().onLoginSuccess(openId, "", true);
+        }
         EventBus.getDefault().post(new GetCoinEvent());
         dismissLoading();
         finish();
@@ -245,6 +296,11 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
     @Override
     public void onFail(String code, String message) {
         dismissLoading();
-        ToastUtil.s(LeBoxLoginActivity.this, "账号刷新失败, 请重试");
+        ToastUtil.s(LeBoxLoginActivity.this, "账号刷新失败, 请重试（code=" + code + ")");
+
+        //同步账号失败了，也通知取消
+        if (LetoEvents.getLoginListener() != null) {
+            LetoEvents.getLoginListener().onCancel();
+        }
     }
 }

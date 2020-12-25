@@ -276,24 +276,12 @@ public class NewerTaskManager {
                                 }
                                 reportTaskProgress(context, newerTaskBean.getChannel_task_id(), 1);
                             }
-                        } else if (newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_SCRATCH_CARD ||
+                        } else if (newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_SCRATCH_CARD ||       //计算次数任务
                                 newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_ANSWER ||
                                 newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_IDIOM ||
                                 newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_TURNTABLE ||
-                                newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_VIEW_VIDEO
-                        ) {
-                            long process = newerTaskBean.getProcess() + time;
-                            newerTaskBean.setProcess(process);
-                            if (process >= newerTaskBean.getFinish_level()) {
-                                if (newerTaskBean.getStatus() == 0) {
-                                    newerTaskBean.setStatus(1);
-                                    taskId.add(newerTaskBean);
-                                }
-                            }
-
-                            reportTaskProgress(context, newerTaskBean.getChannel_task_id(), time);
-
-                        } else if (newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_BIND_PHONE ||
+                                newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_VIEW_VIDEO ||
+                                newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_BIND_PHONE ||
                                 newerTaskBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_BIND_INVITE
                         ) {
                             long process = newerTaskBean.getProcess() + time;
@@ -322,6 +310,9 @@ public class NewerTaskManager {
 
 
     public static void reportTaskProgress(Context context, int taskId, long progress) {
+        if (context == null) {
+            return;
+        }
         LeBoxUtil.reportUserTasklist(context, taskId, progress, new HttpCallbackDecode<List<UserTaskStatusResultBean>>(context, null) {
             @Override
             public void onDataSuccess(final List<UserTaskStatusResultBean> data) {

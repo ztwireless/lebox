@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.support.multidex.MultiDex;
+import android.text.TextUtils;
 
 import com.ledong.lib.leto.Leto;
 import com.mgc.leto.game.base.LetoCore;
@@ -19,6 +20,7 @@ import com.mgc.letobox.happy.follow.FollowInviteActivity;
 import com.mgc.letobox.happy.util.LeBoxSpUtil;
 import com.mgc.letobox.happy.util.WechatAuthUtil;
 import com.umeng.commonsdk.UMConfigure;
+import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
 
@@ -46,6 +48,13 @@ public class LetoApplication extends Application {
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, BaseAppUtil.getMetaStringValue(this, "UMENG_APPKEY"));
         UMConfigure.setLogEnabled(true);
         UMShareAPI.get(this);
+
+//        //微信app配置
+//        String wechatAppId = BaseAppUtil.getMetaStringValue(this, "MGC_WECHAT_APPID");
+//        String wechatAppSecret = BaseAppUtil.getMetaStringValue(this, "MGC_WECHAT_APPSECRET");
+//        if (!TextUtils.isEmpty(wechatAppId) && !TextUtils.isEmpty(wechatAppSecret)) {
+//            PlatformConfig.setWeixin(wechatAppId, wechatAppSecret);
+//        }
 
         // 悬浮工具
         FloatToolsCenter.init(this);
