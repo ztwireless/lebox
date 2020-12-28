@@ -176,6 +176,18 @@
             android:authorities="${applicationId}.TTMultiProvider"
             android:exported="false" />
 
+
+        <!-- GDT sdk config -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/gdt_file_path" />
+        </provider>
+
         <!-- sigmob ad config -->
         <provider
             android:name="com.sigmob.sdk.SigmobFileProvider"
