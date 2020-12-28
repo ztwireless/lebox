@@ -28,37 +28,21 @@ import com.google.gson.reflect.TypeToken;
 import com.kymjs.rxvolley.RxVolley;
 import com.ledong.lib.leto.Leto;
 import com.leto.game.base.dialog.PrivacyWebDialog;
-import com.leto.reward.LetoRewardEvents;
-import com.leto.reward.LetoRewardManager;
-import com.leto.reward.listener.ILetoAnswerCallBack;
-import com.leto.reward.listener.ILetoIdiomCallBack;
-import com.leto.reward.listener.ILetoOpenRedPacketCallBack;
-import com.leto.reward.listener.ILetoScratchCardCallBack;
-import com.leto.reward.listener.ILetoTurntableCallBack;
-import com.leto.reward.model.IdiomResultGame;
-import com.leto.reward.model.QaGameRewardBean;
-import com.leto.reward.model.TurnTableRewardBean;
 import com.mgc.leto.game.base.LetoEvents;
 import com.mgc.leto.game.base.LetoScene;
 import com.mgc.leto.game.base.api.ApiContainer;
-import com.mgc.leto.game.base.bean.LoginResultBean;
 import com.mgc.leto.game.base.interfaces.ILetoContainerProvider;
 import com.mgc.leto.game.base.interfaces.ILetoGameContainer;
-import com.mgc.leto.game.base.listener.ILetoLoginResultCallback;
-import com.mgc.leto.game.base.listener.ILetoPlayedDurationListener;
 import com.ledong.lib.minigame.bean.TabBean;
 import com.mgc.leto.game.base.be.AdManager;
 import com.mgc.leto.game.base.http.HttpCallbackDecode;
 import com.mgc.leto.game.base.http.HttpParamsBuild;
 import com.mgc.leto.game.base.http.RxVolleyManager;
-import com.mgc.leto.game.base.login.LoginManager;
-import com.mgc.leto.game.base.mgc.bean.CoinDialogScene;
+import com.mgc.leto.game.base.listener.ILoginCallBack;
 import com.mgc.leto.game.base.mgc.bean.GetBenefitsSettingResultBean;
-import com.mgc.leto.game.base.mgc.dialog.IMGCCoinDialogListener;
 import com.mgc.leto.game.base.mgc.dialog.MGCInfoDialog;
 import com.mgc.leto.game.base.mgc.model.MGCSharedModel;
 import com.mgc.leto.game.base.mgc.util.MGCApiUtil;
-import com.mgc.leto.game.base.mgc.util.MGCDialogUtil;
 import com.mgc.leto.game.base.statistic.GameStatisticManager;
 import com.mgc.leto.game.base.statistic.StatisticEvent;
 import com.mgc.leto.game.base.trace.LetoTrace;
@@ -66,19 +50,13 @@ import com.mgc.leto.game.base.utils.BaseAppUtil;
 import com.mgc.leto.game.base.utils.GlideUtil;
 import com.mgc.leto.game.base.utils.IntentConstant;
 import com.mgc.leto.game.base.utils.PermissionsUtil;
-import com.mgc.leto.game.base.utils.StatusBarUtil;
 import com.mgc.letobox.happy.bean.VersionRequestBean;
 import com.mgc.letobox.happy.bean.VersionResultBean;
 import com.mgc.letobox.happy.dialog.VersionDialog;
-import com.mgc.letobox.happy.event.DailyTaskRefreshEvent;
 import com.mgc.letobox.happy.event.ShowRookieGuideEvent;
 import com.mgc.letobox.happy.event.TabSwitchEvent;
-import com.mgc.letobox.happy.listener.IRewardedVideoListener;
-import com.mgc.letobox.happy.me.bean.TaskResultBean;
-import com.mgc.letobox.happy.me.bean.UserTaskStatusResultBean;
-import com.mgc.letobox.happy.util.LeBoxConstant;
+import com.mgc.letobox.happy.task.LeBoxTaskManager;
 import com.mgc.letobox.happy.util.LeBoxUtil;
-import com.mgc.letobox.happy.util.LetoBoxEvents;
 import com.mgc.letobox.happy.view.MyRadioGroup;
 
 import org.greenrobot.eventbus.EventBus;
@@ -95,7 +73,7 @@ import java.util.Map;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.OnCheckedChangeListener, ILetoContainerProvider {
-    private static final String TAG = "GameCenterActivity";
+    private static final String TAG = "GameCenterTabActivity";
 
     private static final int REQUEST_CODE_WRITE_PERMISSION = 2003;
 
@@ -135,15 +113,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
     private static final String BUNDLE_FRAGMENTS_KEY = "android:support:fragments";
 
 
-    ILetoPlayedDurationListener playedDurationListener;
-
-    ILetoAnswerCallBack _anserCallBack;
-    ILetoIdiomCallBack _idiomCallBack;
-    ILetoOpenRedPacketCallBack _openRedPacketCallBack;
-    ILetoScratchCardCallBack _scratchCardCallBack;
-    ILetoTurntableCallBack _turntableCallBack;
-
-    IRewardedVideoListener _rewardedVideoCallback;
+    LeBoxTaskManager _taskManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -245,26 +215,6 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
             EventBus.getDefault().register(this);
         }
 
-        playedDurationListener = new ILetoPlayedDurationListener() {
-            @Override
-            public void getPlayedDurations(String gameId, long duration) {
-
-                Log.i(TAG, "gameId: " + gameId + "-------------duration: " + duration);
-                //如果是语聊，则更新到本地
-                if (!TextUtils.isEmpty(gameId) && LetoRewardManager.isChatGame(gameId)) {
-                    LetoTrace.d(TAG, "reportChatGameProgress: " + duration);
-                    LetoRewardManager.updateChatGameProgress(GameCenterTabActivity.this, duration);
-                }
-
-                reportTaskProgress(duration);
-            }
-        };
-
-        LetoEvents.addLetoPlayedDurationListener(playedDurationListener);
-
-        NewerTaskManager.getNewPlayerTaskList(this, null);
-        NewerTaskManager.getDailyTaskList(this, null);
-
         AdManager.getInstance().getTmTaskList(this);
 
 
@@ -282,7 +232,9 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
             }
         }, 2000);
 
-        initRewardListener();
+        _taskManager = new LeBoxTaskManager(GameCenterTabActivity.this);
+
+        setCustomLogin();
     }
 
     @Override
@@ -298,17 +250,8 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         // deliver to api container
         ApiContainer.handleActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == LeBoxConstant.REQUEST_CODE_TASK_INVITE_CODE) {
-            LetoTrace.d("invite code call back: resultCode =" + resultCode);
-            if (resultCode == 1) {
-                reportDailyTaskProgressByTaskType(LeBoxConstant.LETO_TASK_TYP_BIND_INVITE, 1);
-            }
-
-        } else if (requestCode == LeBoxConstant.REQUEST_CODE_TASK_PHONE_LOGIN) {
-            LetoTrace.d("phone login call back: resultCode =" + resultCode);
-            if (resultCode == 1) {
-                reportDailyTaskProgressByTaskType(LeBoxConstant.LETO_TASK_TYP_BIND_PHONE, 1);
-            }
+        if (_taskManager != null) {
+            _taskManager.onActivityResult(requestCode, resultCode, data);
         }
 
         // for this
@@ -407,9 +350,10 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         }
         mVersionDialog = null;
 
-        LetoEvents.removeLetoPlayedDurationListener(playedDurationListener);
 
-        removeRewardListener();
+        if (_taskManager != null) {
+            _taskManager.destroy();
+        }
     }
 
 
@@ -505,75 +449,6 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
     List<Fragment> mFragmentList = new ArrayList<>();
 
     List<TabBean> mTabBeans = new ArrayList<>();
-
-
-    public void reportTaskProgress(long progress) {
-        boolean hasNewTask = false;
-        boolean hasDailyTask = false;
-        List<TaskResultBean> taskResultBeans = NewerTaskManager.getCompleteNewerTaskId(this, "", progress);
-        if (taskResultBeans != null && taskResultBeans.size() > 0) {
-            hasNewTask = true;
-        }
-
-        List<TaskResultBean> dailyTaskResultBeans = NewerTaskManager.getCompleteDailyTaskIdOnPlayGame(this, "", progress);
-
-        if (dailyTaskResultBeans != null && dailyTaskResultBeans.size() > 0) {
-            taskResultBeans.addAll(dailyTaskResultBeans);
-            hasDailyTask = true;
-        }
-        if (taskResultBeans != null && taskResultBeans.size() > 0) {
-            showTaskDialog(taskResultBeans, 0, 0);
-        }
-
-        EventBus.getDefault().post(new DailyTaskRefreshEvent());
-    }
-
-    public void reportDailyTaskProgressByTaskType(int taskType, long progress) {
-
-        List<TaskResultBean> taskResultBeans = NewerTaskManager.getCompleteDailyTaskId(this, taskType, "", progress);
-        if (taskResultBeans != null && taskResultBeans.size() > 0) {
-            showTaskDialog(taskResultBeans, 0, 0);
-        }
-
-        EventBus.getDefault().post(new DailyTaskRefreshEvent());
-    }
-
-    Handler mTaskHandler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            List<TaskResultBean> taskBeans = (List<TaskResultBean>) msg.obj;
-            int pos = msg.arg1;
-            int action = msg.arg2;
-
-            showTaskDialog(taskBeans, pos, action);
-
-        }
-
-    };
-
-
-    private void showTaskDialog(final List<TaskResultBean> taskBeans, final int pos, final int action) {
-        if (this.isFinishing()) {
-            return;
-        }
-
-        MGCDialogUtil.showMGCCoinDialogWithOrderId(this, null, taskBeans.get(pos).getAward_coins(), 1, CoinDialogScene.ROOKIE_TASK,
-                taskBeans.get(pos).getChannel_task_id(), new IMGCCoinDialogListener() {
-                    @Override
-                    public void onExit(boolean video, int coinGot) {
-                        if (taskBeans.size() > pos + 1) {
-                            Message msg = new Message();
-                            msg.obj = taskBeans;
-                            msg.arg1 = pos + 1;
-                            msg.arg2 = action;
-                            mTaskHandler.sendMessage(msg);
-                        }
-                    }
-                });
-    }
 
     boolean isCheckedVersion = false;
 
@@ -688,103 +563,21 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         }
     }
 
-    private void removeRewardListener(){
-        LetoRewardEvents.setAnserCallBack(null);
-        LetoRewardEvents.setScratchCardCallBack(null);
-        LetoRewardEvents.setTurntableCallBack(null);
-        LetoRewardEvents.setIdiomCallBack(null);
-        LetoEvents.setLetoLoginResultCallback(null, null);
-    }
-
-    public void initRewardListener() {
-
-        _rewardedVideoCallback = new IRewardedVideoListener() {
-            @Override
-            public void showVideo() {
-                reportDailyTaskProgressByTaskType(LeBoxConstant.LETO_TASK_TYP_VIEW_VIDEO, 1);
-            }
-        };
-
-        _anserCallBack = new ILetoAnswerCallBack() {
-            @Override
-            public void onAnswer(Context ctx, QaGameRewardBean request) {
-                LetoTrace.d("dati callback");
-                if (request.getIs_correct() == 1) {
-                    reportDailyTaskProgressByTaskType(LeBoxConstant.LETO_TASK_TYP_REWARD_ANSWER, 1);
-                }
-            }
-        };
-        _idiomCallBack = new ILetoIdiomCallBack() {
-            @Override
-            public void onAnswer(Context ctx, IdiomResultGame request) {
-                LetoTrace.d("idiom callback");
-                if (request.getIs_correct() == 1) {
-                    reportDailyTaskProgressByTaskType(LeBoxConstant.LETO_TASK_TYP_REWARD_IDIOM, 1);
-                }
-            }
-        };
-        _scratchCardCallBack = new ILetoScratchCardCallBack() {
-            @Override
-            public void onScratch(Context ctx, TurnTableRewardBean request) {
-                LetoTrace.d("scratch callback");
-
-                reportDailyTaskProgressByTaskType(LeBoxConstant.LETO_TASK_TYP_REWARD_SCRATCH_CARD, 1);
-
-            }
-        };
-        _turntableCallBack = new ILetoTurntableCallBack() {
-            @Override
-            public void onTurntable(Context ctx, TurnTableRewardBean request) {
-                LetoTrace.d("turntable callback");
-                reportDailyTaskProgressByTaskType(LeBoxConstant.LETO_TASK_TYP_REWARD_TURNTABLE, 1);
-            }
-        };
-        LetoRewardEvents.setAnserCallBack(_anserCallBack);
-        LetoRewardEvents.setScratchCardCallBack(_scratchCardCallBack);
-        LetoRewardEvents.setTurntableCallBack(_turntableCallBack);
-        LetoRewardEvents.setIdiomCallBack(_idiomCallBack);
-        LetoBoxEvents.setRewardedVideoListener(_rewardedVideoCallback);
-
-        LetoEvents.setLetoLoginResultCallback(this, new ILetoLoginResultCallback() {
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onLoginSuccess(LoginResultBean data) {
-                LetoTrace.d(TAG, "setLetoLoginResultCallback onLoginSuccess...");
-                try {
-                    if (data != null && !LoginManager.isTempAccount(data.getMobile())) {
-                        LetoTrace.d(TAG, "finish bind phone task...");
-                        NewerTaskManager.getUserNewPlayerTaskStatus(GameCenterTabActivity.this, new HttpCallbackDecode<List<UserTaskStatusResultBean>>(GameCenterTabActivity.this, null, new TypeToken<List<UserTaskStatusResultBean>>() {
-                        }.getType()) {
-                            @Override
-                            public void onDataSuccess(final List<UserTaskStatusResultBean> data) {
-                                reportDailyTaskProgressByTaskType(LeBoxConstant.LETO_TASK_TYP_BIND_PHONE, 1);
-                            }
-
-                            @Override
-                            public void onFailure(String code, String msg) {
-                                super.onFailure(code, msg);
-                            }
-
-                            @Override
-                            public void onFinish() {
-                                super.onFinish();
-
-                            }
-                        });
-                    }
-                } catch (Throwable e) {
-
-                }
-            }
-        });
-    }
-
 
     private void reportTabClick(int position) {
         GameStatisticManager.statisticGameLog(this, BaseAppUtil.getChannelID(this), StatisticEvent.LETO_BOX_TAB_CLICK.ordinal(), 0, LetoScene.DEFAULT.ordinal(), "" + System.currentTimeMillis(), 0, 0, "", 0, "", "", false, 0, 0, 0, 0, position, 0, 0, "", null);
+    }
+
+    private void setCustomLogin(){
+        //如果盒子是设置的微信登陆， 需要注册第三方登陆回调
+        if (BaseAppUtil.getMetaBooleanValue(this, "MGC_ENABLE_WECHAT_LOGIN")) {
+            LetoEvents.setCustomLogin(this, new ILoginCallBack() {
+                @Override
+                public void show(Context context) {
+                    LetoTrace.d(TAG, "show wechat login ");
+                    LeBoxLoginActivity.start(context);
+                }
+            });
+        }
     }
 }

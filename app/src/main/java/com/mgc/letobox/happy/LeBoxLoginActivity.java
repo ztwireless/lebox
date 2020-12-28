@@ -235,7 +235,7 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
                             );
                         }
                     }, 1000);
-                }else{
+                } else {
                     MgcAccountManager.syncAccount(LeBoxLoginActivity.this,
                             map.get("unionid"),
                             "",
