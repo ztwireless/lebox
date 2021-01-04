@@ -26,6 +26,8 @@ public class LeBoxConstant {
 
     public final static int LETO_TASK_TYP_VIEW_VIDEO = 12;  // 看视频领金币
 
+    public final static int LETO_TASK_TYP_VIEW_VIDEO_NEW = 13;  // 看视频领金币
+
 
     public final static int LETO_ME_MODULE_COIN = 1;
 
