@@ -2,6 +2,7 @@ package com.mgc.letobox.happy;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mgc.leto.game.base.http.HttpCallbackDecode;
 import com.mgc.leto.game.base.mgc.RewardVideoManager;
@@ -71,8 +72,10 @@ public class NewerTaskManager {
                                     progress = (todayViewVideoNumber - liveDayVideoReward.getVideo_num_min()) % 30;
                                 }
 
-                                String title = String.format("看%d次视频，领0.3元", videoNumber);
-                                String message = String.format("累计看%d次激励视频，即可获得3000金币奖励", videoNumber);
+//                                String title = String.format("看%d次视频，领0.3元", videoNumber);
+//                                String message = String.format("进入任意小游戏中领取%d个游戏红包，提现0.3元", videoNumber);
+                                String message = "";
+                                String title = String.format("进入任意小游戏中领取%d个游戏红包，提现0.3元", videoNumber);
 
                                 taskResultBean.setTask_title(title);
                                 taskResultBean.setTask_desc(message);
@@ -138,6 +141,32 @@ public class NewerTaskManager {
                                 if (taskResultBean.getChannel_task_id() == taskStatusRequestBean.getChannel_task_id()) {
                                     taskResultBean.setProcess(taskStatusRequestBean.getTask_progress());
                                     taskResultBean.setStatus(taskStatusRequestBean.getTask_status());
+
+                                    if (taskResultBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_VIEW_VIDEO_NEW) {
+                                        //无需上报看视频任务
+                                        BenefitSettings_video_task.VideoReward liveDayVideoReward = RewardVideoManager.getLiveDayVideoReward(context);
+                                        int videoNumber = liveDayVideoReward.getVideo_num_max() - liveDayVideoReward.getVideo_num_min();
+
+                                        long todayViewVideoNumber = RewardVideoManager.getRewardedVideoNumber(context);
+                                        long progress = todayViewVideoNumber - liveDayVideoReward.getVideo_num_min();
+                                        if (liveDayVideoReward.isEnd()) {
+                                            videoNumber = 30;
+                                            progress = (todayViewVideoNumber - liveDayVideoReward.getVideo_num_min()) % 30;
+                                        }
+
+//                                        String title = String.format("看%d次视频，领0.3元", videoNumber);
+//                                        String message = String.format("进入任意小游戏中领取%d个游戏红包，提现0.3元", videoNumber);
+                                        String message = "";
+                                        String title = String.format("进入任意小游戏中领取%d个游戏红包，提现0.3元", videoNumber);
+
+                                        taskResultBean.setTask_title(title);
+                                        taskResultBean.setTask_desc(message);
+                                        taskResultBean.setFinish_level(videoNumber);
+                                        taskResultBean.setProcess(progress);
+                                        taskResultBean.setAward_coins(liveDayVideoReward.getReward_coins());
+
+                                    }
+
                                     break;
                                 }
                             }

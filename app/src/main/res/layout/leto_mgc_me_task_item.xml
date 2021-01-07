@@ -42,8 +42,6 @@
                 android:id="@+id/task_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
                 android:text="@string/leto_mgc_daily_task"
                 android:textColor="@color/leto_black"
                 android:textSize="15sp"
