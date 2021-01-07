@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.google.gson.reflect.TypeToken;
 import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.mgc.RewardVideoManager;
+import com.mgc.leto.game.base.mgc.bean.BenefitSettings_video_task;
 import com.mgc.leto.game.base.trace.LetoTrace;
 import com.mgc.leto.game.base.utils.MResource;
 import com.mgc.letobox.happy.me.bean.TaskResultBean;
@@ -57,6 +59,28 @@ public class NewerTaskManager {
                     try {
                         for (TaskResultBean taskResultBean : data) {
                             taskResultBean.setClassify(LeBoxConstant.LETO_TASK_NEWER);
+                            if (taskResultBean.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_VIEW_VIDEO_NEW) {
+                                //无需上报看视频任务
+                                BenefitSettings_video_task.VideoReward liveDayVideoReward = RewardVideoManager.getLiveDayVideoReward(context);
+                                int videoNumber = liveDayVideoReward.getVideo_num_max() - liveDayVideoReward.getVideo_num_min();
+
+                                long todayViewVideoNumber = RewardVideoManager.getRewardedVideoNumber(context);
+                                long progress = todayViewVideoNumber - liveDayVideoReward.getVideo_num_min();
+                                if (liveDayVideoReward.isEnd()) {
+                                    videoNumber = 30;
+                                    progress = (todayViewVideoNumber - liveDayVideoReward.getVideo_num_min()) % 30;
+                                }
+
+                                String title = String.format("看%d次视频，领0.3元", videoNumber);
+                                String message = String.format("累计看%d次激励视频，即可获得3000金币奖励", videoNumber);
+
+                                taskResultBean.setTask_title(title);
+                                taskResultBean.setTask_desc(message);
+                                taskResultBean.setFinish_level(videoNumber);
+                                taskResultBean.setProcess(progress);
+                                taskResultBean.setAward_coins(liveDayVideoReward.getReward_coins());
+
+                            }
                         }
                         mNewPlayerTaskBeanList.clear();
                         mNewPlayerTaskBeanList.addAll(data);
