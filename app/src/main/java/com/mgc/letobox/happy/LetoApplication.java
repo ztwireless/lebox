@@ -49,12 +49,14 @@ public class LetoApplication extends Application {
         UMConfigure.setLogEnabled(true);
         UMShareAPI.get(this);
 
-//        //微信app配置
-//        String wechatAppId = BaseAppUtil.getMetaStringValue(this, "MGC_WECHAT_APPID");
-//        String wechatAppSecret = BaseAppUtil.getMetaStringValue(this, "MGC_WECHAT_APPSECRET");
-//        if (!TextUtils.isEmpty(wechatAppId) && !TextUtils.isEmpty(wechatAppSecret)) {
-//            PlatformConfig.setWeixin(wechatAppId, wechatAppSecret);
-//        }
+        //微信app配置
+        if (BaseAppUtil.getMetaBooleanValue(this, "MGC_ENABLE_WECHAT_LOGIN")) {
+            String wechatAppId = BaseAppUtil.getMetaStringValue(this, "MGC_WECHAT_APPID");
+            String wechatAppSecret = BaseAppUtil.getMetaStringValue(this, "MGC_WECHAT_APPSECRET");
+            if (!TextUtils.isEmpty(wechatAppId) && !TextUtils.isEmpty(wechatAppSecret)) {
+                PlatformConfig.setWeixin(wechatAppId, wechatAppSecret);
+            }
+        }
 
         // 悬浮工具
         FloatToolsCenter.init(this);
