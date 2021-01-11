@@ -10,9 +10,13 @@ import android.widget.TextView;
 
 import com.ledong.lib.minigame.bean.GameCenterData_Signin;
 import com.ledong.lib.minigame.bean.SigninStatus;
+import com.mgc.leto.game.base.api.constant.Constant;
 import com.mgc.leto.game.base.mgc.bean.CoinDialogScene;
 import com.mgc.leto.game.base.mgc.dialog.IMGCCoinDialogListener;
 import com.mgc.leto.game.base.mgc.util.MGCDialogUtil;
+import com.mgc.leto.game.base.statistic.GameStatisticManager;
+import com.mgc.leto.game.base.statistic.StatisticEvent;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
 import com.mgc.leto.game.base.utils.ColorUtil;
 import com.mgc.leto.game.base.utils.GlideUtil;
 import com.mgc.leto.game.base.utils.MResource;
@@ -71,8 +75,9 @@ public class SigninHolder extends CommonViewHolder<GameCenterData_Signin> {
                 itemView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
                     @Override
                     public boolean onClicked() {
-
                         signin(ctx, signin);
+
+                        reportClick(ctx);
 
                         return true;
                     }
@@ -104,8 +109,9 @@ public class SigninHolder extends CommonViewHolder<GameCenterData_Signin> {
                 itemView.setOnClickListener(new ClickGuard.GuardedOnClickListener() {
                     @Override
                     public boolean onClicked() {
-
                         signin(ctx, signin);
+
+                        reportClick(ctx);
 
                         return true;
                     }
@@ -184,5 +190,11 @@ public class SigninHolder extends CommonViewHolder<GameCenterData_Signin> {
 
             }
         });
+    }
+
+    private void reportClick(Context ctx){
+        String benefit_type = Constant.BENEFITS_TYPE_REWARD_SIGN;
+        GameStatisticManager.statisticBenefitLog(ctx, BaseAppUtil.getChannelID(ctx), StatisticEvent.LETO_BENEFITS_MODULE_CLICK.ordinal(),
+                0, 0, 0, 0, benefit_type, 0);
     }
 }

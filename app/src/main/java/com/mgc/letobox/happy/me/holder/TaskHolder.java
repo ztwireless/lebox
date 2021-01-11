@@ -3,6 +3,7 @@ package com.mgc.letobox.happy.me.holder;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,23 +13,21 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.leto.reward.LetoRewardManager;
-import com.mgc.leto.game.base.event.DataRefreshEvent;
-import com.mgc.leto.game.base.http.HttpCallbackDecode;
+import com.mgc.leto.game.base.api.constant.Constant;
 import com.mgc.leto.game.base.login.LoginManager;
 import com.mgc.leto.game.base.mgc.RewardVideoManager;
-import com.mgc.leto.game.base.mgc.bean.AddCoinResultBean;
 import com.mgc.leto.game.base.mgc.bean.BenefitSettings_video_task;
 import com.mgc.leto.game.base.mgc.bean.CoinDialogScene;
 import com.mgc.leto.game.base.mgc.dialog.IMGCCoinDialogListener;
-import com.mgc.leto.game.base.mgc.util.MGCApiUtil;
 import com.mgc.leto.game.base.mgc.util.MGCDialogUtil;
+import com.mgc.leto.game.base.statistic.GameStatisticManager;
+import com.mgc.leto.game.base.statistic.StatisticEvent;
 import com.mgc.leto.game.base.trace.LetoTrace;
+import com.mgc.leto.game.base.utils.BaseAppUtil;
 import com.mgc.leto.game.base.utils.ColorUtil;
 import com.mgc.leto.game.base.utils.MResource;
 import com.mgc.leto.game.base.utils.MainHandler;
-import com.mgc.leto.game.base.utils.ToastUtil;
 import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.LeBoxMobileLoginActivity;
 import com.mgc.letobox.happy.R;
@@ -90,6 +89,8 @@ public class TaskHolder extends CommonViewHolder<TaskResultBean> {
         _progressLayout.setVisibility(View.VISIBLE);
         _desclabel.setVisibility(View.VISIBLE);
         _titleCoinLayout.setVisibility(View.VISIBLE);
+        _titlelabel.setSingleLine(true);
+        _titlelabel.setEllipsize(TextUtils.TruncateAt.END);
         if (model.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_SCRATCH_CARD) {
             _taskIcon.setImageResource(R.mipmap.leto_reward_task_scrach_card);
         } else if (model.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_ANSWER) {
@@ -114,6 +115,7 @@ public class TaskHolder extends CommonViewHolder<TaskResultBean> {
             _taskIcon.setImageResource(R.mipmap.leto_reward_task_view_video);
             _desclabel.setVisibility(View.GONE);
             _titleCoinLayout.setVisibility(View.GONE);
+            _titlelabel.setSingleLine(false);
         }
 
 
@@ -158,13 +160,18 @@ public class TaskHolder extends CommonViewHolder<TaskResultBean> {
                         LetoTrace.d("click  task type :" + model.getFinish_type());
                         if (model.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_SCRATCH_CARD) {
                             LetoRewardManager.startGuaGuaCard(_ctx);
+                            reportClick(_ctx, Constant.BENEFITS_TYPE_DAILY_SCRATCH_CARDS);
                         } else if (model.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_ANSWER) {
                             LetoRewardManager.startDaTi(_ctx, true);
+                            reportClick(_ctx, Constant.BENEFITS_TYPE_DAILY_ANSWER);
                         } else if (model.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_IDIOM) {
                             LetoRewardManager.startIdiom(_ctx);
+                            reportClick(_ctx, Constant.BENEFITS_TYPE_DAILY_IDIOM);
                         } else if (model.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_REWARD_TURNTABLE) {
                             LetoRewardManager.startDanzhuanpan(_ctx);
+                            reportClick(_ctx, Constant.BENEFITS_TYPE_DAILY_LOTTERY);
                         } else if (model.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_VIEW_VIDEO) {
+                            reportClick(_ctx, Constant.BENEFITS_TYPE_DAILY_VIEW_VIDEO);
                             if (getRewardAdRequest() != null) {
                                 getRewardAdRequest().requestRewardAd(_ctx, new IRewardAdResult() {
                                     @Override
@@ -183,6 +190,9 @@ public class TaskHolder extends CommonViewHolder<TaskResultBean> {
                                 LetoTrace.d("request ad callback is null");
                             }
 
+                        }  else if (model.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_PLAY_GAME_DURATION) {
+                            EventBus.getDefault().post(new TabSwitchEvent(1));
+                            reportClick(_ctx, Constant.BENEFITS_TYPE_DAILY_PLAY_15_MIN);
                         } else {
                             EventBus.getDefault().post(new TabSwitchEvent(1));
                         }
@@ -233,8 +243,16 @@ public class TaskHolder extends CommonViewHolder<TaskResultBean> {
                             }
                         } else if (model.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_BIND_INVITE) {
                             FollowInviteCodeActivity.startActivityByRequestCode((Activity) _ctx, LeBoxConstant.REQUEST_CODE_TASK_INVITE_CODE);
+                            reportClick(_ctx, Constant.BENEFITS_TYPE_NEWER_WRITE_INVITE);
                         } else if (model.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_VIEW_VIDEO_NEW) {
                             EventBus.getDefault().post(new TabSwitchEvent(1));
+                            reportClick(_ctx, Constant.BENEFITS_TYPE_NEWER_GAME_RED_PACKET);
+                        } else if (model.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_PLAY_GAME_DURATION) {
+                            EventBus.getDefault().post(new TabSwitchEvent(1));
+                            reportClick(_ctx, Constant.BENEFITS_TYPE_NEWER_PLAY_GAME_FORTY_MIN);
+                        } else if (model.getFinish_type() == LeBoxConstant.LETO_TASK_TYP_PLAY_GAME_TIME) {
+                            EventBus.getDefault().post(new TabSwitchEvent(1));
+                            reportClick(_ctx, Constant.BENEFITS_TYPE_NEWER_PLAY_THREE_GAME);
                         } else {
                             EventBus.getDefault().post(new TabSwitchEvent(1));
                         }
@@ -320,5 +338,10 @@ public class TaskHolder extends CommonViewHolder<TaskResultBean> {
                 _totalProgresslabel.setText(String.valueOf(totalProgress));
             }
         });
+    }
+
+    private void reportClick(Context ctx, String benefit_type){
+        GameStatisticManager.statisticBenefitLog(ctx, BaseAppUtil.getChannelID(ctx), StatisticEvent.LETO_BENEFITS_MODULE_CLICK.ordinal(),
+                0, 0, 0, 0, benefit_type, 0);
     }
 }

@@ -22,7 +22,6 @@ import com.mgc.leto.game.base.listener.SyncUserInfoListener;
 import com.mgc.leto.game.base.login.LoginManager;
 import com.mgc.leto.game.base.mgc.util.MGCApiUtil;
 import com.mgc.leto.game.base.utils.ColorUtil;
-import com.mgc.leto.game.base.utils.DialogUtil;
 import com.mgc.leto.game.base.utils.MResource;
 import com.mgc.leto.game.base.utils.StatusBarUtil;
 import com.mgc.leto.game.base.utils.ToastUtil;
