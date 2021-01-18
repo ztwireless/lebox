@@ -209,10 +209,6 @@
                 android:resource="@xml/sigmob_provider_paths" />
         </provider>
 
-        <activity android:name="com.sigmob.sdk.base.common.AdActivity"
-            android:theme="@android:style/Theme.DeviceDefault"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-
         <!-- lightingbox ad config-->
         <provider
             android:name="com.wannuosili.sdk.ad.component.WNFileProvider"
