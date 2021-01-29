@@ -433,7 +433,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
             _splashAdDone = true;
             startMain(true);
         } else {
-            new Handler().postDelayed(new Runnable() {
+            _handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     initSplashAd();
