@@ -261,6 +261,16 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (_handler != null) {
+            _handler.removeCallbacksAndMessages(null);
+        }
+
+    }
+
     private void doGetBenefitSettings() {
         MGCApiUtil.getBenefitSettings(this, new HttpCallbackDecode<GetBenefitsSettingResultBean>(this, null) {
             @Override
@@ -286,6 +296,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
 
                 // start main if can
                 _configFetched = true;
+
                 startSplashAd();
             }
 
@@ -529,7 +540,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
             }
         });
         if (null != _splashAd) {
-            if(_splashAdLoading) {
+            if (_splashAdLoading) {
                 LetoTrace.d(TAG, "start give up, and skip....");
                 return;
             }
@@ -566,7 +577,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
                 null);
     }
 
-    private AdInfo getAdInfo(AdConfig adConfig){
+    private AdInfo getAdInfo(AdConfig adConfig) {
         AdInfo adinfo = new AdInfo();
         adinfo.setAd_type(AdConst.AD_TYPE_SPLASH);
         adinfo.setApp_id(BaseAppUtil.getChannelID(SplashActivity.this));
