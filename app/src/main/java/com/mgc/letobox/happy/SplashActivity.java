@@ -293,21 +293,21 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
             public void onFailure(String code, String msg) {
                 super.onFailure(code, msg);
 
-                // 如果需要检查openType, 则必须等待config完成, 如果失败, 则需要重试, 设置最大重试3次
-                if (_needCheckOpenType) {
-                    _configRetryCount--;
-                    if (_configRetryCount > 0) {
-                        _handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
+                _handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 如果需要检查openType, 则必须等待config完成, 如果失败, 则需要重试, 设置最大重试3次
+                        if (_needCheckOpenType) {
+                            _configRetryCount--;
+                            if (_configRetryCount > 0) {
                                 doGetConfig();
+                            } else {
+                                // 只能提示退出了
+                                onConfigError("获取全局配置失败, 暂时无法启动, 请稍后重试");
                             }
-                        }, 100);
-                    } else {
-                        // 只能提示退出了
-                        onConfigError("获取全局配置失败, 暂时无法启动, 请稍后重试");
+                        }
                     }
-                }
+                }, 100);
             }
         });
     }
