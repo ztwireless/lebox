@@ -248,6 +248,7 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
                 doGetConfig();
             } else {
                 _configFetched = true;
+                _censorMode = MGCSharedModel.isCensorVersion;
             }
 
             // get benefit settings
