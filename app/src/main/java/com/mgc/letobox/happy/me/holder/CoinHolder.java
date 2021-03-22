@@ -34,6 +34,7 @@ import com.mgc.leto.game.base.utils.BaseAppUtil;
 import com.mgc.leto.game.base.utils.DialogUtil;
 import com.mgc.leto.game.base.utils.GlideUtil;
 import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.utils.StatusBarUtil;
 import com.mgc.leto.game.base.utils.ToastUtil;
 import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.LeBoxLoginActivity;
@@ -86,6 +87,13 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
 
         // find views
         _ctx = itemView.getContext();
+
+        //状态栏适配高度
+        View fake_status_bar = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.fake_status_bar"));
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) fake_status_bar.getLayoutParams();
+        params.height = StatusBarUtil.getStatusBarHeight(_ctx);
+        fake_status_bar.setLayoutParams(params);
+
         _splitSpace = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.split_space"));
         _totalCoinLabel = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.total_coin"));
         _todayCoinLabel = itemView.findViewById(MResource.getIdByName(_ctx, "R.id.today_coin"));

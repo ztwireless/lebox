@@ -24,6 +24,7 @@ import com.mgc.leto.game.base.mgc.model.MGCSharedModel;
 import com.mgc.leto.game.base.trace.LetoTrace;
 import com.mgc.leto.game.base.utils.IntentConstant;
 import com.mgc.leto.game.base.utils.MainHandler;
+import com.mgc.leto.game.base.utils.StatusBarUtil;
 import com.mgc.leto.game.base.widget.ClickGuard;
 import com.mgc.letobox.happy.event.ShowBackEvent;
 import com.mgc.letobox.happy.event.ShowRookieGuideEvent;
@@ -123,6 +124,12 @@ public class TabMiniGameFragment extends BaseFragment implements RookieGuideView
 
         rl_title = view.findViewById(R.id.rl_title);
         splitView = view.findViewById(R.id.splitline);
+
+        //状态栏适配高度
+        View fake_status_bar = view.findViewById(R.id.fake_status_bar);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) fake_status_bar.getLayoutParams();
+        params.height = StatusBarUtil.getStatusBarHeight(getActivity());
+        fake_status_bar.setLayoutParams(params);
 
         //如果盒子 红包开关打开了，则隐藏上部搜索栏
         if (!MGCSharedModel.isShowGameCenterTitle) {

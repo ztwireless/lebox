@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ledong.lib.minigame.bean.GameCenterData;
 import com.mgc.leto.game.base.LetoEvents;
 import com.mgc.leto.game.base.api.constant.Constant;
 import com.mgc.leto.game.base.bean.LoginResultBean;
@@ -26,12 +26,12 @@ import com.mgc.leto.game.base.mgc.thirdparty.IWithdraw;
 import com.mgc.leto.game.base.mgc.thirdparty.WithdrawRequest;
 import com.mgc.leto.game.base.mgc.util.MGCApiUtil;
 import com.mgc.leto.game.base.mgc.util.MGCDialogUtil;
-import com.mgc.leto.game.base.trace.LetoTrace;
 import com.mgc.leto.game.base.utils.DialogUtil;
 import com.mgc.leto.game.base.utils.GlideUtil;
 import com.mgc.leto.game.base.utils.MResource;
+import com.mgc.leto.game.base.utils.StatusBarUtil;
 import com.mgc.leto.game.base.widget.ClickGuard;
-import com.mgc.letobox.happy.LeBoxHighCoinTaskActivity;
+import com.mgc.letobox.happy.R;
 import com.mgc.letobox.happy.me.bean.MeModuleBean;
 
 
@@ -66,6 +66,13 @@ public class UserCoinHolder extends CommonViewHolder<MeModuleBean> {
 
         // views
         _ctx = itemView.getContext();
+
+        //状态栏适配高度
+        View fake_status_bar = itemView.findViewById(R.id.fake_status_bar);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) fake_status_bar.getLayoutParams();
+        params.height = StatusBarUtil.getStatusBarHeight(ctx);
+        fake_status_bar.setLayoutParams(params);
+
         _spaceBar = itemView.findViewById(MResource.getIdByName(ctx, "R.id.leto_split_space"));
         _taskView = itemView.findViewById(MResource.getIdByName(ctx, "R.id.leto_task_view"));
         _inviteView = itemView.findViewById(MResource.getIdByName(ctx, "R.id.leto_invite_view"));

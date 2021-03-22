@@ -6,9 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ledong.lib.minigame.AllCategoryFragment;
+import com.mgc.leto.game.base.utils.StatusBarUtil;
 
 /**
  * Create by zhaozhihui on 2019-09-06
@@ -36,6 +38,12 @@ public class TabCategoryFragment extends BaseFragment {
         tv_title = view.findViewById(R.id.tv_title);
 
         tv_title.setText("分类");
+
+        //状态栏适配高度
+        View fake_status_bar = view.findViewById(R.id.fake_status_bar);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) fake_status_bar.getLayoutParams();
+        params.height = StatusBarUtil.getStatusBarHeight(getContext());
+        fake_status_bar.setLayoutParams(params);
 
         // install content fragment
         Fragment fragment = AllCategoryFragment.getInstance(null, 0);
