@@ -66,10 +66,12 @@
 
         <activity android:name=".LeBoxLoginActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme"/>
 
         <activity android:name=".LeBoxMobileLoginActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme"/>
 
         <activity android:name=".LeBoxProfileActivity"

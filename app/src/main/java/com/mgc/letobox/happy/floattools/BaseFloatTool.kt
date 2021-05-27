@@ -32,7 +32,7 @@ abstract class BaseFloatTool(activity: Activity, val gameId: String) {
                 .build()
     }
 
-    fun toInt(text: String?): Int {
+    fun toInt(text: String): Int {
         return try {
             Integer.valueOf(text)
         } catch (e: Exception) {

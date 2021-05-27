@@ -85,9 +85,9 @@ public class VersionDialog {
             tvContent.setText(version.getContent());
         }
 
-        if(isCanCancel){
+        if (isCanCancel) {
             btcancel.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             btcancel.setVisibility(View.GONE);
         }
 
@@ -107,12 +107,12 @@ public class VersionDialog {
             public void onClick(View v) {
                 if (mUpdateUtil != null) {
 
-                    if(mUpdateUtil.isDownload()){
+                    if (mUpdateUtil.isDownload()) {
                         tvDownload.setText("安装");
                         if (!mUpdateUtil.isCancel()) {
                             mUpdateUtil.installApk();
                         }
-                    }else{
+                    } else {
                         progressBar.setVisibility(View.VISIBLE);
                         tvDownload.setOnClickListener(null);
                         mUpdateUtil.downloadApk(context, new IProgressListener() {
@@ -125,12 +125,25 @@ public class VersionDialog {
                                         try {
                                             progressBar.setProgress((int) progress);
                                             tvDownload.setText("" + progress + "%");
-                                            if (progress == 100) {
-                                                if (!mUpdateUtil.isCancel()) {
-                                                    mUpdateUtil.installApk();
-                                                }
-                                                tvDownload.setText("安装");
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        LetoTrace.d(TAG, "onComplete");
+                                        try {
+                                            if (!mUpdateUtil.isCancel()) {
+                                                mUpdateUtil.installApk();
                                             }
+                                            tvDownload.setText("安装");
+
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
@@ -186,9 +199,9 @@ public class VersionDialog {
         dialog.show();
     }
 
-    public boolean isShowing(){
-        if (dialog != null &&  dialog.isShowing()) {
-           return  true;
+    public boolean isShowing() {
+        if (dialog != null && dialog.isShowing()) {
+            return true;
         }
         return false;
     }

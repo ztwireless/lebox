@@ -16,6 +16,7 @@ import com.mgc.leto.game.base.LetoEvents;
 import com.mgc.leto.game.base.bean.LoginResultBean;
 import com.mgc.leto.game.base.login.LoginInteract;
 import com.mgc.leto.game.base.login.view.MgcLoginView;
+import com.mgc.leto.game.base.mgc.model.MGCSharedModel;
 import com.mgc.leto.game.base.mgc.thirdparty.ResetIDCardRequest;
 import com.mgc.leto.game.base.mgc.thirdparty.ThirdpartyResult;
 import com.mgc.leto.game.base.utils.ColorUtil;
@@ -115,7 +116,7 @@ public class LeBoxMobileLoginActivity extends BaseActivity {
             @Override
             public void onSuccess(LoginResultBean data) {
                 //防沉迷
-                if (LetoComponent.supportFcm() && LetoEvents.getResetIDCardListener() != null) {
+                if (MGCSharedModel.isRealname && LetoEvents.getResetIDCardListener() != null) {
                     ResetIDCardRequest request = new ResetIDCardRequest() {
                         @Override
                         public void notifyResetIDCardResult(ThirdpartyResult result) {

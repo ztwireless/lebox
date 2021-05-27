@@ -22,6 +22,8 @@ public class TabGameFragment extends BaseFragment {
 
     private boolean mIsUserVisibleHint = true;
 
+    GameCenterTabActivity _activity;
+
     @Keep
     public static TabGameFragment newInstance() {
         return TabGameFragment.newInstance(17);
@@ -51,6 +53,11 @@ public class TabGameFragment extends BaseFragment {
 
         // add fragment
         _fragment = LetoFragment.create(getContext(), appId, true);
+
+        _activity = (GameCenterTabActivity) getActivity();
+
+        _activity.registerMyTouchListener(_fragment.getTouchListenr());
+
         getChildFragmentManager()
                 .beginTransaction()
                 .add(R.id.leto_container, _fragment)
@@ -109,6 +116,14 @@ public class TabGameFragment extends BaseFragment {
             } else {
                 _fragment.resumeContainer();
             }
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (_activity != null && _fragment != null) {
+            _activity.unRegisterMyTouchListener(_fragment.getTouchListenr());
         }
     }
 

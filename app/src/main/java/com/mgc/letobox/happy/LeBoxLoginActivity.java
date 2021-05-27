@@ -22,6 +22,7 @@ import com.mgc.leto.game.base.listener.SyncUserInfoListener;
 import com.mgc.leto.game.base.login.LoginManager;
 import com.mgc.leto.game.base.mgc.util.MGCApiUtil;
 import com.mgc.leto.game.base.utils.ColorUtil;
+import com.mgc.leto.game.base.utils.DialogUtil;
 import com.mgc.leto.game.base.utils.MResource;
 import com.mgc.leto.game.base.utils.StatusBarUtil;
 import com.mgc.leto.game.base.utils.ToastUtil;
@@ -217,34 +218,24 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
         MGCApiUtil.bindWeiXin(LeBoxLoginActivity.this, map, new HttpCallbackDecode(LeBoxLoginActivity.this, null) {
             @Override
             public void onDataSuccess(Object data) {
-                if (LetoEvents.getLoginListener() != null) {
-                    LetoEvents.getLoginListener().onLoginSuccess(openId, "", true);
-                    //延迟1s 再调，防止服务器报同步账号 请求频繁
-                    mHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            MgcAccountManager.syncAccount(LeBoxLoginActivity.this,
-                                    map.get("unionid"),
-                                    "",
-                                    map.get("name"),
-                                    map.get("iconurl"),
-                                    userGender,
-                                    true,
-                                    LeBoxLoginActivity.this
-                            );
-                        }
-                    }, 1000);
-                } else {
-                    MgcAccountManager.syncAccount(LeBoxLoginActivity.this,
-                            map.get("unionid"),
-                            "",
-                            map.get("name"),
-                            map.get("iconurl"),
-                            userGender,
-                            true,
-                            LeBoxLoginActivity.this
-                    );
-                }
+
+                //延迟500ms 再调，防止服务器报同步账号 请求频繁
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        MgcAccountManager.syncAccount(LeBoxLoginActivity.this,
+                                map.get("unionid"),
+                                "",
+                                map.get("name"),
+                                map.get("iconurl"),
+                                userGender,
+                                true,
+                                null,
+                                LeBoxLoginActivity.this
+                        );
+                    }
+                }, 500);
+
             }
 
             @Override
@@ -285,7 +276,13 @@ public class LeBoxLoginActivity extends BaseActivity implements UMAuthListener, 
     @Override
     public void onSuccess(LoginResultBean data) {
         if (LetoEvents.getLoginListener() != null) {
-            LetoEvents.getLoginListener().onLoginSuccess(openId, "", true);
+            int status = 0;
+            int realNameStatus = data.getRealname_status();
+            if (realNameStatus == 1 || realNameStatus == 2) {
+                status = 1;
+            }
+
+            LetoEvents.getLoginListener().onLoginSuccess(openId, "", true, status, data.getBirthday());
         }
         EventBus.getDefault().post(new GetCoinEvent());
         dismissLoading();

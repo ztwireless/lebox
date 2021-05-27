@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -28,6 +29,7 @@ import com.google.gson.reflect.TypeToken;
 import com.kymjs.rxvolley.RxVolley;
 import com.ledong.lib.leto.Leto;
 import com.leto.game.base.dialog.PrivacyWebDialog;
+import com.leto.game.base.listener.ILetoGameTouchListener;
 import com.mgc.leto.game.base.LetoEvents;
 import com.mgc.leto.game.base.LetoScene;
 import com.mgc.leto.game.base.api.ApiContainer;
@@ -215,8 +217,9 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
             EventBus.getDefault().register(this);
         }
 
-        AdManager.getInstance().getTmTaskList(this);
-
+        if (AdManager.getInstance() != null) {
+            AdManager.getInstance().getTmTaskList(this);
+        }
 
         getVersion();
 
@@ -399,7 +402,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
 
         // add fragment
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        if (!fragment.isAdded()) {
+        if (fragment != null && !fragment.isAdded()) {
             fragmentTransaction.add(R.id.container, fragment);
         }
         if (curFragment == fragment) {
@@ -568,7 +571,7 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
         GameStatisticManager.statisticGameLog(this, BaseAppUtil.getChannelID(this), StatisticEvent.LETO_BOX_TAB_CLICK.ordinal(), 0, LetoScene.DEFAULT.ordinal(), "" + System.currentTimeMillis(), 0, 0, "", 0, "", "", false, 0, 0, 0, 0, position, 0, 0, "", null);
     }
 
-    private void setCustomLogin(){
+    private void setCustomLogin() {
         //如果盒子是设置的微信登陆， 需要注册第三方登陆回调
         if (BaseAppUtil.getMetaBooleanValue(this, "MGC_ENABLE_WECHAT_LOGIN")) {
             LetoEvents.setCustomLogin(this, new ILoginCallBack() {
@@ -580,4 +583,32 @@ public class GameCenterTabActivity extends BaseActivity implements MyRadioGroup.
             });
         }
     }
+
+    /**
+     * 保存MyTouchListener接口的列表
+     */
+    private ArrayList<ILetoGameTouchListener> myTouchListeners = new ArrayList<>();
+
+    /**
+     * 提供给Fragment通过getActivity()方法来注册自己的触摸事件的方法
+     */
+    public void registerMyTouchListener(ILetoGameTouchListener listener) {
+        myTouchListeners.add(listener);
+    }
+
+    /**
+     * 提供给Fragment通过getActivity()方法来取消注册自己的触摸事件的方法
+     */
+    public void unRegisterMyTouchListener(ILetoGameTouchListener listener) {
+        myTouchListeners.remove(listener);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        for (ILetoGameTouchListener listener : myTouchListeners) {
+            listener.onTouchEvent(ev);
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
 }

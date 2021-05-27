@@ -87,7 +87,7 @@ public class UpdateUtil {
                 @Override
                 public void onResponse(Call call, Response response) {
                     if (response == null || response.body() == null) {
-                        LetoTrace.e("UpdateUtil", "服务器无响应" );
+                        LetoTrace.e("UpdateUtil", "服务器无响应");
                         if (listener != null) {
                             listener.abort();
                         }
@@ -126,6 +126,16 @@ public class UpdateUtil {
                             }
                         }
                         os.flush();
+                        if (cancel) {
+                            if (null != listener) {
+                                listener.abort();
+                            }
+                        } else {
+                            if (null != listener) {
+                                listener.onComplete();
+                            }
+                        }
+
                     } catch (IOException e) {
                         // 删除文件
                         deleteFile(tempFile);
@@ -156,7 +166,7 @@ public class UpdateUtil {
     }
 
 
-    public void deleteFile(File file){
+    public void deleteFile(File file) {
         try {
             if (file != null && file.exists()) {
                 file.delete();
