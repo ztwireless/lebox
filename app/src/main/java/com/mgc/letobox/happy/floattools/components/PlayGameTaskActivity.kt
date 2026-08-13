@@ -11,6 +11,10 @@ import android.os.Environment
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
+import android.support.v7.widget.RecyclerView
 import com.mgc.leto.game.base.mgc.bean.CoinDialogScene
 import com.mgc.leto.game.base.mgc.util.MGCDialogUtil
 import com.mgc.leto.game.base.statistic.GameStatisticManager
@@ -24,9 +28,6 @@ import com.mgc.letobox.happy.floattools.components.playgametask.PlayGameDataSour
 import com.mgc.letobox.happy.floattools.components.playgametask.utils.*
 import com.mgc.letobox.happy.model.PlayGameResult
 import com.mgc.letobox.happy.util.LeBoxSpUtil
-import kotlinx.android.synthetic.main.activity_playgame_task.*
-import kotlinx.android.synthetic.main.game_list_item.*
-import kotlinx.android.synthetic.main.leto_demo_common_header.*
 import zlc.season.yasha.linear
 
 
@@ -34,28 +35,41 @@ class PlayGameTaskActivity : Activity() {
     val TAG = PlayGameTaskActivity::class.java.simpleName
     lateinit var playGameResult: PlayGameResult
     lateinit var _gameId: String
+    private lateinit var backButton: ImageView
+    private lateinit var titleView: TextView
+    private lateinit var bannerView: ImageView
+    private lateinit var statusContainer: RelativeLayout
+    private lateinit var statusView: ImageView
+    private lateinit var recyclerView: RecyclerView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             StatusBarUtil.setStatusBarColor(this, ColorUtil.parseColor("#ffffff"))
         }
         setContentView(R.layout.activity_playgame_task)
+        backButton = findViewById(R.id.iv_back)
+        titleView = findViewById(R.id.tv_title)
+        bannerView = findViewById(R.id.banner)
+        statusContainer = findViewById(R.id.rl_status)
+        statusView = findViewById(R.id.iv_status)
+        recyclerView = findViewById(R.id.recycler_view)
         playGameResult = intent.getSerializableExtra("gameResult") as PlayGameResult
-        _gameId = intent.getStringExtra("gameId")
-        iv_back.setOnClickListener { v: View? -> finish() }
-        tv_title.text = "互推模块"
-        banner.load(playGameResult.data.banners, object : LoadStatus {
+        _gameId = intent.getStringExtra("gameId") ?: ""
+        backButton.setOnClickListener { _: View? -> finish() }
+        titleView.text = "互推模块"
+        bannerView.load(playGameResult.data.banners, object : LoadStatus {
             override fun onStatus(success: Boolean) {
                 if (success) {
-                    rl_status.visible()
+                    statusContainer.visible()
                 } else {
-                    rl_status.gone()
+                    statusContainer.gone()
                 }
             }
         })
         var count = LeBoxSpUtil.getInt("count")
         updateBG(count)
-        iv_status.setOnClickListener { v: View? ->
+        statusView.setOnClickListener { _: View? ->
             var count = LeBoxSpUtil.getInt("count")
             if (playGameResult.data != null && count > 1) {
                 LeBoxSpUtil.saveInt("count", count - 2)
@@ -78,11 +92,11 @@ class PlayGameTaskActivity : Activity() {
     fun updateBG(count: Int) {
 //        var count = LeBoxSpUtil.getInt("count")
         if (count == 0) {
-            iv_status.setBackgroundResource(R.drawable.playgame_banner_0_2)
+            statusView.setBackgroundResource(R.drawable.playgame_banner_0_2)
         } else if (count == 1) {
-            iv_status.setBackgroundResource(R.drawable.playgame_banner_1_2)
+            statusView.setBackgroundResource(R.drawable.playgame_banner_1_2)
         } else if (count > 1) {
-            iv_status.setBackgroundResource(R.drawable.playgame_banner_get)
+            statusView.setBackgroundResource(R.drawable.playgame_banner_get)
         }
     }
 
@@ -93,30 +107,35 @@ class PlayGameTaskActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
-        if (recycler_view.adapter != null) {
-            recycler_view.adapter!!.notifyDataSetChanged()
+        if (recyclerView.adapter != null) {
+            recyclerView.adapter!!.notifyDataSetChanged()
         }
     }
 
     private fun renderList() {
-        recycler_view.linear(dataSource) {
+        recyclerView.linear(dataSource) {
 
             renderItem<GameListItem> {
                 res(R.layout.game_list_item)
 
                 onBind {
-                    game_name.text = data.name
-                    game_desc.text = data.desc
+                    val gameName = containerView.findViewById<TextView>(R.id.game_name)
+                    val gameDesc = containerView.findViewById<TextView>(R.id.game_desc)
+                    val gameIcon = containerView.findViewById<ImageView>(R.id.game_icon)
+                    val actionButton = containerView.findViewById<DownloadProgressButton>(R.id.btn_pause)
+                    gameName.text = data.name
+                    gameDesc.text = data.desc
 
-                    game_icon.loadRoundedCorner(data.icon)
-                    btn_pause.click {
-                        data.action(this@PlayGameTaskActivity, btn_pause, _gameId)
+                    gameIcon.loadRoundedCorner(data.icon)
+                    actionButton.click {
+                        data.action(this@PlayGameTaskActivity, actionButton, _gameId)
                     }
                 }
 
                 onAttach {
+                    val actionButton = containerView.findViewById<DownloadProgressButton>(R.id.btn_pause)
                     data.setPacknames(packageNames)
-                    data.subscribe(btn_pause, this@PlayGameTaskActivity)
+                    data.subscribe(actionButton, this@PlayGameTaskActivity)
                 }
 
                 onDetach {
@@ -137,7 +156,11 @@ class PlayGameTaskActivity : Activity() {
         intentFilter.addAction(Intent.ACTION_PACKAGE_REPLACED)
         intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED)
         intentFilter.addDataScheme("package")
-        registerReceiver(mInstallAppBroadcastReceiver, intentFilter)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(mInstallAppBroadcastReceiver, intentFilter, Context.RECEIVER_EXPORTED)
+        } else {
+            registerReceiver(mInstallAppBroadcastReceiver, intentFilter)
+        }
     }
 
     private fun getGameIdyPackageName(packageName: String): Int {

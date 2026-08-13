@@ -2,10 +2,13 @@ package com.mgc.letobox.happy;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
+import com.kymjs.rxvolley.RxVolley;
+import com.kymjs.rxvolley.http.RequestQueue;
 import com.ledong.lib.leto.Leto;
 import com.mgc.leto.game.base.LetoCore;
 import com.mgc.leto.game.base.LetoEvents;
@@ -14,6 +17,7 @@ import com.mgc.leto.game.base.mgc.thirdparty.IAuthRequestListener;
 import com.mgc.leto.game.base.mgc.thirdparty.ILetoAuthActivityListener;
 import com.mgc.leto.game.base.mgc.thirdparty.ILetoAuthListener;
 import com.mgc.leto.game.base.trace.LetoTrace;
+import com.mgc.letobox.happy.mock.MgcMockServer;
 import com.mgc.leto.game.base.utils.BaseAppUtil;
 import com.mgc.letobox.happy.floattools.FloatToolsCenter;
 import com.mgc.letobox.happy.follow.FollowInviteActivity;
@@ -23,13 +27,64 @@ import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
+import java.io.File;
+
+import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.app.configuration.ClientConfiguration;
+
 
 public class LetoApplication extends Application {
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+        BlackBoxCore.get().onBeforeMainApplicationAttach(this, base);
+        BlackBoxCore.get().doAttachBaseContext(base, new ClientConfiguration() {
+            @Override
+            public String getHostPackageName() {
+                return base.getPackageName();
+            }
+
+            @Override
+            public boolean isEnableDaemonService() {
+                return false;
+            }
+
+            @Override
+            public boolean isUseVpnNetwork() {
+                return false;
+            }
+
+            @Override
+            public boolean isEnableLauncherActivity() {
+                return false;
+            }
+
+            @Override
+            public String getLogSenderChatId() {
+                // Do not upload host/game logs to the upstream demo service.
+                return null;
+            }
+        });
+        BlackBoxCore.get().addAppLifecycleCallback(SandboxGameReturnOverlay.createCallback());
+        BlackBoxCore.get().onAfterMainApplicationAttach(this, base);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
 
-        MultiDex.install(this);
+        BlackBoxCore.get().doCreate();
+
+        // Public-storage cache paths are blocked by scoped storage on Android 10+.
+        File networkCache = new File(getCacheDir(), "rxvolley");
+        if (networkCache.exists() || networkCache.mkdirs()) {
+            if (BuildConfig.ENABLE_MGC_MOCK_SERVER) {
+                MgcMockServer.install(networkCache);
+            } else {
+                RxVolley.setRequestQueue(RequestQueue.newRequestQueue(networkCache));
+            }
+        }
 
         LetoTrace.setDebugMode(true);
 

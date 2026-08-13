@@ -14,6 +14,7 @@ import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -171,12 +172,11 @@ public class FollowWebViewActivity extends BaseActivity {
         _webview.getSettings().setBuiltInZoomControls(true);
         _webview.getSettings().setDisplayZoomControls(false);
         _webview.getSettings().setSupportMultipleWindows(false);
-        _webview.getSettings().setAppCacheEnabled(true);
         _webview.getSettings().setDomStorageEnabled(true);
         _webview.getSettings().setDatabaseEnabled(true);
         _webview.getSettings().setJavaScriptEnabled(true);
         _webview.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        _webview.getSettings().setAppCacheMaxSize(Long.MAX_VALUE);
+        _webview.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         _webview.getSettings().setGeolocationEnabled(true);
         _webview.getSettings().setUseWideViewPort(true);
 

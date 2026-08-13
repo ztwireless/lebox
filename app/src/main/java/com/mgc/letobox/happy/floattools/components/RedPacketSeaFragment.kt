@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.mgc.leto.game.base.api.ApiContainer
 import com.mgc.leto.game.base.api.constant.Constant
 import com.mgc.leto.game.base.mgc.bean.CoinDialogScene
@@ -25,10 +26,11 @@ import com.mgc.letobox.happy.floattools.drawables.TitanAnimationDrawable
 import com.mgc.letobox.happy.floattools.skymodels.AnimDrawableModel
 import com.mgc.letobox.happy.floattools.skymodels.RedPacketModel
 import com.mgc.letobox.happy.util.LeBoxSpUtil
-import kotlinx.android.synthetic.main.fragment_redpacket_sea.*
 import java.util.*
 
 class RedPacketSeaFragment : Fragment() {
+    private lateinit var itemImage: ImageView
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_redpacket_sea, container, false)
     }
@@ -38,6 +40,7 @@ class RedPacketSeaFragment : Fragment() {
     private var coinCount: Int = 0
     private var coinMultiple: Int = 1
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        itemImage = view.findViewById(R.id.itemImage)
         arguments?.let {
             gameId = it.getString(KEY_GAME_ID, "")
             coinCount = it.getInt(KEY_COIN_COUNT, 0)

@@ -1,13 +1,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.mgc.letobox.happy">
+    >
 
 
     <!--minSdkVersion为9时的合并-->
     <uses-sdk tools:overrideLibrary="android.support.v7.appcompat, android.support.v7.recyclerview,com.dingmouren.layoutmanagergroup,
                                         com.squareup.leakcanary, com.squareup.leakcanary.analyzer, com.squareup.leakcanary.android.noop" />
 
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />    <!-- targetSdkVersion >= 26 时需要配置此权限，否则无法进行安装app的动作 -->
+    <!-- APK games are installed inside the box; never expose Android's package installer. -->
+    <uses-permission
+        android:name="android.permission.REQUEST_INSTALL_PACKAGES"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.REQUEST_DELETE_PACKAGES"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:node="remove" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -19,14 +28,15 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.GET_TASKS" android:maxSdkVersion="20"/>
 
     <!-- sigmob need -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
@@ -39,6 +49,19 @@
         android:networkSecurityConfig="@xml/leto_network_security_config"
         tools:replace="android:networkSecurityConfig"
         >
+        <!-- Compatibility overrides for intent-filter components declared by legacy SDK AARs. -->
+        <activity
+            android:name="com.ledong.lib.leto.main.FunctionActivity"
+            android:exported="true"
+            tools:replace="android:exported" />
+        <service
+            android:name="com.ss.android.socialbase.downloader.downloader.IndependentProcessDownloadService"
+            android:exported="false"
+            tools:replace="android:exported" />
+        <receiver
+            android:name="com.mgc.leto.game.base.service.LetoPackageAddReceiver"
+            android:exported="true"
+            tools:replace="android:exported" />
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
@@ -123,6 +146,7 @@
             />
 
         <activity android:name=".SplashActivity"
+            android:exported="true"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait">
         <intent-filter>

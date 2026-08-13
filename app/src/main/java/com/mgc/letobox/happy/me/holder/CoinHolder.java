@@ -358,14 +358,19 @@ public class CoinHolder extends CommonViewHolder<MeModuleBean> {
     }
 
     private void hintRetryGetUserCoin() {
-        DialogUtil.dismissDialog();
-        MGCDialogUtil.showRetryDialog(_ctx, _leto_mgc_failed_get_user_coin, new DialogInterface.OnClickListener() {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == DialogInterface.BUTTON_POSITIVE) {
-                    DialogUtil.showDialog(_ctx, _loading);
-                    doGetUserCoin();
-                }
+            public void run() {
+                DialogUtil.dismissDialog();
+                MGCDialogUtil.showRetryDialog(_ctx, _leto_mgc_failed_get_user_coin, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
+                            DialogUtil.showDialog(_ctx, _loading);
+                            doGetUserCoin();
+                        }
+                    }
+                });
             }
         });
     }

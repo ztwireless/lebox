@@ -202,14 +202,19 @@ public class UserCoinHolder extends CommonViewHolder<MeModuleBean> {
     }
 
     private void hintRetryGetUserCoin(final Context _ctx) {
-        DialogUtil.dismissDialog();
-        MGCDialogUtil.showRetryDialog(_ctx, "获取金币失败", new DialogInterface.OnClickListener() {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == DialogInterface.BUTTON_POSITIVE) {
-                    DialogUtil.showDialog(_ctx, "");
-                    doGetUserCoin(_ctx);
-                }
+            public void run() {
+                DialogUtil.dismissDialog();
+                MGCDialogUtil.showRetryDialog(_ctx, "获取金币失败", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
+                            DialogUtil.showDialog(_ctx, "");
+                            doGetUserCoin(_ctx);
+                        }
+                    }
+                });
             }
         });
     }

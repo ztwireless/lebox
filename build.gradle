@@ -1,34 +1,31 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = '1.3.10'
+    ext.kotlin_version = '1.9.25'
     repositories {
-        mavenCentral()
-        jcenter()
-        mavenLocal()
         google()
+        mavenCentral()
+        gradlePluginPortal()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.android.tools.build:gradle:8.13.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 subprojects {
     repositories {
-        //添加此行
-        maven { url "https://jitpack.io" }
-        maven { url 'https://dl.google.com/dl/android/maven2' }
-        jcenter()
-        mavenCentral()
-        mavenLocal()
         google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+        // Some legacy dependencies used by the bundled SDKs were only published to JCenter.
+        maven { url = uri("https://maven.aliyun.com/repository/jcenter") }
+        jcenter()
     }
 
     ext {
         supportLibVersion = "27.1.1"
-        compileSdkVersion = 28
-        buildToolsVersion = "28.0.3"
+        compileSdkVersion = 36
         minSdkVersion = 21
-        targetSdkVersion = 28
+        targetSdkVersion = 36
     }
 }

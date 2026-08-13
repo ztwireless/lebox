@@ -394,7 +394,8 @@ public class SplashActivity extends AppCompatActivity implements PermissionCallb
     void afterPermissionCheck() {
         // init rx volley
         try {
-            RxVolley.setRequestQueue(RequestQueue.newRequestQueue(BaseAppUtil.getDefaultSaveRootPath(this, "mgc")));
+            RxVolley.setRequestQueue(RequestQueue.newRequestQueue(
+                    new java.io.File(getCacheDir(), "rxvolley")));
         } catch (Throwable e) {
             e.printStackTrace();
         }

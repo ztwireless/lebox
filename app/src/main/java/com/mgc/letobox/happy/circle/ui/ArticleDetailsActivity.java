@@ -319,7 +319,7 @@ public class ArticleDetailsActivity extends AppCompatActivity {
         webSettings.setDomStorageEnabled(false);
         webSettings.setLoadWithOverviewMode(false);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        webSettings.setAppCacheEnabled(false);
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
     }
 
     private void initOnClick() {
